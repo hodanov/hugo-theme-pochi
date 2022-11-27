@@ -1,0 +1,12 @@
+name = "Hodalog"
+license = "MIT"
+licenselink = "https://github.com/atishay/atishay.github.io/blob/master/LICENSE"
+description = "A theme for hugo websites."
+homepage = "https://hodalog.com"
+tags = ["Website", "Blog", "Hugo"]
+features = []
+min_version = "0.0.1"
+
+[author]
+  name = "hodanov"
+  homepage = "https://hodalog.com"
