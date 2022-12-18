@@ -8,7 +8,9 @@
             <article>
               <div class="kiji-tag">
                 <ul>
-                  <li><a href="">タグ</a></li>
+                  {{ range (.GetTerms "tags") }}
+                  <li><a href="{{ .Permalink }}" rel="tag">{{ .LinkTitle }}</a></li>
+                  {{ end }}
                 </ul>
               </div>
               <h1>{{ .Title }}</h1>
