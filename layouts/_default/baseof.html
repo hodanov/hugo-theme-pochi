@@ -10,14 +10,8 @@
   <body>
     {{ block "header" . }}
     {{ end }}
-    <div class="main-content">
-      <div class="container-fluid">
-        <div class="row">
-        {{ block "main" . }}
-        {{ end }}
-        </div>
-      </div>
-    </div>
+    {{ block "main" . }}
+    {{ end }}
     {{ block "footer" . }}
     {{ end }}
   </body>
