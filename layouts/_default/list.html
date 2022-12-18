@@ -1,9 +1,51 @@
 {{ define "main" }}
-  <h1>Posts</h1>
-  {{ range .Pages }}
-    <article>
-      <h2>{{ .Title }}</h2>
-      {{ .Content }}
-    </article>
+<div class="col-md-8" id="contents">
+  <div class="article-list">
+    {{ range (where .Site.RegularPages "Section" "posts") }}
+    <div class="row post-row">
+      <div class="col-md-12">
+        <a href="{{ .Permalink }}">
+          <div class="post-image-col">
+            <div class="image-wrapper">
+              {{ $icatch := (resources.Get "image/go-icach-700x467.png") }}
+              <div class="div-cover" style="background-image: url({{ $icatch.Permalink }})">
+              </div>
+            </div>
+          </div>
+          <div class="post-title">
+            <h2>{{ .Title }}</h2>
+          </div>
+          <div class="post-text">
+            <div class="post-info">
+              <div class="kiji-date">
+                <time datetime="<?php echo get_the_date( 'Y-m-d' ); ?>">
+                  <i class="fas fa-edit"></i>
+                  : {{ .Date.Format "2006-01-02" }}
+                </time>
+                <span class="modified_date">
+                  |
+                  <time datetime="<?php echo get_the_modified_date( 'Y-m-d' ); ?>">
+                    <i class="fas fa-redo"></i>
+                    : {{ .PublishDate.Format "2006-01-02" }}
+                  </time>
+                </span>
+              </div>
+            </div>
+            <div class="post-excerpt">
+              excerption
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+    {{ end }}
+    <div class="pagination-index">
+      pagination
+    </div>
+  </div>
+</div>
+<div class="col-md-4">
+  {{ block "sidebar" . }}
   {{ end }}
+</div>
 {{ end }}

@@ -1,0 +1,104 @@
+{{ define "main" }}
+<div class="col-md-8" id="contents">
+  <div class="row">
+    <div class="col-md-12">
+      <article>
+        <div class="kiji-tag">
+          <ul>
+            <li><a href="">タグ</a></li>
+          </ul>
+        </div>
+        <h1>タイトル</h1>
+        <div class="post-info">
+          <div class="kiji-date">
+            <time datetime="2022-07-26">
+              <i class="fas fa-edit"></i>:2022-07-26
+            </time>
+            {{/*  更新日がある場合ここに更新日時を表示する  */}}
+            <time datetime="2022-07-28">
+              <i class="fas fa-redo"></i>:2022-07-28
+            </time>
+          </div>
+        </div>
+
+          {{/*  サムネイルがある場合表示する  */}}
+        <div class="image-wrapper icatch">
+          {{ $icatch := (resources.Get "image/go-icach-700x467.png") }}
+          <div class="div-cover" style="background-image: url({{ $icatch.Permalink }})">
+          </div>
+        </div>
+
+        <div>
+          {{/*  ここに記事の内容を表示する。  */}}
+        </div>
+
+        <div class="share">
+          {{/*  ここにSNS用のシェアリンクを表示する。  */}}
+        </div>
+
+        {{/*  ここに広告を表示する。  */}}
+
+      </article>
+    </div>
+  </div>
+
+  {{/*  ここに回遊用の記事リストを表示する。  */}}
+  <div class="row">
+    <div class="col-md-12 recent-posts-wrapper">
+      <div class="mymenu-thumb mymenu-related-list">
+        <h3>この記事をよんでくれたあなたにオススメ！</h3>
+        <div class="row">
+          <div class="col-sm-4 mymenu-related">
+            <a href="記事のURL">
+              <div class="image-wrapper">
+                <div class="div-cover" style="background-image: url( {{ $icatch.Permalink }} )">
+                </div>
+              </div>
+              <div class="text">
+                記事のタイトル
+                <div class="post-info">
+                  <div class="kiji-date">
+                    <time datetime="<?php echo get_the_date( 'Y-m-d' ); ?>">
+                      <i class="fas fa-edit"></i>投稿: 2022-07-26
+                    </time>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="col-sm-4 mymenu-related">
+            <a href="記事のURL">
+              <div class="image-wrapper">
+                <div class="div-cover" style="background-image: url( {{ $icatch.Permalink }} )">
+                </div>
+              </div>
+              <div class="text">
+                記事のタイトル
+                <div class="post-info">
+                  <div class="kiji-date">
+                    <time datetime="<?php echo get_the_date( 'Y-m-d' ); ?>">
+                      <i class="fas fa-edit"></i>投稿: 2022-07-26
+                    </time>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12 comment-wrapper">
+    {{/*  ここにコメント欄を置く  */}}
+    </div>
+  </div>
+
+</div>
+
+<div class="col-md-4">
+  {{ block "sidebar" . }}
+  {{ end }}
+</div>
+{{ end }}
