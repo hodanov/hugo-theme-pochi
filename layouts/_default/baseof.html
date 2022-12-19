@@ -4,9 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>{{ block "title" . }}{{ .Site.Title }}{{ end }}</title>
-    {{ block "resources" . }}
-    {{ partial "core/resources.html" . }}
-    {{ end }}
+    {{ partial "core/resources_css.html" . }}
   </head>
   <body>
     {{ block "header" . }}
@@ -15,5 +13,6 @@
     {{ end }}
     {{ block "footer" . }}
     {{ end }}
+    {{ partial "core/resources_js.html" . }}
   </body>
 </html>
