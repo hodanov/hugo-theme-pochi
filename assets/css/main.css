@@ -675,29 +675,33 @@ nav, nav .nav-wrapper i, nav a.button-collapse, nav a.button-collapse i {
 }
 
 /* -----page-nation----- */
-.page-numbers {
-  display: inline-flex;
-  margin: 0 .3rem 0 0;
-  border-radius: .3rem;
-}
-.page-numbers li span.current,
-.page-numbers li a {
-  line-height: 2rem;
-  padding: 0 10px;
-  color: #555;
-  background-color: #fff;
-}
-.page-numbers li span.current {
-  color: #fff;
-  background-color: #79c6b6;
-}
-.page-numbers.current,
-.page-numbers li a:hover {
-  background-color: #79c6b6;
-  color: #fff;
-}
 .pagination-index {
   margin-bottom: 3rem;
+}
+
+.pagination-index .pagination .page-item {
+  margin: 0 .3rem 0 0;
+}
+
+.pagination-index .pagination .page-item .page-link {
+  border: none;
+  border-radius: .3rem;
+  color: #555;
+}
+
+.pagination-index .pagination .page-item .page-link:hover {
+  background-color: #79c6b6;
+  color: #fff;
+}
+
+.pagination-index .pagination .page-item.active .page-link {
+  color: #555;
+  background-color: #f5f5f5;
+  pointer-events: none;
+}
+
+.pagination-index .pagination .page-item.disabled {
+  display: none;
 }
 
 /* -----footer----- */
@@ -1478,7 +1482,7 @@ iframe{
   .index-outline p span,
   #sidebar .tagcloud a,
   #sidebar #side .index-outline,
-  .page-numbers li a {
+  .pagination-index .pagination .page-item .page-link {
     background-color: #2f2f2f;
     color: #c9d1d9;
   }
@@ -1499,7 +1503,7 @@ iframe{
 
   .submit:hover,
   .btn-secondary:hover,
-  .page-numbers li a:hover,
+  .pagination-index .pagination .page-item .page-link:hover,
   #sidebar .tagcloud a:hover {
     background-color: #79c6b6;
     color: #fff;
@@ -1517,7 +1521,7 @@ iframe{
   .breadcrumb,
   #sidebar h2 span,
   footer h2 span,
-  .page-numbers li span.current {
+  .pagination-index .pagination .page-item.active .page-link{
     background-color: #0d1117;
   }
 
