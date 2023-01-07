@@ -8,7 +8,7 @@
             <article>
               <div class="kiji-tag">
                 <ul>
-                  {{ range (.GetTerms "tags") }}
+                  {{ range .GetTerms "tags" }}
                   <li><a href="{{ .Permalink }}" rel="tag">{{ .LinkTitle }}</a></li>
                   {{ end }}
                 </ul>
@@ -19,88 +19,65 @@
                   <time datetime='{{ .PublishDate.Format "2006-01-02" }}'>
                     <i class="fas fa-edit"></i>: {{ .PublishDate.Format "2006-01-02" }}
                   </time>
-                  {{/*  更新日がある場合ここに更新日時を表示する  */}}
                   <time datetime='{{ .Lastmod.Format "2006-01-02" }}'>
                     <i class="fas fa-redo"></i>: {{ .Lastmod.Format "2006-01-02" }}
                   </time>
                 </div>
               </div>
-
-                {{/*  サムネイルがある場合表示する  */}}
               <div class="image-wrapper icatch">
-                <div class="div-cover" style="background-image: url({{ .Site.BaseURL }}/{{ .Params.featuredImage }})">
+                <div class="div-cover" style="background-image: url({{ .Site.BaseURL }}{{ .Params.featuredImage }})">
                 </div>
               </div>
-
               <div>
               {{ .Content }}
               </div>
-
               <div class="share">
                 {{/*  ここにSNS用のシェアリンクを表示する。  */}}
               </div>
-
               {{/*  ここに広告を表示する。  */}}
-
             </article>
           </div>
         </div>
 
-        {{/*  ここに回遊用の記事リストを表示する。  */}}
+        {{ $posts := first 3 ((where .Site.RegularPages "Params.categories" "intersect" (slice "engineering")) | shuffle) }}
+        {{ if gt (len $posts) 1 }}
         <div class="row">
           <div class="col-md-12 recent-posts-wrapper">
             <div class="mymenu-thumb mymenu-related-list">
-              <h3>この記事をよんでくれたあなたにオススメ！</h3>
+              <h3>関連記事</h3>
               <div class="row">
+                {{ range $posts }}
                 <div class="col-sm-4 mymenu-related">
-                  <a href="記事のURL">
+                  <a href="{{ .Permalink }}">
                     <div class="image-wrapper">
-                      <div class="div-cover" style="background-image: url( {{ .Params.featuredImage }} )">
+                      <div class="div-cover" style="background-image: url({{ .Site.BaseURL }}{{ .Params.featuredImage }})">
                       </div>
                     </div>
                     <div class="text">
-                      記事のタイトル
+                      {{ .Title }}
                       <div class="post-info">
                         <div class="kiji-date">
-                          <time datetime="<?php echo get_the_date( 'Y-m-d' ); ?>">
-                            <i class="fas fa-edit"></i>投稿: 2022-07-26
+                          <time datetime='{{ .PublishDate.Format "2006-01-02" }}'>
+                            <i class="fas fa-edit"></i>: {{ .PublishDate.Format "2006-01-02" }}
                           </time>
                         </div>
                       </div>
                     </div>
                   </a>
                 </div>
-                <div class="col-sm-4 mymenu-related">
-                  <a href="記事のURL">
-                    <div class="image-wrapper">
-                      <div class="div-cover" style="background-image: url( {{ .Params.featuredImage }} )">
-                      </div>
-                    </div>
-                    <div class="text">
-                      記事のタイトル
-                      <div class="post-info">
-                        <div class="kiji-date">
-                          <time datetime="<?php echo get_the_date( 'Y-m-d' ); ?>">
-                            <i class="fas fa-edit"></i>投稿: 2022-07-26
-                          </time>
-                        </div>
-                      </div>
-                    </div>
-                  </a>
-                </div>
+                {{ end }}
               </div>
             </div>
           </div>
         </div>
+        {{ end }}
 
         <div class="row">
           <div class="col-md-12 comment-wrapper">
           {{/*  ここにコメント欄を置く  */}}
           </div>
         </div>
-
       </div>
-
       <div class="col-md-4">
         {{ block "sidebar" . }}
         {{ end }}
