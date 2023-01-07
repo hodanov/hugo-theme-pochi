@@ -1,0 +1,30 @@
+{{ define "main" }}
+<div class="breadcrumb-box">
+  <div class="container-fluid d-flex justify-content-between">
+    <h1>{{ .Title }}</h1>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="{{ .Site.BaseURL }}">ホーム</a>
+      </li>
+      <li class="breadcrumb-item">
+        <span class="breadcrumb-active">{{ .Title }}</span>
+      </li>
+    </ol>
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-8" id="contents">
+      {{ range sort .Pages "Title" "asc" }}
+      <ul>
+        <li><a href="{{ .Permalink }}">{{ .Title }}</a> ({{ len .Pages }})</li>
+      </ul>
+      {{ end }}
+    </div>
+    <div class="col-md-4">
+      {{ block "sidebar" . }}
+      {{ end }}
+    </div>
+  </div>
+</div>
+{{ end }}
