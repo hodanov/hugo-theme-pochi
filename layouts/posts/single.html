@@ -3,80 +3,9 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-8" id="contents">
-        <div class="row">
-          <div class="col-md-12">
-            <article>
-              <div class="kiji-tag">
-                <ul>
-                  {{ range .GetTerms "tags" }}
-                  <li><a href="{{ .Permalink }}" rel="tag">{{ .LinkTitle }}</a></li>
-                  {{ end }}
-                </ul>
-              </div>
-              <h1>{{ .Title }}</h1>
-              <div class="post-info">
-                <div class="kiji-date">
-                  <time datetime='{{ .PublishDate.Format "2006-01-02" }}'>
-                    <i class="fas fa-edit"></i>: {{ .PublishDate.Format "2006-01-02" }}
-                  </time>
-                  <time datetime='{{ .Lastmod.Format "2006-01-02" }}'>
-                    <i class="fas fa-redo"></i>: {{ .Lastmod.Format "2006-01-02" }}
-                  </time>
-                </div>
-              </div>
-              <div class="image-wrapper icatch">
-                <div class="div-cover" style="background-image: url({{ .Site.BaseURL }}{{ .Params.featuredImage }})">
-                </div>
-              </div>
-              <div>
-              {{ .Content }}
-              </div>
-              <div class="share">
-                {{/*  ここにSNS用のシェアリンクを表示する。  */}}
-              </div>
-              {{/*  ここに広告を表示する。  */}}
-            </article>
-          </div>
-        </div>
-
-        {{ $posts := first 3 ((where .Site.RegularPages "Params.categories" "intersect" (slice "engineering")) | shuffle) }}
-        {{ if gt (len $posts) 1 }}
-        <div class="row">
-          <div class="col-md-12 recent-posts-wrapper">
-            <div class="mymenu-thumb mymenu-related-list">
-              <h3>関連記事</h3>
-              <div class="row">
-                {{ range $posts }}
-                <div class="col-sm-4 mymenu-related">
-                  <a href="{{ .Permalink }}">
-                    <div class="image-wrapper">
-                      <div class="div-cover" style="background-image: url({{ .Site.BaseURL }}{{ .Params.featuredImage }})">
-                      </div>
-                    </div>
-                    <div class="text">
-                      {{ .Title }}
-                      <div class="post-info">
-                        <div class="kiji-date">
-                          <time datetime='{{ .PublishDate.Format "2006-01-02" }}'>
-                            <i class="fas fa-edit"></i>: {{ .PublishDate.Format "2006-01-02" }}
-                          </time>
-                        </div>
-                      </div>
-                    </div>
-                  </a>
-                </div>
-                {{ end }}
-              </div>
-            </div>
-          </div>
-        </div>
-        {{ end }}
-
-        <div class="row">
-          <div class="col-md-12 comment-wrapper">
-          {{/*  ここにコメント欄を置く  */}}
-          </div>
-        </div>
+        {{ partial "single/content.html" . }}
+        {{ partial "single/related_posts.html" . }}
+        {{ partial "single/comment.html" . }}
       </div>
       <div class="col-md-4">
         {{ block "sidebar" . }}
