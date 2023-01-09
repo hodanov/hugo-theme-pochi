@@ -1,0 +1,36 @@
+{{ $categoryTitles := slice }}
+{{ range first 1 (.GetTerms "categories") }}
+  {{ $categoryTitles = $categoryTitles | append .Title }}
+{{ end }}
+{{ $posts := first 3 ((where .Site.RegularPages "Params.categories" "intersect" $categoryTitles) | shuffle) }}
+{{ if gt (len $posts) 1 }}
+<div class="row">
+  <div class="col-md-12 recent-posts-wrapper">
+    <div class="mymenu-thumb mymenu-related-list">
+      <h3>関連記事</h3>
+      <div class="row">
+        {{ range $posts }}
+        <div class="col-sm-4 mymenu-related">
+          <a href="{{ .Permalink }}">
+            <div class="image-wrapper">
+              <div class="div-cover" style="background-image: url({{ .Site.BaseURL }}{{ .Params.featuredImage }})">
+              </div>
+            </div>
+            <div class="text">
+              {{ .Title }}
+              <div class="post-info">
+                <div class="kiji-date">
+                  <time datetime='{{ .PublishDate.Format "2006-01-02" }}'>
+                    <i class="fas fa-edit"></i>: {{ .PublishDate.Format "2006-01-02" }}
+                  </time>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+        {{ end }}
+      </div>
+    </div>
+  </div>
+</div>
+{{ end }}
