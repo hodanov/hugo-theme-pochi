@@ -1,33 +1,4 @@
-{{ define "header" }}
-{{ end }}
 {{ define "main" }}
-<div class="parallax-container">
-  <div class="hero image-wrapper">
-    {{ $icatch := (resources.Get "image/go-icach-700x467.png") }}
-    <div class="div-cover" style="background-image: url({{ $icatch.Permalink }})">
-    </div>
-    <div class="container-fluid" id="parallax-object">
-      <div class="row">
-        <div class="col-md-12">
-          <div class="hero-caption">
-            <h1>タイトル</h1>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="main-content">
-  <div class="container-fluid single-page">
-    <div class="row">
-      <div class="col-md-8 offset-md-2">
-        <article>
-          <div>
-            記事コンテンツ
-          </div>
-        </article>
-      </div>
-    </div>
-  </div>
-</div>
+{{ partial "page/hero" . }}
+{{ partial "page/content.html" . }}
 {{ end }}
