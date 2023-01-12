@@ -2,7 +2,7 @@
 /*
 Theme Name: THE POCHI
 Theme URI: https://hodalog.com/
-Author: Hoda (Hodaka Sakamoto)
+Author: Hoda
 Author URI: https://hodalog.com/
 Description: A simple and clean design theme for the engineer.
 Version: 1.1
@@ -99,13 +99,13 @@ strong {
 }
 
 /* -----Color----- */
-.submit,
+.btn-primary,
 .btn-secondary {
   color: #555;
   background-color: #fff;
   border-color: #ced4da;
 }
-.submit:hover,
+.btn-primary:hover,
 .btn-secondary:hover,
 #scroll-to-top {
   background-color: #79c6b6;
@@ -139,7 +139,7 @@ a,
 #scroll-to-top,
 .index-outline ol li a:after,
 .article-list .post-row,
-.submit,
+.btn-primary,
 .btn-secondary {
   -webkit-transition: all 0.2s ease 0s;
   transition: all 0.2s ease 0s;
@@ -170,7 +170,7 @@ nav {
 .article-list .post-row:hover {
   box-shadow: 0 8px 17px 2px rgba(0,0,0,0.14), 0 3px 14px 2px rgba(0,0,0,0.12), 0 5px 5px -3px rgba(0,0,0,0.2);
 }
-.submit:hover,
+.btn-primary:hover,
 #scroll-to-top.fade-in:hover {
   opacity: .8;
 }
@@ -1217,7 +1217,7 @@ pre.wp-block-code code {
 }
 
 /* ----- Comments----- */
-.submit {
+.btn-primary {
   color: #555;
   text-transform: uppercase;
   font-size: 1rem;
@@ -1454,7 +1454,7 @@ iframe{
   nav,
   footer.footer-section,
   .form-control,
-  .submit,
+  .btn-primary,
   .btn-secondary,
   .index-outline p span,
   #sidebar .tagcloud a,
@@ -1478,7 +1478,7 @@ iframe{
     color: #c9d1d9;
   }
 
-  .submit:hover,
+  .btn-primary:hover,
   .btn-secondary:hover,
   .pagination-index .pagination .page-item .page-link:hover,
   #sidebar .tagcloud a:hover {
