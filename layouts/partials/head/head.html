@@ -1,10 +1,6 @@
 {{ template "_internal/google_analytics.html" . }}
-<!-- {{ partial "head/google_adsense.html" . }} -->
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>{{ with .Params.Title }}{{ . }} | {{ end }}{{ .Site.Title }}</title>
-<meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{if .IsPage}}{{ .Summary }}{{ else }}{{ with .Site.Params.description }}{{ . }}{{ end }}{{ end }}{{ end }}">
-<meta name="keywords" content='{{ $tags := slice }}{{ range .GetTerms "tags" }}{{ $tags = $tags | append .LinkTitle }}{{ end }}{{ if gt $tags 0 }}{{ delimit $tags ", " }}{{ else }}{{ delimit .Site.Params.Keywords ", " }}{{ end }}'>
+{{ partial "head/google_adsense.html" . }}
+{{ partial "head/meta.html" . }}
 {{ template "_internal/opengraph.html" . }}
 {{ template "_internal/twitter_cards.html" . }}
 {{ partial "head/schema.html" . }}
