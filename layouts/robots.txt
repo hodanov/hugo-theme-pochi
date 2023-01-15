@@ -1,0 +1,2 @@
+User-agent: *
+Disallow: {{ .Site.BaseURL }}sitemap.xml
