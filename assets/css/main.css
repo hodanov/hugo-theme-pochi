@@ -1160,20 +1160,18 @@ pre {
   font-size: .85em;
   font-family: Consolas,Liberation Mono,Menlo,Courier,monospace;
 }
-p > code {
+p > code,
+ul li > code,
+ol li > code {
   border: 1px solid #aaa;
   color: #424242;
+  padding: 0.2rem 0.4rem;
+  font-size: 90%;
+  background-color: #f8f9fa;
+  border-radius: 0.25rem;
 }
 pre.wp-block-code code {
   white-space: pre;
-}
-
-code {
-  padding: 0.2rem 0.4rem;
-  font-size: 90%;
-  color: #bd4147;
-  background-color: #f8f9fa;
-  border-radius: 0.25rem;
 }
 
 @media (max-width: 767px) {
