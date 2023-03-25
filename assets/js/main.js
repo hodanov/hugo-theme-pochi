@@ -1,263 +1,144 @@
-$(document).ready(function(){
+const onReady = (callback) => {
+  if (document.readyState != 'loading') callback();
+  else if (document.addEventListener) document.addEventListener('DOMContentLoaded', callback);
+  else document.attachEvent('onreadystatechange', function () {
+    if (document.readyState == 'complete') callback();
+  });
+}
 
-  // -----Side-nav-btn
-    sideNavBtnToggle()
-    function sideNavBtnToggle() {
-      var sideNavMenuBtn = 'nav #menu-bar-btn'
-      var sideNav = '#side-nav'
-      var sideNavOverlayDiv = '<div id="sidenav-overlay"></div>'
-      var sideNavOverlay = '#sidenav-overlay'
-      var sideNavOn = 'side-nav-on'
-      var displaySideNav = {
-        'transform': 'translateX(0)',
-        'opacity': '1',
-      }
-      var hideSideNav = {
-        'transform': 'translateX(-105%)',
-        'opacity': '0',
-      }
-      $(document).on('click', sideNavMenuBtn, function () {
-        $(sideNav).css(displaySideNav)
-        $(sideNav).addClass(sideNavOn)
-        $('body').append(sideNavOverlayDiv)
-        $(sideNavOverlay).animate({
-          opacity: 1
-        }, 300)
-      })
-      $(document).on('click', sideNavOverlay, function () {
-        $(sideNav).css(hideSideNav)
-        $(sideNav).removeClass(sideNavOn)
-        $(sideNavOverlay).animate({
-          opacity: 0
-        }, 300, function() {
-          $(sideNavOverlay).remove()
-        })
-      })
-    }
-  
-  // Parallax effect
-    $(window).scroll(function() {
-      var scrolled = $(window).scrollTop()
-      var parallaxContainer = '.parallax-container > .image-wrapper > .div-cover'
-      var parallaxObject = '.parallax-container > .hero.image-wrapper #parallax-object'
-      $('.parallax-container').each(function(index, element) {
-        // var initY = $(this).offset().top
-        var initY = 0
-        var height = $(this).height()
-        var width = $(this).width()
-        var endY  = initY + $(this).height()
-  
-        // Check if the element is in the viewport.
-        if (width >= 600) {
-          var visible = isInViewport(this)
-          if(visible) {
-            var diff = scrolled - initY
-            var ratio = Math.round((diff / height) * 100)
-              $(parallaxContainer).css('transform', 'translateY(' + parseInt(-ratio * 1.5) + 'px)')
-              $(parallaxObject).css('transform', 'translateY(' + parseInt(-ratio * 3) + 'px)')
-          }
-        }
-      })
-    })
-  
-    function isInViewport(node) {
-      var rect = node.getBoundingClientRect()
-      return (
-        (rect.height > 0 || rect.width > 0) &&
-        rect.bottom >= 0 &&
-        rect.right >= 0 &&
-        rect.top <= (window.innerHeight || document.documentElement.clientHeight) &&
-        rect.left <= (window.innerWidth || document.documentElement.clientWidth)
-      )
-    }
-  
-  // -----Slider
-    if ($('.slide-window')) {
-  
-      var slideNum = $('.slide').length - 1
-      var maxSlideNum = $('.slide').length - 1
-      var slideWidth = $('.slide-window').outerWidth()
-      var slideSetWidth = slideWidth * slideNum
-      var controlSlideBtnLeft = '.slide-control-left'
-      var controlSlideBtnRight = '.slide-control-right'
-      var controlSlideBtnList = '.slide-control-btn ul li'
-      // var addCssToSlide = {
-      //   'width': (slideNum + 3) * 100 + '%',
-      //   'left': -slideWidth
-      // }
-      // $('.slide-window .slide-wrapper').css(addCssToSlide)
-      // var firstSlide = $('.slide-wrapper .slide:first-child')
-      // var lastSlide = $('.slide-wrapper .slide:last-child')
-      // firstSlide.before(lastSlide.clone(true))
-      // lastSlide.after(firstSlide.clone(true))
-  
-      addSlideCtlBtn()
-  
-      var slideCurrent = 0
-      var slideActiveBtn = 0
-      var rotationInterval = setInterval(function(){
-        slideCurrent++
-        if (slideCurrent > maxSlideNum) {
-          slideCurrent = 0
-        }
-        activation()
-        sliding()
-      }, 10000)
-  
-      $(controlSlideBtnLeft).on('click', function(){
-        resetInterval()
-        slideCurrent--
-        if (slideCurrent < 0) {
-          slideCurrent = maxSlideNum
-        }
-        activation()
-        rotateArrow('left')
-        sliding()
-      })
-      $(controlSlideBtnRight).on('click', function(){
-        resetInterval()
-        slideCurrent++
-        if (slideCurrent > maxSlideNum) {
-          slideCurrent = 0
-        }
-        activation()
-        rotateArrow('right')
-        sliding()
-      })
-      $(controlSlideBtnList).on('click', function(){
-        resetInterval()
-        slideCurrent = $(controlSlideBtnList).index(this)
-        activation()
-        sliding()
-      })
-  
-      function addSlideCtlBtn() {
-        var slideCtlBtn = '<div class="slide-control-btn"><ul>'
-        for (var i = 0; i <= maxSlideNum; i++) {
-          if (i==0) {
-            slideCtlBtn += '<li class="active"></li>'
-          }
-          else {
-            slideCtlBtn += '<li class=""></li>'
-          }
-        }
-        slideCtlBtn += '</ul></div>'
-        $('.slide-controller').append(slideCtlBtn)
-      }
-      function resetInterval() {
-        clearInterval(rotationInterval)
-        rotationInterval = setInterval(function(){
-          slideCurrent++
-          if (slideCurrent > maxSlideNum) {
-            slideCurrent = 0
-          }
-          activation()
-          sliding()
-        }, 10000)
-      }
-      function activation() {
-        slideActiveBtn = slideCurrent + 1
-        $( controlSlideBtnList + '.active' ).removeClass()
-        $('.slide-control-btn ul li:nth-child(' + slideActiveBtn + ')').addClass('active')
-      }
-      function rotateArrow(direction) {
-        var slideCtlLine1 = '.slide-control-' + direction + ' .slide-control-line:nth-child(1)'
-        var slideCtlLine2 = '.slide-control-' + direction + ' .slide-control-line:nth-child(2)'
-        $(slideCtlLine1).removeClass('rotate-' + direction + '-top')
-        $(slideCtlLine2).removeClass('rotate-' + direction + '-down')
-        $(slideCtlLine1).outerWidth()
-        $(slideCtlLine2).outerWidth()
-        $(slideCtlLine1).addClass('rotate-' + direction + '-top')
-        $(slideCtlLine2).addClass('rotate-' + direction + '-down')
-      }
-      function sliding() {
-        $('.slide-wrapper').css('transform', 'translateX(' + (slideCurrent * -slideWidth) + 'px)')
-      }
-    }
-  
-  // -----Table of contents
-    if ($('.single-page').length) {
-      var firstH2 = $('#contents h2').first()
-      var tableOfContents = '<div class="index-outline"><p><span>記事内目次</span></p><ol>'
-      var level = 0
-      var currentLevel = 0
-      var h2Number = 0
-      var h3Number = 0
-      var h4Number = 0
-      var headingNumber = 0
-  
-      $('article h2, article h3, article h4').each(function(i) {
-        if ($(this).prop('tagName') == 'H2') {
-          level = 0
-        }
-        else if ($(this).prop('tagName') == 'H3') {
-          level = 1
-        }
-        else if ($(this).prop('tagName') == 'H4') {
-          level = 2
-        }
-  
-        if (currentLevel < level) {
-          tableOfContents += '<li><ol>'
-          currentLevel = level
-        }
-        else if (currentLevel > level) {
-          tableOfContents += '</ol></li>'
-          currentLevel = level
-        }
-  
-        switch (level) {
-          case 0:
-            h2Number++
-            headingNumber = h2Number
-            h3Number = 0
-            break
-          case 1:
-            h3Number++
-            headingNumber = h2Number + '-' + h3Number
-            h4Number = 0
-            break
-          case 2:
-            h4Number++
-            headingNumber = h2Number + '-' + h3Number + '-' + h4Number
-            break
-        }
-  
-        $(this).attr('id', 'index-toc-' + i)
-        tableOfContents += '<li><a href="#index-toc-' + i + '">' + headingNumber + '. ' + $(this).text() + '</a></li>'
-      })
-  
-      tableOfContents += '</ol></div>'
-      $(firstH2[0]).before(tableOfContents)
-      $('#sidebar #side').append('<aside></aside>')
-      $('#sidebar #side aside').last().append(tableOfContents)
-    }
-  
-  // -----Scroll smoother
-  
-    var internalLink = 'a[href*=\\#]'
-    var htmlBody = 'html, body'
-    $(internalLink).click(function(event){
-      event.preventDefault()
-      if ($(this).attr('href')=='#top') {
-        $(htmlBody).animate({scrollTop : 0},1000)
-        return false
-      }
-      else {
-        $(htmlBody).animate({
-          scrollTop: $( $.attr(this, 'href') ).position().top + 60
-        }, 1000)
-      }
-    })
-  
-    // Scroll to top
-    var scrollToTopBtn = '#scroll-to-top'
-    $(window).scroll(function() {
-      if ($(this).scrollTop() >= 500) {
-        $(scrollToTopBtn).addClass('fade-in')
+function scrollSmoother() {
+  var internalLinks = document.querySelectorAll('a[href*="#"]');
+  for (let i = 0, len = internalLinks.length; i < len; i++) {
+    internalLinks[i].addEventListener('click', (event) => {
+      event.preventDefault();
+
+      if (internalLinks[i].getAttribute('href') === '#top') {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return false;
       } else {
-        $(scrollToTopBtn).removeClass('fade-in')
+        let targetEl = document.querySelector(internalLinks[i].hash);
+        window.scrollTo({
+          top: targetEl.offsetTop + 60,
+          behavior: 'smooth',
+        });
       }
-    })
-  
-  })// document ready end
+    });
+  }
+
+  // Scroll to top
+  var scrollToTopBtn = document.querySelector('#scroll-to-top');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY >= 500) {
+      scrollToTopBtn.classList.add('fade-in');
+    } else {
+      scrollToTopBtn.classList.remove('fade-in');
+    }
+  });
+}
+
+function sideNavBtnToggle() {
+  const sideNavMenuBtn = document.querySelector('nav #menu-bar-btn');
+  const sideNav = document.querySelector('#side-nav');
+  const sideNavOverlayDiv = '<div id="sidenav-overlay"></div>';
+  const sideNavOn = 'side-nav-on';
+  var isSideNavOn = false;
+  document.addEventListener('click', function (event) {
+    if (!isSideNavOn && event.target === sideNavMenuBtn) {
+      isSideNavOn = true;
+      Object.assign(sideNav.style, { 'transform': 'translateX(0)', 'opacity': '1' });
+      sideNav.classList.add(sideNavOn);
+      document.body.insertAdjacentHTML('beforeend', sideNavOverlayDiv);
+    }
+    if (isSideNavOn && event.target === document.querySelector('#sidenav-overlay')) {
+      isSideNavOn = false;
+      Object.assign(sideNav.style, { 'transform': 'translateX(-105%)', 'opacity': '0' });
+      sideNav.classList.remove(sideNavOn);
+      document.querySelector('#sidenav-overlay').remove();
+    }
+  }, false);
+}
+
+function buildTableOfContents() {
+  // Check if the page has a class named 'single-page'
+  if (document.querySelector('.single-page') !== null) {
+    // Get the first h2 element under the #contents element
+    var firstH2 = document.querySelector('#contents h2');
+    // Create the table of contents structure
+    var tableOfContents = '<div class="index-outline"><p><span>記事内目次</span></p><ol>';
+    // Initialize variables to help determine heading level and number
+    var level = 0;
+    var currentLevel = 0;
+    var h2Number = 0;
+    var h3Number = 0;
+    var h4Number = 0;
+    var headingNumber = 0;
+
+    // Select all h2, h3, and h4 elements within the article element
+    var headings = document.querySelectorAll('article h2, article h3, article h4');
+
+    // Loop through each heading element
+    for (var i = 0; i < headings.length; i++) {
+      // Determine the heading level based on the tag name
+      if (headings[i].tagName === 'H2') {
+        level = 0;
+      }
+      else if (headings[i].tagName === 'H3') {
+        level = 1;
+      }
+      else if (headings[i].tagName === 'H4') {
+        level = 2;
+      }
+
+      // Check if the heading level has increased or decreased since the previous iteration
+      if (currentLevel < level) {
+        tableOfContents += '<li><ol>';
+        currentLevel = level;
+      }
+      else if (currentLevel > level) {
+        tableOfContents += '</ol></li>';
+        currentLevel = level;
+      }
+
+      // Increment the heading number based on the heading level
+      switch (level) {
+        case 0:
+          h2Number++;
+          headingNumber = h2Number;
+          h3Number = 0;
+          break;
+        case 1:
+          h3Number++;
+          headingNumber = h2Number + '-' + h3Number;
+          h4Number = 0;
+          break;
+        case 2:
+          h4Number++;
+          headingNumber = h2Number + '-' + h3Number + '-' + h4Number;
+          break;
+      }
+
+      // Add an ID to the heading element and append its title to the TOC structure
+      headings[i].setAttribute('id', 'index-toc-' + i);
+      tableOfContents += '<li><a href="#index-toc-' + i + '">' + headingNumber + '. ' + headings[i].textContent + '</a></li>';
+    }
+
+    // Finish building the table of contents structure
+    tableOfContents += '</ol></div>';
+
+    // Add the TOC to the page before the first h2 element
+    firstH2.insertAdjacentHTML('beforebegin', tableOfContents);
+
+    // Add the TOC to the sidebar
+    var asideEl = document.createElement('aside');
+    asideEl.innerHTML = tableOfContents;
+
+    var sideBar = document.querySelector('#sidebar #side');
+    sideBar.appendChild(asideEl);
+  }
+}
+
+onReady(() => {
+  scrollSmoother();
+  sideNavBtnToggle();
+  buildTableOfContents();
+})
