@@ -1,10 +1,11 @@
 const onReady = (callback) => {
   if (document.readyState != 'loading') callback();
   else if (document.addEventListener) document.addEventListener('DOMContentLoaded', callback);
-  else document.attachEvent('onreadystatechange', function () {
-    if (document.readyState == 'complete') callback();
-  });
-}
+  else
+    document.attachEvent('onreadystatechange', function () {
+      if (document.readyState == 'complete') callback();
+    });
+};
 
 function scrollSmoother() {
   var internalLinks = document.querySelectorAll('a[href*="#"]');
@@ -42,20 +43,24 @@ function sideNavBtnToggle() {
   const sideNavOverlayDiv = '<div id="sidenav-overlay"></div>';
   const sideNavOn = 'side-nav-on';
   var isSideNavOn = false;
-  document.addEventListener('click', function (event) {
-    if (!isSideNavOn && event.target === sideNavMenuBtn) {
-      isSideNavOn = true;
-      Object.assign(sideNav.style, { 'transform': 'translateX(0)', 'opacity': '1' });
-      sideNav.classList.add(sideNavOn);
-      document.body.insertAdjacentHTML('beforeend', sideNavOverlayDiv);
-    }
-    if (isSideNavOn && event.target === document.querySelector('#sidenav-overlay')) {
-      isSideNavOn = false;
-      Object.assign(sideNav.style, { 'transform': 'translateX(-105%)', 'opacity': '0' });
-      sideNav.classList.remove(sideNavOn);
-      document.querySelector('#sidenav-overlay').remove();
-    }
-  }, false);
+  document.addEventListener(
+    'click',
+    function (event) {
+      if (!isSideNavOn && event.target === sideNavMenuBtn) {
+        isSideNavOn = true;
+        Object.assign(sideNav.style, { transform: 'translateX(0)', opacity: '1' });
+        sideNav.classList.add(sideNavOn);
+        document.body.insertAdjacentHTML('beforeend', sideNavOverlayDiv);
+      }
+      if (isSideNavOn && event.target === document.querySelector('#sidenav-overlay')) {
+        isSideNavOn = false;
+        Object.assign(sideNav.style, { transform: 'translateX(-105%)', opacity: '0' });
+        sideNav.classList.remove(sideNavOn);
+        document.querySelector('#sidenav-overlay').remove();
+      }
+    },
+    false
+  );
 }
 
 function buildTableOfContents() {
@@ -81,11 +86,9 @@ function buildTableOfContents() {
       // Determine the heading level based on the tag name
       if (headings[i].tagName === 'H2') {
         level = 0;
-      }
-      else if (headings[i].tagName === 'H3') {
+      } else if (headings[i].tagName === 'H3') {
         level = 1;
-      }
-      else if (headings[i].tagName === 'H4') {
+      } else if (headings[i].tagName === 'H4') {
         level = 2;
       }
 
@@ -93,8 +96,7 @@ function buildTableOfContents() {
       if (currentLevel < level) {
         tableOfContents += '<li><ol>';
         currentLevel = level;
-      }
-      else if (currentLevel > level) {
+      } else if (currentLevel > level) {
         tableOfContents += '</ol></li>';
         currentLevel = level;
       }
@@ -119,7 +121,8 @@ function buildTableOfContents() {
 
       // Add an ID to the heading element and append its title to the TOC structure
       headings[i].setAttribute('id', 'index-toc-' + i);
-      tableOfContents += '<li><a href="#index-toc-' + i + '">' + headingNumber + '. ' + headings[i].textContent + '</a></li>';
+      tableOfContents +=
+        '<li><a href="#index-toc-' + i + '">' + headingNumber + '. ' + headings[i].textContent + '</a></li>';
     }
 
     // Finish building the table of contents structure
@@ -141,4 +144,4 @@ onReady(() => {
   scrollSmoother();
   sideNavBtnToggle();
   buildTableOfContents();
-})
+});
