@@ -1423,11 +1423,13 @@ pre {
   font-family: Consolas, Liberation Mono, Menlo, Courier, monospace;
 }
 
-p>code {
+p>code,
+ul li>code,
+ol li>code {
+  border: 1px solid #aaa;
+  color: #424242;
   padding: 0.2rem 0.4rem;
   font-size: 90%;
-  /* color: #bd4147; */
-  color: #424242;
   background-color: #f8f9fa;
   border: 1px solid #aaa;
   border-radius: 0.25rem;
