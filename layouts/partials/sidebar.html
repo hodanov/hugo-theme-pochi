@@ -9,7 +9,8 @@
           <div class="input-group">
             <input type="text" id="search-for" class="form-control" value="" name="s">
             <div class="input-group-btn">
-              <button type="submit" id="searchsubmit" class="btn btn-secondary" value="Search">Search <i class="fas fa-search"></i></button>
+              <button type="submit" id="searchsubmit" class="btn btn-secondary" value="Search">Search <i
+                  class="fas fa-search"></i></button>
             </div>
           </div>
         </div>
@@ -18,25 +19,31 @@
     <aside>
       <h2 class="widgettitle"><span>About me</span></h2>
       <div class="textwidget custom-html-widget">
-        <div class="profile-flex-box" style="  display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; display: flex;  -webkit-flex-flow: row wrap; justify-content: space-around;">
-        <div id="profile-image" style="float: left; width: 40%; height: 40%; width: 40%; margin: 0 auto; background-color: #fff; border-radius: 50%; overflow: hidden;">
-          {{ $icatch := (resources.Get "image/hodacat.png") }}
-          <img src="{{ $icatch.Permalink }}" alt="hodacat" style="width: 100%;">
+        <div class="profile-flex-box"
+          style="  display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; display: flex;  -webkit-flex-flow: row wrap; justify-content: space-around;">
+          <div id="profile-image"
+            style="float: left; width: 40%; height: 40%; width: 40%; margin: 0 auto; background-color: #fff; border-radius: 50%; overflow: hidden;">
+            {{ $icatch := (resources.Get "image/hodacat.png") }}
+            <img src="{{ $icatch.Permalink }}" alt="hodacat" style="width: 100%;">
+          </div>
+          <div class="profile-header" style="display: inline-block; width: 60%; margin: auto; padding-left: 5%;">
+            <h3>Hoda</h3>
+          </div>
         </div>
-        <div class="profile-header" style="display: inline-block; width: 60%; margin: auto; padding-left: 5%;">
-          <h3>name</h3>
+        <br>
+        <p>北陸出身のバックエンドエンジニア。GoでのAPI開発、Web Applicationのサーバーサイド開発を得意とする。</p>
+        <p>高専で機械工学、技科大で材料工学を学んだのち、メーカーで温度センサーの材料開発・生産に従事。</p>
+        <p>IT技術にひかれ、31才でIT業界へ転職。運用・テクニカルサポートからキャリアをスタートし、AWSクラウドサーバー構築、Webページ作成、Python/djangoのツール改修など、幅広く業務を経験する。</p>
+        <p>フリーランスのエンジニアとしていくつかのプロジェクトに携わった後、2020年10月より北陸に帰郷、現在に至る。</p>
+        <p>趣味はスノーフィートと音楽。ウマ娘の推しはナイスネイチャ。</p>
+        <div style="display: inline-block; background-color: #24292e; border-radius: .3rem;">
+          <a href="github_link" target="_blank" rel="noreferrer noopener"
+            style="color: #fff; padding: .5rem; display: block;">GitHub</a>
         </div>
-      </div>
-      <br>
-      <p>
-        趣味はスノーフィートと音楽。ウマ娘の推しはナイスネイチャ。
-      </p>
-      <div style="display: inline-block; background-color: #24292e; border-radius: .3rem;">
-        <a href="github_link" target="_blank" rel="noreferrer noopener" style="color: #fff; padding: .5rem; display: block;">GitHub</a>
-      </div>
-      <div style="display: inline-block; background-color: #049287; border-radius: .3rem;">
-        <a href="speakerdeck_link" target="_blank" rel="noreferrer noopener" style="color: #fff; padding: .5rem; display: block;">Speaker Deck</a>
-      </div>
+        <div style="display: inline-block; background-color: #049287; border-radius: .3rem;">
+          <a href="speakerdeck_link" target="_blank" rel="noreferrer noopener"
+            style="color: #fff; padding: .5rem; display: block;">Speaker Deck</a>
+        </div>
     </aside>
   </div>
 </div>
