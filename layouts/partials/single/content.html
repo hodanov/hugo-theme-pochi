@@ -29,12 +29,14 @@
       </div>
       {{ end }}
       <div>
-      {{ .Content }}
+        {{ .Content }}
       </div>
       <div class="share">
-        {{/*  ここにSNS用のシェアリンクを表示する。  */}}
+        {{/* ここにSNS用のシェアリンクを表示する。 */}}
       </div>
-      {{/*  ここに広告を表示する。  */}}
+      {{ with .Site.Params.GoogleAdsenseCode }}
+      <div>{{ . | safeHTML}}</div>
+      {{ end }}
     </article>
   </div>
 </div>
