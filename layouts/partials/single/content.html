@@ -32,7 +32,7 @@
         {{ .Content }}
       </div>
       <div class="share">
-        {{/* ここにSNS用のシェアリンクを表示する。 */}}
+        {{ partial "single/sns_btn.html" . }}
       </div>
       {{ with .Site.Params.GoogleAdsenseCode }}
       <div>{{ . | safeHTML}}</div>
