@@ -6,9 +6,9 @@
         <div class="article-list">
           {{ $paginator := slice }}
           {{ if .IsHome }}
-            {{ $paginator = .Paginate (where .Site.RegularPages "Section" "posts") }}
+          {{ $paginator = .Paginate (where .Site.RegularPages "Section" "posts") }}
           {{ else}}
-            {{ $paginator = .Paginate .Pages }}
+          {{ $paginator = .Paginate .Pages }}
           {{ end }}
           {{ range $paginator.Pages }}
           <div class="row post-row">
@@ -16,7 +16,8 @@
               <a href="{{ .Permalink }}">
                 <div class="post-image-col">
                   <div class="image-wrapper">
-                    <div class="div-cover" style="background-image: url({{ .Site.BaseURL }}{{ .Params.featuredImage }})">
+                    <div class="div-cover"
+                      style="background-image: url({{ .Site.BaseURL }}{{ .Params.featuredImage }})">
                     </div>
                   </div>
                 </div>
@@ -26,17 +27,12 @@
                 <div class="post-text">
                   <div class="post-info">
                     <div class="kiji-date">
-                      <time datetime="<?php echo get_the_date( 'Y-m-d' ); ?>">
-                        <i class="fas fa-edit"></i>
-                        : {{ .PublishDate.Format "2006-01-02" }}
+                      <time datetime='{{ .PublishDate.Format "2006-01-02" }}'>
+                        <i class="fas fa-edit"></i>: {{ .PublishDate.Format "2006-01-02" }}
                       </time>
-                      <span class="modified_date">
-                        |
-                        <time datetime="<?php echo get_the_modified_date( 'Y-m-d' ); ?>">
-                          <i class="fas fa-redo"></i>
-                          : {{ .Lastmod.Format "2006-01-02" }}
-                        </time>
-                      </span>
+                      <time datetime='{{ .Lastmod.Format "2006-01-02" }}'>
+                        <i class="fas fa-redo"></i>: {{ .Lastmod.Format "2006-01-02" }}
+                      </time>
                     </div>
                   </div>
                   <div class="post-excerpt">
