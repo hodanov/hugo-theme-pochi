@@ -21,7 +21,7 @@
       "name": "{{ .Site.Params.Author }}",
       "logo": {
         "@type": "imageObject",
-        "url": "{{ with .Site.Params.Logo }}{{ . }}{{ end }}"
+        "url": "{{ .Site.BaseURL }}{{ with .Site.Params.Logo }}{{ . }}{{ end }}"
       }
     }
   }
@@ -36,7 +36,7 @@
       "@type": "Person",
       "name": "{{ .Site.Params.Author }}"
     },
-    "image": "{{ with .Site.Params.Logo }}{{ . }}{{ end }}",
+    "image": "{{ .Site.BaseURL }}{{ with .Site.Params.Logo }}{{ . }}{{ end }}",
     "url": "{{ .Site.BaseURL }}",
     "description": "{{ with .Description }}{{ . }}{{ else }}{{ with .Site.Params.description }}{{ . }}{{ end }}{{ end }}",
     "license": "https://creativecommons.org/licenses/by-nc-sa/3.0/us/deed.en_US"
