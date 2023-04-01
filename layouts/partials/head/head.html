@@ -6,6 +6,6 @@
 {{ partial "head/schema.html" . }}
 {{ partial "core/resources_css.html" . }}
 {{ with .Site.Params.Favicon }}
-<link rel="icon" href="/{{ . }}">
-<link rel="apple-touch-icon" sizes="180x180" href="/{{ . }}">
+<link rel="icon" href="{{ . }}">
+<link rel="apple-touch-icon" sizes="180x180" href="{{ . }}">
 {{ end }}
