@@ -186,11 +186,6 @@ strong {
   font-weight: bold;
 }
 
-.wp-block-image figcaption {
-  color: #888;
-  font-size: .8rem;
-}
-
 /* -----Color----- */
 .btn-primary,
 .btn-secondary {
@@ -1399,8 +1394,7 @@ a img {
 }
 
 /* 大きい画像がはみ出さないように */
-img,
-.wp-caption {
+img {
   max-width: 100%;
   height: auto;
 }
