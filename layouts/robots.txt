@@ -1,2 +1,2 @@
 User-agent: *
-Disallow: {{ .Site.BaseURL }}sitemap.xml
+Disallow: /sitemap.xml
