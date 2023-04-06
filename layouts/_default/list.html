@@ -1,58 +1,64 @@
 {{ define "main" }}
-<div class="main-content">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-8" id="contents">
-        <div class="article-list">
-          {{ $paginator := slice }}
-          {{ if .IsHome }}
-          {{ $paginator = .Paginate (where .Site.RegularPages "Section" "posts") }}
-          {{ else}}
-          {{ $paginator = .Paginate .Pages }}
-          {{ end }}
-          {{ range $paginator.Pages }}
-          <div class="row post-row">
-            <div class="col-md-12">
-              <a href="{{ .Permalink }}">
-                <div class="post-image-col">
-                  <div class="image-wrapper">
-                    <div class="div-cover"
-                      style="background-image: url({{ .Site.BaseURL }}{{ .Params.featuredImage }})">
+  <div class="main-content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-8" id="contents">
+          <div class="article-list">
+            {{ $paginator := slice }}
+            {{ if .IsHome }}
+              {{ $paginator = .Paginate (where .Site.RegularPages "Section" "posts") }}
+            {{ else }}
+              {{ $paginator = .Paginate .Pages }}
+            {{ end }}
+            {{ range $paginator.Pages }}
+              <div class="row post-row">
+                <div class="col-md-12">
+                  <a href="{{ .Permalink }}">
+                    <div class="post-image-col">
+                      <div class="image-wrapper">
+                        <div
+                          class="div-cover"
+                          style="background-image: url({{ .Site.BaseURL }}{{ .Params.featuredImage }})"
+                        ></div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-                <div class="post-title">
-                  <h2>{{ .Title }}</h2>
-                </div>
-                <div class="post-text">
-                  <div class="post-info">
-                    <div class="kiji-date">
-                      <time datetime='{{ .PublishDate.Format "2006-01-02" }}'>
-                        <i class="fas fa-edit"></i>: {{ .PublishDate.Format "2006-01-02" }}
-                      </time>
-                      <time datetime='{{ .Lastmod.Format "2006-01-02" }}'>
-                        <i class="fas fa-redo"></i>: {{ .Lastmod.Format "2006-01-02" }}
-                      </time>
+                    <div class="post-title">
+                      <h2>{{ .Title }}</h2>
                     </div>
-                  </div>
-                  <div class="post-excerpt">
-                    {{ .Summary }}
-                  </div>
+                    <div class="post-text">
+                      <div class="post-info">
+                        <div class="kiji-date">
+                          <time
+                            datetime="{{ .PublishDate.Format "2006-01-02" }}"
+                          >
+                            {{ partial "icon/pencil.html" . }}
+                            :{{ .PublishDate.Format "2006-01-02" }}
+                          </time>
+                          |
+                          <time datetime="{{ .Lastmod.Format "2006-01-02" }}">
+                            {{ partial "icon/spinner.html" . }}
+                            :{{ .Lastmod.Format "2006-01-02" }}
+                          </time>
+                        </div>
+                      </div>
+                      <div class="post-excerpt">
+                        {{ .Summary }}
+                      </div>
+                    </div>
+                  </a>
                 </div>
-              </a>
+              </div>
+            {{ end }}
+            <div class="pagination-index">
+              {{ template "_internal/pagination.html" . }}
             </div>
           </div>
-          {{ end }}
-          <div class="pagination-index">
-            {{ template "_internal/pagination.html" . }}
-          </div>
         </div>
-      </div>
-      <div class="col-md-4">
-        {{ block "sidebar" . }}
-        {{ end }}
+        <div class="col-md-4">
+          {{ block "sidebar" . }}
+          {{ end }}
+        </div>
       </div>
     </div>
   </div>
-</div>
 {{ end }}
