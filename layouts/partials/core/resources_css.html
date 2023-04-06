@@ -1,5 +1,4 @@
-{{ $googleFont := resources.GetRemote "https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" }}
 {{ $reboot := resources.Get "scss/reboot.scss" | resources.ToCSS }}
 {{ $main := resources.Get "css/main.css" }}
-{{ $bundledCss := slice $googleFont $reboot $main | resources.Concat "css/bundled.css" | resources.Minify }}
+{{ $bundledCss := slice $reboot $main | resources.Concat "css/bundled.css" | resources.Minify }}
 <link rel="stylesheet" href="{{ $bundledCss.RelPermalink }}" />
