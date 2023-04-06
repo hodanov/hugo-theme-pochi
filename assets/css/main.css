@@ -1963,3 +1963,13 @@ iframe {
       0 5px 5px -3px rgba(121, 198, 182, 0.4);
   }
 }
+
+/* ----- icon ----- */
+.icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+}
