@@ -1,6 +1,6 @@
-{{ $googleFont := resources.GetRemote "https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" }}
-{{ $rebootCss := resources.Get "scss/reboot.scss" | resources.ToCSS }}
-{{ $css := resources.Get "css/main.css" }}
+{{ $googleFont := resources.GetRemote "https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" | resources.Minify }}
+{{ $rebootCss := resources.Get "scss/reboot.scss" | resources.ToCSS | resources.Minify }}
+{{ $css := resources.Get "css/main.css" | resources.Minify }}
 <link rel="stylesheet" href="{{ $googleFont.RelPermalink }}" />
 <link rel="stylesheet" href="{{ $rebootCss.RelPermalink }}" />
 <link rel="stylesheet" href="{{ $css.RelPermalink }}" />
