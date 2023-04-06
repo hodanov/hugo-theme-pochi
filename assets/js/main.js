@@ -1,13 +1,3 @@
-const onReady = (callback) => {
-  if (document.readyState != "loading") callback();
-  else if (document.addEventListener)
-    document.addEventListener("DOMContentLoaded", callback);
-  else
-    document.attachEvent("onreadystatechange", function () {
-      if (document.readyState == "complete") callback();
-    });
-};
-
 function scrollSmoother() {
   var internalLinks = document.querySelectorAll('a[href*="#"]');
   for (let i = 0, len = internalLinks.length; i < len; i++) {
@@ -40,14 +30,20 @@ function scrollSmoother() {
 
 function sideNavBtnToggle() {
   const sideNavMenuBtn = document.querySelector("nav #menu-bar-btn");
+  const sideNavMenuIcon = document.querySelector(
+    "nav #menu-bar-btn .icon-menu"
+  );
   const sideNav = document.querySelector("#side-nav");
   const sideNavOverlayDiv = '<div id="sidenav-overlay"></div>';
   const sideNavOn = "side-nav-on";
   var isSideNavOn = false;
   document.addEventListener(
-    "click",
+    "touchstart",
     function (event) {
-      if (!isSideNavOn && event.target === sideNavMenuBtn) {
+      if (
+        !isSideNavOn &&
+        event.target.closest("nav #menu-bar-btn .icon-menu")
+      ) {
         isSideNavOn = true;
         Object.assign(sideNav.style, {
           transform: "translateX(0)",
@@ -158,6 +154,16 @@ function buildTableOfContents() {
     sideBar.appendChild(asideEl);
   }
 }
+
+const onReady = (callback) => {
+  if (document.readyState != "loading") callback();
+  else if (document.addEventListener)
+    document.addEventListener("DOMContentLoaded", callback);
+  else
+    document.attachEvent("onreadystatechange", function () {
+      if (document.readyState == "complete") callback();
+    });
+};
 
 onReady(() => {
   scrollSmoother();
