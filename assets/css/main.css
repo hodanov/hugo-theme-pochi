@@ -1972,4 +1972,5 @@ iframe {
   stroke-width: 0;
   stroke: currentColor;
   fill: currentColor;
+  margin-right: 0.25rem;
 }
