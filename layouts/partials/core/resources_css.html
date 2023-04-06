@@ -1,4 +1,12 @@
+{{ $googleFont := resources.GetRemote "https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" }}
+{{ $rebootCss := resources.Get "scss/reboot.scss" | resources.ToCSS }}
 {{ $css := resources.Get "css/main.css" }}
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.12/css/all.css" integrity="sha384-G0fIWCsCzJIMAVNQPfjH08cyYaUtMwjJwqiRKxxE/rx96Uroj1BtIQ6MLJuheaO9" crossorigin="anonymous">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Capriola&display=swap">
+<link
+  rel="stylesheet"
+  href="https://use.fontawesome.com/releases/v5.0.12/css/all.css"
+  integrity="sha384-G0fIWCsCzJIMAVNQPfjH08cyYaUtMwjJwqiRKxxE/rx96Uroj1BtIQ6MLJuheaO9"
+  crossorigin="anonymous"
+/>
+<link rel="stylesheet" href="{{ $googleFont.RelPermalink }}" />
+<link rel="stylesheet" href="{{ $rebootCss.RelPermalink }}" />
 <link rel="stylesheet" href="{{ $css.RelPermalink }}" />
