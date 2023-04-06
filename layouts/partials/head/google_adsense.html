@@ -1,3 +1,9 @@
-{{ with .Site.Params.GoogleAdsenseID }}
-  <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-{{ . }}" crossorigin="anonymous"></script>
+{{ if eq .Section "posts" }}
+  {{ with .Site.Params.GoogleAdsenseID }}
+    <script
+      async=""
+      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-{{ . }}"
+      crossorigin="anonymous"
+    ></script>
+  {{ end }}
 {{ end }}
