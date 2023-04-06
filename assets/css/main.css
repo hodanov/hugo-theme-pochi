@@ -13,9 +13,9 @@ html {
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue",
-    "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", Arial, Meiryo,
-    sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Noto Sans JP",
+    "Helvetica Neue", "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", Arial,
+    Meiryo, sans-serif;
   color: #424242;
   background-color: #f5f5f5;
   letter-spacing: 2px;
@@ -28,9 +28,28 @@ body {
   }
 }
 
+@media (min-width: 576px) {
+  .col-sm-4 {
+    flex: 0 0 auto;
+    width: 33.33333333%;
+  }
+}
+
 @media (min-width: 768px) {
   html {
     font-size: 14.5px;
+  }
+  .col-md-12 {
+    flex: 0 0 auto;
+    width: 100%;
+  }
+  .col-md-8 {
+    flex: 0 0 auto;
+    width: 66.66666667%;
+  }
+  .col-md-4 {
+    flex: 0 0 auto;
+    width: 33.33333333%;
   }
 }
 
@@ -43,11 +62,19 @@ body {
 .container-fluid {
   padding-left: 1rem;
   padding-right: 1rem;
+  margin-right: auto;
+  margin-left: auto;
 }
 
 .row {
+  display: flex;
+  flex-wrap: wrap;
   margin-right: -1rem;
   margin-left: -1rem;
+}
+
+.row > * {
+  max-width: 100%;
 }
 
 .col,
@@ -204,9 +231,62 @@ strong {
   border-color: #79c6b6;
 }
 
+.input-group {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  width: 100%;
+}
+
+.input-group > .form-control,
+.input-group > .form-floating,
+.input-group > .form-select {
+  position: relative;
+  flex: 1 1 auto;
+  width: 1%;
+  min-width: 0;
+  border-radius: 0.25rem;
+}
+
+.form-control {
+  display: block;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  width: 100%;
+  border-radius: 0.25rem;
+  margin-bottom: 1rem;
+}
+
+textarea:focus,
+input:focus {
+  outline: none;
+}
+
 .form-control:focus {
   border-color: #79c6b6;
   box-shadow: 0 0 0 0.2rem rgba(121, 198, 182, 0.25);
+}
+
+/* ----- Search form ----- */
+#search-for {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+#searchsubmit {
+  border: 1px solid;
+  padding: 0.375rem 0.75rem;
+  margin-left: -1px;
+  border-radius: 0rem 0.25rem 0.25rem 0rem;
 }
 
 /* -----List style----- */
@@ -403,7 +483,7 @@ header ul li .collapsible .collapsible-body {
   width: auto;
   font-size: 1.6rem;
   color: #424242;
-  font-family: "Capriola", "ヒラギノ角ゴ ProN W3", Hiragino Kaku Gothic ProN,
+  font-family: "Noto Sans JP", "ヒラギノ角ゴ ProN W3", Hiragino Kaku Gothic ProN,
     Meiryo, sans-serif;
 }
 
@@ -582,7 +662,7 @@ nav a.button-collapse i {
   color: #fff;
   text-shadow: 3px 3px 7px #555;
   font-weight: bold;
-  font-family: "Capriola", "ヒラギノ角ゴ ProN W3", Hiragino Kaku Gothic ProN,
+  font-family: "Noto Sans JP", "ヒラギノ角ゴ ProN W3", Hiragino Kaku Gothic ProN,
     Meiryo, sans-serif;
   position: relative;
 }
@@ -654,6 +734,10 @@ nav a.button-collapse i {
 }
 
 /* -----contents container----- */
+.centered {
+  margin: 0 auto;
+}
+
 .single-page > .columns {
   padding-top: 2rem;
   margin-bottom: 2rem;
@@ -844,6 +928,12 @@ nav a.button-collapse i {
 }
 
 /* -----page-nation----- */
+.pagination {
+  display: flex;
+  padding-left: 0;
+  list-style: none;
+}
+
 .pagination-index {
   margin-bottom: 3rem;
 }
@@ -854,8 +944,9 @@ nav a.button-collapse i {
 
 .pagination-index .pagination .page-item .page-link {
   border: none;
-  border-radius: 0.3rem;
+  border-radius: 0.25rem;
   color: #555;
+  padding: 0.5rem 0.75rem;
 }
 
 .pagination-index .pagination .page-item .page-link:hover {
@@ -1204,7 +1295,7 @@ footer ul {
   }
 }
 
-/* -----form----- */
+/* ----- Contact form ----- */
 .required {
   color: #ed929f;
 }
@@ -1741,12 +1832,6 @@ iframe {
 #scroll-to-top.fade-in {
   opacity: 1;
   bottom: 5rem;
-}
-
-/* -----Scroll to top----- */
-#searchsubmit {
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
 }
 
 /*----- Vendor prefix  */
