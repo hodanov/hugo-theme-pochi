@@ -27,7 +27,8 @@
                   class="btn btn-secondary"
                   value="Search"
                 >
-                  Search {{ partial "icon/search.html" }}
+                  Search
+                  {{ partial "icon/search.html" }}
                 </button>
               </div>
             </div>
@@ -66,31 +67,20 @@
                 {{ . }}
               </p>
             {{ end }}
-            {{ with .GithubLink }}
-              <div
-                style="display: inline-block; background-color: #24292e; border-radius: .3rem;"
-              >
-                <a
-                  href="{{ . }}"
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  style="color: #fff; padding: .5rem; display: block;"
-                  >GitHub</a
-                >
-              </div>
-            {{ end }}
-            {{ with .SpeakerdeckLink }}
-              <div
-                style="display: inline-block; background-color: #049287; border-radius: .3rem;"
-              >
-                <a
-                  href="{{ . }}"
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  style="color: #fff; padding: .5rem; display: block;"
-                  >Speaker Deck</a
-                >
-              </div>
+            {{ with .Links }}
+              <ul>
+                {{ range . }}
+                  <li>
+                    {{ partial "icon/link.html" }}
+                    <a
+                      href="{{ .link }}"
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      >{{ .name }}</a
+                    >
+                  </li>
+                {{ end }}
+              </ul>
             {{ end }}
           </div>
         {{ end }}

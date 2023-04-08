@@ -29,10 +29,6 @@ function scrollSmoother() {
 }
 
 function sideNavBtnToggle() {
-  const sideNavMenuBtn = document.querySelector("nav #menu-bar-btn");
-  const sideNavMenuIcon = document.querySelector(
-    "nav #menu-bar-btn .icon-menu"
-  );
   const sideNav = document.querySelector("#side-nav");
   const sideNavOverlayDiv = '<div id="sidenav-overlay"></div>';
   const sideNavOn = "side-nav-on";
@@ -62,7 +58,14 @@ function sideNavBtnToggle() {
           opacity: "0",
         });
         sideNav.classList.remove(sideNavOn);
-        document.querySelector("#sidenav-overlay").remove();
+        var sideNavOverlay = document.querySelector("#sidenav-overlay");
+        Object.assign(sideNavOverlay.style, {
+          opacity: "0",
+        });
+        // Wait time to prevent the trigger click event about elements under #sidenav-overlay.
+        setTimeout(function () {
+          sideNavOverlay.remove();
+        }, 300);
       }
     },
     false

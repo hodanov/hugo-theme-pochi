@@ -323,14 +323,6 @@ a,
   overflow: hidden;
 }
 
-#side-nav {
-  -webkit-transition: all 0.3s;
-  transition: all 0.3s;
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-  overflow: hidden;
-}
-
 /* -----Material design----- */
 .article-list .post-row,
 #scroll-to-top,
@@ -507,6 +499,11 @@ header #side-nav {
   backface-visibility: hidden;
   -webkit-transform: translateX(-105%);
   transform: translateX(-105%);
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  overflow: hidden;
 }
 
 #side-nav li > a {
@@ -522,13 +519,14 @@ header #side-nav {
 #sidenav-overlay {
   position: fixed;
   display: block;
-  opacity: 0;
+  opacity: 1;
   top: 0;
   left: 0;
   right: 0;
   height: 120vh;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 997;
+  transition: all 0.3s;
 }
 
 nav,
