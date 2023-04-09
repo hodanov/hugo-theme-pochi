@@ -10,3 +10,6 @@ min_version = "0.0.1"
 [author]
   name = "hodanov"
   homepage = "https://hodalog.com"
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"]

@@ -1,0 +1,70 @@
+{{ define "main" }}
+  <div class="main-content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-8" id="contents">
+          <div class="article-list">
+            <div id="search-results"></div>
+            <div class="search-loading">Loading...</div>
+            <script id="search-result-template" type="text/x-js-template">
+              <div class="row post-row"id="summary-${key}">
+                <div class="col-md-12">
+                  <a href="${link}">
+                    <div class="post-image-col">
+                      <div class="image-wrapper">
+                        <div
+                          class="div-cover"
+                          style="background-image: url({{ .Site.BaseURL }}${featuredImage})"
+                        ></div>
+                      </div>
+                    </div>
+                    <div class="post-title">
+                      <h2>${title}</h2>
+                    </div>
+                    <div class="post-text">
+                      <div class="post-info">
+                        <div class="kiji-date">
+                          <time
+                            datetime="${publishDate}"
+                          >
+                            {{ partial "icon/pencil.html" . }}
+                            :${publishDate}
+                          </time>
+                          |
+                          <time datetime="${lastmod}">
+                            {{ partial "icon/spinner.html" . }}
+                            :${lastmod}
+                          </time>
+                        </div>
+                      </div>
+                      <div class="post-excerpt">
+                        ${snippet}
+                      </div>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </script>
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.6.2/fuse.min.js"
+              integrity="sha512-Nqw1tH3mpavka9cQCc5zWWEZNfIPdOYyQFjlV1NvflEtQ0/XI6ZQ+H/D3YgJdqSUJlMLAPRj/oXlaHCFbFCjoQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js"
+              integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <div class="pagination-index"></div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          {{ block "sidebar" . }}
+          {{ end }}
+        </div>
+      </div>
+    </div>
+  </div>
+{{ end }}
