@@ -227,8 +227,8 @@ strong {
 .btn-primary,
 .btn-secondary {
   color: #555;
+  border: 1px solid #ced4da;
   background-color: #fff;
-  border-color: #ced4da;
 }
 
 .btn-primary:hover,
@@ -236,6 +236,7 @@ strong {
 #scroll-to-top {
   background-color: #79c6b6;
   border-color: #79c6b6;
+  color: #fff;
 }
 
 .input-group {
@@ -283,6 +284,13 @@ input:focus {
   box-shadow: 0 0 0 0.2rem rgba(121, 198, 182, 0.25);
 }
 
+/* ----- btn ----- */
+.btn-primary,
+.btn-secondary {
+  padding: 0.375rem 0.75rem;
+  border-radius: 0rem 0.25rem 0.25rem 0rem;
+}
+
 /* ----- Search form ----- */
 #search-query {
   border-top-right-radius: 0;
@@ -290,10 +298,7 @@ input:focus {
 }
 
 #searchsubmit {
-  border: 1px solid;
-  padding: 0.375rem 0.75rem;
   margin-left: -1px;
-  border-radius: 0rem 0.25rem 0.25rem 0rem;
 }
 
 /* -----List style----- */
@@ -1390,14 +1395,20 @@ article .kiji-tag li {
 
 article .kiji-tag li a {
   display: inline-block;
-  background-color: #79c6b6;
-  color: #fff;
+  color: #555555;
   font-size: 0.75rem !important;
   letter-spacing: 1px;
   text-transform: uppercase;
   padding: 0.5rem;
   margin-right: 0.5rem;
   border-radius: 2px;
+  border: 1px solid #ced4da;
+}
+
+article .kiji-tag li a:hover {
+  background-color: #79c6b6;
+  border-color: #79c6b6;
+  color: #fff;
 }
 
 article .post-info {
@@ -1525,8 +1536,12 @@ pre {
   color: #fafafa;
   overflow-x: auto;
   word-wrap: normal;
-  font-size: 0.85em;
   font-family: Consolas, Liberation Mono, Menlo, Courier, monospace;
+}
+
+pre > code,
+code {
+  font-size: 1rem;
 }
 
 p > code,
@@ -1535,7 +1550,6 @@ ol li > code {
   border: 1px solid #aaa;
   color: #424242;
   padding: 0.2rem 0.4rem;
-  font-size: 90%;
   background-color: #f8f9fa;
   border: 1px solid #aaa;
   border-radius: 0.25rem;
@@ -1883,6 +1897,7 @@ iframe {
   #sidebar .tagcloud a,
   #sidebar #side .index-outline,
   #search-for:focus,
+  article .kiji-tag li a,
   .pagination-index .pagination .page-item .page-link {
     background-color: #2f2f2f;
     color: #c9d1d9;
