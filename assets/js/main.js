@@ -77,6 +77,9 @@ function buildTableOfContents() {
   if (document.querySelector(".single-page") !== null) {
     // Get the first h2 element under the #contents element
     var firstH2 = document.querySelector("#contents h2");
+    if (firstH2 === null) {
+      return;
+    }
     // Create the table of contents structure
     var tableOfContents =
       '<div class="index-outline"><p><span>記事内目次</span></p><ol>';
