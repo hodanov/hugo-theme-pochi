@@ -1876,8 +1876,7 @@ iframe {
 }
 
 /* google adsense */
-.myad,
-.myad2 {
+.adsense {
   overflow: hidden;
 }
 

@@ -40,7 +40,7 @@
         {{ partial "single/sns_btn.html" . }}
       </div>
       {{ with .Site.Params.GoogleAdsenseCode }}
-        <div>{{ . | safeHTML }}</div>
+        <div class="adsense">{{ . | safeHTML }}</div>
       {{ end }}
     </article>
   </div>
