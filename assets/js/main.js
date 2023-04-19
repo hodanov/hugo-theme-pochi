@@ -1,26 +1,33 @@
-function scrollSmoother() {
-  // Smooth scroll for internal links
-  var internalLinks = document.querySelectorAll('a[href*="#"]');
-  for (let i = 0, len = internalLinks.length; i < len; i++) {
-    internalLinks[i].addEventListener("click", (event) => {
-      event.preventDefault();
+function smoothScroll() {
+  const scrollToTopBtn = document.getElementById("scroll-to-top");
 
-      if (internalLinks[i].getAttribute("href") === "#top") {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-        return false;
-      } else {
-        let targetEl = document.querySelector(internalLinks[i].hash);
-        window.scrollTo({
-          top: targetEl.offsetTop + 60,
-          behavior: "smooth",
-        });
-      }
+  function scrollToTarget(targetEl) {
+    window.scrollTo({
+      top: targetEl.offsetTop - 15,
+      behavior: "smooth",
     });
   }
 
-  // Scroll to top
-  var scrollToTopBtn = document.querySelector("#scroll-to-top");
-  window.addEventListener("scroll", () => {
+  function handleLinkClick(event) {
+    event.preventDefault();
+
+    const href = event.target.getAttribute("href");
+    if (href === "#top") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      const targetEl = document.querySelector(href);
+      scrollToTarget(targetEl);
+    }
+  }
+
+  // Add a single click event listener on the parent, and delegate events to children
+  document.addEventListener("click", (event) => {
+    if (event.target.matches('a[href*="#"]')) {
+      handleLinkClick(event);
+    }
+  });
+
+  document.addEventListener("scroll", () => {
     if (window.scrollY >= 500) {
       scrollToTopBtn.classList.add("fade-in");
     } else {
@@ -295,7 +302,7 @@ const onReady = (callback) => {
 };
 
 onReady(() => {
-  scrollSmoother();
+  smoothScroll();
   toggleSideNav();
   buildTableOfContents();
   initSearch();
