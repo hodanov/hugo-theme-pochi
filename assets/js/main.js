@@ -1,4 +1,5 @@
 function scrollSmoother() {
+  // Smooth scroll for internal links
   var internalLinks = document.querySelectorAll('a[href*="#"]');
   for (let i = 0, len = internalLinks.length; i < len; i++) {
     internalLinks[i].addEventListener("click", (event) => {
@@ -28,48 +29,38 @@ function scrollSmoother() {
   });
 }
 
-function sideNavBtnToggle() {
+function toggleSideNav() {
   const sideNav = document.querySelector("#side-nav");
-  const sideNavOverlayDiv = '<div id="sidenav-overlay"></div>';
-  const sideNavOn = "side-nav-on";
-  var isSideNavOn = false;
-  document.addEventListener(
-    "touchstart",
-    function (event) {
-      if (
-        !isSideNavOn &&
-        event.target.closest("nav #menu-bar-btn .icon-menu")
-      ) {
-        isSideNavOn = true;
-        Object.assign(sideNav.style, {
-          transform: "translateX(0)",
-          opacity: "1",
-        });
-        sideNav.classList.add(sideNavOn);
-        document.body.insertAdjacentHTML("beforeend", sideNavOverlayDiv);
-      }
-      if (
-        isSideNavOn &&
-        event.target === document.querySelector("#sidenav-overlay")
-      ) {
-        isSideNavOn = false;
-        Object.assign(sideNav.style, {
-          transform: "translateX(-105%)",
-          opacity: "0",
-        });
-        sideNav.classList.remove(sideNavOn);
-        var sideNavOverlay = document.querySelector("#sidenav-overlay");
-        Object.assign(sideNavOverlay.style, {
-          opacity: "0",
-        });
-        // Wait time to prevent the trigger click event about elements under #sidenav-overlay.
-        setTimeout(function () {
-          sideNavOverlay.remove();
-        }, 300);
-      }
-    },
-    false
-  );
+  const menuIcon = ".icon-menu";
+  const isActiveClass = "is-active";
+
+  let sideNavOverlay;
+  let isSideNavOpen = false;
+
+  document.addEventListener("click", (event) => {
+    if (!isSideNavOpen && event.target.closest(menuIcon)) {
+      isSideNavOpen = true;
+      sideNav.style.cssText = `
+        opacity: 1;
+      `;
+      sideNav.classList.add(isActiveClass);
+      document.body.insertAdjacentHTML(
+        "beforeend",
+        '<div id="side-nav-overlay"></div>'
+      );
+      sideNavOverlay = document.querySelector("#side-nav-overlay");
+    }
+
+    if (isSideNavOpen && event.target === sideNavOverlay) {
+      isSideNavOpen = false;
+      sideNav.style.cssText = `
+        opacity: 0;
+      `;
+      sideNav.classList.remove(isActiveClass);
+      sideNavOverlay.style.opacity = "0";
+      setTimeout(() => sideNavOverlay.remove(), 300);
+    }
+  });
 }
 
 function buildTableOfContents() {
@@ -305,7 +296,7 @@ const onReady = (callback) => {
 
 onReady(() => {
   scrollSmoother();
-  sideNavBtnToggle();
+  toggleSideNav();
   buildTableOfContents();
   initSearch();
 });

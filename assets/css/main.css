@@ -490,7 +490,7 @@ header ul li .collapsible .collapsible-body {
     sans-serif;
 }
 
-header #side-nav {
+#side-nav {
   position: fixed;
   width: 280px;
   left: 0;
@@ -517,6 +517,11 @@ header #side-nav {
   overflow: hidden;
 }
 
+#side-nav.is-active {
+  -webkit-transform: translateX(0);
+  transform: translateX(0);
+}
+
 #side-nav li > a {
   color: rgba(0, 0, 0, 0.87);
   display: block;
@@ -527,7 +532,7 @@ header #side-nav {
   padding: 0 2rem;
 }
 
-#sidenav-overlay {
+#side-nav-overlay {
   position: fixed;
   display: block;
   opacity: 1;
