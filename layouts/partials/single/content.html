@@ -36,9 +36,6 @@
       <div>
         {{ .Content }}
       </div>
-      <div class="share">
-        {{ partial "single/sns_btn.html" . }}
-      </div>
       {{ with .Site.Params.GoogleAdsenseCode }}
         <div class="adsense">{{ . | safeHTML }}</div>
       {{ end }}
