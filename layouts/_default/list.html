@@ -28,28 +28,30 @@
                       <h2>{{ .Title }}</h2>
                     </div>
                     <div class="post-text">
-                      <div class="post-info">
-                        <div class="kiji-date">
-                          {{ with .PublishDate }}
-                            <time datetime="{{ .Format "2006-01-02" }}">
+                      {{ if .PublishDate }}
+                        <div class="post-info">
+                          <div class="kiji-date">
+                            <time
+                              datetime="{{ .PublishDate.Format "2006-01-02" }}"
+                            >
                               <svg class="icon icon-pencil">
                                 <use xlink:href="#icon-pencil"></use>
                               </svg>
-                              :{{ .Format "2006-01-02" }}
+                              :{{ .PublishDate.Format "2006-01-02" }}
                             </time>
-                          {{ end }}
-                          {{ with .Lastmod }}
-                            |
-                            <time datetime="{{ .Format "2006-01-02" }}">
-                              <svg class="icon icon-spinner">
-                                <use xlink:href="#icon-spinner"></use>
-                              </svg>
-                              :
-                              {{ .Format "2006-01-02" }}
-                            </time>
-                          {{ end }}
+                            {{ with .Lastmod }}
+                              |
+                              <time datetime="{{ .Format "2006-01-02" }}">
+                                <svg class="icon icon-spinner">
+                                  <use xlink:href="#icon-spinner"></use>
+                                </svg>
+                                :
+                                {{ .Format "2006-01-02" }}
+                              </time>
+                            {{ end }}
+                          </div>
                         </div>
-                      </div>
+                      {{ end }}
                       <div class="post-excerpt">
                         {{ .Summary }}
                       </div>
