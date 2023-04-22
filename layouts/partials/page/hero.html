@@ -1,17 +1,19 @@
-{{ if .Params.featuredImage }}
-<div class="parallax-container">
-  <div class="hero image-wrapper">
-    <div class="div-cover" style="background-image: url({{ .Site.BaseURL }}{{ .Params.featuredImage }})">
-    </div>
-    <div class="container-fluid" id="parallax-object">
-      <div class="row">
-        <div class="col-md-12">
-          <div class="hero-caption">
-            <h1>{{ .Title }}</h1>
+{{ if and (.Params.featuredImage) (ne .Params.featuredImage "") }}
+  <div class="parallax-container">
+    <div class="hero image-wrapper">
+      <div
+        class="div-cover"
+        style="background-image: url({{ .Site.BaseURL }}{{ .Params.featuredImage }})"
+      ></div>
+      <div class="container-fluid" id="parallax-object">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="hero-caption">
+              <h1>{{ .Title }}</h1>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 {{ end }}

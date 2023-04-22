@@ -14,37 +14,44 @@
               <div class="row post-row">
                 <div class="col-md-12">
                   <a href="{{ .Permalink }}">
-                    <div class="post-image-col">
-                      <div class="image-wrapper">
-                        <div
-                          class="div-cover"
-                          style="background-image: url({{ .Site.BaseURL }}{{ .Params.featuredImage }})"
-                        ></div>
+                    {{ if and (.Params.featuredImage) (ne .Params.featuredImage "") }}
+                      <div class="post-image-col">
+                        <div class="image-wrapper">
+                          <div
+                            class="div-cover"
+                            style="background-image: url({{ .Site.BaseURL }}{{ .Params.featuredImage }})"
+                          ></div>
+                        </div>
                       </div>
-                    </div>
+                    {{ end }}
                     <div class="post-title">
                       <h2>{{ .Title }}</h2>
                     </div>
                     <div class="post-text">
-                      <div class="post-info">
-                        <div class="kiji-date">
-                          <time
-                            datetime="{{ .PublishDate.Format "2006-01-02" }}"
-                          >
-                            <svg class="icon icon-pencil">
-                              <use xlink:href="#icon-pencil"></use>
-                            </svg>
-                            :{{ .PublishDate.Format "2006-01-02" }}
-                          </time>
-                          |
-                          <time datetime="{{ .Lastmod.Format "2006-01-02" }}">
-                            <svg class="icon icon-spinner">
-                              <use xlink:href="#icon-spinner"></use>
-                            </svg>
-                            :{{ .Lastmod.Format "2006-01-02" }}
-                          </time>
+                      {{ if .PublishDate }}
+                        <div class="post-info">
+                          <div class="kiji-date">
+                            <time
+                              datetime="{{ .PublishDate.Format "2006-01-02" }}"
+                            >
+                              <svg class="icon icon-pencil">
+                                <use xlink:href="#icon-pencil"></use>
+                              </svg>
+                              :{{ .PublishDate.Format "2006-01-02" }}
+                            </time>
+                            {{ with .Lastmod }}
+                              |
+                              <time datetime="{{ .Format "2006-01-02" }}">
+                                <svg class="icon icon-spinner">
+                                  <use xlink:href="#icon-spinner"></use>
+                                </svg>
+                                :
+                                {{ .Format "2006-01-02" }}
+                              </time>
+                            {{ end }}
+                          </div>
                         </div>
-                      </div>
+                      {{ end }}
                       <div class="post-excerpt">
                         {{ .Summary }}
                       </div>

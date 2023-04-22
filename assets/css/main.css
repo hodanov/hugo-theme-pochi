@@ -16,6 +16,7 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue",
     "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", Arial, Meiryo,
     sans-serif;
+  font-weight: 300;
   color: #424242;
   background-color: #f5f5f5;
   letter-spacing: 2px;
@@ -803,7 +804,7 @@ nav a.button-collapse i {
 .article-list .post-info,
 .mymenu-related .post-info {
   padding: 0;
-  margin: 0.5rem 0;
+  margin: 1rem 0;
   display: block;
   color: #555;
   font-size: 0.75rem;
@@ -1759,7 +1760,7 @@ iframe {
   #sidebar h2 span,
   footer h2 span,
   .pagination-index .pagination .page-item.active .page-link {
-    background-color: #0d1117;
+    background-color: #1d1d1d;
   }
 
   pre,
@@ -1823,4 +1824,8 @@ iframe {
 .icon-search {
   margin-right: 0;
   margin-left: 0.25rem;
+}
+
+mark {
+  border-radius: 0.25rem;
 }
