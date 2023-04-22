@@ -28,7 +28,9 @@
                   value="Search"
                 >
                   Search
-                  {{ partial "icon/search.html" }}
+                  <svg class="icon icon-search">
+                    <use xlink:href="#icon-search"></use>
+                  </svg>
                 </button>
               </div>
             </div>
@@ -71,7 +73,9 @@
               <ul>
                 {{ range . }}
                   <li>
-                    {{ partial "icon/link.html" }}
+                    <svg class="icon icon-link">
+                      <use xlink:href="#icon-link"></use>
+                    </svg>
                     <a
                       href="{{ .link }}"
                       target="_blank"

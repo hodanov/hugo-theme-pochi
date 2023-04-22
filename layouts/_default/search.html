@@ -27,12 +27,16 @@
                           <time
                             datetime="${publishDate}"
                           >
-                            {{ partial "icon/pencil.html" . }}
+                            <svg class="icon icon-pencil">
+                              <use xlink:href="#icon-pencil"></use>
+                            </svg>
                             :${publishDate}
                           </time>
                           |
                           <time datetime="${lastmod}">
-                            {{ partial "icon/spinner.html" . }}
+                            <svg class="icon icon-spinner">
+                              <use xlink:href="#icon-spinner"></use>
+                            </svg> 
                             :${lastmod}
                           </time>
                         </div>
