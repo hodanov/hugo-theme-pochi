@@ -1,11 +1,15 @@
 {{ define "header" }}
   <script>
-    if (localStorage.getItem("pref-theme") === "dark") {
-      document.body.classList.add("dark");
-    } else if (localStorage.getItem("pref-theme") === "light") {
-      document.body.classList.remove("dark");
-    } else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-      document.body.classList.add("dark");
+    const prefersDarkMode = window.matchMedia("(prefers-color-scheme: dark)");
+    const storedTheme = localStorage.getItem("pref-theme");
+    const body = document.body;
+
+    if (storedTheme) {
+      body.classList.toggle("dark", storedTheme === "dark");
+    } else {
+      turnDarkModeOn = prefersDarkMode.matches;
+      body.classList.toggle("dark", turnDarkModeOn);
+      localStorage.setItem("pref-theme", turnDarkModeOn ? "dark" : "light");
     }
   </script>
   <header>

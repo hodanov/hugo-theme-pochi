@@ -71,17 +71,21 @@ function toggleSideNav() {
 }
 
 function toggleTheme() {
-  document
-    .getElementById("theme-toggle-switch")
-    .addEventListener("click", () => {
-      if (document.body.classList.contains("dark")) {
-        document.body.classList.remove("dark");
-        localStorage.setItem("pref-theme", "light");
-      } else {
-        document.body.classList.add("dark");
-        localStorage.setItem("pref-theme", "dark");
-      }
-    });
+  const themeSwitch = document.getElementById("theme-toggle-switch");
+  themeSwitch.addEventListener("click", () => {
+    const body = document.body;
+    const isDarkMode = body.classList.contains("dark");
+    body.classList.toggle("dark");
+    localStorage.setItem("pref-theme", isDarkMode ? "light" : "dark");
+  });
+}
+
+function handleThemeChange() {
+  const prefersDarkMode = window.matchMedia("(prefers-color-scheme: dark)");
+  prefersDarkMode.addEventListener("change", (e) => {
+    document.body.classList.toggle("dark", e.matches);
+    localStorage.setItem("pref-theme", e.matches ? "dark" : "light");
+  });
 }
 
 function buildTableOfContents() {
@@ -319,6 +323,7 @@ onReady(() => {
   smoothScroll();
   toggleSideNav();
   toggleTheme();
+  handleThemeChange();
   buildTableOfContents();
   initSearch();
 });
