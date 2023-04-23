@@ -39,14 +39,8 @@
         {{ with .Site.Params.Profile }}
           <h2 class="widgettitle"><span>About me</span></h2>
           <div class="textwidget custom-html-widget">
-            <div
-              class="profile-flex-box"
-              style="  display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; display: flex;  -webkit-flex-flow: row wrap; justify-content: space-around;"
-            >
-              <div
-                id="profile-image"
-                style="float: left; width: 40%; height: 40%; width: 40%; margin: 0 auto; background-color: #fff; border-radius: 50%; overflow: hidden;"
-              >
+            <div class="profile-flex-box">
+              <div id="profile-image">
                 <img
                   src="{{ .ProfileImage }}"
                   alt="profile image"
