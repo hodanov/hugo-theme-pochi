@@ -70,6 +70,20 @@ function toggleSideNav() {
   });
 }
 
+function toggleTheme() {
+  document
+    .getElementById("theme-toggle-switch")
+    .addEventListener("click", () => {
+      if (document.body.classList.contains("dark")) {
+        document.body.classList.remove("dark");
+        localStorage.setItem("pref-theme", "light");
+      } else {
+        document.body.classList.add("dark");
+        localStorage.setItem("pref-theme", "dark");
+      }
+    });
+}
+
 function buildTableOfContents() {
   // Check if the page has a class named 'single-page'
   if (document.querySelector(".single-page") !== null) {
@@ -304,6 +318,7 @@ const onReady = (callback) => {
 onReady(() => {
   smoothScroll();
   toggleSideNav();
+  toggleTheme();
   buildTableOfContents();
   initSearch();
 });

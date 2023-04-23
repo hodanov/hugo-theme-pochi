@@ -1,52 +1,77 @@
 {{ define "header" }}
-<header>
-  <div class="navbar-fixed">
-    <nav>
-      <div class="nav-wrapper container-fluid">
-        <a id="logo-container" href="{{ .Site.BaseURL }}" class="brand-logo">{{ .Site.Title }}</a>
-        <div id="menu-bar-btn">
-          <svg class="icon icon-menu">
-            <use xlink:href="#icon-menu"></use>
-          </svg>
+  <script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+      document.body.classList.add("dark");
+    } else if (localStorage.getItem("pref-theme") === "light") {
+      document.body.classList.remove("dark");
+    } else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+      document.body.classList.add("dark");
+    }
+  </script>
+  <header>
+    <div class="navbar-fixed">
+      <nav>
+        <div class="nav-wrapper container-fluid">
+          <a id="logo-container" href="{{ .Site.BaseURL }}" class="brand-logo"
+            >{{ .Site.Title }}</a
+          >
+          <div id="theme-toggle-switch-container">
+            <button id="theme-toggle-switch">
+              <svg class="icon icon-light">
+                <use xlink:href="#icon-light"></use>
+              </svg>
+              <svg class="icon icon-dark">
+                <use xlink:href="#icon-dark"></use>
+              </svg>
+            </button>
+          </div>
+          <div id="menu-bar-btn">
+            <svg class="icon icon-menu">
+              <use xlink:href="#icon-menu"></use>
+            </svg>
+          </div>
+          <div class="menu-global-nav-container">
+            <ul id="menu-global-nav">
+              {{ range .Site.Menus.main }}
+                {{ if .HasChildren }}
+                  <li class="dropdown">
+                    <a href="{{ .URL }}">{{ .Name }}</a>
+                    <ul class="dropdown-list">
+                      {{ range .Children }}
+                        <li><a href="{{ .URL }}">{{ .Name }}</a></li>
+                      {{ end }}
+                    </ul>
+                  </li>
+                {{ else }}
+                  <li><a href="{{ .URL }}">{{ .Name }}</a></li>
+                {{ end }}
+              {{ end }}
+            </ul>
+          </div>
         </div>
-        <div class="menu-global-nav-container">
-          <ul id="menu-global-nav">
-            {{ range .Site.Menus.main }}
-            {{ if .HasChildren }}
-            <li class="dropdown">
+      </nav>
+    </div>
+    <div
+      id="side-nav"
+      class="menu-global-nav-for-phone-container"
+      style="opacity: 0;"
+    >
+      <ul id="menu-global-nav-for-phone" class="menu">
+        {{ range .Site.Menus.main }}
+          {{ if .HasChildren }}
+            <li>
               <a href="{{ .URL }}">{{ .Name }}</a>
-              <ul class="dropdown-list">
+              <ul>
                 {{ range .Children }}
-                <li><a href="{{ .URL }}">{{ .Name }}</a></li>
+                  <li><a href="{{ .URL }}">{{ .Name }}</a></li>
                 {{ end }}
               </ul>
             </li>
-            {{ else }}
+          {{ else }}
             <li><a href="{{ .URL }}">{{ .Name }}</a></li>
-            {{ end }}
-            {{ end }}
-          </ul>
-        </div>
-      </div>
-    </nav>
-  </div>
-  <div id="side-nav" class="menu-global-nav-for-phone-container" style="opacity: 0;">
-    <ul id="menu-global-nav-for-phone" class="menu">
-      {{ range .Site.Menus.main }}
-      {{ if .HasChildren }}
-      <li>
-        <a href="{{ .URL }}">{{ .Name }}</a>
-        <ul>
-          {{ range .Children }}
-          <li><a href="{{ .URL }}">{{ .Name }}</a></li>
           {{ end }}
-        </ul>
-      </li>
-      {{ else }}
-      <li><a href="{{ .URL }}">{{ .Name }}</a></li>
-      {{ end }}
-      {{ end }}
-    </ul>
-  </div>
-</header>
+        {{ end }}
+      </ul>
+    </div>
+  </header>
 {{ end }}
