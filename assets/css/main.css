@@ -1800,8 +1800,7 @@ body.dark,
   color: #79c6b6;
 }
 
-.dark html,
-.dark body,
+body.dark,
 .dark .main-content,
 .dark .breadcrumb-box,
 .dark .breadcrumb,
