@@ -284,11 +284,6 @@ input:focus {
   outline: none;
 }
 
-.form-control:focus {
-  border-color: #79c6b6;
-  box-shadow: 0 0 0 0.2rem rgba(121, 198, 182, 0.25);
-}
-
 /* ----- btn ----- */
 .btn-primary,
 .btn-secondary {
@@ -333,11 +328,21 @@ input:focus {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
   border: none;
+  padding: 2rem 1rem 0.5rem 1rem;
+  margin-bottom: 0;
 }
 
 #searchsubmit {
   margin-left: -1px;
   border: none;
+  height: 100%;
+}
+
+#search-label {
+  position: absolute;
+  z-index: 1;
+  top: 0.25rem;
+  left: 1rem;
 }
 
 /* -----List style----- */
@@ -1583,7 +1588,9 @@ body.dark,
 .dark nav,
 .dark #theme-toggle-switch,
 .dark #sidebar a,
-.dark .index-outline ol li a {
+.dark .index-outline ol li a,
+.dark footer p.copyright,
+.dark footer .copyright a {
   color: #c9d1d9;
 }
 
