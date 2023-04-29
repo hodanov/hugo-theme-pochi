@@ -16,12 +16,11 @@
                   <a href="{{ .Permalink }}">
                     {{ if and (.Params.featuredImage) (ne .Params.featuredImage "") }}
                       <div class="post-image-col">
-                        <div class="image-wrapper">
-                          <div
-                            class="div-cover"
-                            style="background-image: url({{ .Site.BaseURL }}{{ .Params.featuredImage }})"
-                          ></div>
-                        </div>
+                        {{ with .Params.featuredImage }}
+                          <div class="featured-image-wrapper">
+                            {{ partial "atoms/picture.html" (dict "image" (printf "/%s" .) "alt" "featured image") }}
+                          </div>
+                        {{ end }}
                       </div>
                     {{ end }}
                     <div class="post-title">

@@ -35,12 +35,11 @@
         </div>
       {{ end }}
       {{ if and (.Params.featuredImage) (ne .Params.featuredImage "") }}
-        <div class="image-wrapper icatch">
-          <div
-            class="div-cover"
-            style="background-image: url({{ .Site.BaseURL }}{{ .Params.featuredImage }})"
-          ></div>
-        </div>
+        {{ with .Params.featuredImage }}
+          <div class="featured-image-wrapper golden-ratio">
+            {{ partial "atoms/picture.html" (dict "image" (printf "/%s" .) "alt" "featured image") }}
+          </div>
+        {{ end }}
       {{ end }}
       <div>
         {{ .Content }}

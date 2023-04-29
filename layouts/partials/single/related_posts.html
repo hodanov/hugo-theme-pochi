@@ -12,12 +12,11 @@
           {{ range $posts }}
             <div class="col-sm-4 mymenu-related">
               <a href="{{ .Permalink }}">
-                <div class="image-wrapper">
-                  <div
-                    class="div-cover"
-                    style="background-image: url({{ .Site.BaseURL }}{{ .Params.featuredImage }})"
-                  ></div>
-                </div>
+                {{ with .Params.featuredImage }}
+                  <div class="featured-image-wrapper golden-ratio">
+                    {{ partial "atoms/picture.html" (dict "image" (printf "/%s" .) "alt" "featured image") }}
+                  </div>
+                {{ end }}
                 <div class="text">
                   {{ .Title }}
                   <div class="post-info">
