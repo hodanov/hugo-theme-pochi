@@ -15,13 +15,13 @@
     {{ $jpgPath := replace .Destination (printf ".%s" $type) ".jpg" }}
     {{ $jpgPathStatic := printf "static/%s" $jpgPath }}
     {{ if (fileExists $jpgPathStatic) }}
-      {{ $imgSrc = $jpgPathStatic }}
+      {{ $imgSrc = $jpgPath }}
     {{ end }}
 
     {{ $pngPath := replace .Destination (printf ".%s" $type) ".png" }}
     {{ $pngPathStatic := printf "static/%s" $pngPath }}
     {{ if (fileExists $pngPathStatic) }}
-      {{ $imgSrc = $pngPathStatic }}
+      {{ $imgSrc = $pngPath }}
     {{ end }}
   {{ else }}
     {{ $imgSrc = (.Destination | safeURL) }}
