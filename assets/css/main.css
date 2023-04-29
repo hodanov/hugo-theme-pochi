@@ -1384,6 +1384,10 @@ img {
   padding-top: 61.8%;
 }
 
+picture {
+  display: block;
+}
+
 /* for code block */
 pre {
   border: 0;
