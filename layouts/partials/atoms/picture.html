@@ -1,0 +1,31 @@
+{{/* TODO: Fix it to work on both with '/' and without '/' */}}
+<picture>
+  {{ $isAVIF := eq (path.Ext .image) ".avif" }}
+  {{ $isWebP := eq (path.Ext .image) ".webp" }}
+  {{ $imgSrc := "" }}
+
+  {{ if or $isAVIF $isWebP }}
+    {{ $type := "" }}
+    {{ if $isAVIF }}
+      {{ $type = "avif" }}
+    {{ else if $isWebP }}
+      {{ $type = "webp" }}
+    {{ end }}
+    <source srcset="{{ .image }}" type="image/{{ $type }}" />
+
+    {{ $jpgPath := replace .image (printf ".%s" $type) ".jpg" }}
+    {{ $jpgPathStatic := printf "static/%s" $jpgPath }}
+    {{ if (fileExists $jpgPathStatic) }}
+      {{ $imgSrc = $jpgPath }}
+    {{ end }}
+
+    {{ $pngPath := replace .image (printf ".%s" $type) ".png" }}
+    {{ $pngPathStatic := printf "static/%s" $pngPath }}
+    {{ if (fileExists $pngPathStatic) }}
+      {{ $imgSrc = $pngPath }}
+    {{ end }}
+  {{ else }}
+    {{ $imgSrc = .image }}
+  {{ end }}
+  <img src="{{ $imgSrc }}" {{ with .alt }}alt="{{ . }}"{{ end }} />
+</picture>

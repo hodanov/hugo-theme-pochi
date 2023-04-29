@@ -1384,6 +1384,24 @@ img {
   padding-top: 61.8%;
 }
 
+.featured-image-wrapper picture {
+  position: relative;
+  width: 100%;
+  padding-bottom: 71.4286%;
+  overflow: hidden;
+}
+
+.featured-image-wrapper.golden-ratio picture {
+  padding-bottom: 61.8%;
+}
+
+.featured-image-wrapper picture img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 picture {
   display: block;
 }
