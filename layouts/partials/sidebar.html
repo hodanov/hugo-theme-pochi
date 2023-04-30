@@ -2,81 +2,13 @@
   <div id="sidebar">
     <div id="side">
       <aside>
-        <form
-          role="search"
-          method="GET"
-          id="searchform"
-          class="searchform"
-          action="/search"
-        >
-          <div class="form-group ">
-            <div class="input-group">
-              <label for="search-query" id="search-label">Search</label>
-              <input
-                type="text"
-                id="search-query"
-                class="form-control"
-                value=""
-                name="q"
-              />
-              <div class="input-group-btn">
-                <button
-                  type="submit"
-                  id="searchsubmit"
-                  class="btn btn-secondary"
-                  value="Search"
-                  aria-label="searchsubmit"
-                >
-                  <svg class="icon icon-search">
-                    <use xlink:href="#icon-search"></use>
-                  </svg>
-                </button>
-              </div>
-            </div>
-          </div>
-        </form>
+        {{ partial "atoms/search_form.html" }}
       </aside>
-      <aside>
-        {{ with .Site.Params.Profile }}
-          <h2 class="widgettitle"><span>About me</span></h2>
-          <div class="textwidget custom-html-widget">
-            <div class="profile-flex-box">
-              <div id="profile-image">
-                {{ partial "atoms/picture.html" (dict "image" .ProfileImage "alt" .Name) }}
-              </div>
-              <div
-                class="profile-header"
-                style="display: inline-block; width: 60%; margin: auto; padding-left: 5%;"
-              >
-                <h3>{{ .Name }}</h3>
-              </div>
-            </div>
-            <br />
-            {{ with .Introduction }}
-              <p>
-                {{ . }}
-              </p>
-            {{ end }}
-            {{ with .Links }}
-              <ul>
-                {{ range . }}
-                  <li>
-                    <svg class="icon icon-link">
-                      <use xlink:href="#icon-link"></use>
-                    </svg>
-                    <a
-                      href="{{ .link }}"
-                      target="_blank"
-                      rel="noreferrer noopener"
-                      >{{ .name }}</a
-                    >
-                  </li>
-                {{ end }}
-              </ul>
-            {{ end }}
-          </div>
-        {{ end }}
-      </aside>
+      {{ with .Site.Params.Profile }}
+        <aside>
+          {{ partial "atoms/profile.html" . }}
+        </aside>
+      {{ end }}
     </div>
   </div>
 {{ end }}
