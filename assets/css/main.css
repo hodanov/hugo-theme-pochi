@@ -1599,7 +1599,6 @@ iframe {
 .dark #sidebar .tagcloud a,
 .dark #sidebar #side .index-outline,
 .dark #search-for:focus,
-.dark article .kiji-tag li a,
 .dark .pagination-index .pagination .page-item .page-link {
   background-color: #2f2f2f;
   color: #c9d1d9;
@@ -1612,6 +1611,7 @@ body.dark,
 .dark .article-list .post-info,
 .dark .mymenu-related .post-info,
 .dark .article-list .post-excerpt,
+.dark article .kiji-tag li a,
 .dark nav ul a,
 .dark nav,
 .dark #side-nav ul a,
