@@ -560,7 +560,7 @@ header ul li .collapsible .collapsible-body {
   height: calc(100% + 60px);
   height: -moz-calc(100%);
   padding-bottom: 60px;
-  background-color: #fff;
+  background-color: #f5f5f5;
   z-index: 999;
   overflow-y: auto;
   will-change: transform;
