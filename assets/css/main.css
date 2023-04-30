@@ -488,6 +488,10 @@ nav .dropdown-list li a:hover {
   padding-left: 48px;
 }
 
+#side-nav-option {
+  margin: 0.5rem 1rem;
+}
+
 i.right {
   margin: 0;
 }
@@ -1603,6 +1607,7 @@ body.dark,
 .dark .article-list .post-excerpt,
 .dark nav ul a,
 .dark nav,
+.dark #side-nav ul a,
 .dark #theme-toggle-switch,
 .dark #sidebar a,
 .dark .index-outline ol li a,
@@ -1625,6 +1630,7 @@ body.dark,
 }
 
 body.dark,
+.dark #side-nav,
 .dark .main-content,
 .dark .breadcrumb-box,
 .dark .breadcrumb,
