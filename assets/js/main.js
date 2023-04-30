@@ -237,6 +237,56 @@ function executeSearch(searchQuery) {
   });
 }
 
+// urlExists() returns 'true' if the request was successful, 'false' if it was a 404.
+function urlExists(url) {
+  let http = new XMLHttpRequest();
+  http.open("HEAD", url, false);
+  http.send();
+  if (http.status != 404) return true;
+  else return false;
+}
+
+// TODO: Implement a makeFeaturedImageContainer.
+function makeFeaturedImageContainer(featuredImageURL) {
+  let container = "";
+  if (featuredImageURL !== "") {
+    const fileExtension = featuredImageURL.match(
+      /\.([0-9a-z]+)(?=[?#])|(\.)(?:[\w]+)$/i
+    )[0];
+    const isAVIF = fileExtension === ".avif";
+    const isWebP = fileExtension === ".webp";
+    let imgSrc = "";
+    let srcTag = "";
+
+    if (isAVIF || isWebP) {
+      const type = isAVIF ? "avif" : "webp";
+      srcTag = `<source srcset="${featuredImageURL}" type="image/${type}" />`;
+
+      const jpgPath = featuredImageURL.replace(
+        /\.([0-9a-z]+)(?=[?#])|(\.)(?:[\w]+)$/i,
+        ".jpg"
+      );
+      const pngPath = featuredImageURL.replace(
+        /\.([0-9a-z]+)(?=[?#])|(\.)(?:[\w]+)$/i,
+        ".png"
+      );
+
+      if (urlExists(jpgPath)) {
+        imgSrc = jpgPath;
+      } else if (urlExists(pngPath)) {
+        imgSrc = pngPath;
+      }
+    } else {
+      imgSrc = featuredImageURL;
+    }
+
+    const imgTag = `<img src="${imgSrc}" alt="" loading="lazy" decoding="async" />`;
+    container = `<div class="post-image-col"><div class="featured-image-wrapper"><picture>${srcTag}${imgTag}</picture></div></div>`;
+  }
+
+  return container;
+}
+
 function populateResults(results) {
   var searchQuery = document.getElementById("search-query").value;
   var searchResults = document.getElementById("search-results");
@@ -257,7 +307,8 @@ function populateResults(results) {
       link: value.item.permalink,
       publishDate: value.item.publishDate.split("T")[0],
       lastmod: value.item.lastmod.split("T")[0],
-      featuredImage: value.item.featuredImage,
+      featuredImage: "",
+      // featuredImage: makeFeaturedImageContainer("/" + value.item.featuredImage),
       snippet: snippet,
     });
     searchResults.innerHTML += output;

@@ -1,0 +1,33 @@
+<form
+  role="search"
+  method="GET"
+  id="searchform"
+  class="searchform"
+  action="/search"
+>
+  <div class="form-group ">
+    <div class="input-group">
+      <label for="search-query" id="search-label">Search</label>
+      <input
+        type="text"
+        id="search-query"
+        class="form-control"
+        value=""
+        name="q"
+      />
+      <div class="input-group-btn">
+        <button
+          type="submit"
+          id="searchsubmit"
+          class="btn btn-secondary"
+          value="Search"
+          aria-label="searchsubmit"
+        >
+          <svg class="icon icon-search">
+            <use xlink:href="#icon-search"></use>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</form>

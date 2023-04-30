@@ -10,14 +10,7 @@
               <div class="row post-row"id="summary-${key}">
                 <div class="col-md-12">
                   <a href="${link}">
-                    <div class="post-image-col">
-                      <div class="image-wrapper">
-                        <div
-                          class="div-cover"
-                          style="background-image: url({{ .Site.BaseURL }}${featuredImage})"
-                        ></div>
-                      </div>
-                    </div>
+                    ${featuredImage}
                     <div class="post-title">
                       <h2>${title}</h2>
                     </div>
@@ -36,7 +29,7 @@
                           <time datetime="${lastmod}">
                             <svg class="icon icon-spinner">
                               <use xlink:href="#icon-spinner"></use>
-                            </svg> 
+                            </svg>
                             :${lastmod}
                           </time>
                         </div>

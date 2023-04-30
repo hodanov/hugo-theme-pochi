@@ -691,9 +691,9 @@ nav a.button-collapse i {
 /* -----Parallax container----- */
 .parallax-container {
   position: relative;
-  height: 75vh;
-  height: -webkit-calc(75vh - 4rem);
-  height: calc(75vh - 4rem);
+  height: 61.8vh;
+  height: -webkit-calc(61.8 - 4rem);
+  height: calc(61.8 - 4rem);
 }
 
 .hero {
@@ -701,15 +701,15 @@ nav a.button-collapse i {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 75vh;
-  height: -webkit-calc(75vh - 4rem);
-  height: calc(75vh - 4rem);
+  height: 61.8vh;
+  height: -webkit-calc(61.8 - 4rem);
+  height: calc(61.8 - 4rem);
+  width: 100%;
+  overflow: hidden;
 }
 
-.hero.image-wrapper:before {
-  padding-top: 75vh;
-  padding-top: -webkit-calc(75vh - 4rem);
-  padding-top: calc(75vh - 4rem);
+.hero.featured-image-wrapper picture img {
+  object-fit: inherit;
 }
 
 .main-content {
@@ -721,6 +721,7 @@ nav a.button-collapse i {
 
 #parallax-object {
   z-index: 1;
+  position: absolute;
 }
 
 .hero-caption {
@@ -740,25 +741,19 @@ nav a.button-collapse i {
   font-size: 3rem;
 }
 
-#parallax-object {
-  position: relative;
-}
-
 @media only screen and (max-width: 1024px) {
+  .parallax-container,
+  .hero {
+    height: 40vh;
+    height: -webkit-calc(40vh - 4rem);
+    height: calc(40vh - 4rem);
+  }
   .hero-caption h1 {
     font-size: 2rem;
   }
 }
 
 @media only screen and (max-width: 768px) {
-  .parallax-container,
-  .hero,
-  .hero.image-wrapper:before {
-    height: 40vh;
-    height: -webkit-calc(40vh - 4rem);
-    height: calc(40vh - 4rem);
-  }
-
   .hero-caption h1 {
     font-size: 1.5rem;
     text-align: left;

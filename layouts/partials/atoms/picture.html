@@ -27,5 +27,10 @@
   {{ else }}
     {{ $imgSrc = .image }}
   {{ end }}
-  <img src="{{ $imgSrc }}" {{ with .alt }}alt="{{ . }}"{{ end }} />
+  <img
+    src="{{ $imgSrc }}"
+    {{ with .alt }}alt="{{ . }}"{{ end }}
+    loading="lazy"
+    decoding="async"
+  />
 </picture>
