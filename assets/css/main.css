@@ -732,7 +732,7 @@ nav a.button-collapse i {
   text-align: center;
   width: 100%;
   color: #fff;
-  text-shadow: 3px 3px 7px #555;
+  text-shadow: 0 0 7px #000;
   font-weight: bold;
   font-family: "ヒラギノ角ゴ ProN W3", Hiragino Kaku Gothic ProN, Meiryo,
     sans-serif;
