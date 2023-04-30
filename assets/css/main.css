@@ -1405,6 +1405,10 @@ picture {
   display: block;
 }
 
+article .featured-image-wrapper {
+  margin: 0 0 3rem;
+}
+
 /* for code block */
 pre {
   border: 0;
@@ -1418,9 +1422,12 @@ pre {
   font-family: Consolas, Liberation Mono, Menlo, Courier, monospace;
 }
 
-pre > code,
-code {
+p > code {
   font-size: 1rem;
+}
+
+pre > code {
+  font-size: 0.875rem;
 }
 
 p > code,
