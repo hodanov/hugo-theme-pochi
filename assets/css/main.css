@@ -705,19 +705,15 @@ nav a.button-collapse i {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 61.8vh;
-  height: -webkit-calc(61.8 - 4rem);
-  height: calc(61.8 - 4rem);
   width: 100%;
   overflow: hidden;
 }
 
 .hero.featured-image-wrapper picture {
-  padding-bottom: 61.8%;
-}
-
-.hero.featured-image-wrapper picture img {
-  object-fit: inherit;
+  height: 61.8vh;
+  height: -webkit-calc(61.8 - 4rem);
+  height: calc(61.8 - 4rem);
+  padding-bottom: 0;
 }
 
 .main-content {
@@ -749,16 +745,19 @@ nav a.button-collapse i {
   font-size: 3rem;
 }
 
-@media only screen and (max-width: 1024px) {
-  .parallax-container,
-  .hero {
+@media only screen and (max-width: 1280px) {
+  .parallax-container {
     height: 40vh;
     height: -webkit-calc(40vh - 4rem);
     height: calc(40vh - 4rem);
   }
+
   .hero.featured-image-wrapper picture {
-    padding-bottom: calc(40vh - 4rem);
+    height: 40vh;
+    height: -webkit-calc(40vh - 4rem);
+    height: calc(40vh - 4rem);
   }
+
   .hero-caption h1 {
     font-size: 2rem;
   }
