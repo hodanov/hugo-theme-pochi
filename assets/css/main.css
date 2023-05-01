@@ -712,6 +712,10 @@ nav a.button-collapse i {
   overflow: hidden;
 }
 
+.hero.featured-image-wrapper picture {
+  padding-bottom: 61.8%;
+}
+
 .hero.featured-image-wrapper picture img {
   object-fit: inherit;
 }
@@ -751,6 +755,9 @@ nav a.button-collapse i {
     height: 40vh;
     height: -webkit-calc(40vh - 4rem);
     height: calc(40vh - 4rem);
+  }
+  .hero.featured-image-wrapper picture {
+    padding-bottom: calc(40vh - 4rem);
   }
   .hero-caption h1 {
     font-size: 2rem;
