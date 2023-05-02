@@ -32,5 +32,8 @@
     {{ with .alt }}alt="{{ . }}"{{ end }}
     loading="lazy"
     decoding="async"
+    {{ with imageConfig (printf "/static%s" $imgSrc) }}
+      width="{{ .Width }}" height="{{ .Height }}"
+    {{ end }}
   />
 </picture>
