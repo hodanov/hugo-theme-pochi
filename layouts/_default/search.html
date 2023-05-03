@@ -20,17 +20,15 @@
                           <time
                             datetime="${publishDate}"
                           >
-                            <svg class="icon icon-pencil">
-                              <use xlink:href="#icon-pencil"></use>
-                            </svg>
-                            :${publishDate}
+                            {{ partial "atoms/icon.html" (dict "id" "icon-pencil") }}
+                            :
+                            ${publishDate}
                           </time>
                           |
                           <time datetime="${lastmod}">
-                            <svg class="icon icon-spinner">
-                              <use xlink:href="#icon-spinner"></use>
-                            </svg>
-                            :${lastmod}
+                            {{ partial "atoms/icon.html" (dict "id" "icon-spinner") }}
+                            :
+                            ${lastmod}
                           </time>
                         </div>
                       </div>

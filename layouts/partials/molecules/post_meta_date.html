@@ -2,17 +2,14 @@
   <div class="post-info">
     <div class="kiji-date">
       <time datetime="{{ .PublishDate.Format "2006-01-02" }}">
-        <svg class="icon icon-pencil">
-          <use xlink:href="#icon-pencil"></use>
-        </svg>
-        :{{ .PublishDate.Format "2006-01-02" }}
+        {{ partial "atoms/icon.html" (dict "id" "icon-pencil") }}
+        :
+        {{ .PublishDate.Format "2006-01-02" }}
       </time>
       {{ with .Lastmod }}
         |
         <time datetime="{{ .Format "2006-01-02" }}">
-          <svg class="icon icon-spinner">
-            <use xlink:href="#icon-spinner"></use>
-          </svg>
+          {{ partial "atoms/icon.html" (dict "id" "icon-spinner") }}
           :
           {{ .Format "2006-01-02" }}
         </time>

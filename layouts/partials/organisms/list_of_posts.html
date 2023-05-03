@@ -1,0 +1,24 @@
+<div class="row post-row">
+  <div class="col-md-12">
+    <a href="{{ .Permalink }}">
+      {{ if and (.Params.featuredImage) (ne .Params.featuredImage "") }}
+        <div class="post-image-col">
+          {{ with .Params.featuredImage }}
+            <div class="featured-image-wrapper">
+              {{ partial "atoms/picture.html" (dict "image" (printf "/%s" .) "alt" "featured image") }}
+            </div>
+          {{ end }}
+        </div>
+      {{ end }}
+      <div class="post-title">
+        <h2>{{ .Title }}</h2>
+      </div>
+      <div class="post-text">
+        {{ partial "molecules/post_meta_date.html" . }}
+        <div class="post-excerpt">
+          {{ .Summary }}
+        </div>
+      </div>
+    </a>
+  </div>
+</div>
