@@ -2,11 +2,11 @@
   <div id="sidebar">
     <div id="side">
       <aside>
-        {{ partial "atoms/search_form.html" }}
+        {{ partial "molecules/search_form.html" }}
       </aside>
       {{ with .Site.Params.Profile }}
         <aside>
-          {{ partial "atoms/profile.html" . }}
+          {{ partial "molecules/profile.html" . }}
         </aside>
       {{ end }}
     </div>

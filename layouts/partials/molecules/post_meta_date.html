@@ -1,0 +1,22 @@
+{{ if .PublishDate }}
+  <div class="post-info">
+    <div class="kiji-date">
+      <time datetime="{{ .PublishDate.Format "2006-01-02" }}">
+        <svg class="icon icon-pencil">
+          <use xlink:href="#icon-pencil"></use>
+        </svg>
+        :{{ .PublishDate.Format "2006-01-02" }}
+      </time>
+      {{ with .Lastmod }}
+        |
+        <time datetime="{{ .Format "2006-01-02" }}">
+          <svg class="icon icon-spinner">
+            <use xlink:href="#icon-spinner"></use>
+          </svg>
+          :
+          {{ .Format "2006-01-02" }}
+        </time>
+      {{ end }}
+    </div>
+  </div>
+{{ end }}

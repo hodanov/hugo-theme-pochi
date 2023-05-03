@@ -1,0 +1,18 @@
+{{ define "content" }}
+  <div class="row">
+    <div class="col-md-12">
+      <article>
+        {{ partial "molecules/post_meta_tag.html" . }}
+        <h1>{{ .Title }}</h1>
+        {{ partial "molecules/post_meta_date.html" . }}
+        {{ partial "molecules/post_meta_featured_image.html" . }}
+        <div>
+          {{ .Content }}
+        </div>
+      </article>
+    </div>
+  </div>
+  {{ partial "molecules/comment.html" . }}
+  {{ partial "molecules/related_posts.html" . }}
+  {{ partial "molecules/ads.html" . }}
+{{ end }}
