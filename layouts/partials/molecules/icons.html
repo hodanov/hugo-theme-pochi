@@ -1,0 +1,3 @@
+{{ range (resources.Match "icons/*.svg") }}
+  {{ .Content | safeHTML }}
+{{ end }}
