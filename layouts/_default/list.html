@@ -11,53 +11,7 @@
               {{ $paginator = .Paginate .Pages }}
             {{ end }}
             {{ range $paginator.Pages }}
-              <div class="row post-row">
-                <div class="col-md-12">
-                  <a href="{{ .Permalink }}">
-                    {{ if and (.Params.featuredImage) (ne .Params.featuredImage "") }}
-                      <div class="post-image-col">
-                        {{ with .Params.featuredImage }}
-                          <div class="featured-image-wrapper">
-                            {{ partial "atoms/picture.html" (dict "image" (printf "/%s" .) "alt" "featured image") }}
-                          </div>
-                        {{ end }}
-                      </div>
-                    {{ end }}
-                    <div class="post-title">
-                      <h2>{{ .Title }}</h2>
-                    </div>
-                    <div class="post-text">
-                      {{ if .PublishDate }}
-                        <div class="post-info">
-                          <div class="kiji-date">
-                            <time
-                              datetime="{{ .PublishDate.Format "2006-01-02" }}"
-                            >
-                              <svg class="icon icon-pencil">
-                                <use xlink:href="#icon-pencil"></use>
-                              </svg>
-                              :{{ .PublishDate.Format "2006-01-02" }}
-                            </time>
-                            {{ with .Lastmod }}
-                              |
-                              <time datetime="{{ .Format "2006-01-02" }}">
-                                <svg class="icon icon-spinner">
-                                  <use xlink:href="#icon-spinner"></use>
-                                </svg>
-                                :
-                                {{ .Format "2006-01-02" }}
-                              </time>
-                            {{ end }}
-                          </div>
-                        </div>
-                      {{ end }}
-                      <div class="post-excerpt">
-                        {{ .Summary }}
-                      </div>
-                    </div>
-                  </a>
-                </div>
-              </div>
+              {{ partial "organisms/list_of_posts.html" . }}
             {{ end }}
             <div class="pagination-index">
               {{ template "_internal/pagination.html" . }}

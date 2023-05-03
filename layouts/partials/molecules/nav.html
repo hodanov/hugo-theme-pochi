@@ -1,3 +1,16 @@
+<script>
+  const prefersDarkMode = window.matchMedia("(prefers-color-scheme: dark)");
+  const storedTheme = localStorage.getItem("pref-theme");
+  const body = document.body;
+
+  if (storedTheme) {
+    body.classList.toggle("dark", storedTheme === "dark");
+  } else {
+    turnDarkModeOn = prefersDarkMode.matches;
+    body.classList.toggle("dark", turnDarkModeOn);
+    localStorage.setItem("pref-theme", turnDarkModeOn ? "dark" : "light");
+  }
+</script>
 <div class="navbar-fixed">
   <nav>
     <div class="nav-wrapper container-fluid">
@@ -6,18 +19,12 @@
       >
       <div id="theme-toggle-switch-container">
         <button id="theme-toggle-switch" aria-label="theme-toggle-switch">
-          <svg class="icon icon-light">
-            <use xlink:href="#icon-light"></use>
-          </svg>
-          <svg class="icon icon-dark">
-            <use xlink:href="#icon-dark"></use>
-          </svg>
+          {{ partial "atoms/icon.html" (dict "id" "icon-light") }}
+          {{ partial "atoms/icon.html" (dict "id" "icon-dark") }}
         </button>
       </div>
       <div id="menu-bar-btn">
-        <svg class="icon icon-menu">
-          <use xlink:href="#icon-menu"></use>
-        </svg>
+        {{ partial "atoms/icon.html" (dict "id" "icon-menu") }}
       </div>
       <div class="menu-global-nav-container">
         <ul id="menu-global-nav">

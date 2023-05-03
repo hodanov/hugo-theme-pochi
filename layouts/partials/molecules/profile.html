@@ -21,9 +21,7 @@
     <ul>
       {{ range . }}
         <li>
-          <svg class="icon icon-link">
-            <use xlink:href="#icon-link"></use>
-          </svg>
+          {{ partial "atoms/icon.html" (dict "id" "icon-link") }}
           <a href="{{ .link }}" target="_blank" rel="noreferrer noopener"
             >{{ .name }}</a
           >
