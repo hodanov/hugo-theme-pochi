@@ -1,0 +1,9 @@
+{{ with .Site.Params.GoogleAdsenseCode }}
+  <div class="row">
+    <div class="col-md-12 ads-wrapper">
+      <div class="mymenu-thumb mymenu-related-list">
+        <div class="adsense">{{ . | safeHTML }}</div>
+      </div>
+    </div>
+  </div>
+{{ end }}

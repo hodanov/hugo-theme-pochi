@@ -1,0 +1,17 @@
+<div class="main-content">
+  <div class="container-fluid single-page">
+    <div class="row">
+      <div class="col-md-8 centered">
+        <article>
+          {{ if not .Params.featuredImage }}
+            <h1>{{ .Title }}</h1>
+          {{ end }}
+          {{ partial "molecules/post_meta_date.html" . }}
+          <div>
+            {{ .Content }}
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+</div>

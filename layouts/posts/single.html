@@ -3,9 +3,8 @@
     <div class="container-fluid single-page">
       <div class="row">
         <div class="col-md-8" id="contents">
-          {{ partial "single/content.html" . }}
-          {{ partial "single/related_posts.html" . }}
-          {{ partial "single/comment.html" . }}
+          {{ block "content" . }}
+          {{ end }}
         </div>
         <div class="col-md-4">
           {{ block "sidebar" . }}

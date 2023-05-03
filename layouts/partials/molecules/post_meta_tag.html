@@ -1,0 +1,12 @@
+{{ $tags := .GetTerms "tags" }}
+{{ if gt $tags 0 }}
+  <div class="kiji-tag">
+    <ul>
+      {{ range $tags }}
+        <li>
+          <a href="{{ .Permalink }}" rel="tag">{{ .LinkTitle }}</a>
+        </li>
+      {{ end }}
+    </ul>
+  </div>
+{{ end }}
