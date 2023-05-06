@@ -822,13 +822,14 @@ nav a.button-collapse i {
 /* -----article_list----- */
 .article-list .post-row {
   margin: 0 0 3rem 0;
-  padding: 1rem 0;
   background-color: #fff;
   border-radius: 0.25rem;
 }
 
 .article-list .post-row div > a {
   display: block;
+  margin: 0 -1rem;
+  padding: 1rem;
 }
 
 .article-list .post-image-col {
