@@ -191,7 +191,7 @@ h2 {
 }
 
 p,
-.breadcrumbs li {
+#breadcrumbs li {
   line-height: 1.5rem;
   letter-spacing: 1px;
 }
@@ -776,38 +776,27 @@ nav a.button-collapse i {
 }
 
 /* -----Breadcrumb----- */
-.breadcrumb-box {
-  background-color: #f5f5f5;
-  padding: 3rem 0;
-}
-
-.breadcrumb-box h1 {
-  font-size: 2rem;
-  margin: 0;
-}
-
-.breadcrumb {
-  border-radius: 0;
-  margin: 0;
-  background-color: #f5f5f5;
-  color: #afafaf;
-  font-size: 0.9rem;
-}
-
-.breadcrumb ol {
-  margin: 0;
+#breadcrumbs {
+  display: flex;
+  margin: 1.5rem 0;
   padding: 0;
+  border-radius: 0;
+  font-size: 0.9rem;
   list-style: none;
 }
 
-.breadcrumb li a,
-.breadcrumb li span {
-  color: #afafaf;
+#breadcrumbs li,
+#breadcrumbs li a {
+  color: #555555;
 }
 
 /* -----contents container----- */
 .centered {
   margin: 0 auto;
+}
+
+.negative-margin {
+  margin-top: -3rem;
 }
 
 .single-page > .columns {
@@ -1630,6 +1619,11 @@ body.dark,
   color: #c9d1d9;
 }
 
+.dark #breadcrumbs li,
+.dark #breadcrumbs li a {
+  color: #a1a1a1;
+}
+
 .dark .btn-primary:hover,
 .dark .btn-secondary:hover,
 .dark .pagination-index .pagination .page-item .page-link:hover,
@@ -1646,8 +1640,7 @@ body.dark,
 body.dark,
 .dark #side-nav,
 .dark .main-content,
-.dark .breadcrumb-box,
-.dark .breadcrumb,
+.dark #breadcrumbs,
 .dark #sidebar h2 span,
 .dark footer h2 span,
 .dark .pagination-index .pagination .page-item.active .page-link {
