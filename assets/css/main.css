@@ -763,6 +763,10 @@ nav a.button-collapse i {
   }
 }
 
+.negative-margin {
+  margin-top: -3rem;
+}
+
 @media only screen and (max-width: 768px) {
   .hero-caption h1 {
     font-size: 1.5rem;
@@ -772,6 +776,10 @@ nav a.button-collapse i {
 
   .main-content {
     padding-top: 1rem;
+  }
+
+  .negative-margin {
+    margin-top: -1rem;
   }
 }
 
@@ -783,6 +791,8 @@ nav a.button-collapse i {
   border-radius: 0;
   font-size: 0.9rem;
   list-style: none;
+  overflow: auto;
+  white-space: nowrap;
 }
 
 #breadcrumbs li,
@@ -793,10 +803,6 @@ nav a.button-collapse i {
 /* -----contents container----- */
 .centered {
   margin: 0 auto;
-}
-
-.negative-margin {
-  margin-top: -3rem;
 }
 
 .single-page > .columns {
