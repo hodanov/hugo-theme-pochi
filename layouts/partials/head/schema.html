@@ -1,3 +1,16 @@
+{{ $logoURL := "" }}
+{{ $imageURL := "" }}
+
+{{ with .Site.Params.logo }}
+  {{ $logoURL = absURL . }}
+{{ end }}
+
+{{ if .IsPage }}
+  {{ with .Params.featuredImage }}
+    {{ $imageURL = absURL . }}
+  {{ end }}
+{{ end }}
+
 {{ if .IsPage }}
 <script type="application/ld+json">
   {
@@ -8,7 +21,7 @@
       "@id": {{ .Permalink }}
     },
     "headline": "{{ .Title }}",
-    "image": {{ with .Params.featuredImage }}{{ absURL . }}{{ end }},
+    "image": {{ $imageURL }},
     "datePublished": "{{ .PublishDate.Format "2006-01-02" }}",
     "dateModified": "{{ .Lastmod.Format "2006-01-02" }}",
     "description": "{{ with .Description }}{{ . }}{{ else }}{{ .Summary }}{{ end }}",
@@ -21,7 +34,7 @@
       "name": "{{ .Site.Params.Author }}",
       "logo": {
         "@type": "imageObject",
-        "url": {{ with .Site.Params.Logo }}{{ absURL . }}{{ end }}
+        "url": {{ $logoURL }}
       }
     }
   }
@@ -36,7 +49,7 @@
       "@type": "Person",
       "name": "{{ .Site.Params.Author }}"
     },
-    "image": {{ with .Site.Params.Logo }}{{ absURL . }}{{ end }},
+    "image": {{ $logoURL }},
     "url": {{ .Site.BaseURL }},
     "description": "{{ with .Description }}{{ . }}{{ else }}{{ with .Site.Params.description }}{{ . }}{{ end }}{{ end }}",
     "license": "https://creativecommons.org/licenses/by-nc-sa/3.0/us/deed.en_US"
