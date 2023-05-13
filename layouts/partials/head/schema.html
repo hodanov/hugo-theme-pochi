@@ -5,10 +5,10 @@
     "@type": "BlogPosting",
     "mainEntityOfPage":  {
       "@type": "WebPage",
-      "@id": "{{ .Permalink }}"
+      "@id": {{ .Permalink }}
     },
     "headline": "{{ .Title }}",
-    "image": "{{ if .Params.featuredImage }}{{ .Site.BaseURL }}{{ .Params.featuredImage }}{{ end }}",
+    "image": {{ with .Params.featuredImage }}{{ absURL . }}{{ end }},
     "datePublished": "{{ .PublishDate.Format "2006-01-02" }}",
     "dateModified": "{{ .Lastmod.Format "2006-01-02" }}",
     "description": "{{ with .Description }}{{ . }}{{ else }}{{ .Summary }}{{ end }}",
@@ -21,7 +21,7 @@
       "name": "{{ .Site.Params.Author }}",
       "logo": {
         "@type": "imageObject",
-        "url": "{{ .Site.BaseURL }}{{ with .Site.Params.Logo }}{{ . }}{{ end }}"
+        "url": {{ with .Site.Params.Logo }}{{ absURL . }}{{ end }}
       }
     }
   }
@@ -36,8 +36,8 @@
       "@type": "Person",
       "name": "{{ .Site.Params.Author }}"
     },
-    "image": "{{ .Site.BaseURL }}{{ with .Site.Params.Logo }}{{ . }}{{ end }}",
-    "url": "{{ .Site.BaseURL }}",
+    "image": {{ with .Site.Params.Logo }}{{ absURL . }}{{ end }},
+    "url": {{ .Site.BaseURL }},
     "description": "{{ with .Description }}{{ . }}{{ else }}{{ with .Site.Params.description }}{{ . }}{{ end }}{{ end }}",
     "license": "https://creativecommons.org/licenses/by-nc-sa/3.0/us/deed.en_US"
   }
