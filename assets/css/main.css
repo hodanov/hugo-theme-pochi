@@ -1,11 +1,11 @@
 @charset "UTF-8";
 /*
-Theme Name: THE POCHI
-Theme URI: https://hodalog.com/
+Theme Name: SimpleAndCleanBlog
+Theme URI: https://github.com/hodanov/simple-and-clean-blog
 Author: Hoda
-Author URI: https://hodalog.com/
-Description: A simple and clean design theme for the engineer.
-Version: 1.1
+Author URI: https://github.com/hodanov
+Description: SimpleAndCleanBlog is a minimalist Hugo website theme that focuses on simplicity and readability. With its clean design and clear typography, this theme provides a distraction-free experience for both bloggers and readers. Whether you're a beginner or an experienced blogger, SimpleAndCleanBlog is an excellent choice for creating a professional and easy-to-use blog that looks great on any device.
+Version: 0.1.0
 */
 
 html {
@@ -203,6 +203,7 @@ p,
 article p {
   font-size: 1rem;
   line-height: 2rem;
+  margin-bottom: 2rem;
 }
 
 @media (max-width: 414px) {
