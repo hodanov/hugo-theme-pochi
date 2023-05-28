@@ -1,6 +1,6 @@
 name = "SimpleAndCleanBlog"
 license = "MIT"
-licenselink = ""
+licenselink = "https://github.com/hodanov/simple-and-clean-blog/blob/master/LICENSE"
 description = "A theme for hugo websites."
 homepage = "https://github.com/hodanov/simple-and-clean-blog"
 tags = ["Website", "Blog", "Hugo"]
