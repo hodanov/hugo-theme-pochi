@@ -381,7 +381,7 @@ a,
 .mymenu-related a .text,
 .mymenu-related a .div-cover,
 #scroll-to-top,
-.index-outline ol li a:after,
+.table-of-contents ol li a:after,
 .article-list .post-row,
 .btn-primary,
 .btn-secondary {
@@ -398,7 +398,7 @@ a,
 article,
 .mymenu-related-list,
 .comments,
-#side .index-outline {
+#side .table-of-contents {
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12),
     0 3px 1px -2px rgba(0, 0, 0, 0.2);
 }
@@ -919,14 +919,14 @@ nav a.button-collapse i {
 }
 
 /* Index in article */
-.index-outline {
+.table-of-contents {
   margin-top: 3rem;
   padding: 0.5rem 0 1rem;
   border: 1px solid #d8d8d8;
   border-radius: 0.25rem;
 }
 
-.index-outline p {
+.table-of-contents p {
   position: relative;
   text-align: center;
   font-size: 1rem;
@@ -934,7 +934,7 @@ nav a.button-collapse i {
   margin-bottom: 20px;
 }
 
-.index-outline p:before {
+.table-of-contents p:before {
   content: "";
   display: block;
   position: absolute;
@@ -954,37 +954,37 @@ nav a.button-collapse i {
   z-index: 1;
 }
 
-.index-outline p span {
+.table-of-contents p span {
   background: #fff;
   padding: 0 10px;
   position: relative;
   z-index: 5;
 }
 
-.index-outline ol {
+.table-of-contents ol {
   list-style-type: none;
   padding: 0 1rem;
   margin: 0;
   font-size: 0.9rem;
 }
 
-.index-outline ol li {
+.table-of-contents ol li {
   text-align: left;
   letter-spacing: 1px;
   line-height: 2rem;
 }
 
-.index-outline ol li a {
+.table-of-contents ol li a {
   position: relative;
   display: inline-block;
   color: #555;
 }
 
-.index-outline ol li a:hover {
+.table-of-contents ol li a:hover {
   color: #79c6b6;
 }
 
-.index-outline ol li a:after {
+.table-of-contents ol li a:after {
   display: block;
   content: "";
   position: absolute;
@@ -995,16 +995,18 @@ nav a.button-collapse i {
   background-color: #79c6b6;
 }
 
-.index-outline ol li a:hover:after {
+.table-of-contents ol li a:hover:after {
   width: 100%;
 }
 
-#sidebar #side .index-outline {
+#sidebar #side .table-of-contents {
   background-color: #fff;
   border: none;
+  max-height: 86vh;
+  overflow-y: auto;
 }
 
-#sidebar #side .index-outline p {
+#sidebar #side .table-of-contents p {
   margin-top: 1rem;
 }
 
@@ -1610,9 +1612,9 @@ iframe {
 .dark .form-control,
 .dark .btn-primary,
 .dark .btn-secondary,
-.dark .index-outline p span,
+.dark .table-of-contents p span,
 .dark #sidebar .tagcloud a,
-.dark #sidebar #side .index-outline,
+.dark #sidebar #side .table-of-contents,
 .dark #search-for:focus,
 .dark .pagination-index .pagination .page-item .page-link {
   background-color: #2f2f2f;
@@ -1632,7 +1634,7 @@ body.dark,
 .dark #side-nav ul a,
 .dark #theme-toggle-switch,
 .dark #sidebar a,
-.dark .index-outline ol li a,
+.dark .table-of-contents ol li a,
 .dark footer p.copyright,
 .dark footer .copyright a {
   color: #c9d1d9;
@@ -1671,7 +1673,7 @@ body.dark,
   background-color: #161b22;
 }
 
-.dark .index-outline p:before,
+.dark .table-of-contents p:before,
 .dark #sidebar h2:before,
 .dark footer h2:before {
   background-image: linear-gradient(

@@ -99,7 +99,7 @@ function buildTableOfContents() {
       "article h2, article h3, article h4, article h5, article h6"
     );
     let tableOfContents =
-      '<div class="index-outline"><p><span>Table of Contents</span></p><ol>';
+      '<div class="table-of-contents"><p><span>Table of Contents</span></p><ol>';
     let level = 0;
     let currentLevel = 0;
     let headerCounts = [
