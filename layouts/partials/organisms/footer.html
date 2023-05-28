@@ -1,13 +1,33 @@
 {{ define "footer" }}
-<footer class="footer-section valign-wrapper">
-  <div class="container-fluid">
-    <p class="copyright">Copyright 2016 {{ block "title" . }}{{ .Site.Title }}{{ end }} All Rights Reserved.</p>
-    <p class="copyright">Theme by <a href="https://hodalog.com">Hoda</a>.</p>
+  <footer class="footer-section valign-wrapper">
+    <div class="container-fluid">
+      {{- if .Site.Params.Copyright }}
+        <p class="copyright">
+          {{ replace .Site.Params.Copyright "{lastChangedYear}" now.Year }}
+        </p>
+      {{- else }}
+        <p class="copyright">
+          &copy;
+          {{ now.Year }}
+          {{ block "title" . }}{{ .Site.Title }}{{ end }}.
+        </p>
+      {{- end }}
+      <p class="copyright">
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank"
+          >Hugo</a
+        >
+        &
+        <a
+          href="https://github.com/hodanov/simple-and-clean-blog"
+          rel="noopener"
+          target="_blank"
+          >hodanov</a
+        >.
+      </p>
+    </div>
+  </footer>
+  <div id="scroll-to-top">
+    <a href="#top"> ▲<br />Top </a>
   </div>
-</footer>
-<div id="scroll-to-top">
-  <a href="#top">
-    ▲<br>Top
-  </a>
-</div>
 {{ end }}
