@@ -31,7 +31,6 @@ body {
   #sidebar,
   .col-sm-4,
   .col-md-12 {
-    flex: 0 0 auto;
     width: 100%;
   }
 }
@@ -53,11 +52,10 @@ body {
   }
   #contents {
     flex: 0 0 auto;
-    width: 66.66666667%;
+    width: 70%;
   }
   #sidebar {
-    flex: 0 0 auto;
-    width: 33.33333333%;
+    width: 30%;
   }
 }
 
@@ -332,7 +330,7 @@ a,
 article,
 .mymenu-related-list,
 .comments,
-#side .table-of-contents {
+#sidebar .table-of-contents {
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12),
     0 3px 1px -2px rgba(0, 0, 0, 0.2);
 }
@@ -933,14 +931,14 @@ nav a.button-collapse i {
   width: 100%;
 }
 
-#sidebar #side .table-of-contents {
+#sidebar .table-of-contents {
   background-color: #fff;
   border: none;
   max-height: 86vh;
   overflow-y: auto;
 }
 
-#sidebar #side .table-of-contents p {
+#sidebar .table-of-contents p {
   margin-top: 1rem;
 }
 
@@ -1017,11 +1015,6 @@ footer .copyright a:hover {
 }
 
 /*----- Sidebar -----*/
-#sidebar,
-#side {
-  height: 100%;
-}
-
 #sidebar aside:last-child {
   position: -webkit-sticky;
   position: sticky;
@@ -1555,7 +1548,7 @@ iframe {
 .dark .btn-secondary,
 .dark .table-of-contents p span,
 .dark #sidebar .tagcloud a,
-.dark #sidebar #side .table-of-contents,
+.dark #sidebar .table-of-contents,
 .dark #search-for:focus,
 .dark .pagination-index .pagination .page-item .page-link {
   background-color: #2f2f2f;
