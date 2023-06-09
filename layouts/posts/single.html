@@ -3,14 +3,12 @@
   <div class="main-content">
     <div class="container-fluid single-page negative-margin">
       <div class="row">
-        <div class="col-md-8" id="contents">
+        <div id="contents">
           {{ block "content" . }}
           {{ end }}
         </div>
-        <div class="col-md-4">
-          {{ block "sidebar" . }}
-          {{ end }}
-        </div>
+        {{ block "sidebar" . }}
+        {{ end }}
       </div>
     </div>
   </div>

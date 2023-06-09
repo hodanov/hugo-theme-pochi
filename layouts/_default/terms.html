@@ -3,7 +3,7 @@
   <div class="main-content">
     <div class="container-fluid negative-margin">
       <div class="row">
-        <div class="col-md-8" id="contents">
+        <div id="contents">
           {{ range sort .Pages "Title" "asc" }}
             <ul>
               <li>
@@ -12,10 +12,8 @@
             </ul>
           {{ end }}
         </div>
-        <div class="col-md-4">
-          {{ block "sidebar" . }}
-          {{ end }}
-        </div>
+        {{ block "sidebar" . }}
+        {{ end }}
       </div>
     </div>
   </div>

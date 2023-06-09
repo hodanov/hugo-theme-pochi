@@ -156,7 +156,7 @@ function buildTableOfContents() {
     const asideEl = document.createElement("aside");
     asideEl.innerHTML = tableOfContents;
 
-    const sideBar = document.querySelector("#sidebar #side");
+    const sideBar = document.querySelector("#sidebar");
     sideBar.appendChild(asideEl);
   }
 }

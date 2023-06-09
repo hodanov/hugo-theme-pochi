@@ -27,11 +27,10 @@ body {
   html {
     font-size: 14px;
   }
+  #contents,
+  #sidebar,
   .col-sm-4,
-  .col-md-12,
-  .col-md-8,
-  .col-md-4 {
-    flex: 0 0 auto;
+  .col-md-12 {
     width: 100%;
   }
 }
@@ -51,13 +50,12 @@ body {
     flex: 0 0 auto;
     width: 100%;
   }
-  .col-md-8 {
+  #contents {
     flex: 0 0 auto;
-    width: 66.66666667%;
+    width: 70%;
   }
-  .col-md-4 {
-    flex: 0 0 auto;
-    width: 33.33333333%;
+  #sidebar {
+    width: 30%;
   }
 }
 
@@ -85,76 +83,10 @@ body {
   max-width: 100%;
 }
 
-.col,
-.col-1,
-.col-10,
-.col-11,
-.col-12,
-.col-2,
-.col-3,
-.col-4,
-.col-5,
-.col-6,
-.col-7,
-.col-8,
-.col-9,
-.col-auto,
-.col-lg,
-.col-lg-1,
-.col-lg-10,
-.col-lg-11,
-.col-lg-12,
-.col-lg-2,
-.col-lg-3,
-.col-lg-4,
-.col-lg-5,
-.col-lg-6,
-.col-lg-7,
-.col-lg-8,
-.col-lg-9,
-.col-lg-auto,
-.col-md,
-.col-md-1,
-.col-md-10,
-.col-md-11,
+#contents,
+#sidebar,
 .col-md-12,
-.col-md-2,
-.col-md-3,
-.col-md-4,
-.col-md-5,
-.col-md-6,
-.col-md-7,
-.col-md-8,
-.col-md-9,
-.col-md-auto,
-.col-sm,
-.col-sm-1,
-.col-sm-10,
-.col-sm-11,
-.col-sm-12,
-.col-sm-2,
-.col-sm-3,
-.col-sm-4,
-.col-sm-5,
-.col-sm-6,
-.col-sm-7,
-.col-sm-8,
-.col-sm-9,
-.col-sm-auto,
-.col-xl,
-.col-xl-1,
-.col-xl-10,
-.col-xl-11,
-.col-xl-12,
-.col-xl-2,
-.col-xl-3,
-.col-xl-4,
-.col-xl-5,
-.col-xl-6,
-.col-xl-7,
-.col-xl-8,
-.col-xl-9,
-.col-xl-auto {
+.col-sm-4 {
   padding-right: 1rem;
   padding-left: 1rem;
 }
@@ -398,7 +330,7 @@ a,
 article,
 .mymenu-related-list,
 .comments,
-#side .table-of-contents {
+#sidebar .table-of-contents {
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12),
     0 3px 1px -2px rgba(0, 0, 0, 0.2);
 }
@@ -999,14 +931,14 @@ nav a.button-collapse i {
   width: 100%;
 }
 
-#sidebar #side .table-of-contents {
+#sidebar .table-of-contents {
   background-color: #fff;
   border: none;
   max-height: 86vh;
   overflow-y: auto;
 }
 
-#sidebar #side .table-of-contents p {
+#sidebar .table-of-contents p {
   margin-top: 1rem;
 }
 
@@ -1083,11 +1015,6 @@ footer .copyright a:hover {
 }
 
 /*----- Sidebar -----*/
-#sidebar,
-#side {
-  height: 100%;
-}
-
 #sidebar aside:last-child {
   position: -webkit-sticky;
   position: sticky;
@@ -1621,7 +1548,7 @@ iframe {
 .dark .btn-secondary,
 .dark .table-of-contents p span,
 .dark #sidebar .tagcloud a,
-.dark #sidebar #side .table-of-contents,
+.dark #sidebar .table-of-contents,
 .dark #search-for:focus,
 .dark .pagination-index .pagination .page-item .page-link {
   background-color: #2f2f2f;
