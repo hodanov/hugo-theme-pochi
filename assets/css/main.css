@@ -52,10 +52,10 @@ body {
   }
   #contents {
     flex: 0 0 auto;
-    width: 70%;
+    width: 75%;
   }
   #sidebar {
-    width: 30%;
+    width: 25%;
   }
 }
 
