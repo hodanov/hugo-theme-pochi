@@ -153,11 +153,12 @@ function buildTableOfContents() {
     firstH2.insertAdjacentHTML("beforebegin", tableOfContents);
 
     // Add the TOC to the sidebar
-    const asideEl = document.createElement("aside");
-    asideEl.innerHTML = tableOfContents;
-
     const sideBar = document.querySelector("#sidebar");
-    sideBar.appendChild(asideEl);
+    if (sideBar !== null) {
+      const asideEl = document.createElement("aside");
+      asideEl.innerHTML = tableOfContents;
+      sideBar.appendChild(asideEl);
+    }
   }
 }
 
