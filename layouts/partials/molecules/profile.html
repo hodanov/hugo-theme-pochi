@@ -1,13 +1,12 @@
 <h2 class="widgettitle"><span>About me</span></h2>
 <div class="textwidget custom-html-widget">
   <div class="profile-flex-box">
-    <div id="profile-image">
-      {{ partial "atoms/picture.html" (dict "image" .ProfileImage "alt" .Name) }}
-    </div>
-    <div
-      class="profile-header"
-      style="display: inline-block; width: 60%; margin: auto; padding-left: 5%;"
-    >
+    {{ if and (.ProfileImage) (ne .ProfileImage "") }}
+      <div id="profile-image">
+        {{ partial "atoms/picture.html" (dict "image" .ProfileImage "alt" .Name) }}
+      </div>
+    {{ end }}
+    <div class="profile-header" style="display: inline-block;">
       <h3>{{ .Name }}</h3>
     </div>
   </div>
