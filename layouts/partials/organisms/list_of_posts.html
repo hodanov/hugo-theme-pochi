@@ -5,7 +5,7 @@
         <div class="post-image-col">
           {{ with .Params.featuredImage }}
             <div class="featured-image-wrapper">
-              {{ partial "atoms/picture.html" (dict "image" (printf "/%s" .) "alt" "featured image") }}
+              {{ partial "atoms/picture.html" (dict "image" . "alt" "featured image") }}
             </div>
           {{ end }}
         </div>
