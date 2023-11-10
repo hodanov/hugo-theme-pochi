@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="{{ .Site.Language.Lang }}">
-  <head>
+  {{ $pageType := "" }}
+  {{ if .IsHome }}
+    {{ $pageType = "website" }}
+  {{ else }}
+    {{ $pageType = "article" }}
+  {{ end }}
+  <head
+    prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# {{ $pageType }}: http://ogp.me/ns/{{ $pageType }}#"
+  >
     {{ partial "head/head.html" . }}
   </head>
   <body>
