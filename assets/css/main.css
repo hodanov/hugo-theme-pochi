@@ -672,6 +672,10 @@ nav a.button-collapse i {
   z-index: 2;
 }
 
+.main-content.margin-top {
+  margin-top: 3rem;
+}
+
 #parallax-object {
   z-index: 1;
   position: absolute;
@@ -720,6 +724,10 @@ nav a.button-collapse i {
     font-size: 1.5rem;
     text-align: left;
     margin: 0;
+  }
+
+  .main-content.margin-top {
+    margin-top: 1rem;
   }
 }
 
