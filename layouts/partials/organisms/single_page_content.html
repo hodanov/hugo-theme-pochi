@@ -2,6 +2,7 @@
   <div class="container-fluid single-page">
     <div class="row">
       <div class="centered" id="contents">
+        {{ partial "molecules/breadcrumbs.html" . }}
         <article>
           {{ if not .Params.featuredImage }}
             <h1>{{ .Title }}</h1>
