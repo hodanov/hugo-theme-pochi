@@ -11,7 +11,7 @@
           &nbsp;{{ .Site.Params.breadcrumbs.separator }}&nbsp;
         </li>
       {{ end }}
-      <li class="breadcrumb-active">{{ .Title }}</li>
+      <li class="breadcrumb-active">{{ .Title | strings.FirstUpper }}</li>
     </ul>
   </div>
 {{ end }}
