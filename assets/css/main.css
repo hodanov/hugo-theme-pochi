@@ -1274,6 +1274,19 @@ article h6 {
   border-left: 4px solid #79c6b6;
 }
 
+thead,
+tbody,
+tfoot,
+tr,
+td,
+th {
+  border-width: thin;
+}
+
+table {
+  margin-bottom: 2rem;
+}
+
 blockquote {
   border-left: 5px solid #79c6b6;
   background-color: #f5f5f5;
