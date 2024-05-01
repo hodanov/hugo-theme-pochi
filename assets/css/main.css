@@ -1,11 +1,11 @@
 @charset "UTF-8";
 /*
-Theme Name: SimpleAndCleanBlog
-Theme URI: https://github.com/hodanov/simple-and-clean-blog
-Author: Hoda
+Theme Name: Pochi
+Theme URI: https://github.com/hodanov/hugo-theme-pochi
+Author: hodanov
 Author URI: https://github.com/hodanov
-Description: SimpleAndCleanBlog is a minimalist Hugo website theme that focuses on simplicity and readability. With its clean design and clear typography, this theme provides a distraction-free experience for both bloggers and readers. Whether you're a beginner or an experienced blogger, SimpleAndCleanBlog is an excellent choice for creating a professional and easy-to-use blog that looks great on any device.
-Version: 0.1.0
+Description: Pochi is a Hugo website theme that focuses on simplicity and readability.
+Version: 0.1.1
 */
 
 html {
@@ -664,6 +664,7 @@ nav a.button-collapse i {
   height: -webkit-calc(61.8 - 4rem);
   height: calc(61.8 - 4rem);
   padding-bottom: 0;
+  filter: brightness(0.8);
 }
 
 .main-content {
@@ -1382,7 +1383,7 @@ pre {
   margin: 3rem -3rem;
   padding: 3rem;
   line-height: 1.2;
-  background-color: #333;
+  background-color: #212121;
   color: #fafafa;
   overflow-x: auto;
   word-wrap: normal;
@@ -1625,7 +1626,7 @@ body.dark,
 
 .dark pre,
 .dark blockquote {
-  background-color: #161b22;
+  background-color: #212121;
 }
 
 .dark .table-of-contents p:before,
