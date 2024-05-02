@@ -1,11 +1,11 @@
-name = "SimpleAndCleanBlog"
+name = "Pochi"
 license = "MIT"
-licenselink = "https://github.com/hodanov/simple-and-clean-blog/blob/master/LICENSE"
+licenselink = "https://github.com/hodanov/hugo-theme-pochi/blob/main/LICENCE"
 description = "A theme for hugo websites."
-homepage = "https://github.com/hodanov/simple-and-clean-blog"
-tags = ["Website", "Blog", "Hugo"]
-features = []
-min_version = "0.0.1"
+homepage = "https://github.com/hodanov/hugo-theme-pochi"
+demosite = ""
+tags = ["Blog", "Responsive", "Dark", "Light", "Dark mode"]
+min_version = "0.101.1"
 
 [author]
   name = "hodanov"
