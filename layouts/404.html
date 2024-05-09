@@ -1,0 +1,20 @@
+{{ define "main" }}
+  {{ partial "molecules/breadcrumbs.html" . }}
+  <div class="main-content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="centered" id="contents">
+          {{ $image := resources.Get "images/404_not_found.png" }}
+          <img
+            src="{{ $image.RelPermalink }}"
+            alt="404 Not Found"
+            loading="lazy"
+            decoding="async"
+            width="{{ $image.Width }}"
+            height="{{ $image.Height }}"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+{{ end }}
