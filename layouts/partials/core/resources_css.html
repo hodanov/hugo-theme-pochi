@@ -1,4 +1,4 @@
-{{ $reboot := resources.Get "scss/reboot.scss" | resources.ToCSS }}
+{{ $reboot := resources.Get "scss/reboot.scss" | css.Sass }}
 {{ $main := resources.Get "css/main.css" }}
 {{ $bundledCss := slice $reboot $main | resources.Concat "css/bundled.css" | resources.Minify | fingerprint }}
 <link rel="stylesheet" href="{{ $bundledCss.RelPermalink }}" />
