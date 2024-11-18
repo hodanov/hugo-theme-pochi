@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@fsouza/prettierd": "^0.25.3",
+    "@fsouza/prettierd": "^0.25.4",
     "prettier": "^3.3.3",
     "prettier-plugin-go-template": "^0.0.15"
   }
