@@ -27,8 +27,6 @@ body {
   html {
     font-size: 14px;
   }
-  #contents,
-  #sidebar,
   .col-sm-4,
   .col-md-12 {
     width: 100%;
@@ -50,11 +48,19 @@ body {
     flex: 0 0 auto;
     width: 100%;
   }
-  #contents {
+  .col-md-9 {
     flex: 0 0 auto;
     width: 75%;
   }
-  #sidebar {
+  .col-md-8 {
+    flex: 0 0 auto;
+    width: 66.66666667%;
+  }
+  .col-md-4 {
+    flex: 0 0 auto;
+    width: 33.33333333%;
+  }
+  .col-md-3 {
     width: 25%;
   }
 }
