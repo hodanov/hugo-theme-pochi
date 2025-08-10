@@ -1,14 +1,14 @@
 {{ if .PublishDate }}
   <div class="post-info">
     <div class="kiji-date">
-      <time datetime="{{ .PublishDate.Format "2006-01-02" }}">
+      <time datetime="{{ .PublishDate.Local.Format "2006-01-02 15:04:05" }}">
         {{ partial "atoms/icon.html" (dict "id" "icon-pencil") }}
         :
-        {{ .PublishDate.Format "2006-01-02" }}
+        {{ .PublishDate.Local.Format "2006-01-02" }}
       </time>
       {{ with .Lastmod }}
         |
-        <time datetime="{{ .Format "2006-01-02" }}">
+        <time datetime="{{ .Format "2006-01-02 15:04:05" }}">
           {{ partial "atoms/icon.html" (dict "id" "icon-spinner") }}
           :
           {{ .Format "2006-01-02" }}

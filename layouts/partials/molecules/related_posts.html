@@ -1,15 +1,14 @@
-{{ $categoryTitles := slice }}
-{{ range first 1 (.GetTerms "categories") }}
-  {{ $categoryTitles = $categoryTitles | append .Title }}
-{{ end }}
-{{ $posts := first 3 ((where .Site.RegularPages "Params.categories" "intersect" $categoryTitles) | shuffle) }}
-{{ if gt (len $posts) 1 }}
+{{ $opts := dict
+  "document" .
+  "indices" (slice "tags")
+}}
+{{ with .Site.RegularPages.Related $opts | shuffle | first 3 }}
   <div class="row">
     <div class="col-md-12 recent-posts-wrapper">
       <div class="mymenu-thumb mymenu-related-list">
         <h3>関連記事</h3>
         <div class="row">
-          {{ range $posts }}
+          {{ range . }}
             <div class="col-sm-4 mymenu-related">
               <a href="{{ .Permalink }}">
                 {{ with .Params.featuredImage }}
@@ -21,9 +20,9 @@
                   {{ .Title }}
                   <div class="post-info">
                     <div class="kiji-date">
-                      <time datetime="{{ .PublishDate.Format "2006-01-02" }}">
+                      <time datetime="{{ .PublishDate.Local.Format "2006-01-02 15:04:05" }}">
                         {{ partial "atoms/icon.html" (dict "id" "icon-pencil") }}
-                        {{ .PublishDate.Format "2006-01-02" }}
+                        {{ .PublishDate.Local.Format "2006-01-02" }}
                       </time>
                     </div>
                   </div>
