@@ -22,8 +22,8 @@
     },
     "headline": "{{ .Title }}",
     "image": {{ $imageURL }},
-    "datePublished": "{{ .PublishDate.Format "2006-01-02" }}",
-    "dateModified": "{{ .Lastmod.Format "2006-01-02" }}",
+    "datePublished": "{{ .PublishDate.Local.Format "2006-01-02 15:04:05" }}",
+    "dateModified": "{{ .Lastmod.Local.Format "2006-01-02 15:04:05" }}",
     "description": "{{ with .Description }}{{ . }}{{ else }}{{ .Summary }}{{ end }}",
     "author": {
       "@type": "Person",
