@@ -3,15 +3,18 @@
 {{ template "_internal/twitter_cards.html" . }}
 {{ partial "head/schema.html" . }}
 
+
 <script>
   (function () {
     try {
-      var pref = localStorage.getItem('pref-theme');
-      var isDark = pref ? pref === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+      var pref = localStorage.getItem("pref-theme");
+      var isDark = pref
+        ? pref === "dark"
+        : window.matchMedia("(prefers-color-scheme: dark)").matches;
       if (isDark) {
-        document.documentElement.classList.add('dark');
+        document.documentElement.classList.add("dark");
       } else {
-        document.documentElement.classList.remove('dark');
+        document.documentElement.classList.remove("dark");
       }
     } catch (e) {}
   })();

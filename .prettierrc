@@ -6,6 +6,18 @@
       "options": {
         "parser": "go-template"
       }
+    },
+    {
+      "files": ["*.scss"],
+      "options": { "parser": "scss" }
+    },
+    {
+      "files": ["*.js"],
+      "options": { "parser": "babel" }
+    },
+    {
+      "files": ["*.yml", "*.yaml"],
+      "options": { "parser": "yaml" }
     }
   ]
 }

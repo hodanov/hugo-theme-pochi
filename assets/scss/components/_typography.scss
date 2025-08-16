@@ -11,7 +11,9 @@ h6 {
 }
 
 h1,
-h2 { font-size: 3.2rem; }
+h2 {
+  font-size: 3.2rem;
+}
 
 p,
 #breadcrumbs li {
@@ -25,15 +27,20 @@ article p {
   margin-bottom: 2rem;
 }
 
-article blockquote p { margin-bottom: 0; }
+article blockquote p {
+  margin-bottom: 0;
+}
 
 @media (max-width: 414px) {
-  h2 { font-size: 2rem; }
-  h3 { font-size: 1.75rem; }
+  h2 {
+    font-size: 2rem;
+  }
+  h3 {
+    font-size: 1.75rem;
+  }
 }
 
 a {
   color: var(--pochi-accent);
   text-decoration: none;
 }
-

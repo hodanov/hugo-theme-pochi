@@ -1,4 +1,11 @@
 {
+  "scripts": {
+    "format": "prettier . --write",
+    "format:check": "prettier . --check",
+    "lint": "prettier . --check",
+    "serve": "hugo serve -s example_site --themesDir .. -t pochi",
+    "build": "hugo --gc -s example_site --themesDir .. -t pochi"
+  },
   "dependencies": {
     "@fsouza/prettierd": "^0.26.1",
     "prettier": "^3.6.2",
