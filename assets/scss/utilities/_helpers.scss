@@ -1,0 +1,5 @@
+// Utilities (helpers, one-off classes). Keep tiny.
+@import '../mixins';
+
+.u-hidden { display: none !important; }
+.u-visually-hidden { @include sr-only; }

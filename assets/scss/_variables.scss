@@ -1,0 +1,62 @@
+// Design tokens (initial set). Migrate hard-coded colors here progressively.
+
+// Color palette (aligned to current theme)
+$color-text: #424242 !default;
+$color-bg: #f5f5f5 !default;
+$color-primary: #1a73e8 !default; // reserved
+$color-accent: #79c6b6 !default; // theme accent
+$color-border: #e0e0e0 !default;
+$color-border-light: #e9e9e9 !default;
+$color-card: #ffffff !default;
+$color-text-muted: #555555 !default;
+
+// Code colors
+$color-code-bg: #212121 !default;
+$color-code-fg: #fafafa !default;
+$color-inline-code-bg: #f8f9fa !default;
+$color-inline-code-border: #aaaaaa !default;
+
+// Typography
+$font-family-base: -apple-system, BlinkMacSystemFont, "Helvetica Neue",
+  "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", Arial, Meiryo, sans-serif !default;
+
+// Spacing scale
+$space-0: 0 !default;
+$space-1: 0.25rem !default;
+$space-2: 0.5rem !default;
+$space-3: 0.75rem !default;
+$space-4: 1rem !default;
+$space-5: 1.5rem !default;
+$space-6: 2rem !default;
+
+// Elevation
+$shadow-1: 0 1px 2px rgba(0, 0, 0, 0.06) !default;
+$shadow-2: 0 2px 8px rgba(0, 0, 0, 0.12) !default;
+
+// CSS variables bridge (opt-in during migration)
+:root {
+  --pochi-text: #{$color-text};
+  --pochi-bg: #{$color-bg};
+  --pochi-primary: #{$color-primary};
+  --pochi-accent: #{$color-accent};
+  --pochi-border: #{$color-border};
+  --pochi-card: #{$color-card};
+  --pochi-text-muted: #{$color-text-muted};
+  --pochi-blockquote-bg: #{$color-bg};
+  --pochi-surface: #ffffff; // generic surface (light)
+  --pochi-surface-soft: #{$color-bg};
+  --pochi-link: #{$color-accent};
+}
+
+:root.dark {
+  // Provide dark overrides as needed during migration
+  --pochi-text: #c9d1d9;
+  --pochi-text-muted: #a1a1a1;
+  --pochi-bg: #121212;
+  --pochi-card: #2f2f2f;
+  --pochi-surface: #2f2f2f;
+  --pochi-surface-soft: #1d1d1d;
+  --pochi-border: #2a2a2a;
+  --pochi-blockquote-bg: #212121;
+  --pochi-link: #{$color-accent};
+}

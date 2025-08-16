@@ -1,0 +1,240 @@
+// Navigation components
+
+/* visual elevation */
+nav {
+  box-shadow:
+    0 4px 5px 0 rgba(0, 0, 0, 0.14),
+    0 1px 10px 0 rgba(0, 0, 0, 0.12),
+    0 2px 4px -1px rgba(0, 0, 0, 0.3);
+}
+
+/* -----navbar----- */
+nav {
+  width: 100%;
+}
+
+.navbar-fixed nav {
+  position: fixed;
+}
+
+.navbar-fixed {
+  position: relative;
+  z-index: 997;
+  height: 4rem;
+}
+
+nav .nav-wrapper {
+  position: relative;
+  height: 100%;
+}
+
+nav ul a,
+nav {
+  color: var(--pochi-text);
+  font-size: 0.9rem;
+}
+
+nav {
+  background-color: var(--pochi-card);
+}
+
+nav #menu-bar-btn {
+  float: left;
+  font-size: 1.5rem;
+}
+
+nav #theme-toggle-switch-container {
+  display: inline;
+  float: right;
+  margin: 0;
+}
+
+nav .menu-global-nav-container {
+  display: inline;
+  float: right;
+}
+
+nav ul {
+  margin: 0;
+  line-height: 4rem;
+}
+
+nav ul li {
+  float: left;
+  padding: 0;
+}
+
+nav ul li a {
+  display: block;
+  padding: 0 1rem;
+  -webkit-transition: all 0.2s ease-in-out 0s;
+  transition: all 0.2s ease-in-out 0s;
+}
+
+nav ul > li:hover > a {
+  color: #fff;
+  background-color: var(--pochi-accent);
+}
+
+nav .dropdown-list li a:hover {
+  color: var(--pochi-accent);
+  background-color: inherit;
+}
+
+#side-nav .collapsible-header,
+#side-nav.fixed .collapsible-header {
+  padding: 0 32px;
+}
+
+#side-nav .collapsible-body li a,
+#side-nav.fixed .collapsible-body li a {
+  padding-left: 48px;
+}
+
+#side-nav-option {
+  margin: 0.5rem 1rem;
+}
+
+i.right {
+  margin: 0;
+}
+
+header ul li .collapsible .collapsible-header {
+  padding: 0 32px;
+}
+
+header ul li .collapsible .collapsible-body {
+  padding: 0 2rem;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-list {
+  position: absolute;
+  opacity: 0;
+  visibility: hidden;
+  top: 90%;
+  width: auto;
+  background-color: #fff;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  -webkit-transition: all 0.2s ease-in-out 0s;
+  transition: all 0.2s ease-in-out 0s;
+}
+
+.dropdown-list li {
+  width: 100%;
+  white-space: nowrap;
+}
+
+.dropdown-list li a {
+  padding: 0 10px;
+}
+
+.dropdown:hover .dropdown-list {
+  visibility: visible;
+  opacity: 1;
+  top: 100%;
+}
+
+#logo-container {
+  position: absolute;
+  display: inline-block;
+  padding: 0;
+  width: auto;
+  font-size: 1.6rem;
+  color: var(--pochi-text);
+  font-family:
+    "ヒラギノ角ゴ ProN W3",
+    Hiragino Kaku Gothic ProN,
+    Meiryo,
+    sans-serif;
+}
+
+#side-nav {
+  position: fixed;
+  width: 280px;
+  left: 0;
+  top: 0;
+  margin: 0;
+  -webkit-transform: translateX(-100%);
+  transform: translateX(-100%);
+  height: 100%;
+  height: calc(100% + 60px);
+  height: -moz-calc(100%);
+  padding-bottom: 60px;
+  background-color: var(--pochi-bg);
+  z-index: 999;
+  overflow-y: auto;
+  will-change: transform;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-transform: translateX(-105%);
+  transform: translateX(-105%);
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  overflow: hidden;
+}
+
+#side-nav.is-active {
+  -webkit-transform: translateX(0);
+  transform: translateX(0);
+}
+
+#side-nav li > a {
+  color: rgba(0, 0, 0, 0.87);
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  height: 3rem;
+  line-height: 3rem;
+  padding: 0 2rem;
+}
+
+#side-nav-overlay {
+  position: fixed;
+  display: block;
+  opacity: 1;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 120vh;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 997;
+  transition: all 0.3s;
+}
+
+nav,
+nav .nav-wrapper i,
+nav a.button-collapse,
+nav a.button-collapse i {
+  height: 4rem;
+  line-height: 4rem;
+}
+
+.dropdown-list {
+  line-height: 2rem;
+}
+
+@media (min-width: 768px) {
+  nav #menu-bar-btn {
+    display: none;
+  }
+}
+
+@media (max-width: 767px) {
+  nav .menu-global-nav-container {
+    display: none;
+  }
+
+  #logo-container {
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+  }
+}

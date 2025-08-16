@@ -1,0 +1,19 @@
+// Main content wrapper
+
+.main-content {
+  background-color: var(--pochi-bg);
+  position: relative;
+  z-index: 2;
+  min-height: calc(100vh - 4rem - 4rem - 4rem);
+}
+
+.main-content.margin-top {
+  margin-top: 3rem;
+}
+
+@media only screen and (max-width: 768px) {
+  .main-content.margin-top {
+    margin-top: 1rem;
+  }
+}
+

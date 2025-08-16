@@ -1,0 +1,39 @@
+// Global typography and links
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  line-height: inherit;
+  font-weight: 400;
+}
+
+h1,
+h2 { font-size: 3.2rem; }
+
+p,
+#breadcrumbs li {
+  line-height: 1.5rem;
+  letter-spacing: 1px;
+}
+
+article p {
+  font-size: 1rem;
+  line-height: 2rem;
+  margin-bottom: 2rem;
+}
+
+article blockquote p { margin-bottom: 0; }
+
+@media (max-width: 414px) {
+  h2 { font-size: 2rem; }
+  h3 { font-size: 1.75rem; }
+}
+
+a {
+  color: var(--pochi-accent);
+  text-decoration: none;
+}
+
