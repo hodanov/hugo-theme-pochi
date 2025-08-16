@@ -20,7 +20,9 @@
                   {{ .Title }}
                   <div class="post-info">
                     <div class="kiji-date">
-                      <time datetime="{{ .PublishDate.Local.Format "2006-01-02 15:04:05" }}">
+                      <time
+                        datetime="{{ .PublishDate.Local.Format "2006-01-02 15:04:05" }}"
+                      >
                         {{ partial "atoms/icon.html" (dict "id" "icon-pencil") }}
                         {{ .PublishDate.Local.Format "2006-01-02" }}
                       </time>

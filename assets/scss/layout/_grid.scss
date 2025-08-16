@@ -16,7 +16,9 @@
   margin-right: -1rem;
   margin-left: -1rem;
 }
-.row > * { max-width: 100%; }
+.row > * {
+  max-width: 100%;
+}
 
 // Columns
 #contents,
@@ -29,7 +31,9 @@
 
 // Base: stack
 .col-sm-4,
-.col-md-12 { width: 100%; }
+.col-md-12 {
+  width: 100%;
+}
 
 // Breakpoints
 @media (min-width: 576px) {
@@ -40,10 +44,23 @@
 }
 
 @media (min-width: 768px) {
-  .col-md-12 { flex: 0 0 auto; width: 100%; }
-  .col-md-9 { flex: 0 0 auto; width: 75%; }
-  .col-md-8 { flex: 0 0 auto; width: 66.66666667%; }
-  .col-md-4 { flex: 0 0 auto; width: 33.33333333%; }
-  .col-md-3 { width: 25%; }
+  .col-md-12 {
+    flex: 0 0 auto;
+    width: 100%;
+  }
+  .col-md-9 {
+    flex: 0 0 auto;
+    width: 75%;
+  }
+  .col-md-8 {
+    flex: 0 0 auto;
+    width: 66.66666667%;
+  }
+  .col-md-4 {
+    flex: 0 0 auto;
+    width: 33.33333333%;
+  }
+  .col-md-3 {
+    width: 25%;
+  }
 }
-

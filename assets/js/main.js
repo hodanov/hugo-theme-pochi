@@ -59,7 +59,7 @@ function toggleSideNav() {
       sideNav.classList.add(isActiveClass);
       document.body.insertAdjacentHTML(
         "beforeend",
-        '<div id="side-nav-overlay"></div>'
+        '<div id="side-nav-overlay"></div>',
       );
       sideNavOverlay = document.querySelector("#side-nav-overlay");
     }
@@ -107,7 +107,7 @@ function buildTableOfContents() {
     }
 
     const headers = document.querySelectorAll(
-      "article h2, article h3, article h4, article h5, article h6"
+      "article h2, article h3, article h4, article h5, article h6",
     );
     let tableOfContents =
       '<div class="table-of-contents"><p><span>Table of Contents</span></p><ol>';
@@ -209,7 +209,7 @@ function executeSearch(searchQuery) {
   fetch("/index.json").then(function (response) {
     if (response.status !== 200) {
       console.log(
-        "Looks like there was a problem. Status Code: " + response.status
+        "Looks like there was a problem. Status Code: " + response.status,
       );
       return;
     }
@@ -247,7 +247,7 @@ function makeFeaturedImageContainer(featuredImageURL) {
   let container = "";
   if (featuredImageURL !== "") {
     const fileExtension = featuredImageURL.match(
-      /\.([0-9a-z]+)(?=[?#])|(\.)(?:[\w]+)$/i
+      /\.([0-9a-z]+)(?=[?#])|(\.)(?:[\w]+)$/i,
     )[0];
     const isAVIF = fileExtension === ".avif";
     const isWebP = fileExtension === ".webp";
@@ -260,11 +260,11 @@ function makeFeaturedImageContainer(featuredImageURL) {
 
       const jpgPath = featuredImageURL.replace(
         /\.([0-9a-z]+)(?=[?#])|(\.)(?:[\w]+)$/i,
-        ".jpg"
+        ".jpg",
       );
       const pngPath = featuredImageURL.replace(
         /\.([0-9a-z]+)(?=[?#])|(\.)(?:[\w]+)$/i,
-        ".png"
+        ".png",
       );
 
       if (urlExists(jpgPath)) {
@@ -289,7 +289,7 @@ function populateResults(results) {
 
   // pull template from hugo template definition
   var templateDefinition = document.getElementById(
-    "search-result-template"
+    "search-result-template",
   ).innerHTML;
 
   results.forEach(function (value, key) {
@@ -352,7 +352,7 @@ function hide(elem) {
 }
 function param(name) {
   return decodeURIComponent(
-    (location.search.split(name + "=")[1] || "").split("&")[0]
+    (location.search.split(name + "=")[1] || "").split("&")[0],
   ).replace(/\+/g, " ");
 }
 

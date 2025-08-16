@@ -1,5 +1,5 @@
 // Code blocks and inline code
-@import '../variables';
+@import "../variables";
 
 pre {
   border: 0;
@@ -10,11 +10,20 @@ pre {
   color: $color-code-fg;
   overflow-x: auto;
   word-wrap: normal;
-  font-family: Consolas, Liberation Mono, Menlo, Courier, monospace;
+  font-family:
+    Consolas,
+    Liberation Mono,
+    Menlo,
+    Courier,
+    monospace;
 }
 
-p > code { font-size: 1rem; }
-pre > code { font-size: 0.875rem; }
+p > code {
+  font-size: 1rem;
+}
+pre > code {
+  font-size: 0.875rem;
+}
 
 p > code,
 ul li > code,
@@ -27,11 +36,17 @@ ol li > code {
 }
 
 @media (max-width: 767px) {
-  pre { border: 0; margin: 1rem -1rem; padding: 1rem; }
+  pre {
+    border: 0;
+    margin: 1rem -1rem;
+    padding: 1rem;
+  }
 }
 
 // Dark mode
-.dark pre { background-color: $color-code-bg; }
+.dark pre {
+  background-color: $color-code-bg;
+}
 
 // Inline code color tweak in dark mode (match inline contexts we style above)
 .dark p > code,
