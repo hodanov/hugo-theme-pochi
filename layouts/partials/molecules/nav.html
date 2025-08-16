@@ -1,16 +1,3 @@
-<script>
-  const prefersDarkMode = window.matchMedia("(prefers-color-scheme: dark)");
-  const storedTheme = localStorage.getItem("pref-theme");
-  const root = document.documentElement;
-
-  if (storedTheme) {
-    root.classList.toggle("dark", storedTheme === "dark");
-  } else {
-    const turnDarkModeOn = prefersDarkMode.matches;
-    root.classList.toggle("dark", turnDarkModeOn);
-    localStorage.setItem("pref-theme", turnDarkModeOn ? "dark" : "light");
-  }
-</script>
 <div class="navbar-fixed">
   <nav>
     <div class="nav-wrapper container-fluid">
