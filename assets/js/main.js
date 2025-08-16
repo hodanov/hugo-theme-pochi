@@ -9,9 +9,11 @@ function smoothScroll() {
   }
 
   function handleLinkClick(event) {
+    const target = event.target;
+    if (!target || !target.getAttribute) return;
+    const href = target.getAttribute("href");
+    if (!href || href.charAt(0) !== "#") return;
     event.preventDefault();
-
-    const href = event.target.getAttribute("href");
     if (href === "#top") {
       window.scrollTo({ top: 0, behavior: "smooth" });
     } else {
@@ -22,12 +24,14 @@ function smoothScroll() {
 
   // Add a single click event listener on the parent, and delegate events to children
   document.addEventListener("click", (event) => {
-    if (event.target.matches('a[href*="#"]')) {
+    const t = event.target;
+    if (t && t.matches && t.matches('a[href*="#"]')) {
       handleLinkClick(event);
     }
   });
 
   document.addEventListener("scroll", () => {
+    if (!scrollToTopBtn) return;
     if (window.scrollY >= 500) {
       scrollToTopBtn.classList.add("fade-in");
     } else {
@@ -43,6 +47,8 @@ function toggleSideNav() {
 
   let sideNavOverlay;
   let isSideNavOpen = false;
+
+  if (!sideNav) return;
 
   document.addEventListener("click", (event) => {
     if (!isSideNavOpen && event.target.closest(menuIcon)) {
@@ -72,19 +78,24 @@ function toggleSideNav() {
 
 function toggleTheme() {
   const themeSwitch = document.getElementById("theme-toggle-switch");
+  if (!themeSwitch) return;
   themeSwitch.addEventListener("click", () => {
-    const body = document.body;
-    const isDarkMode = body.classList.contains("dark");
-    body.classList.toggle("dark");
-    localStorage.setItem("pref-theme", isDarkMode ? "light" : "dark");
+    const root = document.documentElement; // keep in sync with head FOUC script
+    const isDarkMode = root.classList.contains("dark");
+    const next = isDarkMode ? "light" : "dark";
+    root.classList.toggle("dark");
+    localStorage.setItem("pref-theme", next);
   });
 }
 
 function handleThemeChange() {
   const prefersDarkMode = window.matchMedia("(prefers-color-scheme: dark)");
+  if (!prefersDarkMode || !prefersDarkMode.addEventListener) return;
   prefersDarkMode.addEventListener("change", (e) => {
-    document.body.classList.toggle("dark", e.matches);
-    localStorage.setItem("pref-theme", e.matches ? "dark" : "light");
+    const root = document.documentElement;
+    const isDark = e.matches;
+    root.classList.toggle("dark", isDark);
+    localStorage.setItem("pref-theme", isDark ? "dark" : "light");
   });
 }
 

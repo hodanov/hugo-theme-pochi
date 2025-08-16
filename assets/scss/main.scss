@@ -8,6 +8,21 @@ Description: Pochi is a Hugo website theme that focuses on simplicity and readab
 Version: 0.1.1
 */
 
+// Design tokens and mixins (compat: @import for older Sass)
+@import 'variables';
+@import 'mixins';
+
+// Project structure (progressively migrated)
+@import 'base';
+@import 'layout';
+@import 'components/buttons';
+@import 'components/nav';
+@import 'components/typography';
+@import 'components/code';
+@import 'utilities/helpers';
+
+// Legacy styles continue below
+
 html {
   -webkit-overflow-scrolling: touch;
 }
@@ -17,52 +32,21 @@ body {
     "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", Arial, Meiryo,
     sans-serif;
   font-weight: 300;
-  color: #424242;
-  background-color: #f5f5f5;
+  color: var(--pochi-text);
+  background-color: var(--pochi-surface-soft);
   letter-spacing: 2px;
   margin: 0;
 }
 
-@media (min-width: 0) {
-  html {
-    font-size: 14px;
-  }
-  .col-sm-4,
-  .col-md-12 {
-    width: 100%;
-  }
-}
+@media (min-width: 0) { html { font-size: 14px; } }
 
-@media (min-width: 576px) {
-  .col-sm-4 {
-    flex: 0 0 auto;
-    width: 33.33333333%;
-  }
-}
+/* grid moved to layout/_grid.scss */
 
 @media (min-width: 768px) {
   html {
     font-size: 14.5px;
   }
-  .col-md-12 {
-    flex: 0 0 auto;
-    width: 100%;
-  }
-  .col-md-9 {
-    flex: 0 0 auto;
-    width: 75%;
-  }
-  .col-md-8 {
-    flex: 0 0 auto;
-    width: 66.66666667%;
-  }
-  .col-md-4 {
-    flex: 0 0 auto;
-    width: 33.33333333%;
-  }
-  .col-md-3 {
-    width: 25%;
-  }
+  /* grid moved to layout/_grid.scss */
 }
 
 @media (min-width: 1200px) {
@@ -71,62 +55,16 @@ body {
   }
 }
 
-.container-fluid {
-  padding-left: 1rem;
-  padding-right: 1rem;
-  margin-right: auto;
-  margin-left: auto;
-}
-
-.row {
-  display: flex;
-  flex-wrap: wrap;
-  margin-right: -1rem;
-  margin-left: -1rem;
-}
-
-.row > * {
-  max-width: 100%;
-}
-
-#contents,
-#sidebar,
-.col-md-12,
-.col-sm-4 {
-  padding-right: 1rem;
-  padding-left: 1rem;
-}
+/* grid moved to layout/_grid.scss */
 
 mark {
   border-radius: 0.25rem;
 }
 
-/* -----Container----- */
-.container-fluid {
-  max-width: 1200px;
-}
+/* container moved to layout/_grid.scss */
 
 /* -----Font----- */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  line-height: inherit;
-  font-weight: 400;
-}
-
-h1,
-h2 {
-  font-size: 3.2rem;
-}
-
-p,
-#breadcrumbs li {
-  line-height: 1.5rem;
-  letter-spacing: 1px;
-}
+/* typography moved to components/_typography.scss */
 
 .button-collapse {
   color: #26a69a;
@@ -142,20 +80,9 @@ article blockquote p {
   margin-bottom: 0;
 }
 
-@media (max-width: 414px) {
-  h2 {
-    font-size: 2rem;
-  }
+/* typography responsive moved */
 
-  h3 {
-    font-size: 1.75rem;
-  }
-}
-
-a {
-  color: #79c6b6;
-  text-decoration: none;
-}
+/* link styles moved to components/_typography.scss */
 
 a:hover {
   text-decoration: none;
@@ -339,12 +266,7 @@ article,
     0 3px 1px -2px rgba(0, 0, 0, 0.2);
 }
 
-nav {
-  box-shadow:
-    0 4px 5px 0 rgba(0, 0, 0, 0.14),
-    0 1px 10px 0 rgba(0, 0, 0, 0.12),
-    0 2px 4px -1px rgba(0, 0, 0, 0.3);
-}
+/* nav elevation moved to components/_nav.scss */
 
 .article-list .post-row:hover {
   box-shadow:
@@ -358,236 +280,7 @@ nav {
   opacity: 0.8;
 }
 
-/* -----navbar----- */
-nav {
-  width: 100%;
-}
-
-.navbar-fixed nav {
-  position: fixed;
-}
-
-.navbar-fixed {
-  position: relative;
-  z-index: 997;
-  height: 4rem;
-}
-
-nav .nav-wrapper {
-  position: relative;
-  height: 100%;
-}
-
-nav ul a,
-nav {
-  color: #424242;
-  font-size: 0.9rem;
-}
-
-nav {
-  background-color: #fff;
-}
-
-nav #menu-bar-btn {
-  float: left;
-  font-size: 1.5rem;
-}
-
-nav #theme-toggle-switch-container {
-  display: inline;
-  float: right;
-  margin: 0;
-}
-
-nav .menu-global-nav-container {
-  display: inline;
-  float: right;
-}
-
-nav ul {
-  margin: 0;
-  line-height: 4rem;
-}
-
-nav ul li {
-  float: left;
-  padding: 0;
-}
-
-nav ul li a {
-  display: block;
-  padding: 0 1rem;
-  -webkit-transition: all 0.2s ease-in-out 0s;
-  transition: all 0.2s ease-in-out 0s;
-}
-
-nav ul > li:hover > a {
-  color: #fff;
-  background-color: #79c6b6;
-}
-
-nav .dropdown-list li a:hover {
-  color: #79c6b6;
-  background-color: inherit;
-}
-
-#side-nav .collapsible-header,
-#side-nav.fixed .collapsible-header {
-  padding: 0 32px;
-}
-
-#side-nav .collapsible-body li a,
-#side-nav.fixed .collapsible-body li a {
-  padding-left: 48px;
-}
-
-#side-nav-option {
-  margin: 0.5rem 1rem;
-}
-
-i.right {
-  margin: 0;
-}
-
-header ul li .collapsible .collapsible-header {
-  padding: 0 32px;
-}
-
-header ul li .collapsible .collapsible-body {
-  padding: 0 2rem;
-}
-
-.dropdown {
-  position: relative;
-  display: inline-block;
-}
-
-.dropdown-list {
-  position: absolute;
-  opacity: 0;
-  visibility: hidden;
-  top: 90%;
-  width: auto;
-  background-color: #fff;
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-  z-index: 1;
-  -webkit-transition: all 0.2s ease-in-out 0s;
-  transition: all 0.2s ease-in-out 0s;
-}
-
-.dropdown-list li {
-  width: 100%;
-  white-space: nowrap;
-}
-
-.dropdown-list li a {
-  padding: 0 10px;
-}
-
-.dropdown:hover .dropdown-list {
-  visibility: visible;
-  opacity: 1;
-  top: 100%;
-}
-
-#logo-container {
-  position: absolute;
-  display: inline-block;
-  padding: 0;
-  width: auto;
-  font-size: 1.6rem;
-  color: #424242;
-  font-family:
-    "ヒラギノ角ゴ ProN W3",
-    Hiragino Kaku Gothic ProN,
-    Meiryo,
-    sans-serif;
-}
-
-#side-nav {
-  position: fixed;
-  width: 280px;
-  left: 0;
-  top: 0;
-  margin: 0;
-  -webkit-transform: translateX(-100%);
-  transform: translateX(-100%);
-  height: 100%;
-  height: calc(100% + 60px);
-  height: -moz-calc(100%);
-  padding-bottom: 60px;
-  background-color: #f5f5f5;
-  z-index: 999;
-  overflow-y: auto;
-  will-change: transform;
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-  -webkit-transform: translateX(-105%);
-  transform: translateX(-105%);
-  -webkit-transition: all 0.3s;
-  transition: all 0.3s;
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-  overflow: hidden;
-}
-
-#side-nav.is-active {
-  -webkit-transform: translateX(0);
-  transform: translateX(0);
-}
-
-#side-nav li > a {
-  color: rgba(0, 0, 0, 0.87);
-  display: block;
-  font-size: 14px;
-  font-weight: 500;
-  height: 3rem;
-  line-height: 3rem;
-  padding: 0 2rem;
-}
-
-#side-nav-overlay {
-  position: fixed;
-  display: block;
-  opacity: 1;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 120vh;
-  background-color: rgba(0, 0, 0, 0.7);
-  z-index: 997;
-  transition: all 0.3s;
-}
-
-nav,
-nav .nav-wrapper i,
-nav a.button-collapse,
-nav a.button-collapse i {
-  height: 4rem;
-  line-height: 4rem;
-}
-
-.dropdown-list {
-  line-height: 2rem;
-}
-
-@media (min-width: 768px) {
-  nav #menu-bar-btn {
-    display: none;
-  }
-}
-
-@media (max-width: 767px) {
-  nav .menu-global-nav-container {
-    display: none;
-  }
-
-  #logo-container {
-    left: 50%;
-    -webkit-transform: translateX(-50%);
-    transform: translateX(-50%);
-  }
-}
+/* navbar moved to components/_nav.scss */
 
 /* -----Image-wrapper----- */
 .image-wrapper {
@@ -673,16 +366,7 @@ nav a.button-collapse i {
   filter: brightness(0.8);
 }
 
-.main-content {
-  background-color: #f5f5f5;
-  position: relative;
-  z-index: 2;
-  min-height: calc(100vh - 4rem - 4rem - 4rem);
-}
-
-.main-content.margin-top {
-  margin-top: 3rem;
-}
+/* main-content moved to layout/_main-content.scss */
 
 #parallax-object {
   z-index: 1;
@@ -734,9 +418,7 @@ nav a.button-collapse i {
     margin: 0;
   }
 
-  .main-content.margin-top {
-    margin-top: 1rem;
-  }
+  /* main-content.margin-top responsive moved to layout/_main-content.scss */
 }
 
 /* -----Breadcrumb----- */
@@ -771,7 +453,7 @@ nav a.button-collapse i {
   margin-bottom: 2rem;
 }
 
-/* -----article_list----- */
+/* article-list moved to components/_cards.scss */
 .article-list .post-row {
   margin: 0 0 3rem 0;
   background-color: #fff;
@@ -803,7 +485,7 @@ nav a.button-collapse i {
 .mymenu-related a .text {
   font-size: 1.4rem;
   margin: 0;
-  color: #424242;
+  color: var(--pochi-text);
   font-weight: bold;
 }
 
@@ -1309,17 +991,10 @@ blockquote cite {
   font-size: 0.85rem;
 }
 
-.aligncenter {
-  display: block;
-  margin: 2rem auto;
-}
+/* captions moved to components/_content.scss */
 
 @media (max-width: 767px) {
-  .alignleft,
-  .alignright {
-    display: block;
-    margin: 2rem auto;
-  }
+  /* caption responsive moved */
 
   article,
   .comments,
@@ -1386,50 +1061,7 @@ article .featured-image-wrapper {
   margin: 0 0 3rem;
 }
 
-/* for code block */
-pre {
-  border: 0;
-  margin: 3rem -3rem;
-  padding: 3rem;
-  line-height: 1.2;
-  background-color: #212121;
-  color: #fafafa;
-  overflow-x: auto;
-  word-wrap: normal;
-  font-family:
-    Consolas,
-    Liberation Mono,
-    Menlo,
-    Courier,
-    monospace;
-}
-
-p > code {
-  font-size: 1rem;
-}
-
-pre > code {
-  font-size: 0.875rem;
-}
-
-p > code,
-ul li > code,
-ol li > code {
-  border: 1px solid #aaa;
-  color: #424242;
-  padding: 0.2rem 0.4rem;
-  background-color: #f8f9fa;
-  border: 1px solid #aaa;
-  border-radius: 0.25rem;
-}
-
-@media (max-width: 767px) {
-  pre {
-    border: 0;
-    margin: 1rem -1rem;
-    padding: 1rem;
-  }
-}
+/* code styles moved to components/_code.scss */
 
 /* -----Related post----- */
 .mymenu-related-list .row {
@@ -1586,7 +1218,6 @@ iframe {
   color: #c9d1d9;
 }
 
-body.dark,
 .dark #logo-container,
 .dark .article-list a h2,
 .dark .mymenu-related a .text,
@@ -1623,14 +1254,13 @@ body.dark,
   color: #79c6b6;
 }
 
-body.dark,
 .dark #side-nav,
 .dark .main-content,
 .dark #breadcrumbs,
 .dark #sidebar h2 span,
 .dark footer h2 span,
 .dark .pagination-index .pagination .page-item.active .page-link {
-  background-color: #1d1d1d;
+  background-color: var(--pochi-surface-soft);
 }
 
 .dark pre,

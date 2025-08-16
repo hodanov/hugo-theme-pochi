@@ -1,13 +1,13 @@
 <script>
   const prefersDarkMode = window.matchMedia("(prefers-color-scheme: dark)");
   const storedTheme = localStorage.getItem("pref-theme");
-  const body = document.body;
+  const root = document.documentElement;
 
   if (storedTheme) {
-    body.classList.toggle("dark", storedTheme === "dark");
+    root.classList.toggle("dark", storedTheme === "dark");
   } else {
-    turnDarkModeOn = prefersDarkMode.matches;
-    body.classList.toggle("dark", turnDarkModeOn);
+    const turnDarkModeOn = prefersDarkMode.matches;
+    root.classList.toggle("dark", turnDarkModeOn);
     localStorage.setItem("pref-theme", turnDarkModeOn ? "dark" : "light");
   }
 </script>

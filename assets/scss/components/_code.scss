@@ -1,0 +1,42 @@
+// Code blocks and inline code
+@import '../variables';
+
+pre {
+  border: 0;
+  margin: 3rem -3rem;
+  padding: 3rem;
+  line-height: 1.2;
+  background-color: $color-code-bg;
+  color: $color-code-fg;
+  overflow-x: auto;
+  word-wrap: normal;
+  font-family: Consolas, Liberation Mono, Menlo, Courier, monospace;
+}
+
+p > code { font-size: 1rem; }
+pre > code { font-size: 0.875rem; }
+
+p > code,
+ul li > code,
+ol li > code {
+  color: var(--pochi-text);
+  padding: 0.2rem 0.4rem;
+  background-color: $color-inline-code-bg;
+  border: 1px solid $color-inline-code-border;
+  border-radius: 0.25rem;
+}
+
+@media (max-width: 767px) {
+  pre { border: 0; margin: 1rem -1rem; padding: 1rem; }
+}
+
+// Dark mode
+.dark pre { background-color: $color-code-bg; }
+
+// Inline code color tweak in dark mode (match inline contexts we style above)
+.dark p > code,
+.dark ul li > code,
+.dark ol li > code {
+  color: var(--bs-code-color);
+  background-color: inherit; // inherit bg in dark mode
+}

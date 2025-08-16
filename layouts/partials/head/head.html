@@ -2,6 +2,22 @@
 {{ template "_internal/opengraph.html" . }}
 {{ template "_internal/twitter_cards.html" . }}
 {{ partial "head/schema.html" . }}
+
+<script>
+  (function () {
+    try {
+      var pref = localStorage.getItem('pref-theme');
+      var isDark = pref ? pref === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (isDark) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    } catch (e) {}
+  })();
+  // This runs before CSS loads to minimize FOUC
+</script>
+
 {{ partial "core/resources_css.html" . }}
 {{ with .Site.Params.Favicon }}
   <link rel="icon" href="{{ . }}" />
