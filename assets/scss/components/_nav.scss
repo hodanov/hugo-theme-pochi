@@ -118,7 +118,7 @@ header ul li .collapsible .collapsible-body {
   visibility: hidden;
   top: 90%;
   width: auto;
-  background-color: #fff;
+  background-color: var(--pochi-card);
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
   -webkit-transition: all 0.2s ease-in-out 0s;

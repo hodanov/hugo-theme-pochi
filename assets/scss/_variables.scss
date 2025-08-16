@@ -41,6 +41,7 @@ $shadow-2: 0 2px 8px rgba(0, 0, 0, 0.12) !default;
   --pochi-primary: #{$color-primary};
   --pochi-accent: #{$color-accent};
   --pochi-border: #{$color-border};
+  --pochi-border-light: #{$color-border-light};
   --pochi-card: #{$color-card};
   --pochi-text-muted: #{$color-text-muted};
   --pochi-blockquote-bg: #{$color-bg};
@@ -58,6 +59,7 @@ $shadow-2: 0 2px 8px rgba(0, 0, 0, 0.12) !default;
   --pochi-surface: #2f2f2f;
   --pochi-surface-soft: #1d1d1d;
   --pochi-border: #2a2a2a;
+  --pochi-border-light: #3a3a3a;
   --pochi-blockquote-bg: #212121;
   --pochi-link: #{$color-accent};
 }
