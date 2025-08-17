@@ -2,7 +2,13 @@
   {{ $page := . }}
   {{ with .Params.featuredImage }}
     <div class="featured-image-wrapper golden-ratio">
-      {{ partial "atoms/picture.html" (dict "image" . "alt" "featured image" "page" $page) }}
+      {{ partial "atoms/picture.html" (dict
+        "image" .
+        "alt" "featured image"
+        "page" $page
+        "sizes" "(min-width: 800px) 800px, 100vw"
+        )
+      }}
     </div>
   {{ end }}
 {{ end }}

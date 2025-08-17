@@ -2,6 +2,7 @@
 {{ $imgParam := .image }}
 {{ $alt := .alt }}
 {{ $sizesAttr := or .sizes "(min-width: 1200px) 1200px, 100vw" }}
+{{ $priority := .priority }}
 
 {{ $isAVIF := eq (path.Ext $imgParam) ".avif" }}
 {{ $isWebP := eq (path.Ext $imgParam) ".webp" }}
@@ -18,6 +19,7 @@
   {{ if .enableAvif }}{{ $enableAvif = true }}{{ end }}
   {{ with .widths }}{{ $widths = . }}{{ end }}
 {{ end }}
+{{ with .widths }}{{ $widths = . }}{{ end }}
 
 {{/* Try to resolve as Page Resource */}}
 {{ $res := false }}
@@ -80,12 +82,21 @@
   {{ $width = $fallbackImg.Width }}
   {{ $height = $fallbackImg.Height }}
 
+
   <picture>
     {{ if gt (len $srcsetAVIF) 0 }}
-      <source type="image/avif" srcset="{{ delimit $srcsetAVIF ", " }}" sizes="{{ $sizesAttr }}" />
+      <source
+        type="image/avif"
+        srcset="{{ delimit $srcsetAVIF ", " }}"
+        sizes="{{ $sizesAttr }}"
+      />
     {{ end }}
     {{ if gt (len $srcsetWEBP) 0 }}
-      <source type="image/webp" srcset="{{ delimit $srcsetWEBP ", " }}" sizes="{{ $sizesAttr }}" />
+      <source
+        type="image/webp"
+        srcset="{{ delimit $srcsetWEBP ", " }}"
+        sizes="{{ $sizesAttr }}"
+      />
     {{ end }}
     <img
       src="{{ $fallbackSrc }}"
@@ -94,7 +105,9 @@
       {{ with $alt }}alt="{{ . }}"{{ end }}
       loading="lazy"
       decoding="async"
-      width="{{ $width }}" height="{{ $height }}"
+      {{ if eq $priority "high" }}fetchpriority="high"{{ end }}
+      width="{{ $width }}"
+      height="{{ $height }}"
     />
   </picture>
 {{ else if and $isRasterRes (or $isAVIF $isWebP) }}
@@ -131,8 +144,13 @@
     {{ $width = $fallbackImg.Width }}
     {{ $height = $fallbackImg.Height }}
 
+
     <picture>
-      <source type="image/{{ $type }}" srcset="{{ delimit $srcsetPrimary ", " }}" sizes="{{ $sizesAttr }}" />
+      <source
+        type="image/{{ $type }}"
+        srcset="{{ delimit $srcsetPrimary ", " }}"
+        sizes="{{ $sizesAttr }}"
+      />
       <img
         src="{{ $fallbackSrc }}"
         srcset="{{ delimit $srcsetFallback ", " }}"
@@ -140,7 +158,9 @@
         {{ with $alt }}alt="{{ . }}"{{ end }}
         loading="lazy"
         decoding="async"
-        width="{{ $width }}" height="{{ $height }}"
+        {{ if eq $priority "high" }}fetchpriority="high"{{ end }}
+        width="{{ $width }}"
+        height="{{ $height }}"
       />
     </picture>
   {{ else }}
@@ -164,71 +184,74 @@
       {{ with $alt }}alt="{{ . }}"{{ end }}
       loading="lazy"
       decoding="async"
+      {{ if eq $priority "high" }}fetchpriority="high"{{ end }}
     />
   {{ else }}
-  {{ $webPath := $imgParam }}
-  {{ if and $webPath (ne (substr $webPath 0 1) "/") }}
-    {{ $webPath = printf "/%s" $webPath }}
-  {{ end }}
-  {{ $fsPath := printf "static%s" $webPath }}
+    {{ $webPath := $imgParam }}
+    {{ if and $webPath (ne (substr $webPath 0 1) "/") }}
+      {{ $webPath = printf "/%s" $webPath }}
+    {{ end }}
+    {{ $fsPath := printf "static%s" $webPath }}
 
-  {{ if or $isAVIF $isWebP }}
-    {{ $type := cond $isAVIF "avif" "webp" }}
-    {{ $primarySrc := $webPath }}
-    {{ $jpgPath := replace $webPath (printf ".%s" $type) ".jpg" }}
-    {{ if (fileExists (printf "static%s" $jpgPath)) }}
-      {{ $fallbackSrc = $jpgPath }}
-      {{ with imageConfig (printf "static%s" $jpgPath) }}
-        {{ $width = .Width }}
-        {{ $height = .Height }}
-      {{ end }}
-    {{ else }}
-      {{ $pngPath := replace $webPath (printf ".%s" $type) ".png" }}
-      {{ if (fileExists (printf "static%s" $pngPath)) }}
-        {{ $fallbackSrc = $pngPath }}
-        {{ with imageConfig (printf "static%s" $pngPath) }}
+    {{ if or $isAVIF $isWebP }}
+      {{ $type := cond $isAVIF "avif" "webp" }}
+      {{ $primarySrc := $webPath }}
+      {{ $jpgPath := replace $webPath (printf ".%s" $type) ".jpg" }}
+      {{ if (fileExists (printf "static%s" $jpgPath)) }}
+        {{ $fallbackSrc = $jpgPath }}
+        {{ with imageConfig (printf "static%s" $jpgPath) }}
           {{ $width = .Width }}
           {{ $height = .Height }}
         {{ end }}
       {{ else }}
-        {{ $fallbackSrc = $webPath }}
-        {{ if (fileExists $fsPath) }}
-          {{ with imageConfig $fsPath }}
+        {{ $pngPath := replace $webPath (printf ".%s" $type) ".png" }}
+        {{ if (fileExists (printf "static%s" $pngPath)) }}
+          {{ $fallbackSrc = $pngPath }}
+          {{ with imageConfig (printf "static%s" $pngPath) }}
             {{ $width = .Width }}
             {{ $height = .Height }}
           {{ end }}
+        {{ else }}
+          {{ $fallbackSrc = $webPath }}
+          {{ if (fileExists $fsPath) }}
+            {{ with imageConfig $fsPath }}
+              {{ $width = .Width }}
+              {{ $height = .Height }}
+            {{ end }}
+          {{ end }}
         {{ end }}
       {{ end }}
-    {{ end }}
-    <picture>
-      <source srcset="{{ $primarySrc }}" type="image/{{ $type }}" />
+      <picture>
+        <source srcset="{{ $primarySrc }}" type="image/{{ $type }}" />
+        <img
+          src="{{ $fallbackSrc }}"
+          {{ with $alt }}alt="{{ . }}"{{ end }}
+          loading="lazy"
+          decoding="async"
+          {{ if eq $priority "high" }}fetchpriority="high"{{ end }}
+          {{ if and (gt $width 0) (gt $height 0) }}
+            width="{{ $width }}" height="{{ $height }}"
+          {{ end }}
+        />
+      </picture>
+    {{ else }}
+      {{ $fallbackSrc = $webPath }}
+      {{ if (fileExists $fsPath) }}
+        {{ with imageConfig $fsPath }}
+          {{ $width = .Width }}
+          {{ $height = .Height }}
+        {{ end }}
+      {{ end }}
       <img
         src="{{ $fallbackSrc }}"
         {{ with $alt }}alt="{{ . }}"{{ end }}
         loading="lazy"
         decoding="async"
+        {{ if eq $priority "high" }}fetchpriority="high"{{ end }}
         {{ if and (gt $width 0) (gt $height 0) }}
           width="{{ $width }}" height="{{ $height }}"
         {{ end }}
       />
-    </picture>
-  {{ else }}
-    {{ $fallbackSrc = $webPath }}
-    {{ if (fileExists $fsPath) }}
-      {{ with imageConfig $fsPath }}
-        {{ $width = .Width }}
-        {{ $height = .Height }}
-      {{ end }}
     {{ end }}
-    <img
-      src="{{ $fallbackSrc }}"
-      {{ with $alt }}alt="{{ . }}"{{ end }}
-      loading="lazy"
-      decoding="async"
-      {{ if and (gt $width 0) (gt $height 0) }}
-        width="{{ $width }}" height="{{ $height }}"
-      {{ end }}
-    />
-  {{ end }}
   {{ end }}
 {{ end }}
