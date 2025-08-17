@@ -1,44 +1,110 @@
-{{ $img := .image }}
-{{ if ne (substr $img 0 1) "/" }}
-  {{ $img = printf "/%s" $img }}
+{{ $page := .page }}
+{{ $imgParam := .image }}
+{{ $alt := .alt }}
+
+{{ $isAVIF := eq (path.Ext $imgParam) ".avif" }}
+{{ $isWebP := eq (path.Ext $imgParam) ".webp" }}
+
+{{ $primarySrc := "" }}      {{/* for <source> */}}
+{{ $fallbackSrc := "" }}     {{/* for <img> */}}
+{{ $width := 0 }}
+{{ $height := 0 }}
+
+{{/* Try to resolve as Page Resource first if page context is provided */}}
+{{ $res := false }}
+{{ if and $page $imgParam }}
+  {{ $res = $page.Resources.GetMatch $imgParam }}
 {{ end }}
-<picture>
-  {{ $isAVIF := eq (path.Ext $img) ".avif" }}
-  {{ $isWebP := eq (path.Ext $img) ".webp" }}
-  {{ $imgSrc := "" }}
+
+{{ if $res }}
+  {{/* Use resource-based URLs and dimensions */}}
+  {{ if or $isAVIF $isWebP }}
+    {{ $type := cond $isAVIF "avif" "webp" }}
+    {{ $primarySrc = $res.RelPermalink }}
+    {{ $jpgRes := $page.Resources.GetMatch (replace $imgParam (printf ".%s" $type) ".jpg") }}
+    {{ if $jpgRes }}
+      {{ $fallbackSrc = $jpgRes.RelPermalink }}
+      {{ $width = $jpgRes.Width }}
+      {{ $height = $jpgRes.Height }}
+    {{ else }}
+      {{ $pngRes := $page.Resources.GetMatch (replace $imgParam (printf ".%s" $type) ".png") }}
+      {{ if $pngRes }}
+        {{ $fallbackSrc = $pngRes.RelPermalink }}
+        {{ $width = $pngRes.Width }}
+        {{ $height = $pngRes.Height }}
+      {{ else }}
+        {{/* No fallback image; use the original */}}
+        {{ $fallbackSrc = $primarySrc }}
+        {{ $width = $res.Width }}
+        {{ $height = $res.Height }}
+      {{ end }}
+    {{ end }}
+  {{ else }}
+    {{ $fallbackSrc = $res.RelPermalink }}
+    {{ $width = $res.Width }}
+    {{ $height = $res.Height }}
+  {{ end }}
+{{ else }}
+  {{/* Fallback to static or absolute path handling */}}
+  {{ $webPath := $imgParam }}
+  {{ if and $webPath (ne (substr $webPath 0 1) "/") }}
+    {{ $webPath = printf "/%s" $webPath }}
+  {{ end }}
+  {{ $fsPath := printf "static%s" $webPath }}
 
   {{ if or $isAVIF $isWebP }}
-    {{ $type := "" }}
-    {{ if $isAVIF }}
-      {{ $type = "avif" }}
-    {{ else if $isWebP }}
-      {{ $type = "webp" }}
+    {{ $type := cond $isAVIF "avif" "webp" }}
+    {{ $primarySrc = $webPath }}
+    {{ $jpgPath := replace $webPath (printf ".%s" $type) ".jpg" }}
+    {{ if (fileExists (printf "static%s" $jpgPath)) }}
+      {{ $fallbackSrc = $jpgPath }}
+      {{ with imageConfig (printf "static%s" $jpgPath) }}
+        {{ $width = .Width }}
+        {{ $height = .Height }}
+      {{ end }}
+    {{ else }}
+      {{ $pngPath := replace $webPath (printf ".%s" $type) ".png" }}
+      {{ if (fileExists (printf "static%s" $pngPath)) }}
+        {{ $fallbackSrc = $pngPath }}
+        {{ with imageConfig (printf "static%s" $pngPath) }}
+          {{ $width = .Width }}
+          {{ $height = .Height }}
+        {{ end }}
+      {{ else }}
+        {{ $fallbackSrc = $webPath }}
+        {{ if (fileExists $fsPath) }}
+          {{ with imageConfig $fsPath }}
+            {{ $width = .Width }}
+            {{ $height = .Height }}
+          {{ end }}
+        {{ end }}
+      {{ end }}
     {{ end }}
-    <source srcset="{{ $img }}" type="image/{{ $type }}" />
-
-    {{ $jpgPath := replace $img (printf ".%s" $type) ".jpg" }}
-    {{ $jpgPathStatic := printf "static/%s" $jpgPath }}
-    {{ if (fileExists $jpgPathStatic) }}
-      {{ $imgSrc = $jpgPath }}
-    {{ end }}
-
-    {{ $pngPath := replace $img (printf ".%s" $type) ".png" }}
-    {{ $pngPathStatic := printf "static/%s" $pngPath }}
-    {{ if (fileExists $pngPathStatic) }}
-      {{ $imgSrc = $pngPath }}
+  {{ else }}
+    {{ $fallbackSrc = $webPath }}
+    {{ if (fileExists $fsPath) }}
+      {{ with imageConfig $fsPath }}
+        {{ $width = .Width }}
+        {{ $height = .Height }}
+      {{ end }}
     {{ end }}
   {{ end }}
+{{ end }}
 
-  {{ if eq $imgSrc "" }}
-    {{ $imgSrc = $img }}
+<picture>
+  {{ if $primarySrc }}
+    {{ $type := cond $isAVIF "avif" (cond $isWebP "webp" "") }}
+    {{ if ne $type "" }}
+      <source srcset="{{ $primarySrc }}" type="image/{{ $type }}" />
+    {{ end }}
   {{ end }}
   <img
-    src="{{ $imgSrc }}"
-    {{ with .alt }}alt="{{ . }}"{{ end }}
+    src="{{ $fallbackSrc }}"
+    {{ with $alt }}alt="{{ . }}"{{ end }}
     loading="lazy"
     decoding="async"
-    {{ with imageConfig (printf "/static%s" $imgSrc) }}
-      width="{{ .Width }}" height="{{ .Height }}"
+    {{ if and (gt $width 0) (gt $height 0) }}
+      width="{{ $width }}" height="{{ $height }}"
     {{ end }}
   />
 </picture>

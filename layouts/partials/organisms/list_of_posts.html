@@ -3,9 +3,10 @@
     <a href="{{ .Permalink }}">
       {{ if and (.Params.featuredImage) (ne .Params.featuredImage "") }}
         <div class="post-image-col">
+          {{ $page := . }}
           {{ with .Params.featuredImage }}
             <div class="featured-image-wrapper">
-              {{ partial "atoms/picture.html" (dict "image" . "alt" "featured image") }}
+              {{ partial "atoms/picture.html" (dict "image" . "alt" "featured image" "page" $page) }}
             </div>
           {{ end }}
         </div>

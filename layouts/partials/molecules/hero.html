@@ -1,7 +1,7 @@
 {{ if and (.Params.featuredImage) (ne .Params.featuredImage "") }}
   <div class="parallax-container">
     <div class="hero featured-image-wrapper">
-      {{ partial "atoms/picture.html" (dict "image" .Params.featuredImage "alt" "featured image") }}
+      {{ partial "atoms/picture.html" (dict "image" .Params.featuredImage "alt" "featured image" "page" .) }}
       <div class="container-fluid" id="parallax-object">
         <div class="row">
           <div class="col-md-12">

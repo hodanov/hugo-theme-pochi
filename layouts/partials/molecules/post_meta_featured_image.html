@@ -1,7 +1,8 @@
 {{ if and (.Params.featuredImage) (ne .Params.featuredImage "") }}
+  {{ $page := . }}
   {{ with .Params.featuredImage }}
     <div class="featured-image-wrapper golden-ratio">
-      {{ partial "atoms/picture.html" (dict "image" . "alt" "featured image") }}
+      {{ partial "atoms/picture.html" (dict "image" . "alt" "featured image" "page" $page) }}
     </div>
   {{ end }}
 {{ end }}
