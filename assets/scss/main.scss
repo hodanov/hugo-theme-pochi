@@ -1069,6 +1069,12 @@ iframe {
   overflow: hidden;
 }
 
+/* input */
+input.form-control {
+  color: var(--pochi-text);
+  font-weight: 300;
+}
+
 /* dark mode */
 .dark article,
 .dark .comments,
