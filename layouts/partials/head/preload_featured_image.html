@@ -4,11 +4,26 @@
   {{ $page := . }}
   {{ $isAVIF := eq (path.Ext $img) ".avif" }}
   {{ $isWebP := eq (path.Ext $img) ".webp" }}
-  {{ $preloadWidth := 800 }}
+  {{ $preloadWidth := 1200 }}
+  {{ if .IsPage }}{{ $preloadWidth = 1600 }}{{ end }}
   {{ with site.Params.images.preloadWidth }}{{ $preloadWidth = . }}{{ end }}
+  {{/* Match <picture> selection: AVIF (if enabled) → WEBP → JPG */}}
+  {{ $enableAvif := false }}
+  {{ with site.Params.images }}
+    {{ if .enableAvif }}{{ $enableAvif = true }}{{ end }}
+  {{ end }}
 
   {{ $res := $page.Resources.GetMatch $img }}
   {{ $href := "" }}
+  {{ $typeHint := "" }}
+  {{/* For perfect match, build imagesrcset/imagesizes to mirror <picture> */}}
+  {{ $imagesrcset := "" }}
+  {{ $imagesizes := "" }}
+  {{ if .IsPage }}
+    {{ $imagesizes = "(min-width: 1200px) 1200px, 100vw" }}
+  {{ else }}
+    {{ $imagesizes = "(min-width: 800px) 800px, 100vw" }}
+  {{ end }}
   {{ if $res }}
     {{ if or $isAVIF $isWebP }}
       {{ $type := cond $isAVIF "avif" "webp" }}
@@ -17,14 +32,100 @@
         {{ $base = $page.Resources.GetMatch (replace $img (printf ".%s" $type) ".png") }}
       {{ end }}
       {{ if $base }}
-        {{ $target := $base.Resize (printf "%dx jpg q80" $preloadWidth) }}
-        {{ $href = $target.RelPermalink }}
+        {{/* If original path is AVIF/WEBP, picture prefers that same type */}}
+        {{ if eq $type "avif" }}
+          {{ $target := $base.Resize (printf "%dx avif q60" $preloadWidth) }}
+          {{ $href = $target.RelPermalink }}
+          {{ $typeHint = "image/avif" }}
+          {{/* Build srcset for AVIF to match <picture> */}}
+          {{ $widths := slice 480 800 1200 1600 2000 2400 }}
+          {{ if not .IsPage }}{{ $widths = slice 480 800 1200 }}{{ end }}
+          {{ $origW := $base.Width }}
+          {{ $bounded := slice }}
+          {{ range $w := $widths }}
+            {{ if le $w $origW }}{{ $bounded = $bounded | append $w }}{{ end }}
+          {{ end }}
+          {{ if eq (len $bounded) 0 }}
+            {{ $bounded = slice $origW }}
+          {{ end }}
+          {{ $set := slice }}
+          {{ range $bounded }}
+            {{ $im := $base.Resize (printf "%dx avif q60" .) }}
+            {{ $set = $set | append (printf "%s %dw" $im.RelPermalink .) }}
+          {{ end }}
+          {{ $imagesrcset = delimit $set ", " }}
+        {{ else }}
+          {{ $target := $base.Resize (printf "%dx webp q75" $preloadWidth) }}
+          {{ $href = $target.RelPermalink }}
+          {{ $typeHint = "image/webp" }}
+          {{/* Build srcset for WEBP to match <picture> */}}
+          {{ $widths := slice 480 800 1200 1600 2000 2400 }}
+          {{ if not .IsPage }}{{ $widths = slice 480 800 1200 }}{{ end }}
+          {{ $origW := $base.Width }}
+          {{ $bounded := slice }}
+          {{ range $w := $widths }}
+            {{ if le $w $origW }}{{ $bounded = $bounded | append $w }}{{ end }}
+          {{ end }}
+          {{ if eq (len $bounded) 0 }}
+            {{ $bounded = slice $origW }}
+          {{ end }}
+          {{ $set := slice }}
+          {{ range $bounded }}
+            {{ $im := $base.Resize (printf "%dx webp q75" .) }}
+            {{ $set = $set | append (printf "%s %dw" $im.RelPermalink .) }}
+          {{ end }}
+          {{ $imagesrcset = delimit $set ", " }}
+        {{ end }}
       {{ else }}
+        {{/* No sibling base found; fall back to the provided resource */}}
         {{ $href = $res.RelPermalink }}
+        {{ if $isAVIF }}{{ $typeHint = "image/avif" }}{{ end }}
+        {{ if $isWebP }}{{ $typeHint = "image/webp" }}{{ end }}
       {{ end }}
     {{ else }}
-      {{ $target := $res.Resize (printf "%dx" $preloadWidth) }}
-      {{ $href = $target.RelPermalink }}
+      {{ if $enableAvif }}
+        {{ $target := $res.Resize (printf "%dx avif q60" $preloadWidth) }}
+        {{ $href = $target.RelPermalink }}
+        {{ $typeHint = "image/avif" }}
+        {{/* Build AVIF srcset */}}
+        {{ $widths := slice 480 800 1200 1600 2000 2400 }}
+        {{ if not .IsPage }}{{ $widths = slice 480 800 1200 }}{{ end }}
+        {{ $origW := $res.Width }}
+        {{ $bounded := slice }}
+        {{ range $w := $widths }}
+          {{ if le $w $origW }}{{ $bounded = $bounded | append $w }}{{ end }}
+        {{ end }}
+        {{ if eq (len $bounded) 0 }}
+          {{ $bounded = slice $origW }}
+        {{ end }}
+        {{ $set := slice }}
+        {{ range $bounded }}
+          {{ $im := $res.Resize (printf "%dx avif q60" .) }}
+          {{ $set = $set | append (printf "%s %dw" $im.RelPermalink .) }}
+        {{ end }}
+        {{ $imagesrcset = delimit $set ", " }}
+      {{ else }}
+        {{ $target := $res.Resize (printf "%dx webp q75" $preloadWidth) }}
+        {{ $href = $target.RelPermalink }}
+        {{ $typeHint = "image/webp" }}
+        {{/* Build WEBP srcset */}}
+        {{ $widths := slice 480 800 1200 1600 2000 2400 }}
+        {{ if not .IsPage }}{{ $widths = slice 480 800 1200 }}{{ end }}
+        {{ $origW := $res.Width }}
+        {{ $bounded := slice }}
+        {{ range $w := $widths }}
+          {{ if le $w $origW }}{{ $bounded = $bounded | append $w }}{{ end }}
+        {{ end }}
+        {{ if eq (len $bounded) 0 }}
+          {{ $bounded = slice $origW }}
+        {{ end }}
+        {{ $set := slice }}
+        {{ range $bounded }}
+          {{ $im := $res.Resize (printf "%dx webp q75" .) }}
+          {{ $set = $set | append (printf "%s %dw" $im.RelPermalink .) }}
+        {{ end }}
+        {{ $imagesrcset = delimit $set ", " }}
+      {{ end }}
     {{ end }}
   {{ else }}
     {{/* Fallback to static path if not a resource */}}
@@ -33,14 +134,25 @@
       {{ $webPath = printf "/%s" $webPath }}
     {{ end }}
     {{ $href = $webPath }}
+    {{ if $isAVIF }}{{ $typeHint = "image/avif" }}{{ end }}
+    {{ if $isWebP }}{{ $typeHint = "image/webp" }}{{ end }}
   {{ end }}
 
-  {{ if ne $href "" }}
-    <link
-      rel="preload"
-      as="image"
-      href="{{ $href }}"
-      imagesizes="(min-width: 800px) 800px, 100vw"
-    />
+  {{ if ne (or $href $imagesrcset) "" }}
+    {{/* Build the entire <link> tag as raw HTML to avoid srcset URL escaping */}}
+    {{ $attrs := slice "rel=\"preload\"" "as=\"image\"" }}
+    {{ if ne $href "" }}
+      {{ $attrs = $attrs | append (printf "href=\"%s\"" $href) }}
+    {{ end }}
+    {{ if ne $typeHint "" }}
+      {{ $attrs = $attrs | append (printf "type=\"%s\"" $typeHint) }}
+    {{ end }}
+    {{ if ne $imagesrcset "" }}
+      {{ $attrs = $attrs | append (printf "imagesrcset=\"%s\"" $imagesrcset) }}
+    {{ end }}
+    {{ if ne $imagesizes "" }}
+      {{ $attrs = $attrs | append (printf "imagesizes=\"%s\"" $imagesizes) }}
+    {{ end }}
+    {{ printf "<link %s>" (delimit $attrs " ") | safeHTML }}
   {{ end }}
 {{ end }}
