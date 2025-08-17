@@ -1,0 +1,46 @@
+{{/* Preload featured image for better LCP on pages */}}
+{{ $img := .Params.featuredImage }}
+{{ if $img }}
+  {{ $page := . }}
+  {{ $isAVIF := eq (path.Ext $img) ".avif" }}
+  {{ $isWebP := eq (path.Ext $img) ".webp" }}
+  {{ $preloadWidth := 800 }}
+  {{ with site.Params.images.preloadWidth }}{{ $preloadWidth = . }}{{ end }}
+
+  {{ $res := $page.Resources.GetMatch $img }}
+  {{ $href := "" }}
+  {{ if $res }}
+    {{ if or $isAVIF $isWebP }}
+      {{ $type := cond $isAVIF "avif" "webp" }}
+      {{ $base := $page.Resources.GetMatch (replace $img (printf ".%s" $type) ".jpg") }}
+      {{ if not $base }}
+        {{ $base = $page.Resources.GetMatch (replace $img (printf ".%s" $type) ".png") }}
+      {{ end }}
+      {{ if $base }}
+        {{ $target := $base.Resize (printf "%dx jpg q80" $preloadWidth) }}
+        {{ $href = $target.RelPermalink }}
+      {{ else }}
+        {{ $href = $res.RelPermalink }}
+      {{ end }}
+    {{ else }}
+      {{ $target := $res.Resize (printf "%dx" $preloadWidth) }}
+      {{ $href = $target.RelPermalink }}
+    {{ end }}
+  {{ else }}
+    {{/* Fallback to static path if not a resource */}}
+    {{ $webPath := $img }}
+    {{ if and $webPath (ne (substr $webPath 0 1) "/") }}
+      {{ $webPath = printf "/%s" $webPath }}
+    {{ end }}
+    {{ $href = $webPath }}
+  {{ end }}
+
+  {{ if ne $href "" }}
+    <link
+      rel="preload"
+      as="image"
+      href="{{ $href }}"
+      imagesizes="(min-width: 800px) 800px, 100vw"
+    />
+  {{ end }}
+{{ end }}

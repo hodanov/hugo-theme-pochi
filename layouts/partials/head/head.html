@@ -26,5 +26,6 @@
   <link rel="icon" href="{{ . }}" />
   <link rel="apple-touch-icon" sizes="180x180" href="{{ . }}" />
 {{ end }}
+{{ partial "head/preload_featured_image.html" . }}
 {{ template "_internal/google_analytics.html" . }}
 {{ partial "head/google_adsense.html" . }}

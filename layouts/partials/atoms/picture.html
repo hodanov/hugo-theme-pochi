@@ -1,44 +1,257 @@
-{{ $img := .image }}
-{{ if ne (substr $img 0 1) "/" }}
-  {{ $img = printf "/%s" $img }}
+{{ $page := .page }}
+{{ $imgParam := .image }}
+{{ $alt := .alt }}
+{{ $sizesAttr := or .sizes "(min-width: 1200px) 1200px, 100vw" }}
+{{ $priority := .priority }}
+
+{{ $isAVIF := eq (path.Ext $imgParam) ".avif" }}
+{{ $isWebP := eq (path.Ext $imgParam) ".webp" }}
+
+{{ $fallbackSrc := "" }}
+{{ $width := 0 }}
+{{ $height := 0 }}
+
+{{/* Responsive widths (bounded by original) */}}
+{{ $defaultWidths := slice 480 800 1200 }}
+{{ $widths := $defaultWidths }}
+{{ $enableAvif := false }}
+{{ with site.Params.images }}
+  {{ if .enableAvif }}{{ $enableAvif = true }}{{ end }}
+  {{ with .widths }}{{ $widths = . }}{{ end }}
 {{ end }}
-<picture>
-  {{ $isAVIF := eq (path.Ext $img) ".avif" }}
-  {{ $isWebP := eq (path.Ext $img) ".webp" }}
-  {{ $imgSrc := "" }}
+{{ with .widths }}{{ $widths = . }}{{ end }}
 
-  {{ if or $isAVIF $isWebP }}
-    {{ $type := "" }}
-    {{ if $isAVIF }}
-      {{ $type = "avif" }}
-    {{ else if $isWebP }}
-      {{ $type = "webp" }}
-    {{ end }}
-    <source srcset="{{ $img }}" type="image/{{ $type }}" />
-
-    {{ $jpgPath := replace $img (printf ".%s" $type) ".jpg" }}
-    {{ $jpgPathStatic := printf "static/%s" $jpgPath }}
-    {{ if (fileExists $jpgPathStatic) }}
-      {{ $imgSrc = $jpgPath }}
-    {{ end }}
-
-    {{ $pngPath := replace $img (printf ".%s" $type) ".png" }}
-    {{ $pngPathStatic := printf "static/%s" $pngPath }}
-    {{ if (fileExists $pngPathStatic) }}
-      {{ $imgSrc = $pngPath }}
+{{/* Try to resolve as Page Resource */}}
+{{ $res := false }}
+{{ if and $page $imgParam }}
+  {{ $res = $page.Resources.GetMatch $imgParam }}
+{{ end }}
+{{ $isImageRes := false }}
+{{ $isRasterRes := false }}
+{{ if $res }}
+  {{ if eq $res.MediaType.MainType "image" }}
+    {{ $isImageRes = true }}
+    {{ if ne $res.MediaType.SubType "svg+xml" }}
+      {{ $isRasterRes = true }}
     {{ end }}
   {{ end }}
+{{ end }}
 
-  {{ if eq $imgSrc "" }}
-    {{ $imgSrc = $img }}
-  {{ end }}
-  <img
-    src="{{ $imgSrc }}"
-    {{ with .alt }}alt="{{ . }}"{{ end }}
-    loading="lazy"
-    decoding="async"
-    {{ with imageConfig (printf "/static%s" $imgSrc) }}
-      width="{{ .Width }}" height="{{ .Height }}"
+{{ if and $isRasterRes (not (or $isAVIF $isWebP)) }}
+  {{/* Source is JPG/PNG etc. Generate AVIF/WEBP + fallback responsive variants */}}
+  {{ $origW := $res.Width }}
+  {{ $origH := $res.Height }}
+  {{ $bounded := slice }}
+  {{ range $w := $widths }}
+    {{ if le $w $origW }}
+      {{ $bounded = $bounded | append $w }}
     {{ end }}
-  />
-</picture>
+  {{ end }}
+  {{ if eq (len $bounded) 0 }}
+    {{ $bounded = slice $origW }}
+  {{ end }}
+
+  {{/* Build srcset strings */}}
+  {{ $srcsetAVIF := slice }}
+  {{ $srcsetWEBP := slice }}
+  {{ $srcsetFallback := slice }}
+
+  {{ range $i, $w := $bounded }}
+    {{ $avif := false }}
+    {{ $webp := false }}
+    {{ $fallback := $res.Resize (printf "%dx" $w) }}
+    {{/* Generate webp; avif is optional via site param */}}
+    {{ $webp = $res.Resize (printf "%dx webp q75" $w) }}
+    {{ if $enableAvif }}
+      {{ $avif = $res.Resize (printf "%dx avif q60" $w) }}
+    {{ end }}
+    {{ if $avif }}
+      {{ $srcsetAVIF = $srcsetAVIF | append (printf "%s %dw" $avif.RelPermalink $w) }}
+    {{ end }}
+    {{ if $webp }}
+      {{ $srcsetWEBP = $srcsetWEBP | append (printf "%s %dw" $webp.RelPermalink $w) }}
+    {{ end }}
+    {{ $srcsetFallback = $srcsetFallback | append (printf "%s %dw" $fallback.RelPermalink $w) }}
+    {{ if eq $i 1 }}{{ end }}
+  {{ end }}
+
+  {{/* Choose a reasonable default fallback (middle or largest) */}}
+  {{ $last := sub (len $bounded) 1 }}
+  {{ $fallbackImg := $res.Resize (printf "%dx" (index $bounded $last)) }}
+  {{ $fallbackSrc = $fallbackImg.RelPermalink }}
+  {{ $width = $fallbackImg.Width }}
+  {{ $height = $fallbackImg.Height }}
+
+
+  <picture>
+    {{ if gt (len $srcsetAVIF) 0 }}
+      <source
+        type="image/avif"
+        srcset="{{ delimit $srcsetAVIF ", " }}"
+        sizes="{{ $sizesAttr }}"
+      />
+    {{ end }}
+    {{ if gt (len $srcsetWEBP) 0 }}
+      <source
+        type="image/webp"
+        srcset="{{ delimit $srcsetWEBP ", " }}"
+        sizes="{{ $sizesAttr }}"
+      />
+    {{ end }}
+    <img
+      src="{{ $fallbackSrc }}"
+      srcset="{{ delimit $srcsetFallback ", " }}"
+      sizes="{{ $sizesAttr }}"
+      {{ with $alt }}alt="{{ . }}"{{ end }}
+      loading="lazy"
+      decoding="async"
+      {{ if eq $priority "high" }}fetchpriority="high"{{ end }}
+      width="{{ $width }}"
+      height="{{ $height }}"
+    />
+  </picture>
+{{ else if and $isRasterRes (or $isAVIF $isWebP) }}
+  {{/* Resource is AVIF/WEBP: prefer using a JPG/PNG sibling as base for processing */}}
+  {{ $type := cond $isAVIF "avif" "webp" }}
+  {{ $base := $page.Resources.GetMatch (replace $imgParam (printf ".%s" $type) ".jpg") }}
+  {{ if not $base }}
+    {{ $base = $page.Resources.GetMatch (replace $imgParam (printf ".%s" $type) ".png") }}
+  {{ end }}
+
+  {{ if $base }}
+    {{ $origW := $base.Width }}
+    {{ $bounded := slice }}
+    {{ range $w := $widths }}
+      {{ if le $w $origW }}
+        {{ $bounded = $bounded | append $w }}
+      {{ end }}
+    {{ end }}
+    {{ if eq (len $bounded) 0 }}
+      {{ $bounded = slice $origW }}
+    {{ end }}
+
+    {{ $srcsetPrimary := slice }}
+    {{ $srcsetFallback := slice }}
+    {{ range $bounded }}
+      {{ $p := $base.Resize (printf "%dx %s q65" . $type) }}
+      {{ $fb := $base.Resize (printf "%dx jpg q80" .) }}
+      {{ $srcsetPrimary = $srcsetPrimary | append (printf "%s %dw" $p.RelPermalink .) }}
+      {{ $srcsetFallback = $srcsetFallback | append (printf "%s %dw" $fb.RelPermalink .) }}
+    {{ end }}
+    {{ $last := sub (len $bounded) 1 }}
+    {{ $fallbackImg := $base.Resize (printf "%dx jpg q80" (index $bounded $last)) }}
+    {{ $fallbackSrc = $fallbackImg.RelPermalink }}
+    {{ $width = $fallbackImg.Width }}
+    {{ $height = $fallbackImg.Height }}
+
+
+    <picture>
+      <source
+        type="image/{{ $type }}"
+        srcset="{{ delimit $srcsetPrimary ", " }}"
+        sizes="{{ $sizesAttr }}"
+      />
+      <img
+        src="{{ $fallbackSrc }}"
+        srcset="{{ delimit $srcsetFallback ", " }}"
+        sizes="{{ $sizesAttr }}"
+        {{ with $alt }}alt="{{ . }}"{{ end }}
+        loading="lazy"
+        decoding="async"
+        {{ if eq $priority "high" }}fetchpriority="high"{{ end }}
+        width="{{ $width }}"
+        height="{{ $height }}"
+      />
+    </picture>
+  {{ else }}
+    {{/* No sibling base found; fall back to single source + plain img without dimensions */}}
+    <picture>
+      <source type="image/{{ $type }}" srcset="{{ $res.RelPermalink }}" />
+      <img
+        src="{{ $res.RelPermalink }}"
+        {{ with $alt }}alt="{{ . }}"{{ end }}
+        loading="lazy"
+        decoding="async"
+      />
+    </picture>
+  {{ end }}
+{{ else }}
+  {{/* Non-raster or non-resource path: keep safe behavior */}}
+  {{ if and $isImageRes (not $isRasterRes) }}
+    {{/* e.g., SVG: do not attempt resize; just output as-is */}}
+    <img
+      src="{{ $res.RelPermalink }}"
+      {{ with $alt }}alt="{{ . }}"{{ end }}
+      loading="lazy"
+      decoding="async"
+      {{ if eq $priority "high" }}fetchpriority="high"{{ end }}
+    />
+  {{ else }}
+    {{ $webPath := $imgParam }}
+    {{ if and $webPath (ne (substr $webPath 0 1) "/") }}
+      {{ $webPath = printf "/%s" $webPath }}
+    {{ end }}
+    {{ $fsPath := printf "static%s" $webPath }}
+
+    {{ if or $isAVIF $isWebP }}
+      {{ $type := cond $isAVIF "avif" "webp" }}
+      {{ $primarySrc := $webPath }}
+      {{ $jpgPath := replace $webPath (printf ".%s" $type) ".jpg" }}
+      {{ if (fileExists (printf "static%s" $jpgPath)) }}
+        {{ $fallbackSrc = $jpgPath }}
+        {{ with imageConfig (printf "static%s" $jpgPath) }}
+          {{ $width = .Width }}
+          {{ $height = .Height }}
+        {{ end }}
+      {{ else }}
+        {{ $pngPath := replace $webPath (printf ".%s" $type) ".png" }}
+        {{ if (fileExists (printf "static%s" $pngPath)) }}
+          {{ $fallbackSrc = $pngPath }}
+          {{ with imageConfig (printf "static%s" $pngPath) }}
+            {{ $width = .Width }}
+            {{ $height = .Height }}
+          {{ end }}
+        {{ else }}
+          {{ $fallbackSrc = $webPath }}
+          {{ if (fileExists $fsPath) }}
+            {{ with imageConfig $fsPath }}
+              {{ $width = .Width }}
+              {{ $height = .Height }}
+            {{ end }}
+          {{ end }}
+        {{ end }}
+      {{ end }}
+      <picture>
+        <source srcset="{{ $primarySrc }}" type="image/{{ $type }}" />
+        <img
+          src="{{ $fallbackSrc }}"
+          {{ with $alt }}alt="{{ . }}"{{ end }}
+          loading="lazy"
+          decoding="async"
+          {{ if eq $priority "high" }}fetchpriority="high"{{ end }}
+          {{ if and (gt $width 0) (gt $height 0) }}
+            width="{{ $width }}" height="{{ $height }}"
+          {{ end }}
+        />
+      </picture>
+    {{ else }}
+      {{ $fallbackSrc = $webPath }}
+      {{ if (fileExists $fsPath) }}
+        {{ with imageConfig $fsPath }}
+          {{ $width = .Width }}
+          {{ $height = .Height }}
+        {{ end }}
+      {{ end }}
+      <img
+        src="{{ $fallbackSrc }}"
+        {{ with $alt }}alt="{{ . }}"{{ end }}
+        loading="lazy"
+        decoding="async"
+        {{ if eq $priority "high" }}fetchpriority="high"{{ end }}
+        {{ if and (gt $width 0) (gt $height 0) }}
+          width="{{ $width }}" height="{{ $height }}"
+        {{ end }}
+      />
+    {{ end }}
+  {{ end }}
+{{ end }}
