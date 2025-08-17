@@ -5,7 +5,6 @@
   {{ $isAVIF := eq (path.Ext $img) ".avif" }}
   {{ $isWebP := eq (path.Ext $img) ".webp" }}
   {{ $preloadWidth := 1200 }}
-  {{ if .IsPage }}{{ $preloadWidth = 1600 }}{{ end }}
   {{ with site.Params.images.preloadWidth }}{{ $preloadWidth = . }}{{ end }}
   {{/* Match <picture> selection: AVIF (if enabled) → WEBP → JPG */}}
   {{ $enableAvif := false }}
