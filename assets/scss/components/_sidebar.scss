@@ -65,7 +65,7 @@
 
 #sidebar .tagcloud a:hover {
   background-color: var(--pochi-accent);
-  color: #fff;
+  color: var(--pochi-on-accent);
 }
 
 @media (max-width: 767px) {

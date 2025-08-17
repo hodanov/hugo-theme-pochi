@@ -72,7 +72,7 @@ nav ul li a {
 }
 
 nav ul > li:hover > a {
-  color: #fff;
+  color: var(--pochi-on-accent);
   background-color: var(--pochi-accent);
 }
 

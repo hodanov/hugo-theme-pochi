@@ -46,6 +46,8 @@ $shadow-2: 0 2px 8px rgba(0, 0, 0, 0.12) !default;
   --pochi-surface: #ffffff; // generic surface (light)
   --pochi-surface-soft: #{$color-bg};
   --pochi-link: #{$color-accent};
+  --pochi-on-accent: #ffffff; // text on accent backgrounds
+  --pochi-on-dark: #ffffff; // text on dark/imagery overlays
 }
 
 :root.dark {
@@ -59,4 +61,6 @@ $shadow-2: 0 2px 8px rgba(0, 0, 0, 0.12) !default;
   --pochi-border: #d8d8d8;
   --pochi-blockquote-bg: #212121;
   --pochi-link: #{$color-accent};
+  --pochi-on-accent: #ffffff;
+  --pochi-on-dark: #ffffff;
 }
