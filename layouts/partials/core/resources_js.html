@@ -1,2 +1,4 @@
 {{ $js := resources.Get "js/main.js" | resources.Minify | fingerprint }}
 <script defer src="{{ $js.RelPermalink }}"></script>
+{{ $nav := resources.Get "js/navigation.js" | resources.Minify | fingerprint }}
+<script defer src="{{ $nav.RelPermalink }}"></script>

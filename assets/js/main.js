@@ -15,7 +15,7 @@ function smoothScroll() {
     if (!href || href.charAt(0) !== "#") return;
     event.preventDefault();
     if (href === "#top") {
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      window.scrollTo({ top: 0, behavior: "instant" });
     } else {
       const targetEl = document.querySelector(href);
       scrollToTarget(targetEl);
