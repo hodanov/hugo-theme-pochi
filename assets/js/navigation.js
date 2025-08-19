@@ -52,6 +52,47 @@
     return parser.parseFromString(html, "text/html");
   }
 
+  function clearPreviousPjaxPreloads() {
+    const nodes = document.head.querySelectorAll('link[data-pjax-preload="true"]');
+    nodes.forEach((n) => n.remove());
+  }
+
+  function adoptImagePreloads(nextDoc) {
+    if (!nextDoc) return;
+    const head = nextDoc.head;
+    if (!head) return;
+    const links = head.querySelectorAll('link[rel="preload"][as="image"]');
+    if (!links || links.length === 0) return;
+
+    // Remove previously added preloads to avoid buildup across navigations
+    clearPreviousPjaxPreloads();
+
+    const existingKeys = new Set(
+      Array.from(document.head.querySelectorAll('link[rel="preload"][as="image"]'))
+        .map((l) => `${l.getAttribute("href") || ""}|${l.getAttribute("imagesrcset") || ""}`)
+    );
+
+    links.forEach((srcLink) => {
+      const href = srcLink.getAttribute("href") || "";
+      const imagesrcset = srcLink.getAttribute("imagesrcset") || "";
+      const key = `${href}|${imagesrcset}`;
+      if (existingKeys.has(key)) return;
+      const l = document.createElement("link");
+      l.setAttribute("rel", "preload");
+      l.setAttribute("as", "image");
+      if (href) l.setAttribute("href", href);
+      if (imagesrcset) l.setAttribute("imagesrcset", imagesrcset);
+      const imagesizes = srcLink.getAttribute("imagesizes");
+      if (imagesizes) l.setAttribute("imagesizes", imagesizes);
+      const typeHint = srcLink.getAttribute("type");
+      if (typeHint) l.setAttribute("type", typeHint);
+      const cross = srcLink.getAttribute("crossorigin");
+      if (cross) l.setAttribute("crossorigin", cross);
+      l.setAttribute("data-pjax-preload", "true");
+      document.head.appendChild(l);
+    });
+  }
+
   function forceInstantScrollToTop() {
     // Bypass any CSS `scroll-behavior: smooth` and force immediate jump
     const el = document.scrollingElement || document.documentElement;
@@ -131,6 +172,17 @@
       const nextNode = nextMain.cloneNode(true);
       currentMain.replaceWith(nextNode);
 
+      // Ensure above-the-fold images (hero) load immediately
+      try {
+        const hero = document.querySelector(".parallax-container");
+        if (hero) {
+          hero.querySelectorAll("img").forEach((img) => {
+            img.setAttribute("loading", "eager");
+            img.setAttribute("fetchpriority", "high");
+          });
+        }
+      } catch (_) {}
+
       if (!options || options.scroll !== "preserve") {
         forceInstantScrollToTop();
       }
@@ -159,6 +211,8 @@
     try {
       const html = await fetchHTML(url);
       const doc = parseHTML(html);
+      // Adopt hero/eyecatch preloads from next document head so LCP stays fast
+      adoptImagePreloads(doc);
       const ok = swapContent(doc, opts);
       if (!ok) throw new Error("Swap failed");
       // Update title
