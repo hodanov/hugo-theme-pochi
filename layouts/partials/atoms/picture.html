@@ -103,7 +103,11 @@
       srcset="{{ delimit $srcsetFallback ", " }}"
       sizes="{{ $sizesAttr }}"
       {{ with $alt }}alt="{{ . }}"{{ end }}
-      loading="lazy"
+      loading="{{ if eq $priority "high" }}
+        eager
+      {{ else }}
+        lazy
+      {{ end }}"
       decoding="async"
       {{ if eq $priority "high" }}fetchpriority="high"{{ end }}
       width="{{ $width }}"
@@ -156,7 +160,11 @@
         srcset="{{ delimit $srcsetFallback ", " }}"
         sizes="{{ $sizesAttr }}"
         {{ with $alt }}alt="{{ . }}"{{ end }}
-        loading="lazy"
+        loading="{{ if eq $priority "high" }}
+          eager
+        {{ else }}
+          lazy
+        {{ end }}"
         decoding="async"
         {{ if eq $priority "high" }}fetchpriority="high"{{ end }}
         width="{{ $width }}"
@@ -164,14 +172,24 @@
       />
     </picture>
   {{ else }}
-    {{/* No sibling base found; fall back to single source + plain img without dimensions */}}
+    {{/* No sibling base found; fall back to single source but keep dimensions to avoid CLS */}}
+    {{ $width = $res.Width }}
+    {{ $height = $res.Height }}
     <picture>
       <source type="image/{{ $type }}" srcset="{{ $res.RelPermalink }}" />
       <img
         src="{{ $res.RelPermalink }}"
         {{ with $alt }}alt="{{ . }}"{{ end }}
-        loading="lazy"
+        loading="{{ if eq $priority "high" }}
+          eager
+        {{ else }}
+          lazy
+        {{ end }}"
         decoding="async"
+        {{ if eq $priority "high" }}fetchpriority="high"{{ end }}
+        {{ if and (gt $width 0) (gt $height 0) }}
+          width="{{ $width }}" height="{{ $height }}"
+        {{ end }}
       />
     </picture>
   {{ end }}
@@ -182,7 +200,11 @@
     <img
       src="{{ $res.RelPermalink }}"
       {{ with $alt }}alt="{{ . }}"{{ end }}
-      loading="lazy"
+      loading="{{ if eq $priority "high" }}
+        eager
+      {{ else }}
+        lazy
+      {{ end }}"
       decoding="async"
       {{ if eq $priority "high" }}fetchpriority="high"{{ end }}
     />
@@ -226,7 +248,11 @@
         <img
           src="{{ $fallbackSrc }}"
           {{ with $alt }}alt="{{ . }}"{{ end }}
-          loading="lazy"
+          loading="{{ if eq $priority "high" }}
+            eager
+          {{ else }}
+            lazy
+          {{ end }}"
           decoding="async"
           {{ if eq $priority "high" }}fetchpriority="high"{{ end }}
           {{ if and (gt $width 0) (gt $height 0) }}
@@ -245,7 +271,11 @@
       <img
         src="{{ $fallbackSrc }}"
         {{ with $alt }}alt="{{ . }}"{{ end }}
-        loading="lazy"
+        loading="{{ if eq $priority "high" }}
+          eager
+        {{ else }}
+          lazy
+        {{ end }}"
         decoding="async"
         {{ if eq $priority "high" }}fetchpriority="high"{{ end }}
         {{ if and (gt $width 0) (gt $height 0) }}
