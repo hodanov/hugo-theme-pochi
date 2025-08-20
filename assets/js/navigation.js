@@ -53,30 +53,59 @@
   }
 
   function clearPreviousPjaxPreloads() {
-    const nodes = document.head.querySelectorAll('link[data-pjax-preload="true"]');
+    const nodes = document.head.querySelectorAll(
+      'link[data-pjax-preload="true"]',
+    );
     nodes.forEach((n) => n.remove());
   }
 
+  // Reconcile <link rel="preload" as="image"> between current document and next document.
+  // - Remove previously injected PJAX preloads
+  // - Remove stale SSR preloads from the current head that are not present in the next head
+  // - Add missing preloads from the next head and mark them as managed (data-pjax-preload)
   function adoptImagePreloads(nextDoc) {
     if (!nextDoc) return;
     const head = nextDoc.head;
     if (!head) return;
-    const links = head.querySelectorAll('link[rel="preload"][as="image"]');
-    if (!links || links.length === 0) return;
-
-    // Remove previously added preloads to avoid buildup across navigations
-    clearPreviousPjaxPreloads();
-
-    const existingKeys = new Set(
-      Array.from(document.head.querySelectorAll('link[rel="preload"][as="image"]'))
-        .map((l) => `${l.getAttribute("href") || ""}|${l.getAttribute("imagesrcset") || ""}`)
+    const nextLinks = Array.from(
+      head.querySelectorAll('link[rel="preload"][as="image"]'),
     );
 
-    links.forEach((srcLink) => {
+    // Compute target key set from next document
+    const targetKeys = new Set(
+      nextLinks.map(
+        (l) =>
+          `${l.getAttribute("href") || ""}|${l.getAttribute("imagesrcset") || ""}`,
+      ),
+    );
+
+    // 1) Remove any previously injected preloads
+    clearPreviousPjaxPreloads();
+
+    // 2) Remove stale SSR preloads that are not in the next head
+    Array.from(
+      document.head.querySelectorAll('link[rel="preload"][as="image"]'),
+    ).forEach((l) => {
+      const key = `${l.getAttribute("href") || ""}|${l.getAttribute("imagesrcset") || ""}`;
+      // If this preload is not needed for the next page, drop it
+      if (!targetKeys.has(key)) l.remove();
+    });
+
+    // 3) Add missing preloads from the next head
+    const existingAfterCleanup = new Set(
+      Array.from(
+        document.head.querySelectorAll('link[rel="preload"][as="image"]'),
+      ).map(
+        (l) =>
+          `${l.getAttribute("href") || ""}|${l.getAttribute("imagesrcset") || ""}`,
+      ),
+    );
+
+    nextLinks.forEach((srcLink) => {
       const href = srcLink.getAttribute("href") || "";
       const imagesrcset = srcLink.getAttribute("imagesrcset") || "";
       const key = `${href}|${imagesrcset}`;
-      if (existingKeys.has(key)) return;
+      if (existingAfterCleanup.has(key)) return;
       const l = document.createElement("link");
       l.setAttribute("rel", "preload");
       l.setAttribute("as", "image");
