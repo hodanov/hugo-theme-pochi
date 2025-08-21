@@ -196,6 +196,62 @@ header ul li .collapsible .collapsible-body {
   padding: 0 2rem;
 }
 
+/* Side nav header (contains close button) */
+#side-nav .side-nav-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0.75rem 0.75rem;
+  background-color: var(--pochi-bg);
+  border-bottom: 1px solid var(--pochi-border);
+}
+
+#side-nav-close {
+  -webkit-appearance: none;
+  appearance: none;
+  border: 0;
+  background: transparent;
+  height: 36px;
+  padding: 0 10px 0 40px; /* room for the X icon */
+  border-radius: 8px;
+  position: relative;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  color: var(--pochi-text);
+  font-weight: 500;
+}
+
+#side-nav-close:focus {
+  outline: 2px solid var(--pochi-link);
+  outline-offset: 2px;
+}
+
+#side-nav-close::before,
+#side-nav-close::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  width: 18px;
+  height: 2px;
+  background: var(--pochi-text);
+  transform-origin: center;
+  transition: background-color 0.2s ease;
+}
+
+#side-nav-close::before {
+  transform: translate(0, -50%) rotate(45deg);
+}
+
+#side-nav-close::after {
+  transform: translate(0, -50%) rotate(-45deg);
+}
+
+#side-nav-close:hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+
 #side-nav-overlay {
   position: fixed;
   display: block;
