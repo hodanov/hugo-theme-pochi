@@ -3,6 +3,16 @@
   class="menu-global-nav-for-phone-container"
   style="opacity: 0;"
 >
+  <div class="side-nav-header">
+    <button
+      id="side-nav-close"
+      class="side-nav-close"
+      type="button"
+      aria-label="Close menu"
+    >
+      Close
+    </button>
+  </div>
   <ul id="menu-global-nav-for-phone" class="menu">
     {{ range .Site.Menus.main }}
       {{ if .HasChildren }}

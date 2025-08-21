@@ -64,6 +64,28 @@ function toggleSideNav() {
       sideNavOverlay = document.querySelector("#side-nav-overlay");
     }
 
+    // Close the side nav when a link inside it is clicked
+    const linkInsideSideNav = event.target.closest
+      ? event.target.closest("#side-nav a")
+      : null;
+    // Close when the explicit close button is clicked
+    const closeBtn = event.target.closest
+      ? event.target.closest("#side-nav-close")
+      : null;
+    if (isSideNavOpen && (linkInsideSideNav || closeBtn)) {
+      isSideNavOpen = false;
+      sideNav.style.cssText = `
+        opacity: 0;
+      `;
+      sideNav.classList.remove(isActiveClass);
+      if (sideNavOverlay) {
+        sideNavOverlay.style.opacity = "0";
+        setTimeout(() => sideNavOverlay && sideNavOverlay.remove(), 300);
+      }
+      // Do not prevent default; navigation.js or browser will handle navigation
+      return;
+    }
+
     if (isSideNavOpen && event.target === sideNavOverlay) {
       isSideNavOpen = false;
       sideNav.style.cssText = `
