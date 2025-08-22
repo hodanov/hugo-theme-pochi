@@ -42,7 +42,7 @@ function smoothScroll() {
 
 function toggleSideNav() {
   const sideNav = document.querySelector("#side-nav");
-  const menuIcon = ".icon-menu";
+  const toggleBtn = document.getElementById("menu-bar-btn");
   const isActiveClass = "is-active";
 
   let sideNavOverlay;
@@ -50,18 +50,65 @@ function toggleSideNav() {
 
   if (!sideNav) return;
 
+  // Initialize ARIA hidden state
+  sideNav.setAttribute("aria-hidden", "true");
+
+  // Ensure ARIA defaults
+  if (toggleBtn) {
+    if (!toggleBtn.hasAttribute("aria-controls")) {
+      toggleBtn.setAttribute("aria-controls", "side-nav");
+    }
+    toggleBtn.setAttribute("aria-expanded", "false");
+  }
+
+  const openSideNav = () => {
+    if (isSideNavOpen) return;
+    isSideNavOpen = true;
+    sideNav.style.cssText = `
+      opacity: 1;
+    `;
+    sideNav.classList.add(isActiveClass);
+    sideNav.setAttribute("aria-hidden", "false");
+    if (toggleBtn) toggleBtn.setAttribute("aria-expanded", "true");
+    document.body.insertAdjacentHTML(
+      "beforeend",
+      '<div id="side-nav-overlay"></div>',
+    );
+    sideNavOverlay = document.querySelector("#side-nav-overlay");
+  };
+
+  const closeSideNav = (opts) => {
+    if (!isSideNavOpen) return;
+    isSideNavOpen = false;
+    sideNav.style.cssText = `
+      opacity: 0;
+    `;
+    sideNav.classList.remove(isActiveClass);
+    sideNav.setAttribute("aria-hidden", "true");
+    if (toggleBtn) toggleBtn.setAttribute("aria-expanded", "false");
+    if (sideNavOverlay) {
+      sideNavOverlay.style.opacity = "0";
+      setTimeout(() => sideNavOverlay && sideNavOverlay.remove(), 300);
+    }
+    if (opts && opts.returnFocus && toggleBtn) toggleBtn.focus();
+  };
+
+  // Open via explicit toggle button
+  if (toggleBtn) {
+    toggleBtn.addEventListener("click", () => {
+      if (isSideNavOpen) closeSideNav();
+      else openSideNav();
+    });
+  }
+
   document.addEventListener("click", (event) => {
-    if (!isSideNavOpen && event.target.closest(menuIcon)) {
-      isSideNavOpen = true;
-      sideNav.style.cssText = `
-        opacity: 1;
-      `;
-      sideNav.classList.add(isActiveClass);
-      document.body.insertAdjacentHTML(
-        "beforeend",
-        '<div id="side-nav-overlay"></div>',
-      );
-      sideNavOverlay = document.querySelector("#side-nav-overlay");
+    // Open when the dedicated button (or its children) is clicked
+    if (
+      !isSideNavOpen &&
+      event.target.closest &&
+      event.target.closest("#menu-bar-btn")
+    ) {
+      // Handled by the button's listener; no-op here
     }
 
     // Close the side nav when a link inside it is clicked
@@ -73,27 +120,21 @@ function toggleSideNav() {
       ? event.target.closest("#side-nav-close")
       : null;
     if (isSideNavOpen && (linkInsideSideNav || closeBtn)) {
-      isSideNavOpen = false;
-      sideNav.style.cssText = `
-        opacity: 0;
-      `;
-      sideNav.classList.remove(isActiveClass);
-      if (sideNavOverlay) {
-        sideNavOverlay.style.opacity = "0";
-        setTimeout(() => sideNavOverlay && sideNavOverlay.remove(), 300);
-      }
+      closeSideNav({ returnFocus: true });
       // Do not prevent default; navigation.js or browser will handle navigation
       return;
     }
 
+    // Close by clicking on overlay
     if (isSideNavOpen && event.target === sideNavOverlay) {
-      isSideNavOpen = false;
-      sideNav.style.cssText = `
-        opacity: 0;
-      `;
-      sideNav.classList.remove(isActiveClass);
-      sideNavOverlay.style.opacity = "0";
-      setTimeout(() => sideNavOverlay.remove(), 300);
+      closeSideNav({ returnFocus: true });
+    }
+  });
+
+  // Close on Escape
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && isSideNavOpen) {
+      closeSideNav({ returnFocus: true });
     }
   });
 }
