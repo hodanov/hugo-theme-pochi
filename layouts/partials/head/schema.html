@@ -31,29 +31,29 @@
   {{ $logo := dict "@type" "imageObject" "url" $logoURL }}
   {{ $publisher := dict "@type" "Organization" "name" .Site.Params.Author "logo" $logo }}
   {{ $obj := dict
-      "@context" "http://schema.org/"
-      "@type" "BlogPosting"
-      "mainEntityOfPage" $mainEntity
-      "headline" .Title
-      "image" $imageURL
-      "datePublished" $datePublished
-      "dateModified" $dateModified
-      "description" $desc
-      "author" $author
-      "publisher" $publisher
+    "@context" "http://schema.org/"
+    "@type" "BlogPosting"
+    "mainEntityOfPage" $mainEntity
+    "headline" .Title
+    "image" $imageURL
+    "datePublished" $datePublished
+    "dateModified" $dateModified
+    "description" $desc
+    "author" $author
+    "publisher" $publisher
   }}
   <script type="application/ld+json">{{ $obj | jsonify | safeJS }}</script>
 {{ else }}
   {{ $creator := dict "@type" "Person" "name" .Site.Params.Author }}
   {{ $obj := dict
-      "@context" "http://schema.org/"
-      "@type" "Blog"
-      "name" .Site.Title
-      "creator" $creator
-      "image" $logoURL
-      "url" .Site.BaseURL
-      "description" $desc
-      "license" "https://creativecommons.org/licenses/by-nc-sa/3.0/us/deed.en_US"
+    "@context" "http://schema.org/"
+    "@type" "Blog"
+    "name" .Site.Title
+    "creator" $creator
+    "image" $logoURL
+    "url" .Site.BaseURL
+    "description" $desc
+    "license" "https://creativecommons.org/licenses/by-nc-sa/3.0/us/deed.en_US"
   }}
   <script type="application/ld+json">{{ $obj | jsonify | safeJS }}</script>
 {{ end }}

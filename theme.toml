@@ -4,9 +4,10 @@ licenselink = "https://github.com/hodanov/hugo-theme-pochi/blob/main/LICENCE"
 description = "A theme for hugo websites."
 homepage = "https://github.com/hodanov/hugo-theme-pochi"
 demosite = ""
-tags = ["Blog", "Responsive", "Dark", "Light", "Dark mode"]
+tags = ["Blog", "Responsive", "Light mode", "Dark mode"]
 min_version = "0.101.1"
 
 [author]
-  name = "hodanov"
-  homepage = "https://github.com/hodanov"
+name = "hodanov"
+homepage = "https://github.com/hodanov"
+
