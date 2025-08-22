@@ -1,5 +1,6 @@
 {{ $logoURL := "" }}
 {{ $imageURL := "" }}
+{{ $desc := "" }}
 
 {{ with .Site.Params.logo }}
   {{ $logoURL = absURL . }}
@@ -11,48 +12,48 @@
   {{ end }}
 {{ end }}
 
-{{ if .IsPage }}
-<script type="application/ld+json">
-  {
-    "@context": "http://schema.org/",
-    "@type": "BlogPosting",
-    "mainEntityOfPage":  {
-      "@type": "WebPage",
-      "@id": {{ .Permalink }}
-    },
-    "headline": "{{ .Title }}",
-    "image": {{ $imageURL }},
-    "datePublished": "{{ .PublishDate.Local.Format "2006-01-02 15:04:05" }}",
-    "dateModified": "{{ .Lastmod.Local.Format "2006-01-02 15:04:05" }}",
-    "description": "{{ with .Description }}{{ . }}{{ else }}{{ .Summary }}{{ end }}",
-    "author": {
-      "@type": "Person",
-      "name": "{{ .Site.Params.Author}}"
-    },
-    "publisher": {
-      "@type": "Organization",
-      "name": "{{ .Site.Params.Author }}",
-      "logo": {
-        "@type": "imageObject",
-        "url": {{ $logoURL }}
-      }
-    }
-  }
-</script>
+{{/* Compute description once to safely jsonify later */}}
+{{ with .Description }}
+  {{ $desc = . }}
 {{ else }}
-<script type="application/ld+json">
-  {
-    "@context": "http://schema.org/",
-    "@type": "Blog",
-    "name": "{{ .Site.Title }}",
-    "creator": {
-      "@type": "Person",
-      "name": "{{ .Site.Params.Author }}"
-    },
-    "image": {{ $logoURL }},
-    "url": {{ .Site.BaseURL }},
-    "description": "{{ with .Description }}{{ . }}{{ else }}{{ with .Site.Params.description }}{{ . }}{{ end }}{{ end }}",
-    "license": "https://creativecommons.org/licenses/by-nc-sa/3.0/us/deed.en_US"
-  }
-</script>
+  {{ if .IsPage }}
+    {{ $desc = .Summary }}
+  {{ else }}
+    {{ with .Site.Params.description }}{{ $desc = . }}{{ end }}
+  {{ end }}
+{{ end }}
+
+{{ if .IsPage }}
+  {{ $datePublished := .PublishDate.Local.Format "2006-01-02 15:04:05" }}
+  {{ $dateModified := .Lastmod.Local.Format "2006-01-02 15:04:05" }}
+  {{ $mainEntity := dict "@type" "WebPage" "@id" .Permalink }}
+  {{ $author := dict "@type" "Person" "name" .Site.Params.Author }}
+  {{ $logo := dict "@type" "imageObject" "url" $logoURL }}
+  {{ $publisher := dict "@type" "Organization" "name" .Site.Params.Author "logo" $logo }}
+  {{ $obj := dict
+      "@context" "http://schema.org/"
+      "@type" "BlogPosting"
+      "mainEntityOfPage" $mainEntity
+      "headline" .Title
+      "image" $imageURL
+      "datePublished" $datePublished
+      "dateModified" $dateModified
+      "description" $desc
+      "author" $author
+      "publisher" $publisher
+  }}
+  <script type="application/ld+json">{{ $obj | jsonify | safeJS }}</script>
+{{ else }}
+  {{ $creator := dict "@type" "Person" "name" .Site.Params.Author }}
+  {{ $obj := dict
+      "@context" "http://schema.org/"
+      "@type" "Blog"
+      "name" .Site.Title
+      "creator" $creator
+      "image" $logoURL
+      "url" .Site.BaseURL
+      "description" $desc
+      "license" "https://creativecommons.org/licenses/by-nc-sa/3.0/us/deed.en_US"
+  }}
+  <script type="application/ld+json">{{ $obj | jsonify | safeJS }}</script>
 {{ end }}
