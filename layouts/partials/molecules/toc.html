@@ -1,0 +1,9 @@
+{{/* Hugo-powered Table of Contents */}}
+{{ if .IsPage }}
+  {{ with .TableOfContents }}
+    <div class="table-of-contents">
+      <p><span>Table of Contents</span></p>
+      {{ . | safeHTML }}
+    </div>
+  {{ end }}
+{{ end }}
