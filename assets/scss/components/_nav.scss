@@ -39,8 +39,32 @@ nav {
 }
 
 nav #menu-bar-btn {
+  /* keep original placement */
   float: left;
-  font-size: 1.5rem;
+  /* reset native button styles */
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  /* align icon like the old div */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 4rem; /* match navbar height */
+  line-height: 4rem;
+  cursor: pointer;
+  color: inherit;
+}
+
+/* Show focus ring only for keyboard navigation */
+nav #menu-bar-btn:focus {
+  outline: none;
+}
+nav #menu-bar-btn:focus-visible {
+  outline: 2px solid var(--pochi-link);
+  outline-offset: 2px;
 }
 
 nav #theme-toggle-switch-container {

@@ -10,9 +10,16 @@
           {{ partial "atoms/icon.html" (dict "id" "icon-dark") }}
         </button>
       </div>
-      <div id="menu-bar-btn">
+      <button
+        id="menu-bar-btn"
+        type="button"
+        class="menu-bar-btn"
+        aria-label="メニュー"
+        aria-controls="side-nav"
+        aria-expanded="false"
+      >
         {{ partial "atoms/icon.html" (dict "id" "icon-menu") }}
-      </div>
+      </button>
       <div class="menu-global-nav-container">
         <ul id="menu-global-nav">
           {{ range .Site.Menus.main }}
