@@ -269,7 +269,11 @@ function executeSearch(searchQuery) {
 
   show(document.querySelector(".search-loading"));
 
-  fetch("/index.json").then(function (response) {
+  // Resolve search index URL from template-provided data attribute
+  var searchForm = document.getElementById("searchform");
+  var indexURL =
+    (searchForm && searchForm.getAttribute("data-index-url")) || "index.json";
+  fetch(indexURL).then(function (response) {
     if (response.status !== 200) {
       console.log(
         "Looks like there was a problem. Status Code: " + response.status,
