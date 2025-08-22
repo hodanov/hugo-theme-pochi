@@ -26,7 +26,7 @@
 {{ if .IsPage }}
   {{ $datePublished := .PublishDate.Local.Format "2006-01-02 15:04:05" }}
   {{ $dateModified := .Lastmod.Local.Format "2006-01-02 15:04:05" }}
-  {{ $mainEntity := dict "@type" "WebPage" "@id" .Permalink }}
+  {{ $mainEntity := dict "@type" "BlogPosting" "@id" .Permalink }}
   {{ $author := dict "@type" "Person" "name" .Site.Params.Author }}
   {{ $logo := dict "@type" "imageObject" "url" $logoURL }}
   {{ $publisher := dict "@type" "Organization" "name" .Site.Params.Author "logo" $logo }}
