@@ -162,80 +162,6 @@ function handleThemeChange() {
   });
 }
 
-function buildTableOfContents() {
-  if (document.querySelector(".single-page") !== null) {
-    const firstH2 = document.querySelector("#contents h2");
-    if (firstH2 === null) {
-      return;
-    }
-
-    const headers = document.querySelectorAll(
-      "article h2, article h3, article h4, article h5, article h6",
-    );
-    let tableOfContents =
-      '<div class="table-of-contents"><p><span>Table of Contents</span></p><ol>';
-    let level = 0;
-    let currentLevel = 0;
-    let headerCounts = [
-      0, // h2
-      0, // h3
-      0, // h4
-      0, // h5
-      0, // h6
-    ];
-
-    for (let i = 0; i < headers.length; i++) {
-      level = parseInt(headers[i].tagName.charAt(1)) - 2;
-
-      while (currentLevel < level) {
-        tableOfContents += "<li><ol>";
-        currentLevel++;
-      }
-
-      while (currentLevel > level) {
-        tableOfContents += "</ol></li>";
-        currentLevel--;
-      }
-
-      let headerNumber = "";
-      for (let j = 0; j <= level; j++) {
-        if (j === level) {
-          headerCounts[j]++;
-          headerCounts[j + 1] = 0;
-        }
-        if (j === 0) {
-          headerNumber += headerCounts[j];
-        } else {
-          headerNumber += "-" + headerCounts[j];
-        }
-      }
-
-      headers[i].setAttribute("id", "index-toc-" + i);
-      tableOfContents +=
-        '<li><a href="#index-toc-' +
-        i +
-        '">' +
-        headerNumber +
-        ". " +
-        headers[i].textContent +
-        "</a></li>";
-    }
-
-    tableOfContents += "</ol></div>";
-
-    // Add the TOC to the page before the first h2 element
-    firstH2.insertAdjacentHTML("beforebegin", tableOfContents);
-
-    // Add the TOC to the sidebar
-    const sideBar = document.querySelector("#sidebar");
-    if (sideBar !== null) {
-      const asideEl = document.createElement("aside");
-      asideEl.innerHTML = tableOfContents;
-      sideBar.appendChild(asideEl);
-    }
-  }
-}
-
 // =============================
 // Search
 // =============================
@@ -438,6 +364,5 @@ onReady(() => {
   toggleSideNav();
   toggleTheme();
   handleThemeChange();
-  buildTableOfContents();
   initSearch();
 });

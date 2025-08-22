@@ -8,6 +8,7 @@
             <h1>{{ .Title }}</h1>
           {{ end }}
           {{ partial "molecules/post_meta_date.html" . }}
+          {{ partial "molecules/toc.html" . }}
           <div>
             {{ .Content }}
           </div>
