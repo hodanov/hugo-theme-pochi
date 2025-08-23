@@ -23,17 +23,16 @@
   {{ end }}
 {{ end }}
 
+{{ $logo := dict "@type" "ImageObject" "url" $logoURL }}
 {{ if .IsPage }}
-  {{ $datePublished := .PublishDate.Local.Format "2006-01-02 15:04:05" }}
-  {{ $dateModified := .Lastmod.Local.Format "2006-01-02 15:04:05" }}
-  {{ $mainEntity := dict "@type" "BlogPosting" "@id" .Permalink }}
+  {{ $datePublished := .PublishDate.Format "2006-01-02T15:04:05Z07:00" }}
+  {{ $dateModified := .Lastmod.Format "2006-01-02T15:04:05Z07:00" }}
+  {{ $mainEntity := dict "@type" "WebPage" "@id" .Permalink }}
   {{ $author := dict "@type" "Person" "name" .Site.Params.Author }}
-  {{ $logo := dict "@type" "imageObject" "url" $logoURL }}
   {{ $publisher := dict "@type" "Organization" "name" .Site.Params.Author "logo" $logo }}
   {{ $obj := dict
-    "@context" "http://schema.org/"
+    "@context" "https://schema.org/"
     "@type" "BlogPosting"
-    "mainEntityOfPage" $mainEntity
     "headline" .Title
     "image" $imageURL
     "datePublished" $datePublished
@@ -41,19 +40,35 @@
     "description" $desc
     "author" $author
     "publisher" $publisher
+    "mainEntityOfPage" $mainEntity
+    "url" .Permalink
   }}
   <script type="application/ld+json">{{ $obj | jsonify | safeJS }}</script>
 {{ else }}
-  {{ $creator := dict "@type" "Person" "name" .Site.Params.Author }}
-  {{ $obj := dict
-    "@context" "http://schema.org/"
-    "@type" "Blog"
-    "name" .Site.Title
-    "creator" $creator
-    "image" $logoURL
-    "url" .Site.BaseURL
+  {{ $siteURL := .Site.BaseURL }}
+  {{ $siteName := .Site.Title }}
+  {{ $lang := .Site.Language.Lang }}
+
+  {{/* WebSite with SearchAction (use q param to match site search) */}}
+  {{ $searchTarget := printf "%s/search/?q={search_term_string}" $siteURL }}
+  {{ $search := dict "@type" "SearchAction" "target" $searchTarget "query-input" "required name=search_term_string" }}
+  {{ $website := dict
+    "@context" "https://schema.org"
+    "@type" "WebSite"
+    "name" $siteName
+    "url" $siteURL
     "description" $desc
-    "license" "https://creativecommons.org/licenses/by-nc-sa/3.0/us/deed.en_US"
+    "inLanguage" $lang
+    "potentialAction" $search
   }}
-  <script type="application/ld+json">{{ $obj | jsonify | safeJS }}</script>
+  <script type="application/ld+json">{{ $website | jsonify | safeJS }}</script>
+  {{/* Organization with logo */}}
+  {{ $org := dict
+    "@context" "https://schema.org"
+    "@type" "Organization"
+    "name" $siteName
+    "url" $siteURL
+    "logo" $logo
+  }}
+  <script type="application/ld+json">{{ $org | jsonify | safeJS }}</script>
 {{ end }}
