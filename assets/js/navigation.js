@@ -52,6 +52,77 @@
     return parser.parseFromString(html, "text/html");
   }
 
+  // Sync critical <head> metadata with the next document
+  // - Whitelist replacement for SEO/UX relevant tags
+  // - Avoid touching analytics or app bootstrap scripts
+  function syncHead(nextDoc) {
+    if (!nextDoc || !nextDoc.head) return;
+
+    const currentHead = document.head;
+    const nextHead = nextDoc.head;
+
+    // Update <html> attributes that may vary (e.g., lang)
+    const nextHtml = nextDoc.documentElement;
+    if (nextHtml) {
+      const nextLang = nextHtml.getAttribute("lang");
+      if (nextLang) document.documentElement.setAttribute("lang", nextLang);
+      const nextDir = nextHtml.getAttribute("dir");
+      if (nextDir) document.documentElement.setAttribute("dir", nextDir);
+    }
+
+    // Helper to remove existing nodes matching selector from current head
+    const removeAll = (selector) => {
+      currentHead
+        .querySelectorAll(selector)
+        .forEach((n) => n.parentNode && n.parentNode.removeChild(n));
+    };
+
+    // Helper to clone from next head and append with a marker
+    const adoptAll = (selector) => {
+      nextHead.querySelectorAll(selector).forEach((src) => {
+        const node = src.cloneNode(true);
+        node.setAttribute("data-pjax-head", "true");
+        currentHead.appendChild(node);
+      });
+    };
+
+    // Replace canonical URL and pagination hints
+    removeAll('link[rel="canonical"], link[rel="prev"], link[rel="next"]');
+    adoptAll('link[rel="canonical"], link[rel="prev"], link[rel="next"]');
+
+    // Replace standard meta description/keywords/robots/theme-color/author
+    removeAll(
+      [
+        'meta[name="description"]',
+        'meta[name="keywords"]',
+        'meta[name="robots"]',
+        'meta[name="author"]',
+        'meta[name="theme-color"]',
+      ].join(", "),
+    );
+    adoptAll(
+      [
+        'meta[name="description"]',
+        'meta[name="keywords"]',
+        'meta[name="robots"]',
+        'meta[name="author"]',
+        'meta[name="theme-color"]',
+      ].join(", "),
+    );
+
+    // Replace Open Graph and Twitter Card metas
+    removeAll(
+      'meta[property^="og:"], meta[property^="article:"], meta[name^="twitter:"]',
+    );
+    adoptAll(
+      'meta[property^="og:"], meta[property^="article:"], meta[name^="twitter:"]',
+    );
+
+    // Replace JSON-LD structured data only (leave other scripts alone)
+    removeAll('script[type="application/ld+json"]');
+    adoptAll('script[type="application/ld+json"]');
+  }
+
   function clearPreviousPjaxPreloads() {
     const nodes = document.head.querySelectorAll(
       'link[data-pjax-preload="true"]',
@@ -242,6 +313,8 @@
       const doc = parseHTML(html);
       // Adopt hero/eyecatch preloads from next document head so LCP stays fast
       adoptImagePreloads(doc);
+      // Sync head metadata and structured data for correctness
+      syncHead(doc);
       const ok = swapContent(doc, opts);
       if (!ok) throw new Error("Swap failed");
       // Update title
@@ -253,6 +326,21 @@
         history.pushState({}, "", href);
       }
       afterSwapInit();
+      // Fire virtual pageview for common analytics if available
+      try {
+        if (window.gtag) {
+          // gtag.js: send page_view event with updated URL
+          window.gtag("event", "page_view", {
+            page_location: location.href,
+            page_path: location.pathname,
+            page_title: document.title,
+          });
+        } else if (window.ga) {
+          // analytics.js
+          window.ga("set", "page", location.pathname);
+          window.ga("send", "pageview");
+        }
+      } catch (_) {}
     } catch (e) {
       // Fallback to full navigation on error
       const href = typeof url === "string" ? url : url.href;
