@@ -1,0 +1,37 @@
+/* Pagination */
+.pagination {
+  display: flex;
+  padding-left: 0;
+  list-style: none;
+}
+
+.pagination-index {
+  margin-bottom: 3rem;
+}
+
+.pagination-index .pagination .page-item {
+  margin: 0 0.3rem 0 0;
+}
+
+.pagination-index .pagination .page-item .page-link {
+  border: none;
+  border-radius: 0.25rem;
+  color: var(--pochi-text-muted);
+  background-color: var(--pochi-card);
+  padding: 0.5rem 0.75rem;
+}
+
+.pagination-index .pagination .page-item .page-link:hover {
+  background-color: var(--pochi-accent);
+  color: var(--pochi-on-accent);
+}
+
+.pagination-index .pagination .page-item.active .page-link {
+  color: var(--pochi-text-muted);
+  background-color: var(--pochi-bg);
+  pointer-events: none;
+}
+
+.pagination-index .pagination .page-item.disabled {
+  display: none;
+}

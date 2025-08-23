@@ -20,6 +20,19 @@ Version: 0.1.1
 @import "components/sidebar";
 @import "components/typography";
 @import "components/code";
+// Newly extracted partials
+@import "components/forms";
+@import "components/icons";
+@import "components/search";
+@import "components/lists";
+@import "components/toc";
+@import "components/pagination";
+@import "components/footer";
+@import "components/breadcrumbs";
+@import "components/hero";
+@import "components/media";
+@import "components/article-list";
+@import "components/scroll";
 @import "utilities/helpers";
 
 // Legacy styles continue below
@@ -29,9 +42,7 @@ html {
 }
 
 body {
-  font-family:
-    -apple-system, BlinkMacSystemFont, "Helvetica Neue", "ヒラギノ角ゴ ProN W3",
-    "Hiragino Kaku Gothic ProN", Arial, Meiryo, sans-serif;
+  font-family: $font-family-base;
   font-weight: 300;
   color: var(--pochi-text);
   background-color: var(--pochi-surface-soft);
@@ -63,7 +74,7 @@ mark {
 
 /* -----Font----- */
 .button-collapse {
-  color: #26a69a;
+  color: $color-teal;
 }
 
 article p {
@@ -89,7 +100,6 @@ strong {
 .btn-secondary {
   color: var(--pochi-text-muted);
   background-color: var(--pochi-card);
-  border: none;
 }
 
 .btn-primary:hover,
@@ -100,47 +110,7 @@ strong {
   color: var(--pochi-on-accent);
 }
 
-.input-group {
-  position: relative;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: stretch;
-  width: 100%;
-}
-
-.input-group > .form-control,
-.input-group > .form-floating,
-.input-group > .form-select {
-  position: relative;
-  flex: 1 1 auto;
-  width: 1%;
-  min-width: 0;
-  border-radius: 0.25rem;
-}
-
-.form-control {
-  display: block;
-  padding: 0.375rem 0.75rem;
-  font-size: 1rem;
-  font-weight: 400;
-  line-height: 1.5;
-  background-clip: padding-box;
-  border: 1px solid #ced4da;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  transition:
-    border-color 0.15s ease-in-out,
-    box-shadow 0.15s ease-in-out;
-  width: 100%;
-  border-radius: 0.25rem;
-  margin-bottom: 1rem;
-}
-
-textarea:focus,
-input:focus {
-  outline: none;
-}
+/* moved to components/_forms.scss */
 
 /* ----- btn ----- */
 .btn-primary,
@@ -154,79 +124,11 @@ input:focus {
   padding: 0 1rem;
 }
 
-/* ----- icon ----- */
-.icon {
-  display: inline-block;
-  width: 1em;
-  height: 1em;
-  stroke-width: 0;
-  stroke: currentColor;
-  fill: currentColor;
-  margin-right: 0.25rem;
-}
+/* moved to components/_icons.scss */
 
-.icon-menu {
-  height: 56px;
-  width: 56px;
-  padding: 1.25rem 0;
-}
+/* moved to components/_search.scss */
 
-.icon-search {
-  margin-right: 0;
-  margin-left: 0.25rem;
-}
-
-.icon-light {
-  display: none;
-}
-
-/* ----- Search form ----- */
-#search-query {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-  border: none;
-  padding: 2rem 1rem 0.5rem 1rem;
-  margin-bottom: 0;
-}
-
-#searchsubmit {
-  margin-left: -1px;
-  border: none;
-  height: 100%;
-  border-radius: 0rem 0.25rem 0.25rem 0rem;
-}
-
-#search-label {
-  position: absolute;
-  z-index: 1;
-  top: 0.25rem;
-  left: 1rem;
-}
-
-/* -----List style----- */
-ul {
-  padding: 0;
-  list-style-type: none;
-}
-
-article ol,
-article ul {
-  font-size: 1rem;
-  line-height: 2rem;
-  margin-bottom: 2rem;
-}
-
-article ul {
-  list-style-type: inherit;
-  padding-left: 2rem;
-}
-
-article ul ul,
-article ol ol,
-article blockquote ol,
-article blockquote ul {
-  margin-bottom: 0;
-}
+/* moved to components/_lists.scss */
 
 /* -----Animation----- */
 a,
@@ -252,17 +154,11 @@ article,
 .mymenu-related-list,
 .comments,
 #sidebar .table-of-contents {
-  box-shadow:
-    0 2px 2px 0 rgba(0, 0, 0, 0.14),
-    0 1px 5px 0 rgba(0, 0, 0, 0.12),
-    0 3px 1px -2px rgba(0, 0, 0, 0.2);
+  box-shadow: $shadow-card;
 }
 
 .article-list .post-row:hover {
-  box-shadow:
-    0 8px 17px 2px rgba(0, 0, 0, 0.14),
-    0 3px 14px 2px rgba(0, 0, 0, 0.12),
-    0 5px 5px -3px rgba(0, 0, 0, 0.2);
+  box-shadow: $shadow-card-hover;
 }
 
 .btn-primary:hover,
@@ -271,158 +167,11 @@ article,
 }
 
 /* -----Image-wrapper----- */
-.image-wrapper {
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-}
+/* moved to components/_media.scss (image-wrapper) */
 
-.image-wrapper:before {
-  content: "";
-  display: block;
-  padding-top: 75%;
-}
+/* moved to components/_hero.scss */
 
-.image-wrapper .div-cover {
-  background-size: cover;
-  background-position: 50% 50%;
-  overflow: hidden;
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-}
-
-.image-wrapper .div-content {
-  position: absolute;
-  bottom: -100%;
-  right: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(255, 255, 255, 0.8);
-  -webkit-transition: all 0.2s ease-in-out 0s;
-  transition: all 0.2s ease-in-out 0s;
-}
-
-.image-wrapper .div-content,
-.image-wrapper .div-content p,
-.image-wrapper .div-content div {
-  width: 100%;
-}
-
-.image-wrapper .div-content p {
-  text-shadow: 0px 1px 1px #aaa;
-}
-
-.image-wrapper:hover .div-content {
-  bottom: 0;
-}
-
-@media (max-width: 767px) {
-  .image-wrapper .div-content {
-    bottom: 0;
-  }
-}
-
-.image-wrapper.card-image-width {
-  width: 33%;
-}
-
-/* -----Parallax container----- */
-.parallax-container {
-  position: relative;
-  height: 61.8vh;
-  height: -webkit-calc(61.8 - 4rem);
-  height: calc(61.8 - 4rem);
-}
-
-.hero {
-  position: fixed;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  overflow: hidden;
-}
-
-.hero.featured-image-wrapper picture {
-  height: 61.8vh;
-  height: -webkit-calc(61.8 - 4rem);
-  height: calc(61.8 - 4rem);
-  padding-bottom: 0;
-  filter: brightness(0.8);
-}
-
-#parallax-object {
-  z-index: 1;
-  position: absolute;
-}
-
-.hero-caption {
-  text-align: center;
-  width: 100%;
-  color: var(--pochi-on-dark);
-  text-shadow: 0 0 7px #000;
-  font-weight: bold;
-  font-family:
-    "ヒラギノ角ゴ ProN W3",
-    Hiragino Kaku Gothic ProN,
-    Meiryo,
-    sans-serif;
-  position: relative;
-}
-
-.hero-caption h1 {
-  font-family:
-    "Hiragino Kaku Gothic ProN", "ヒラギノ角ゴ ProN W3", Meiryo, メイリオ,
-    sans-serif;
-  font-size: 3rem;
-}
-
-@media only screen and (max-width: 1280px) {
-  .parallax-container {
-    height: 40vh;
-    height: -webkit-calc(40vh - 4rem);
-    height: calc(40vh - 4rem);
-  }
-
-  .hero.featured-image-wrapper picture {
-    height: 40vh;
-    height: -webkit-calc(40vh - 4rem);
-    height: calc(40vh - 4rem);
-  }
-
-  .hero-caption h1 {
-    font-size: 2rem;
-  }
-}
-
-@media only screen and (max-width: 768px) {
-  .hero-caption h1 {
-    font-size: 1.5rem;
-    text-align: left;
-    margin: 0;
-  }
-}
-
-/* -----Breadcrumb----- */
-#breadcrumbs {
-  display: flex;
-  padding: 1.5rem 0;
-  margin: 0;
-  border-radius: 0;
-  font-size: 0.9rem;
-  list-style: none;
-  overflow: auto;
-  white-space: nowrap;
-  min-height: 4rem;
-}
-
-#breadcrumbs li,
-#breadcrumbs li a {
-  color: #555555;
-}
+/* moved to components/_breadcrumbs.scss */
 
 /* -----contents container----- */
 .centered {
@@ -438,337 +187,18 @@ article,
   margin-bottom: 2rem;
 }
 
-.article-list .post-row {
-  margin: 0 0 3rem 0;
-  background-color: var(--pochi-card);
-  border-radius: 0.25rem;
-}
-
-.article-list .post-row div > a {
-  display: block;
-  margin: 0 -1rem;
-  padding: 1rem;
-}
-
-.article-list .post-image-col {
-  width: 25%;
-  margin-right: 1rem;
-  float: left;
-}
-
-.article-list .post-title,
-.article-list .post-text {
-  width: 100%;
-}
-
-.article-list .post-excerpt {
-  color: var(--pochi-text-muted);
-}
-
-.article-list a h2,
-.mymenu-related a .text {
-  font-size: 1.4rem;
-  margin: 0;
-  color: var(--pochi-text);
-  font-weight: bold;
-}
-
-.article-list a:hover h2,
-.mymenu-related a:hover .text {
-  color: var(--pochi-accent);
-}
-
-.article-list .post-info,
-.mymenu-related .post-info {
-  padding: 0;
-  margin: 1rem 0;
-  display: block;
-  color: var(--pochi-text-muted);
-  font-size: 0.75rem;
-  overflow: hidden;
-}
-
-.article-list p {
-  margin: 0;
-}
-
-@media (max-width: 767px) {
-  .article-list .post-row {
-    padding: 1rem 0;
-    margin: 0 0 1rem 0;
-  }
-
-  .article-list a h2 {
-    font-size: 1.2rem;
-  }
-}
+/* moved to components/_article-list.scss */
 
 /* Index in article */
-.table-of-contents {
-  margin-top: 3rem;
-  padding: 0.5rem 0 1rem;
-  border: 1px solid var(--pochi-border);
-  border-radius: 0.25rem;
-}
+/* moved to components/_toc.scss */
 
-.table-of-contents p {
-  position: relative;
-  text-align: center;
-  font-size: 1rem;
-  text-transform: uppercase;
-  margin-bottom: 20px;
-}
+/* moved to components/_pagination.scss */
 
-.table-of-contents p:before {
-  content: "";
-  display: block;
-  position: absolute;
-  margin: auto;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  width: 70%;
-  height: 1px;
-  background-image: linear-gradient(
-    to right,
-    rgba(0, 0, 0, 0),
-    rgba(0, 0, 0, 0.5),
-    rgba(0, 0, 0, 0)
-  );
-  z-index: 1;
-}
-
-.table-of-contents p span {
-  background: var(--pochi-card);
-  padding: 0 10px;
-  position: relative;
-  z-index: 5;
-}
-
-.table-of-contents ol,
-.table-of-contents ul {
-  list-style-type: none;
-  padding: 0 1rem;
-  margin: 0;
-  font-size: 0.9rem;
-}
-
-.table-of-contents ol li,
-.table-of-contents ul li {
-  text-align: left;
-  letter-spacing: 1px;
-  line-height: 2rem;
-}
-
-.table-of-contents ol li a,
-.table-of-contents ul li a {
-  position: relative;
-  display: inline-block;
-  color: var(--pochi-text-muted);
-}
-
-.table-of-contents ol li a:hover,
-.table-of-contents ul li a:hover {
-  color: var(--pochi-accent);
-}
-
-.table-of-contents ol li a:after,
-.table-of-contents ul li a:after {
-  display: block;
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 0;
-  height: 1px;
-  background-color: var(--pochi-accent);
-}
-
-.table-of-contents ol li a:hover:after,
-.table-of-contents ul li a:hover:after {
-  width: 100%;
-}
-
-/* Hugo .TableOfContents outputs a <nav><ul>… structure.
-   Add CSS counters to render hierarchical numbers similar to previous JS output. */
-.table-of-contents nav ul {
-  counter-reset: toc-item;
-}
-.table-of-contents nav li {
-  counter-increment: toc-item;
-}
-.table-of-contents nav li::before {
-  content: counters(toc-item, "-") ". ";
-  color: var(--pochi-text-muted);
-  margin-right: 0.25rem;
-}
-
-/* Reset global nav styles inside Hugo's TOC nav */
-.table-of-contents nav#TableOfContents {
-  background: transparent;
-  box-shadow: none;
-  position: static;
-  height: auto;
-  line-height: normal;
-  width: auto;
-  float: none;
-  color: inherit;
-  font: inherit;
-  padding: 0;
-  margin: 0;
-}
-.table-of-contents nav#TableOfContents ul {
-  margin: 0;
-  padding: 0 1rem;
-  line-height: normal;
-}
-.table-of-contents nav#TableOfContents li {
-  float: none; /* override global nav li float */
-}
-.table-of-contents nav#TableOfContents a {
-  display: inline-block; /* override global block links */
-  padding: 0; /* remove nav padding */
-  line-height: inherit;
-  background: transparent;
-}
-.table-of-contents nav#TableOfContents li:hover > a {
-  background: transparent; /* prevent global hover background */
-  color: var(--pochi-accent); /* keep visible in Light mode */
-}
-nav#TableOfContents li:before {
-  vertical-align: top;
-}
-
-/* -----page-nation----- */
-.pagination {
-  display: flex;
-  padding-left: 0;
-  list-style: none;
-}
-
-.pagination-index {
-  margin-bottom: 3rem;
-}
-
-.pagination-index .pagination .page-item {
-  margin: 0 0.3rem 0 0;
-}
-
-.pagination-index .pagination .page-item .page-link {
-  border: none;
-  border-radius: 0.25rem;
-  color: var(--pochi-text-muted);
-  background-color: var(--pochi-card);
-  padding: 0.5rem 0.75rem;
-}
-
-.pagination-index .pagination .page-item .page-link:hover {
-  background-color: var(--pochi-accent);
-  color: var(--pochi-on-accent);
-}
-
-.pagination-index .pagination .page-item.active .page-link {
-  color: var(--pochi-text-muted);
-  background-color: var(--pochi-bg);
-  pointer-events: none;
-}
-
-.pagination-index .pagination .page-item.disabled {
-  display: none;
-}
-
-/* -----footer----- */
-footer {
-  position: relative;
-  z-index: 997;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-  min-height: 3.6rem;
-}
-
-footer .copyright {
-  margin: 0;
-}
-
-footer.footer-section {
-  background-color: var(--pochi-card);
-}
-
-footer p.copyright {
-  display: inline-block;
-  overflow: inherit;
-  color: var(--pochi-text-muted);
-  padding-right: 0.5rem;
-}
-
-footer .copyright a {
-  display: inline-block;
-  overflow: inherit;
-  color: var(--pochi-text-muted);
-  border-bottom: 1px solid var(--pochi-border);
-}
-
-footer .copyright a:hover {
-  color: var(--pochi-accent);
-}
-
-#sidebar h2,
-footer h2 {
-  position: relative;
-  text-align: center;
-  font-size: 1rem;
-  text-transform: uppercase;
-  margin-bottom: 1.5rem;
-}
-
-#sidebar h2:before,
-footer h2:before {
-  content: "";
-  display: block;
-  position: absolute;
-  margin: auto;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 1px;
-  background-image: linear-gradient(
-    to right,
-    rgba(0, 0, 0, 0),
-    rgba(0, 0, 0, 0.75),
-    rgba(0, 0, 0, 0)
-  );
-  z-index: 1;
-}
-
-#sidebar h2 span,
-footer h2 span {
-  background: var(--pochi-bg);
-  padding: 0 10px;
-  position: relative;
-  z-index: 5;
-}
-
-footer h2 span {
-  background-color: var(--pochi-surface-soft);
-}
-
-#sidebar p,
-footer p {
-  font-size: 0.9rem;
-  line-height: 1.5rem;
-}
-
-#sidebar ul,
-footer ul {
-  font-size: 0.9rem;
-}
+/* moved to components/_footer.scss */
 
 /* ----- Contact form ----- */
 .required {
-  color: #ed929f;
+  color: $color-required;
 }
 
 /* ----- Categories ----- */
@@ -799,8 +229,8 @@ footer ul {
   left: -1rem;
   width: 10px;
   height: 10px;
-  border-left: 1px solid #c7c7c7;
-  border-bottom: 1px solid #c7c7c7;
+  border-left: 1px solid $color-divider;
+  border-bottom: 1px solid $color-divider;
 }
 
 /* -----Category page----- */
@@ -845,7 +275,7 @@ article .kiji-tag li a {
   padding: 0.5rem;
   margin-right: 0.5rem;
   border-radius: 2px;
-  border: 1px solid #ced4da;
+  border: 1px solid var(--pochi-border);
 }
 
 article .kiji-tag li a:hover {
@@ -954,37 +384,9 @@ a img {
   border: none;
 }
 
-/* 大きい画像がはみ出さないように */
-img {
-  max-width: 100%;
-  height: auto;
-}
+/* moved to components/_media.scss (img sizing, icatch) */
 
-.image-wrapper.icatch:before {
-  padding-top: 61.8%;
-}
-
-.featured-image-wrapper picture {
-  position: relative;
-  width: 100%;
-  padding-bottom: 71.4286%;
-  overflow: hidden;
-}
-
-.featured-image-wrapper.golden-ratio picture {
-  padding-bottom: 61.8%;
-}
-
-.featured-image-wrapper picture img {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-picture {
-  display: block;
-}
+/* moved to components/_media.scss (featured-image-wrapper, picture) */
 
 article .featured-image-wrapper {
   margin: 0 0 3rem;
@@ -1049,57 +451,13 @@ article .featured-image-wrapper {
   margin-top: 12px;
 }
 
-/* -----外部コンテンツ----- */
-iframe {
-  max-width: 100%;
-}
-
-/* YouTubeの縦横比を維持 */
-.ytvideo {
-  position: relative;
-  width: 100%;
-  height: 0;
-  padding-top: 56.25%;
-  overflow: hidden;
-  margin-top: 3rem;
-  margin-bottom: 3rem;
-}
-
-.ytvideo iframe {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
+/* moved to components/_media.scss (external content) */
 
 .twitter-tweet {
   margin: 0 auto;
 }
 
-/* -----Scroll to top----- */
-#scroll-to-top {
-  position: fixed;
-  z-index: 997;
-  right: 1rem;
-  bottom: 3rem;
-  width: 45px;
-  height: 45px;
-  opacity: 0;
-  text-align: center;
-}
-
-#scroll-to-top a {
-  width: 100%;
-  height: 100%;
-  display: inline-block;
-  color: var(--pochi-on-accent);
-}
-
-#scroll-to-top.fade-in {
-  opacity: 1;
-  bottom: 5rem;
-}
+/* moved to components/_scroll.scss */
 
 /*----- Vendor prefix  */
 /* for Edge */
@@ -1125,11 +483,7 @@ iframe {
   overflow: hidden;
 }
 
-/* input */
-input.form-control {
-  color: var(--pochi-text);
-  font-weight: 300;
-}
+/* moved to components/_forms.scss */
 
 /* dark mode */
 .dark article,
@@ -1147,8 +501,8 @@ input.form-control {
 .dark #sidebar .table-of-contents,
 .dark #search-for:focus,
 .dark .pagination-index .pagination .page-item .page-link {
-  background-color: #2f2f2f;
-  color: #c9d1d9;
+  background-color: var(--pochi-card);
+  color: var(--pochi-text);
 }
 
 .dark #logo-container,
@@ -1166,12 +520,12 @@ input.form-control {
 .dark .table-of-contents ol li a,
 .dark footer p.copyright,
 .dark footer .copyright a {
-  color: #c9d1d9;
+  color: var(--pochi-text);
 }
 
 .dark #breadcrumbs li,
 .dark #breadcrumbs li a {
-  color: #a1a1a1;
+  color: var(--pochi-text-muted);
 }
 
 .dark .btn-primary:hover,
@@ -1198,7 +552,7 @@ input.form-control {
 
 .dark pre,
 .dark blockquote {
-  background-color: #212121;
+  background-color: var(--pochi-blockquote-bg);
 }
 
 .dark .table-of-contents p:before,
@@ -1206,18 +560,15 @@ input.form-control {
 .dark footer h2:before {
   background-image: linear-gradient(
     to right,
-    rgba(255, 255, 255, 0),
-    rgba(255, 255, 255, 0.75),
-    rgba(255, 255, 255, 0)
+    $color-separator-end-dark,
+    $color-separator-mid-dark,
+    $color-separator-end-dark
   );
 }
 
 .dark .article-list .post-row:hover {
   border-color: var(--pochi-accent);
-  box-shadow:
-    0 8px 17px 2px rgba(121, 198, 182, 0.34),
-    0 3px 14px 2px rgba(121, 198, 182, 0.32),
-    0 5px 5px -3px rgba(121, 198, 182, 0.4);
+  box-shadow: $shadow-card-hover-accent;
 }
 
 .dark .icon-light {

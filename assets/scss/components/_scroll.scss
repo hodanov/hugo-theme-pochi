@@ -1,0 +1,23 @@
+/* Scroll to top */
+#scroll-to-top {
+  position: fixed;
+  z-index: 997;
+  right: 1rem;
+  bottom: 3rem;
+  width: 45px;
+  height: 45px;
+  opacity: 0;
+  text-align: center;
+}
+
+#scroll-to-top a {
+  width: 100%;
+  height: 100%;
+  display: inline-block;
+  color: var(--pochi-on-accent);
+}
+
+#scroll-to-top.fade-in {
+  opacity: 1;
+  bottom: 5rem;
+}

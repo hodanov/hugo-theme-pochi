@@ -9,6 +9,19 @@ $color-border: #d8d8d8 !default;
 $color-card: #ffffff !default;
 $color-text-muted: #555555 !default;
 
+// Additional palette (progressive migration targets)
+$color-teal: #26a69a !default; // legacy teal used in .button-collapse
+$color-divider: #c7c7c7 !default; // subtle lines/branches
+$color-required: #ed929f !default; // required mark color
+$color-text-shadow-soft: #aaaaaa !default; // soft text shadow
+$color-text-shadow-strong: #000000 !default; // strong/glow text shadow
+$overlay-light: rgba(255, 255, 255, 0.8) !default; // light overlay bg
+// Separator/decoration gradients
+$color-transparent: rgba(0, 0, 0, 0) !default;
+$color-separator-mid-light: rgba(0, 0, 0, 0.5) !default;
+$color-separator-end-dark: rgba(255, 255, 255, 0) !default;
+$color-separator-mid-dark: rgba(255, 255, 255, 0.75) !default;
+
 // Code colors
 $color-code-bg: #212121 !default;
 $color-code-fg: #fafafa !default;
@@ -19,6 +32,8 @@ $color-inline-code-border: #aaaaaa !default;
 $font-family-base:
   -apple-system, BlinkMacSystemFont, "Helvetica Neue", "ヒラギノ角ゴ ProN W3",
   "Hiragino Kaku Gothic ProN", Arial, Meiryo, sans-serif !default;
+// Headings/hero (can diverge later if needed)
+$font-family-heading: $font-family-base !default;
 
 // Spacing scale
 $space-0: 0 !default;
@@ -32,6 +47,26 @@ $space-6: 2rem !default;
 // Elevation
 $shadow-1: 0 1px 2px rgba(0, 0, 0, 0.06) !default;
 $shadow-2: 0 2px 8px rgba(0, 0, 0, 0.12) !default;
+// Material-like elevations used in nav
+$shadow-elev-3:
+  0 4px 5px 0 rgba(0, 0, 0, 0.14),
+  0 1px 10px 0 rgba(0, 0, 0, 0.12),
+  0 2px 4px -1px rgba(0, 0, 0, 0.3) !default;
+$shadow-dropdown: 0 8px 16px 0 rgba(0, 0, 0, 0.2) !default;
+// Card/article elevations
+$shadow-card:
+  0 2px 2px 0 rgba(0, 0, 0, 0.14),
+  0 1px 5px 0 rgba(0, 0, 0, 0.12),
+  0 3px 1px -2px rgba(0, 0, 0, 0.2) !default;
+$shadow-card-hover:
+  0 8px 17px 2px rgba(0, 0, 0, 0.14),
+  0 3px 14px 2px rgba(0, 0, 0, 0.12),
+  0 5px 5px -3px rgba(0, 0, 0, 0.2) !default;
+// Accent-tinted hover shadow for dark mode cards
+$shadow-card-hover-accent:
+  0 8px 17px 2px rgba($color-accent, 0.34),
+  0 3px 14px 2px rgba($color-accent, 0.32),
+  0 5px 5px -3px rgba($color-accent, 0.4) !default;
 
 // CSS variables bridge (opt-in during migration)
 :root {
@@ -48,6 +83,10 @@ $shadow-2: 0 2px 8px rgba(0, 0, 0, 0.12) !default;
   --pochi-link: #{$color-accent};
   --pochi-on-accent: #ffffff; // text on accent backgrounds
   --pochi-on-dark: #ffffff; // text on dark/imagery overlays
+  // Optional bridges for gradually migrated tokens
+  --pochi-required: #{$color-required};
+  --pochi-hover: rgba(0, 0, 0, 0.04); // subtle hover overlay on light
+  --pochi-scrim: rgba(0, 0, 0, 0.7); // full-screen overlay scrim
 }
 
 :root.dark {
@@ -63,4 +102,7 @@ $shadow-2: 0 2px 8px rgba(0, 0, 0, 0.12) !default;
   --pochi-link: #{$color-accent};
   --pochi-on-accent: #ffffff;
   --pochi-on-dark: #ffffff;
+  --pochi-required: #{$color-required};
+  --pochi-hover: rgba(255, 255, 255, 0.06); // subtle hover overlay on dark
+  --pochi-scrim: rgba(0, 0, 0, 0.7);
 }

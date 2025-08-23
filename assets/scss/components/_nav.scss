@@ -2,10 +2,7 @@
 
 /* visual elevation */
 nav {
-  box-shadow:
-    0 4px 5px 0 rgba(0, 0, 0, 0.14),
-    0 1px 10px 0 rgba(0, 0, 0, 0.12),
-    0 2px 4px -1px rgba(0, 0, 0, 0.3);
+  box-shadow: $shadow-elev-3;
 }
 
 /* -----navbar----- */
@@ -143,7 +140,7 @@ header ul li .collapsible .collapsible-body {
   top: 90%;
   width: auto;
   background-color: var(--pochi-card);
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  box-shadow: $shadow-dropdown;
   z-index: 1;
   -webkit-transition: all 0.2s ease-in-out 0s;
   transition: all 0.2s ease-in-out 0s;
@@ -171,11 +168,7 @@ header ul li .collapsible .collapsible-body {
   width: auto;
   font-size: 1.6rem;
   color: var(--pochi-text);
-  font-family:
-    "ヒラギノ角ゴ ProN W3",
-    Hiragino Kaku Gothic ProN,
-    Meiryo,
-    sans-serif;
+  font-family: $font-family-heading;
 }
 
 #side-nav {
@@ -211,7 +204,7 @@ header ul li .collapsible .collapsible-body {
 }
 
 #side-nav li > a {
-  color: rgba(0, 0, 0, 0.87);
+  color: var(--pochi-text);
   display: block;
   font-size: 14px;
   font-weight: 500;
@@ -273,7 +266,7 @@ header ul li .collapsible .collapsible-body {
 }
 
 #side-nav-close:hover {
-  background: rgba(0, 0, 0, 0.04);
+  background: var(--pochi-hover);
 }
 
 #side-nav-overlay {
@@ -284,7 +277,7 @@ header ul li .collapsible .collapsible-body {
   left: 0;
   right: 0;
   height: 120vh;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: var(--pochi-scrim);
   z-index: 997;
   transition: all 0.3s;
 }
