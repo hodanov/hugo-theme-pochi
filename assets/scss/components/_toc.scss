@@ -99,38 +99,8 @@
   margin-right: 0.25rem;
 }
 
-/* Reset global nav styles inside Hugo's TOC nav */
-.table-of-contents nav#TableOfContents {
-  background: transparent;
-  box-shadow: none;
-  position: static;
-  height: auto;
-  line-height: normal;
-  width: auto;
-  float: none;
-  color: inherit;
-  font: inherit;
-  padding: 0;
-  margin: 0;
-}
-.table-of-contents nav#TableOfContents ul {
-  margin: 0;
-  padding: 0 1rem;
-  line-height: normal;
-}
-.table-of-contents nav#TableOfContents li {
-  float: none; /* override global nav li float */
-}
-.table-of-contents nav#TableOfContents a {
-  display: inline-block; /* override global block links */
-  padding: 0; /* remove nav padding */
-  line-height: inherit;
-  background: transparent;
-}
-.table-of-contents nav#TableOfContents li:hover > a {
-  background: transparent; /* prevent global hover background */
-  color: var(--pochi-accent); /* keep visible in Light mode */
-}
+/* With header nav now scoped, TOC nav inherits neutral defaults. */
+/* Keep alignment fix for TOC list markers */
 nav#TableOfContents li:before {
   vertical-align: top;
 }

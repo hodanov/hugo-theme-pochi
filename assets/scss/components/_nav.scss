@@ -1,16 +1,16 @@
-// Navigation components
+// Navigation components (scoped to the site header nav)
 
 /* visual elevation */
-nav {
+nav.site-nav {
   box-shadow: $shadow-elev-3;
 }
 
 /* -----navbar----- */
-nav {
+nav.site-nav {
   width: 100%;
 }
 
-.navbar-fixed nav {
+.navbar-fixed nav.site-nav {
   position: fixed;
 }
 
@@ -20,22 +20,22 @@ nav {
   height: 4rem;
 }
 
-nav .nav-wrapper {
+nav.site-nav .nav-wrapper {
   position: relative;
   height: 100%;
 }
 
-nav ul a,
-nav {
+nav.site-nav ul a,
+nav.site-nav {
   color: var(--pochi-text);
   font-size: 0.9rem;
 }
 
-nav {
+nav.site-nav {
   background-color: var(--pochi-card);
 }
 
-nav #menu-bar-btn {
+nav.site-nav #menu-bar-btn {
   /* keep original placement */
   float: left;
   /* reset native button styles */
@@ -56,48 +56,48 @@ nav #menu-bar-btn {
 }
 
 /* Show focus ring only for keyboard navigation */
-nav #menu-bar-btn:focus {
+nav.site-nav #menu-bar-btn:focus {
   outline: none;
 }
-nav #menu-bar-btn:focus-visible {
+nav.site-nav #menu-bar-btn:focus-visible {
   outline: 2px solid var(--pochi-link);
   outline-offset: 2px;
 }
 
-nav #theme-toggle-switch-container {
+nav.site-nav #theme-toggle-switch-container {
   display: inline;
   float: right;
   margin: 0;
 }
 
-nav .menu-global-nav-container {
+nav.site-nav .menu-global-nav-container {
   display: inline;
   float: right;
 }
 
-nav ul {
+nav.site-nav ul {
   margin: 0;
   line-height: 4rem;
 }
 
-nav ul li {
+nav.site-nav ul li {
   float: left;
   padding: 0;
 }
 
-nav ul li a {
+nav.site-nav ul li a {
   display: block;
   padding: 0 1rem;
   -webkit-transition: all 0.2s ease-in-out 0s;
   transition: all 0.2s ease-in-out 0s;
 }
 
-nav ul > li:hover > a {
+nav.site-nav ul > li:hover > a {
   color: var(--pochi-on-accent);
   background-color: var(--pochi-accent);
 }
 
-nav .dropdown-list li a:hover {
+nav.site-nav .dropdown-list li a:hover {
   color: var(--pochi-accent);
   background-color: inherit;
 }
@@ -128,12 +128,12 @@ header ul li .collapsible .collapsible-body {
   padding: 0 2rem;
 }
 
-.dropdown {
+nav.site-nav .dropdown {
   position: relative;
   display: inline-block;
 }
 
-.dropdown-list {
+nav.site-nav .dropdown-list {
   position: absolute;
   opacity: 0;
   visibility: hidden;
@@ -146,22 +146,23 @@ header ul li .collapsible .collapsible-body {
   transition: all 0.2s ease-in-out 0s;
 }
 
-.dropdown-list li {
+nav.site-nav .dropdown-list li {
   width: 100%;
   white-space: nowrap;
 }
 
-.dropdown-list li a {
+nav.site-nav .dropdown-list li a {
   padding: 0 10px;
 }
 
-.dropdown:hover .dropdown-list {
+nav.site-nav .dropdown:hover .dropdown-list {
   visibility: visible;
   opacity: 1;
   top: 100%;
 }
 
-#logo-container {
+nav.site-nav #logo-container,
+nav.site-nav .logo {
   position: absolute;
   display: inline-block;
   padding: 0;
@@ -177,29 +178,20 @@ header ul li .collapsible .collapsible-body {
   left: 0;
   top: 0;
   margin: 0;
-  -webkit-transform: translateX(-100%);
-  transform: translateX(-100%);
+  transform: translateX(-105%);
   height: 100%;
   height: calc(100% + 60px);
-  height: -moz-calc(100%);
   padding-bottom: 60px;
   background-color: var(--pochi-bg);
   z-index: 999;
   overflow-y: auto;
   will-change: transform;
-  -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
-  -webkit-transform: translateX(-105%);
-  transform: translateX(-105%);
-  -webkit-transition: all 0.3s;
   transition: all 0.3s;
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
   overflow: hidden;
 }
 
 #side-nav.is-active {
-  -webkit-transform: translateX(0);
   transform: translateX(0);
 }
 
@@ -282,32 +274,30 @@ header ul li .collapsible .collapsible-body {
   transition: all 0.3s;
 }
 
-nav,
-nav .nav-wrapper i,
-nav a.button-collapse,
-nav a.button-collapse i {
+nav.site-nav,
+nav.site-nav .nav-wrapper i {
   height: 4rem;
   line-height: 4rem;
 }
 
-.dropdown-list {
+nav.site-nav .dropdown-list {
   line-height: 2rem;
 }
 
 @media (min-width: 768px) {
-  nav #menu-bar-btn {
+  nav.site-nav #menu-bar-btn {
     display: none;
   }
 }
 
 @media (max-width: 767px) {
-  nav .menu-global-nav-container {
+  nav.site-nav .menu-global-nav-container {
     display: none;
   }
 
-  #logo-container {
+  nav.site-nav #logo-container,
+  nav.site-nav .logo {
     left: 50%;
-    -webkit-transform: translateX(-50%);
     transform: translateX(-50%);
   }
 }
