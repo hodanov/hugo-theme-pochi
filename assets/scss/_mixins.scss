@@ -12,7 +12,7 @@
   border: 0 !important;
 }
 
-@mixin focus-ring($color: #1a73e8) {
+@mixin focus-ring($color: $color-primary) {
   outline: 2px solid $color;
   outline-offset: 2px;
 }

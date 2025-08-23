@@ -1,0 +1,25 @@
+/* Icons */
+.icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+  margin-right: 0.25rem;
+}
+
+.icon-menu {
+  height: 56px;
+  width: 56px;
+  padding: 1.25rem 0;
+}
+
+.icon-search {
+  margin-right: 0;
+  margin-left: 0.25rem;
+}
+
+.icon-light {
+  display: none;
+}

@@ -1,0 +1,136 @@
+/* Table of contents */
+.table-of-contents {
+  margin-top: 3rem;
+  padding: 0.5rem 0 1rem;
+  border: 1px solid var(--pochi-border);
+  border-radius: 0.25rem;
+}
+
+.table-of-contents p {
+  position: relative;
+  text-align: center;
+  font-size: 1rem;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.table-of-contents p:before {
+  content: "";
+  display: block;
+  position: absolute;
+  margin: auto;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 70%;
+  height: 1px;
+  background-image: linear-gradient(
+    to right,
+    $color-transparent,
+    $color-separator-mid-light,
+    $color-transparent
+  );
+  z-index: 1;
+}
+
+.table-of-contents p span {
+  background: var(--pochi-card);
+  padding: 0 10px;
+  position: relative;
+  z-index: 5;
+}
+
+.table-of-contents ol,
+.table-of-contents ul {
+  list-style-type: none;
+  padding: 0 1rem;
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.table-of-contents ol li,
+.table-of-contents ul li {
+  text-align: left;
+  letter-spacing: 1px;
+  line-height: 2rem;
+}
+
+.table-of-contents ol li a,
+.table-of-contents ul li a {
+  position: relative;
+  display: inline-block;
+  color: var(--pochi-text-muted);
+}
+
+.table-of-contents ol li a:hover,
+.table-of-contents ul li a:hover {
+  color: var(--pochi-accent);
+}
+
+.table-of-contents ol li a:after,
+.table-of-contents ul li a:after {
+  display: block;
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background-color: var(--pochi-accent);
+}
+
+.table-of-contents ol li a:hover:after,
+.table-of-contents ul li a:hover:after {
+  width: 100%;
+}
+
+/* Hugo .TableOfContents outputs a <nav><ul>… structure.
+   Add CSS counters to render hierarchical numbers similar to previous JS output. */
+.table-of-contents nav ul {
+  counter-reset: toc-item;
+}
+.table-of-contents nav li {
+  counter-increment: toc-item;
+}
+.table-of-contents nav li::before {
+  content: counters(toc-item, "-") ". ";
+  color: var(--pochi-text-muted);
+  margin-right: 0.25rem;
+}
+
+/* Reset global nav styles inside Hugo's TOC nav */
+.table-of-contents nav#TableOfContents {
+  background: transparent;
+  box-shadow: none;
+  position: static;
+  height: auto;
+  line-height: normal;
+  width: auto;
+  float: none;
+  color: inherit;
+  font: inherit;
+  padding: 0;
+  margin: 0;
+}
+.table-of-contents nav#TableOfContents ul {
+  margin: 0;
+  padding: 0 1rem;
+  line-height: normal;
+}
+.table-of-contents nav#TableOfContents li {
+  float: none; /* override global nav li float */
+}
+.table-of-contents nav#TableOfContents a {
+  display: inline-block; /* override global block links */
+  padding: 0; /* remove nav padding */
+  line-height: inherit;
+  background: transparent;
+}
+.table-of-contents nav#TableOfContents li:hover > a {
+  background: transparent; /* prevent global hover background */
+  color: var(--pochi-accent); /* keep visible in Light mode */
+}
+nav#TableOfContents li:before {
+  vertical-align: top;
+}
