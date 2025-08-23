@@ -1,9 +1,0 @@
-// Base layer (kept minimal since reboot.scss handles resets)
-@import "variables";
-
-html {
-  -webkit-overflow-scrolling: touch;
-}
-body {
-  font-family: $font-family-base;
-}

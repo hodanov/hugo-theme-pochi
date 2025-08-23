@@ -49,5 +49,6 @@ input.form-control {
 
 /* Contact form */
 .required {
-  color: $color-required;
+  color: var(--pochi-required);
 }
+

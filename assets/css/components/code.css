@@ -1,13 +1,12 @@
-// Code blocks and inline code
-@import "../variables";
+/* Code blocks and inline code */
 
 pre {
   border: 0;
   margin: 3rem -3rem;
   padding: 3rem;
   line-height: 1.2;
-  background-color: $color-code-bg;
-  color: $color-code-fg;
+  background-color: var(--pochi-code-bg);
+  color: var(--pochi-code-fg);
   overflow-x: auto;
   word-wrap: normal;
   font-family:
@@ -30,8 +29,8 @@ ul li > code,
 ol li > code {
   color: var(--pochi-text);
   padding: 0.2rem 0.4rem;
-  background-color: $color-inline-code-bg;
-  border: 1px solid $color-inline-code-border;
+  background-color: var(--pochi-inline-code-bg);
+  border: 1px solid var(--pochi-inline-code-border);
   border-radius: 0.25rem;
 }
 
@@ -43,15 +42,16 @@ ol li > code {
   }
 }
 
-// Dark mode
+/* Dark mode */
 .dark pre {
-  background-color: $color-code-bg;
+  background-color: var(--pochi-code-bg);
 }
 
-// Inline code color tweak in dark mode (match inline contexts we style above)
+/* Inline code color tweak in dark mode */
 .dark p > code,
 .dark ul li > code,
 .dark ol li > code {
   color: var(--bs-code-color);
-  background-color: inherit; // inherit bg in dark mode
+  background-color: inherit;
 }
+

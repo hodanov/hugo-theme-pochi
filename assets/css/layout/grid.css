@@ -1,6 +1,4 @@
-// Grid and container system
-
-// Container
+/* Grid and container system (from layout/_grid.scss) */
 .container-fluid {
   padding-left: 1rem;
   padding-right: 1rem;
@@ -9,7 +7,6 @@
   max-width: 1200px;
 }
 
-// Row
 .row {
   display: flex;
   flex-wrap: wrap;
@@ -20,7 +17,6 @@
   max-width: 100%;
 }
 
-// Columns
 #contents,
 #sidebar,
 .col-md-12,
@@ -29,13 +25,11 @@
   padding-left: 1rem;
 }
 
-// Base: stack
 .col-sm-4,
 .col-md-12 {
   width: 100%;
 }
 
-// Breakpoints
 @media (min-width: 576px) {
   .col-sm-4 {
     flex: 0 0 auto;
@@ -64,3 +58,4 @@
     width: 25%;
   }
 }
+

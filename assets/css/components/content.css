@@ -1,0 +1,16 @@
+/* Article content details: blockquote, tables, captions */
+
+/* Captions and alignment helpers */
+.aligncenter {
+  display: block;
+  margin: 2rem auto;
+}
+
+@media (max-width: 767px) {
+  .alignleft,
+  .alignright {
+    display: block;
+    margin: 2rem auto;
+  }
+}
+

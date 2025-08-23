@@ -32,14 +32,14 @@
   text-align: center;
   width: 100%;
   color: var(--pochi-on-dark);
-  text-shadow: 0 0 7px $color-text-shadow-strong;
+  text-shadow: 0 0 7px var(--pochi-text-shadow-strong);
   font-weight: bold;
-  font-family: $font-family-heading;
+  font-family: var(--pochi-font-heading);
   position: relative;
 }
 
 .hero-caption h1 {
-  font-family: $font-family-heading;
+  font-family: var(--pochi-font-heading);
   font-size: 3rem;
 }
 
@@ -68,3 +68,4 @@
     margin: 0;
   }
 }
+

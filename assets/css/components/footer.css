@@ -56,9 +56,9 @@ footer h2:before {
   height: 1px;
   background-image: linear-gradient(
     to right,
-    $color-transparent,
-    $color-separator-mid-light,
-    $color-transparent
+    var(--pochi-separator-transparent),
+    var(--pochi-separator-mid-light),
+    var(--pochi-separator-transparent)
   );
   z-index: 1;
 }
@@ -85,3 +85,4 @@ footer p {
 footer ul {
   font-size: 0.9rem;
 }
+

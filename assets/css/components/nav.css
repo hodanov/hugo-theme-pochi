@@ -1,8 +1,6 @@
-// Navigation components (scoped to the site header nav)
-
-/* visual elevation */
+/* Navigation components (scoped to the site header nav) */
 nav.site-nav {
-  box-shadow: $shadow-elev-3;
+  box-shadow: var(--pochi-shadow-elev-3);
 }
 
 /* -----navbar----- */
@@ -36,26 +34,22 @@ nav.site-nav {
 }
 
 nav.site-nav #menu-bar-btn {
-  /* keep original placement */
   float: left;
-  /* reset native button styles */
   -webkit-appearance: none;
   appearance: none;
   background: transparent;
   border: 0;
   margin: 0;
   padding: 0;
-  /* align icon like the old div */
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 4rem; /* match navbar height */
+  height: 4rem;
   line-height: 4rem;
   cursor: pointer;
   color: inherit;
 }
 
-/* Show focus ring only for keyboard navigation */
 nav.site-nav #menu-bar-btn:focus {
   outline: none;
 }
@@ -140,7 +134,7 @@ nav.site-nav .dropdown-list {
   top: 90%;
   width: auto;
   background-color: var(--pochi-card);
-  box-shadow: $shadow-dropdown;
+  box-shadow: var(--pochi-shadow-dropdown);
   z-index: 1;
   -webkit-transition: all 0.2s ease-in-out 0s;
   transition: all 0.2s ease-in-out 0s;
@@ -169,7 +163,7 @@ nav.site-nav .logo {
   width: auto;
   font-size: 1.6rem;
   color: var(--pochi-text);
-  font-family: $font-family-heading;
+  font-family: var(--pochi-font-heading);
 }
 
 #side-nav {
@@ -221,7 +215,7 @@ nav.site-nav .logo {
   border: 0;
   background: transparent;
   height: 36px;
-  padding: 0 10px 0 40px; /* room for the X icon */
+  padding: 0 10px 0 40px;
   border-radius: 8px;
   position: relative;
   cursor: pointer;
@@ -301,3 +295,4 @@ nav.site-nav .dropdown-list {
     transform: translateX(-50%);
   }
 }
+
