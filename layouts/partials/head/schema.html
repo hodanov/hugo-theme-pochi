@@ -50,7 +50,7 @@
   {{ $lang := .Site.Language.Lang }}
 
   {{/* WebSite with SearchAction (use q param to match site search) */}}
-  {{ $searchTarget := printf "%s?q={search_term_string}" $siteURL }}
+  {{ $searchTarget := printf "%s/search/?q={search_term_string}" $siteURL }}
   {{ $search := dict "@type" "SearchAction" "target" $searchTarget "query-input" "required name=search_term_string" }}
   {{ $website := dict
     "@context" "https://schema.org"
