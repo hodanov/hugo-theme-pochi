@@ -1,5 +1,4 @@
-// Main content wrapper
-
+/* Main content wrapper (from layout/_main-content.scss) */
 .main-content {
   background-color: var(--pochi-bg);
   position: relative;
@@ -16,3 +15,4 @@
     margin-top: 1rem;
   }
 }
+

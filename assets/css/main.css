@@ -8,41 +8,14 @@ Description: Pochi is a Hugo website theme that focuses on simplicity and readab
 Version: 0.1.1
 */
 
-// Design tokens and mixins (compat: @import for older Sass)
-@import "variables";
-@import "mixins";
 
-// Project structure (progressively migrated)
-@import "base";
-@import "layout";
-@import "components/buttons";
-@import "components/nav";
-@import "components/sidebar";
-@import "components/typography";
-@import "components/code";
-// Newly extracted partials
-@import "components/forms";
-@import "components/icons";
-@import "components/search";
-@import "components/lists";
-@import "components/toc";
-@import "components/pagination";
-@import "components/footer";
-@import "components/breadcrumbs";
-@import "components/hero";
-@import "components/media";
-@import "components/article-list";
-@import "components/scroll";
-@import "utilities/helpers";
-
-// Legacy styles continue below
 
 html {
   -webkit-overflow-scrolling: touch;
 }
 
 body {
-  font-family: $font-family-base;
+  font-family: var(--pochi-font-base);
   font-weight: 300;
   color: var(--pochi-text);
   background-color: var(--pochi-surface-soft);
@@ -74,7 +47,7 @@ mark {
 
 /* -----Font----- */
 .button-collapse {
-  color: $color-teal;
+  color: var(--pochi-teal);
 }
 
 article p {
@@ -154,11 +127,11 @@ article,
 .mymenu-related-list,
 .comments,
 #sidebar .table-of-contents {
-  box-shadow: $shadow-card;
+  box-shadow: var(--pochi-shadow-card);
 }
 
 .article-list .post-row:hover {
-  box-shadow: $shadow-card-hover;
+  box-shadow: var(--pochi-shadow-card-hover);
 }
 
 .btn-primary:hover,
@@ -198,7 +171,7 @@ article,
 
 /* ----- Contact form ----- */
 .required {
-  color: $color-required;
+  color: var(--pochi-required);
 }
 
 /* ----- Categories ----- */
@@ -229,8 +202,8 @@ article,
   left: -1rem;
   width: 10px;
   height: 10px;
-  border-left: 1px solid $color-divider;
-  border-bottom: 1px solid $color-divider;
+  border-left: 1px solid var(--pochi-divider);
+  border-bottom: 1px solid var(--pochi-divider);
 }
 
 /* -----Category page----- */
@@ -561,15 +534,15 @@ article .featured-image-wrapper {
 .dark footer h2:before {
   background-image: linear-gradient(
     to right,
-    $color-separator-end-dark,
-    $color-separator-mid-dark,
-    $color-separator-end-dark
+    var(--pochi-separator-end-dark),
+    var(--pochi-separator-mid-dark),
+    var(--pochi-separator-end-dark)
   );
 }
 
 .dark .article-list .post-row:hover {
   border-color: var(--pochi-accent);
-  box-shadow: $shadow-card-hover-accent;
+  box-shadow: var(--pochi-shadow-card-hover-accent);
 }
 
 .dark .icon-light {

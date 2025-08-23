@@ -1,4 +1,30 @@
+{{ $tokens := resources.Get "css/tokens.css" }}
 {{ $reboot := resources.Get "scss/reboot.scss" | css.Sass }}
-{{ $main := resources.Get "scss/main.scss" | css.Sass }}
-{{ $bundledCss := slice $reboot $main | resources.Concat "css/bundled.css" | resources.Minify | fingerprint }}
+{{ $utilities := resources.Get "css/utilities.css" }}
+{{ $base := resources.Get "css/base.css" }}
+{{ $layoutMain := resources.Get "css/layout/main-content.css" }}
+{{ $layoutGrid := resources.Get "css/layout/grid.css" }}
+
+{{ $cButtons := resources.Get "css/components/buttons.css" }}
+{{ $cNav := resources.Get "css/components/nav.css" }}
+{{ $cSidebar := resources.Get "css/components/sidebar.css" }}
+{{ $cTypography := resources.Get "css/components/typography.css" }}
+{{ $cContent := resources.Get "css/components/content.css" }}
+{{ $cCode := resources.Get "css/components/code.css" }}
+{{ $cForms := resources.Get "css/components/forms.css" }}
+{{ $cIcons := resources.Get "css/components/icons.css" }}
+{{ $cSearch := resources.Get "css/components/search.css" }}
+{{ $cLists := resources.Get "css/components/lists.css" }}
+{{ $cToc := resources.Get "css/components/toc.css" }}
+{{ $cPagination := resources.Get "css/components/pagination.css" }}
+{{ $cFooter := resources.Get "css/components/footer.css" }}
+{{ $cBreadcrumbs := resources.Get "css/components/breadcrumbs.css" }}
+{{ $cHero := resources.Get "css/components/hero.css" }}
+{{ $cMedia := resources.Get "css/components/media.css" }}
+{{ $cArticleList := resources.Get "css/components/article-list.css" }}
+{{ $cScroll := resources.Get "css/components/scroll.css" }}
+
+{{ $main := resources.Get "css/main.css" }}
+
+{{ $bundledCss := slice $tokens $reboot $utilities $base $layoutMain $layoutGrid $cButtons $cNav $cSidebar $cTypography $cContent $cCode $cForms $cIcons $cSearch $cLists $cToc $cPagination $cFooter $cBreadcrumbs $cHero $cMedia $cArticleList $cScroll $main | resources.Concat "css/bundled.css" | resources.Minify | fingerprint }}
 <link rel="stylesheet" href="{{ $bundledCss.RelPermalink }}" />

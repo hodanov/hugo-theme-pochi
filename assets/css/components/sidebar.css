@@ -1,4 +1,4 @@
-// Sidebar-specific styles (extracted from main.scss)
+/* Sidebar-specific styles (extracted from main.scss) */
 
 #sidebar aside:last-child {
   position: -webkit-sticky;
@@ -73,3 +73,4 @@
     margin-left: 0rem;
   }
 }
+
