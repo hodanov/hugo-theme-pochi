@@ -1,9 +1,10 @@
 {{/* Hugo-powered Table of Contents */}}
 {{ if .IsPage }}
-  {{ with .TableOfContents }}
+  {{ $toc := .TableOfContents }}
+  {{ if gt (len (plainify $toc)) 0 }}
     <div class="table-of-contents">
       <p><span>Table of Contents</span></p>
-      {{ . | safeHTML }}
+      {{ $toc | safeHTML }}
     </div>
   {{ end }}
 {{ end }}
