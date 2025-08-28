@@ -3,7 +3,14 @@
   name="viewport"
   content="width=device-width, initial-scale=1, shrink-to-fit=no"
 />
-<title>{{ with .Params.Title }}{{ . }} |{{ end }}{{ .Site.Title }}</title>
+<title>
+  {{ if .IsHome }}
+    {{ .Site.Title }}
+  {{ else }}
+    {{ .Title }} |
+    {{ .Site.Title }}
+  {{ end }}
+</title>
 <meta
   name="description"
   content="{{- with .Description -}}
