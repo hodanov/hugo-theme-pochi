@@ -85,13 +85,18 @@
   width: 100%;
 }
 
-.table-of-contents nav ul { counter-reset: toc-item; }
-.table-of-contents nav li { counter-increment: toc-item; }
+.table-of-contents nav ul {
+  counter-reset: toc-item;
+}
+.table-of-contents nav li {
+  counter-increment: toc-item;
+}
 .table-of-contents nav li::before {
   content: counters(toc-item, "-") ". ";
   color: var(--pochi-text-muted);
   margin-right: 0.25rem;
 }
 
-nav#TableOfContents li:before { vertical-align: top; }
-
+nav#TableOfContents li:before {
+  vertical-align: top;
+}
