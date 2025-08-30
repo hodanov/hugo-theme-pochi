@@ -5,13 +5,14 @@
         >{{ .Site.Title }}</a
       >
       <div id="theme-toggle-switch-container">
-        <button id="theme-toggle-switch" aria-label="theme-toggle-switch">
+        <button id="theme-toggle-switch" data-pochi-theme-toggle aria-label="theme-toggle-switch">
           {{ partial "atoms/icon.html" (dict "id" "icon-light") }}
           {{ partial "atoms/icon.html" (dict "id" "icon-dark") }}
         </button>
       </div>
       <button
         id="menu-bar-btn"
+        data-pochi-menu-button
         type="button"
         class="menu-bar-btn"
         aria-label="メニュー"

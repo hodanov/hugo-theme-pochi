@@ -2,7 +2,7 @@
 // - Prefetch internal links on hover/touch
 // - Intercept clicks to replace only the main content area
 // - Update history and document title
-// - Re-run page-level initializers from main.js (buildTableOfContents, initSearch)
+// - Re-run page-level initializers from main.js (e.g., initSearch)
 
 (function () {
   const CACHE = new Map(); // url -> Promise<string> (HTML)
@@ -300,7 +300,6 @@
   function afterSwapInit() {
     try {
       // Functions declared in assets/js/main.js are global in classic scripts
-      if (typeof buildTableOfContents === "function") buildTableOfContents();
       if (typeof initSearch === "function") initSearch();
       // Other global listeners (smoothScroll, toggleSideNav, theme) use document-level
       // delegation and remain active across swaps.
