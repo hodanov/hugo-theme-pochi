@@ -17,7 +17,7 @@ function smoothScroll() {
     if (!href || href.charAt(0) !== "#") return;
     event.preventDefault();
     if (href === "#top") {
-      window.scrollTo({ top: 0, behavior: "instant" });
+      window.scrollTo({ top: 0, behavior: "auto" });
     } else {
       const targetEl = document.querySelector(href);
       scrollToTarget(targetEl);
@@ -114,7 +114,8 @@ function toggleSideNav() {
     if (
       !isSideNavOpen &&
       event.target.closest &&
-      event.target.closest("#menu-bar-btn")
+      (event.target.closest('[data-pochi-menu-button]') ||
+        event.target.closest('#menu-bar-btn'))
     ) {
       // Handled by the button's listener; no-op here
     }
