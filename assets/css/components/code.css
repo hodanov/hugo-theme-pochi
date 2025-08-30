@@ -51,6 +51,6 @@ ol li > code {
 .dark p > code,
 .dark ul li > code,
 .dark ol li > code {
-  color: var(--bs-code-color);
-  background-color: inherit;
+  color: var(--pochi-code-text);
+  background-color: var(--pochi-code-bg);
 }

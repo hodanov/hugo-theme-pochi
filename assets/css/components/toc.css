@@ -60,7 +60,7 @@
 .table-of-contents ul li a {
   position: relative;
   display: inline-block;
-  color: var(--pochi-text-muted);
+  color: var(--pochi-text);
 }
 
 .table-of-contents ol li a:hover,
@@ -93,7 +93,7 @@
 }
 .table-of-contents nav li::before {
   content: counters(toc-item, "-") ". ";
-  color: var(--pochi-text-muted);
+  color: var(--pochi-text);
   margin-right: 0.25rem;
 }
 
