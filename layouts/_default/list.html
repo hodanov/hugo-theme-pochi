@@ -11,7 +11,9 @@
           <div class="article-list">
             {{ $paginator := slice }}
             {{ if .IsHome }}
-              {{ $paginator = .Paginate (where .Site.RegularPages "Section" "posts") }}
+              {{/* Use site.Params.mainSections to pick sections for the homepage list. Default covers common names. */}}
+              {{ $mainSections := or .Site.Params.mainSections (slice "post" "posts") }}
+              {{ $paginator = .Paginate (where .Site.RegularPages "Section" "in" $mainSections) }}
             {{ else }}
               {{ $paginator = .Paginate .Pages }}
             {{ end }}

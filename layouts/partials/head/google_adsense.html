@@ -1,7 +1,9 @@
-{{ if eq .Section "posts" }}
+{{/* Include AdSense on single content pages in configured main sections */}}
+{{ $mainSections := or .Site.Params.mainSections (slice "post" "posts") }}
+{{ if and .IsPage (in $mainSections .Section) }}
   {{ with .Site.Params.GoogleAdsenseID }}
     <script
-      async=""
+      async
       src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-{{ . }}"
       crossorigin="anonymous"
     ></script>
