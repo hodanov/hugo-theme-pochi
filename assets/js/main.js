@@ -1,5 +1,7 @@
 function smoothScroll() {
-  const scrollToTopBtn = document.getElementById("scroll-to-top");
+  const scrollToTopBtn =
+    document.querySelector('[data-pochi-scroll-top]') ||
+    document.getElementById("scroll-to-top");
 
   function scrollToTarget(targetEl) {
     window.scrollTo({
@@ -41,8 +43,12 @@ function smoothScroll() {
 }
 
 function toggleSideNav() {
-  const sideNav = document.querySelector("#side-nav");
-  const toggleBtn = document.getElementById("menu-bar-btn");
+  const sideNav =
+    document.querySelector('[data-pochi-side-nav]') ||
+    document.querySelector("#side-nav");
+  const toggleBtn =
+    document.querySelector('[data-pochi-menu-button]') ||
+    document.getElementById("menu-bar-btn");
   const isActiveClass = "is-active";
 
   let sideNavOverlay;
@@ -72,9 +78,11 @@ function toggleSideNav() {
     if (toggleBtn) toggleBtn.setAttribute("aria-expanded", "true");
     document.body.insertAdjacentHTML(
       "beforeend",
-      '<div id="side-nav-overlay"></div>',
+      '<div id="side-nav-overlay" data-pochi-side-nav-overlay></div>',
     );
-    sideNavOverlay = document.querySelector("#side-nav-overlay");
+    sideNavOverlay =
+      document.querySelector('[data-pochi-side-nav-overlay]') ||
+      document.querySelector("#side-nav-overlay");
   };
 
   const closeSideNav = (opts) => {
@@ -113,11 +121,11 @@ function toggleSideNav() {
 
     // Close the side nav when a link inside it is clicked
     const linkInsideSideNav = event.target.closest
-      ? event.target.closest("#side-nav a")
+      ? event.target.closest('[data-pochi-side-nav] a, #side-nav a')
       : null;
     // Close when the explicit close button is clicked
     const closeBtn = event.target.closest
-      ? event.target.closest("#side-nav-close")
+      ? event.target.closest('[data-pochi-side-nav-close], #side-nav-close')
       : null;
     if (isSideNavOpen && (linkInsideSideNav || closeBtn)) {
       closeSideNav({ returnFocus: true });
@@ -140,7 +148,9 @@ function toggleSideNav() {
 }
 
 function toggleTheme() {
-  const themeSwitch = document.getElementById("theme-toggle-switch");
+  const themeSwitch =
+    document.querySelector('[data-pochi-theme-toggle]') ||
+    document.getElementById("theme-toggle-switch");
   if (!themeSwitch) return;
   themeSwitch.addEventListener("click", () => {
     const root = document.documentElement; // keep in sync with head FOUC script
@@ -226,55 +236,6 @@ function executeSearch(searchQuery) {
   });
 }
 
-// urlExists() returns 'true' if the request was successful, 'false' if it was a 404.
-function urlExists(url) {
-  let http = new XMLHttpRequest();
-  http.open("HEAD", url, false);
-  http.send();
-  if (http.status != 404) return true;
-  else return false;
-}
-
-// TODO: Implement a makeFeaturedImageContainer.
-function makeFeaturedImageContainer(featuredImageURL) {
-  let container = "";
-  if (featuredImageURL !== "") {
-    const fileExtension = featuredImageURL.match(
-      /\.([0-9a-z]+)(?=[?#])|(\.)(?:[\w]+)$/i,
-    )[0];
-    const isAVIF = fileExtension === ".avif";
-    const isWebP = fileExtension === ".webp";
-    let imgSrc = "";
-    let srcTag = "";
-
-    if (isAVIF || isWebP) {
-      const type = isAVIF ? "avif" : "webp";
-      srcTag = `<source srcset="${featuredImageURL}" type="image/${type}" />`;
-
-      const jpgPath = featuredImageURL.replace(
-        /\.([0-9a-z]+)(?=[?#])|(\.)(?:[\w]+)$/i,
-        ".jpg",
-      );
-      const pngPath = featuredImageURL.replace(
-        /\.([0-9a-z]+)(?=[?#])|(\.)(?:[\w]+)$/i,
-        ".png",
-      );
-
-      if (urlExists(jpgPath)) {
-        imgSrc = jpgPath;
-      } else if (urlExists(pngPath)) {
-        imgSrc = pngPath;
-      }
-    } else {
-      imgSrc = featuredImageURL;
-    }
-
-    const imgTag = `<img src="${imgSrc}" alt="" loading="lazy" decoding="async" />`;
-    container = `<div class="post-image-col"><div class="featured-image-wrapper"><picture>${srcTag}${imgTag}</picture></div></div>`;
-  }
-
-  return container;
-}
 
 function populateResults(results) {
   var searchQuery = document.getElementById("search-query").value;
@@ -297,7 +258,6 @@ function populateResults(results) {
       publishDate: value.item.publishDate.split("T")[0],
       lastmod: value.item.lastmod.split("T")[0],
       featuredImage: "",
-      // featuredImage: makeFeaturedImageContainer("/" + value.item.featuredImage),
       snippet: snippet,
     });
     searchResults.innerHTML += output;
