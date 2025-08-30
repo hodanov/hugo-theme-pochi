@@ -11,17 +11,21 @@
     {{ .Site.Title }}
   {{ end }}
 </title>
+{{/* Build a sanitized meta description: prefer .Description, else page .Summary, else site param. */}}
+{{- $desc := "" -}}
+{{- with .Description -}}
+  {{- $desc = . -}}
+{{- else -}}
+  {{- if .IsPage -}}
+    {{- $desc = .Summary -}}
+  {{- else -}}
+    {{- with .Site.Params.description -}}{{ $desc = . }}{{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- $descSan := $desc | plainify | htmlUnescape | replaceRE "\\s+" " " | truncate 160 -}}
 <meta
   name="description"
-  content="{{- with .Description -}}
-    {{ . }}
-  {{- else -}}
-    {{- if .IsPage -}}
-      {{- .Summary -}}
-    {{- else -}}
-      {{- with .Site.Params.description -}}{{ . }}{{- end -}}
-    {{- end -}}
-  {{- end -}}"
+  content="{{- $descSan -}}"
 />
 <meta
   name="keywords"
