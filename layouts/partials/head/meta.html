@@ -31,7 +31,7 @@
   name="keywords"
   content="{{- $tags := slice -}}{{- range .GetTerms "tags" -}}
     {{- $tags = $tags | append .LinkTitle -}}
-  {{- end -}}{{- if gt $tags 0 -}}
+  {{- end -}}{{- if gt (len $tags) 0 -}}
     {{- delimit $tags ", " -}}
   {{- else -}}
     {{- delimit .Site.Params.Keywords ", " -}}

@@ -153,12 +153,22 @@ function toggleTheme() {
     document.querySelector('[data-pochi-theme-toggle]') ||
     document.getElementById("theme-toggle-switch");
   if (!themeSwitch) return;
+
+  // Initialize aria-pressed to reflect current mode
+  try {
+    const isDarkInit = document.documentElement.classList.contains("dark");
+    themeSwitch.setAttribute("aria-pressed", isDarkInit ? "true" : "false");
+  } catch (_) {}
   themeSwitch.addEventListener("click", () => {
     const root = document.documentElement; // keep in sync with head FOUC script
     const isDarkMode = root.classList.contains("dark");
     const next = isDarkMode ? "light" : "dark";
     root.classList.toggle("dark");
     localStorage.setItem("pref-theme", next);
+    // Update aria-pressed to reflect toggled state
+    try {
+      themeSwitch.setAttribute("aria-pressed", next === "dark" ? "true" : "false");
+    } catch (_) {}
   });
 }
 
@@ -170,6 +180,15 @@ function handleThemeChange() {
     const isDark = e.matches;
     root.classList.toggle("dark", isDark);
     localStorage.setItem("pref-theme", isDark ? "dark" : "light");
+    // Keep toggle button state in sync when system preference changes
+    try {
+      const themeSwitch =
+        document.querySelector('[data-pochi-theme-toggle]') ||
+        document.getElementById("theme-toggle-switch");
+      if (themeSwitch) {
+        themeSwitch.setAttribute("aria-pressed", isDark ? "true" : "false");
+      }
+    } catch (_) {}
   });
 }
 
