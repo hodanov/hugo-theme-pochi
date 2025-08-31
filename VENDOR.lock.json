@@ -1,0 +1,14 @@
+{
+  "files": {
+    "assets/js/vendor/fuse.js": {
+      "package": "fuse.js",
+      "version": "^7.1.0",
+      "sha256": "9650a95515d2149b1d0715503fcd73f373b6b6628052129df59bf73004a1bfdb"
+    },
+    "assets/js/vendor/mark.js": {
+      "package": "mark.js",
+      "version": "^8.11.1",
+      "sha256": "8a8fec472681f08d562f2c4049dd1d5fc0ed68ee2678f5800a28a706e7295286"
+    }
+  }
+}
