@@ -33,6 +33,6 @@
     {{ end }}
   </ul>
   <div id="side-nav-option">
-    {{ partial "molecules/lang_switcher.html" . }}
+    {{ partial "molecules/lang_switcher.html" (dict "ctx" . "id" "language-select-side" "name" "language_side") }}
   </div>
 </div>

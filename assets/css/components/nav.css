@@ -66,13 +66,13 @@ nav.site-nav #lang-switcher-container{
 }
 
 /* Language switcher container within the top nav */
-nav.site-nav #lang-switcher-container {
+#lang-switcher-container {
   height: 4rem;
   line-height: 4rem;
   padding: 0 0.25rem;
 }
 /* Dropdown style for language switcher */
-nav.site-nav #lang-switcher-container .lang-switcher select {
+.lang-switcher select {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -86,22 +86,27 @@ nav.site-nav #lang-switcher-container .lang-switcher select {
   cursor: pointer;
 }
 
-nav.site-nav #lang-switcher-container .lang-switcher select:focus {
+.lang-switcher select:focus {
   outline: 2px solid var(--pochi-link);
   outline-offset: 2px;
 }
 
-nav.site-nav #lang-switcher-container .lang-switcher select:hover {
+.lang-switcher select:hover {
   background-color: var(--pochi-hover);
 }
 
+/* Hide top nav language switcher while side nav is open */
+body.side-nav-open #lang-switcher-container {
+  display: none !important;
+}
+
 /* Custom arrow for language select */
-nav.site-nav #lang-switcher-container .lang-switcher {
+.lang-switcher {
   position: relative;
   display: inline-block;
 }
 
-nav.site-nav #lang-switcher-container .lang-switcher::after {
+.lang-switcher::after {
   content: "▼";
   position: absolute;
   right: 0.6rem;
@@ -113,8 +118,8 @@ nav.site-nav #lang-switcher-container .lang-switcher::after {
   pointer-events: none;
 }
 
-nav.site-nav #lang-switcher-container .lang-switcher select:focus + .arrow,
-nav.site-nav #lang-switcher-container .lang-switcher:focus-within::after {
+.lang-switcher select:focus + .arrow,
+.lang-switcher:focus-within::after {
   color: var(--pochi-link);
 }
 
@@ -161,7 +166,7 @@ nav.site-nav .dropdown-list li a:hover {
 }
 
 #side-nav-option {
-  margin: 0.5rem 1rem;
+  margin: 0.5rem 2rem;
 }
 
 i.right {
@@ -340,6 +345,11 @@ nav.site-nav .dropdown-list {
 
 @media (max-width: 767px) {
   nav.site-nav .menu-global-nav-container {
+    display: none;
+  }
+
+  /* Hide top nav language switcher on small screens (use side nav one) */
+  nav.site-nav #lang-switcher-container {
     display: none;
   }
 

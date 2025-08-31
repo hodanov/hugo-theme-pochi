@@ -1,21 +1,33 @@
 {{/* Dropdown select-based language switcher */}}
 {{ $current := . }}
+{{ $ctx := $current }}
+{{ if isset . "ctx" }}
+  {{ $ctx = .ctx }}
+{{ end }}
+{{ $id := "language-select" }}
+{{ if isset . "id" }}
+  {{ $id = .id }}
+{{ end }}
+{{ $name := "languages" }}
+{{ if isset . "name" }}
+  {{ $name = .name }}
+{{ end }}
 <div class="lang-switcher">
-  <select aria-label="Language" onchange="var v=this.value; if(v){ window.location.href=v; }">
-    {{ range $.Site.Languages }}
+  <select id="{{ $id }}" name="{{ $name }}" aria-label="Language" onchange="var v=this.value; if(v){ window.location.href=v; }">
+    {{ range $ctx.Site.Languages }}
       {{ $lang := . }}
-      {{ $isActive := eq $lang.Lang $.Site.Language.Lang }}
+      {{ $isActive := eq $lang.Lang $ctx.Site.Language.Lang }}
       {{ $href := "" }}
-      {{ $targets := where $current.AllTranslations "Lang" $lang.Lang }}
+      {{ $targets := where $ctx.AllTranslations "Lang" $lang.Lang }}
       {{ if gt (len $targets) 0 }}
         {{ $href = (index $targets 0).RelPermalink }}
       {{ else }}
-        {{ $homeAlts := where $.Site.Home.AllTranslations "Lang" $lang.Lang }}
+        {{ $homeAlts := where $ctx.Site.Home.AllTranslations "Lang" $lang.Lang }}
         {{ if gt (len $homeAlts) 0 }}
           {{ $href = (index $homeAlts 0).RelPermalink }}
         {{ else }}
-          {{ if eq $lang.Lang $.Site.Language.Lang }}
-            {{ $href = $.Site.Home.RelPermalink }}
+          {{ if eq $lang.Lang $ctx.Site.Language.Lang }}
+            {{ $href = $ctx.Site.Home.RelPermalink }}
           {{ else }}
             {{ $href = printf "/%s/" $lang.Lang }}
           {{ end }}

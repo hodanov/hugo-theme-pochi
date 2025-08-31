@@ -3,7 +3,7 @@
     <div class="nav-wrapper container-fluid">
       <a id="logo-container" class="brand-logo logo" href="{{ .Site.Home.RelPermalink }}">{{ .Site.Title }}</a>
       <div id="lang-switcher-container">
-        {{ partial "molecules/lang_switcher.html" . }}
+        {{ partial "molecules/lang_switcher.html" (dict "ctx" . "id" "language-select-top" "name" "language_top") }}
       </div>
       <div id="theme-toggle-switch-container">
         <button id="theme-toggle-switch" data-pochi-theme-toggle aria-label="{{ T "theme_toggle_aria" }}">
