@@ -23,8 +23,9 @@
 {{ $cMedia := resources.Get "css/components/media.css" }}
 {{ $cArticleList := resources.Get "css/components/article-list.css" }}
 {{ $cScroll := resources.Get "css/components/scroll.css" }}
+{{ $cProfile := resources.Get "css/components/profile.css" }}
 
 {{ $main := resources.Get "css/main.css" }}
 
-{{ $bundledCss := slice $tokens $reboot $utilities $base $layoutMain $layoutGrid $cButtons $cNav $cSidebar $cTypography $cContent $cCode $cForms $cIcons $cSearch $cLists $cToc $cPagination $cFooter $cBreadcrumbs $cHero $cMedia $cArticleList $cScroll $main | resources.Concat "css/bundled.css" | resources.Minify | fingerprint }}
+{{ $bundledCss := slice $tokens $reboot $utilities $base $layoutMain $layoutGrid $cButtons $cNav $cSidebar $cTypography $cContent $cCode $cForms $cIcons $cSearch $cLists $cToc $cPagination $cFooter $cBreadcrumbs $cHero $cMedia $cArticleList $cScroll $cProfile $main | resources.Concat "css/bundled.css" | resources.Minify | fingerprint }}
 <link rel="stylesheet" href="{{ $bundledCss.RelPermalink }}" />

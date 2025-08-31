@@ -3,7 +3,7 @@
   {{ $toc := .TableOfContents }}
   {{ if gt (len (plainify $toc)) 0 }}
     <div class="table-of-contents">
-      <p><span>Table of Contents</span></p>
+      <p><span>{{ T "table_of_contents" }}</span></p>
       {{ $toc | safeHTML }}
     </div>
   {{ end }}

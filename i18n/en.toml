@@ -1,0 +1,38 @@
+[loading]
+other = "Loading..."
+
+[search_label]
+other = "Search"
+
+[search_submit]
+other = "Search"
+
+[no_matches]
+other = "No matches found"
+
+[close]
+other = "Close"
+
+[close_menu]
+other = "Close menu"
+
+[menu]
+other = "Menu"
+
+[theme_toggle_aria]
+other = "Toggle theme"
+
+[powered_by]
+other = "Powered by"
+
+[top]
+other = "Top"
+
+[scroll_to_top]
+other = "Scroll to top"
+
+[table_of_contents]
+other = "Table of Contents"
+
+[about_me]
+other = "About me"

@@ -13,7 +13,7 @@
         </p>
       {{- end }}
       <p class="copyright">
-        Powered by
+        {{ T "powered_by" }}
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank"
           >Hugo</a
         >
@@ -28,6 +28,6 @@
     </div>
   </footer>
   <div id="scroll-to-top" data-pochi-scroll-top>
-    <a href="#top"> ▲<br />Top </a>
+    <a href="#top" aria-label="{{ T "scroll_to_top" }}"> ▲<br />{{ T "top" }} </a>
   </div>
 {{ end }}

@@ -8,7 +8,7 @@
 >
   <div class="form-group ">
     <div class="input-group">
-      <label for="search-query" id="search-label">Search</label>
+      <label for="search-query" id="search-label">{{ T "search_label" }}</label>
       <input
         type="text"
         id="search-query"
@@ -21,8 +21,8 @@
           type="submit"
           id="searchsubmit"
           class="btn btn-secondary"
-          value="Search"
-          aria-label="searchsubmit"
+          value="{{ T "search_submit" }}"
+          aria-label="{{ T "search_submit" }}"
         >
           {{ partial "atoms/icon.html" (dict "id" "icon-search") }}
         </button>
