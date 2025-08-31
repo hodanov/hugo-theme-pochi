@@ -208,8 +208,10 @@
   }
 
   function getNextMain(doc) {
-    // Theme uses .main-content as the primary content wrapper
-    return doc.querySelector(".main-content");
+    // Theme uses exactly one .main-content as the primary content wrapper
+    const mains = doc.querySelectorAll(".main-content");
+    if (mains.length !== 1) return null;
+    return mains[0];
   }
 
   function getNextHero(doc) {
@@ -217,32 +219,14 @@
     return doc.querySelector(".parallax-container");
   }
 
-  function getNextBreadcrumbsInfo(doc, nextMain) {
-    // Returns { el, container, external } or null
-    const crumb = doc.querySelector("#breadcrumbs");
-    if (!crumb) return null;
-    const external = nextMain ? !nextMain.contains(crumb) : true;
-    const container = crumb.closest(".container-fluid") || crumb;
-    return { el: crumb, container, external };
-  }
-
   function swapContent(nextDoc, options) {
     const nextMain = getNextMain(nextDoc);
-    const currentMain = document.querySelector(".main-content");
+    const currentMains = document.querySelectorAll(".main-content");
+    const currentMain = currentMains.length === 1 ? currentMains[0] : null;
     if (!nextMain || !currentMain) return false;
 
     const nextHero = getNextHero(nextDoc);
     const currentHero = document.querySelector(".parallax-container");
-
-    const nextCrumbsInfo = getNextBreadcrumbsInfo(nextDoc, nextMain);
-    const currentCrumbEl = document.querySelector("#breadcrumbs");
-    const currentCrumbsExternal =
-      currentCrumbEl && currentMain
-        ? !currentMain.contains(currentCrumbEl)
-        : false;
-    const currentCrumbsContainer = currentCrumbEl
-      ? currentCrumbEl.closest(".container-fluid") || currentCrumbEl
-      : null;
 
     const doSwap = () => {
       // Swap/insert/remove hero first to keep order stable
@@ -255,17 +239,6 @@
         }
       } else if (currentHero) {
         currentHero.remove();
-      }
-
-      // Breadcrumbs handling:
-      // - If current has external breadcrumbs, remove them first to avoid duplicates
-      if (currentCrumbsExternal && currentCrumbsContainer) {
-        currentCrumbsContainer.remove();
-      }
-      // - If next requires external breadcrumbs (i.e., not inside nextMain), insert before currentMain
-      if (nextCrumbsInfo && nextCrumbsInfo.external) {
-        const nextCrumbsNode = nextCrumbsInfo.container.cloneNode(true);
-        currentMain.parentElement.insertBefore(nextCrumbsNode, currentMain);
       }
 
       // Then swap the main content

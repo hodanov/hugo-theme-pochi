@@ -1,10 +1,8 @@
 {{ define "main" }}
-  {{ if eq (.Ancestors | len) 0 }}
-    <div class="main-content margin-top">
-  {{ else }}
-    {{ partial "molecules/breadcrumbs.html" . }}
-    <div class="main-content">
-  {{ end }}
+  <div class="main-content{{ if eq (.Ancestors | len) 0 }} margin-top{{ end }}">
+    {{ if ne (.Ancestors | len) 0 }}
+      {{ partial "molecules/breadcrumbs.html" . }}
+    {{ end }}
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-9" id="contents">
