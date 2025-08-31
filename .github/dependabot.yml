@@ -4,6 +4,9 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    ignore:
+      - dependency-name: "fuse.js"
+      - dependency-name: "mark.js"
     groups:
       node-module-dependencies:
         patterns:
