@@ -259,7 +259,6 @@ function executeSearch(searchQuery) {
     shouldSort: true,
     includeMatches: true,
     includeScore: true,
-    tokenize: true,
     location: 0,
     distance: 100,
     minMatchCharLength: 2,
