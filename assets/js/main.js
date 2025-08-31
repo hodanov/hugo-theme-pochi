@@ -56,8 +56,52 @@ function toggleSideNav() {
 
   if (!sideNav) return;
 
+  // Manage focusability of elements inside the side nav when aria-hidden is true
+  const focusableSelector = [
+    'a[href]',
+    'area[href]',
+    'input:not([type="hidden"]):not([disabled])',
+    'select:not([disabled])',
+    'textarea:not([disabled])',
+    'button:not([disabled])',
+    'iframe',
+    'object',
+    'embed',
+    '[contenteditable="true"]',
+    '[tabindex]'
+  ].join(',');
+
+  const getFocusable = () => Array.from(sideNav.querySelectorAll(focusableSelector));
+
+  const disableFocusWithin = () => {
+    getFocusable().forEach((el) => {
+      // Store previous tabindex only once
+      if (!el.hasAttribute('data-prev-tabindex')) {
+        const prev = el.getAttribute('tabindex');
+        el.setAttribute('data-prev-tabindex', prev !== null ? prev : '');
+      }
+      el.setAttribute('tabindex', '-1');
+    });
+  };
+
+  const enableFocusWithin = () => {
+    getFocusable().forEach((el) => {
+      const prev = el.getAttribute('data-prev-tabindex');
+      if (prev !== null) {
+        if (prev === '') el.removeAttribute('tabindex');
+        else el.setAttribute('tabindex', prev);
+        el.removeAttribute('data-prev-tabindex');
+      } else {
+        // If we didn't store anything, remove the forced -1 we might have set
+        if (el.getAttribute('tabindex') === '-1') el.removeAttribute('tabindex');
+      }
+    });
+  };
+
   // Initialize ARIA hidden state
   sideNav.setAttribute("aria-hidden", "true");
+  // Ensure focusable elements are removed from tab order when hidden
+  disableFocusWithin();
 
   // Ensure ARIA defaults
   if (toggleBtn) {
@@ -75,6 +119,8 @@ function toggleSideNav() {
     `;
     sideNav.classList.add(isActiveClass);
     sideNav.setAttribute("aria-hidden", "false");
+    // Restore focusability when shown
+    enableFocusWithin();
     if (toggleBtn) toggleBtn.setAttribute("aria-expanded", "true");
     document.body.insertAdjacentHTML(
       "beforeend",
@@ -93,6 +139,8 @@ function toggleSideNav() {
     `;
     sideNav.classList.remove(isActiveClass);
     sideNav.setAttribute("aria-hidden", "true");
+    // Remove focusability when hidden
+    disableFocusWithin();
     if (toggleBtn) toggleBtn.setAttribute("aria-expanded", "false");
     if (sideNavOverlay) {
       sideNavOverlay.style.opacity = "0";
