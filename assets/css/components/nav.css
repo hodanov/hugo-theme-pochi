@@ -58,10 +58,69 @@ nav.site-nav #menu-bar-btn:focus-visible {
   outline-offset: 2px;
 }
 
-nav.site-nav #theme-toggle-switch-container {
+nav.site-nav #theme-toggle-switch-container,
+nav.site-nav #lang-switcher-container{
   display: inline;
   float: right;
   margin: 0;
+}
+
+/* Language switcher container within the top nav */
+#lang-switcher-container {
+  height: 4rem;
+  line-height: 4rem;
+  padding: 0 0.25rem;
+}
+/* Dropdown style for language switcher */
+.lang-switcher select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  line-height: 2rem;
+  padding: 0 1.75rem 0 0.5rem;
+  font-size: 0.85rem;
+  color: var(--pochi-text);
+  background-color: var(--pochi-card);
+  border: 1px solid var(--pochi-border);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.lang-switcher select:focus {
+  outline: 2px solid var(--pochi-link);
+  outline-offset: 2px;
+}
+
+.lang-switcher select:hover {
+  background-color: var(--pochi-hover);
+}
+
+/* Hide top nav language switcher while side nav is open */
+body.side-nav-open #lang-switcher-container {
+  display: none !important;
+}
+
+/* Custom arrow for language select */
+.lang-switcher {
+  position: relative;
+  display: inline-block;
+}
+
+.lang-switcher::after {
+  content: "▼";
+  position: absolute;
+  right: 0.6rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--pochi-text-muted);
+  font-size: 0.7rem;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.lang-switcher select:focus + .arrow,
+.lang-switcher:focus-within::after {
+  color: var(--pochi-link);
 }
 
 nav.site-nav .menu-global-nav-container {
@@ -107,7 +166,7 @@ nav.site-nav .dropdown-list li a:hover {
 }
 
 #side-nav-option {
-  margin: 0.5rem 1rem;
+  margin: 0.5rem 2rem;
 }
 
 i.right {
@@ -286,6 +345,11 @@ nav.site-nav .dropdown-list {
 
 @media (max-width: 767px) {
   nav.site-nav .menu-global-nav-container {
+    display: none;
+  }
+
+  /* Hide top nav language switcher on small screens (use side nav one) */
+  nav.site-nav #lang-switcher-container {
     display: none;
   }
 

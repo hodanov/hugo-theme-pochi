@@ -66,11 +66,11 @@
 :root.dark {
   --pochi-text: #c9d1d9;
   --pochi-text-muted: #a1a1a1;
-  --pochi-bg: #121212;
+  --pochi-bg: #1d1d1d;
   --pochi-card: #2f2f2f;
   --pochi-surface: #2f2f2f;
   --pochi-surface-soft: #1d1d1d;
-  --pochi-border: #d8d8d8;
+  --pochi-border: #a1a1a1;
   --pochi-blockquote-bg: #212121;
   --pochi-link: var(--pochi-accent);
   --pochi-on-accent: #ffffff;
