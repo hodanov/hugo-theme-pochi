@@ -1,9 +1,10 @@
 <div class="navbar-fixed">
   <nav class="site-nav">
     <div class="nav-wrapper container-fluid">
-      <a id="logo-container" class="brand-logo logo" href="{{ .Site.BaseURL }}"
-        >{{ .Site.Title }}</a
-      >
+      <a id="logo-container" class="brand-logo logo" href="{{ .Site.Home.RelPermalink }}">{{ .Site.Title }}</a>
+      <div id="lang-switcher-container">
+        {{ partial "molecules/lang_switcher.html" . }}
+      </div>
       <div id="theme-toggle-switch-container">
         <button id="theme-toggle-switch" data-pochi-theme-toggle aria-label="{{ T "theme_toggle_aria" }}">
           {{ partial "atoms/icon.html" (dict "id" "icon-light") }}
@@ -26,15 +27,15 @@
           {{ range .Site.Menus.main }}
             {{ if .HasChildren }}
               <li class="dropdown">
-                <a href="{{ .URL }}">{{ .Name }}</a>
+                <a href="{{ .URL | relLangURL }}">{{ .Name }}</a>
                 <ul class="dropdown-list">
                   {{ range .Children }}
-                    <li><a href="{{ .URL }}">{{ .Name }}</a></li>
+                    <li><a href="{{ .URL | relLangURL }}">{{ .Name }}</a></li>
                   {{ end }}
                 </ul>
               </li>
             {{ else }}
-              <li><a href="{{ .URL }}">{{ .Name }}</a></li>
+              <li><a href="{{ .URL | relLangURL }}">{{ .Name }}</a></li>
             {{ end }}
           {{ end }}
         </ul>

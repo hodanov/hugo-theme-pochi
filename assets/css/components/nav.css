@@ -58,10 +58,64 @@ nav.site-nav #menu-bar-btn:focus-visible {
   outline-offset: 2px;
 }
 
-nav.site-nav #theme-toggle-switch-container {
+nav.site-nav #theme-toggle-switch-container,
+nav.site-nav #lang-switcher-container{
   display: inline;
   float: right;
   margin: 0;
+}
+
+/* Language switcher container within the top nav */
+nav.site-nav #lang-switcher-container {
+  height: 4rem;
+  line-height: 4rem;
+  padding: 0 0.25rem;
+}
+/* Dropdown style for language switcher */
+nav.site-nav #lang-switcher-container .lang-switcher select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  line-height: 2rem;
+  padding: 0 1.75rem 0 0.5rem;
+  font-size: 0.85rem;
+  color: var(--pochi-text);
+  background-color: var(--pochi-card);
+  border: 1px solid var(--pochi-border);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+nav.site-nav #lang-switcher-container .lang-switcher select:focus {
+  outline: 2px solid var(--pochi-link);
+  outline-offset: 2px;
+}
+
+nav.site-nav #lang-switcher-container .lang-switcher select:hover {
+  background-color: var(--pochi-hover);
+}
+
+/* Custom arrow for language select */
+nav.site-nav #lang-switcher-container .lang-switcher {
+  position: relative;
+  display: inline-block;
+}
+
+nav.site-nav #lang-switcher-container .lang-switcher::after {
+  content: "▼";
+  position: absolute;
+  right: 0.6rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--pochi-text-muted);
+  font-size: 0.7rem;
+  line-height: 1;
+  pointer-events: none;
+}
+
+nav.site-nav #lang-switcher-container .lang-switcher select:focus + .arrow,
+nav.site-nav #lang-switcher-container .lang-switcher:focus-within::after {
+  color: var(--pochi-link);
 }
 
 nav.site-nav .menu-global-nav-container {

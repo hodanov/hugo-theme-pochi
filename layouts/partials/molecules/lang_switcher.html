@@ -1,0 +1,29 @@
+{{/* Dropdown select-based language switcher */}}
+{{ $current := . }}
+<div class="lang-switcher">
+  <select aria-label="Language" onchange="var v=this.value; if(v){ window.location.href=v; }">
+    {{ range $.Site.Languages }}
+      {{ $lang := . }}
+      {{ $isActive := eq $lang.Lang $.Site.Language.Lang }}
+      {{ $href := "" }}
+      {{ $targets := where $current.AllTranslations "Lang" $lang.Lang }}
+      {{ if gt (len $targets) 0 }}
+        {{ $href = (index $targets 0).RelPermalink }}
+      {{ else }}
+        {{ $homeAlts := where $.Site.Home.AllTranslations "Lang" $lang.Lang }}
+        {{ if gt (len $homeAlts) 0 }}
+          {{ $href = (index $homeAlts 0).RelPermalink }}
+        {{ else }}
+          {{ if eq $lang.Lang $.Site.Language.Lang }}
+            {{ $href = $.Site.Home.RelPermalink }}
+          {{ else }}
+            {{ $href = printf "/%s/" $lang.Lang }}
+          {{ end }}
+        {{ end }}
+      {{ end }}
+      <option value="{{ $href }}" hreflang="{{ $lang.Lang }}" {{ if $isActive }}selected{{ end }}>
+        {{ $lang.LanguageName }}
+      </option>
+    {{ end }}
+  </select>
+</div>
