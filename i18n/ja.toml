@@ -1,0 +1,38 @@
+[loading]
+other = "読み込み中..."
+
+[search_label]
+other = "検索"
+
+[search_submit]
+other = "検索"
+
+[no_matches]
+other = "一致する結果はありません"
+
+[close]
+other = "閉じる"
+
+[close_menu]
+other = "メニューを閉じる"
+
+[menu]
+other = "メニュー"
+
+[theme_toggle_aria]
+other = "テーマを切り替える"
+
+[powered_by]
+other = "Powered by"
+
+[top]
+other = "Top"
+
+[scroll_to_top]
+other = "ページトップへ"
+
+[table_of_contents]
+other = "目次"
+
+[about_me]
+other = "プロフィール"

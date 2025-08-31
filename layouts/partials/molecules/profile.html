@@ -1,4 +1,4 @@
-<h2 class="widgettitle"><span>About me</span></h2>
+<h2 class="widgettitle"><span>{{ T "about_me" }}</span></h2>
 <div class="textwidget custom-html-widget">
   <div class="profile-flex-box">
     {{ if and (.ProfileImage) (ne .ProfileImage "") }}
@@ -21,9 +21,7 @@
       {{ range . }}
         <li>
           {{ partial "atoms/icon.html" (dict "id" "icon-link") }}
-          <a href="{{ .link }}" target="_blank" rel="noreferrer noopener"
-            >{{ .name }}</a
-          >
+          <a href="{{ .link }}" target="_blank" rel="noreferrer noopener" class="profile-link">{{ .name }}</a>
         </li>
       {{ end }}
     </ul>

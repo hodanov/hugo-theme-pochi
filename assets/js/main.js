@@ -292,8 +292,16 @@ function executeSearch(searchQuery) {
         if (result.length > 0) {
           populateResults(result);
         } else {
-          document.getElementById("search-results").innerHTML =
-            '<p class="search-results-empty">No matches found</p>';
+          var resultsEl = document.getElementById("search-results");
+          var noResultsText =
+            (resultsEl && resultsEl.getAttribute("data-i18n-no-results")) ||
+            "No matches found";
+          if (resultsEl) {
+            resultsEl.innerHTML =
+              '<p class="search-results-empty">' +
+              noResultsText +
+              '</p>';
+          }
         }
         hide(document.querySelector(".search-loading"));
       })
