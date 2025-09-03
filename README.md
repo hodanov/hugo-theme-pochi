@@ -15,6 +15,8 @@
   - Bump versions in `package.json` devDependencies.
   - Run `npm i` then `npm run vendor:sync`.
   - Verify with `npm run vendor:verify`.
+
 ## Template Contract
+
 - Each page template must render exactly one `.main-content` wrapper. PJAX navigation relies on swapping this node.
 - Place page-specific hero and external breadcrumbs outside `.main-content` to keep ordering stable during swaps.

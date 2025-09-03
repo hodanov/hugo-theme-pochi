@@ -59,7 +59,7 @@ nav.site-nav #menu-bar-btn:focus-visible {
 }
 
 nav.site-nav #theme-toggle-switch-container,
-nav.site-nav #lang-switcher-container{
+nav.site-nav #lang-switcher-container {
   display: inline;
   float: right;
   margin: 0;
