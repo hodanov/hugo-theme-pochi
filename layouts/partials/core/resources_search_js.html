@@ -1,5 +1,4 @@
-{{/*
-  Loads search vendor libraries (Fuse + Mark) via Hugo Pipes if present.
+{{/* Loads search vendor libraries (Fuse + Mark) via Hugo Pipes if present.
   Falls back to CDN scripts when local vendor files are unavailable.
 */}}
 {{ $fuse := resources.Get "js/vendor/fuse.js" }}
@@ -24,4 +23,3 @@
     defer
   ></script>
 {{ end }}
-

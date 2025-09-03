@@ -1,6 +1,6 @@
 function smoothScroll() {
   const scrollToTopBtn =
-    document.querySelector('[data-pochi-scroll-top]') ||
+    document.querySelector("[data-pochi-scroll-top]") ||
     document.getElementById("scroll-to-top");
 
   function scrollToTarget(targetEl) {
@@ -44,10 +44,10 @@ function smoothScroll() {
 
 function toggleSideNav() {
   const sideNav =
-    document.querySelector('[data-pochi-side-nav]') ||
+    document.querySelector("[data-pochi-side-nav]") ||
     document.querySelector("#side-nav");
   const toggleBtn =
-    document.querySelector('[data-pochi-menu-button]') ||
+    document.querySelector("[data-pochi-menu-button]") ||
     document.getElementById("menu-bar-btn");
   const isActiveClass = "is-active";
 
@@ -58,42 +58,44 @@ function toggleSideNav() {
 
   // Manage focusability of elements inside the side nav when aria-hidden is true
   const focusableSelector = [
-    'a[href]',
-    'area[href]',
+    "a[href]",
+    "area[href]",
     'input:not([type="hidden"]):not([disabled])',
-    'select:not([disabled])',
-    'textarea:not([disabled])',
-    'button:not([disabled])',
-    'iframe',
-    'object',
-    'embed',
+    "select:not([disabled])",
+    "textarea:not([disabled])",
+    "button:not([disabled])",
+    "iframe",
+    "object",
+    "embed",
     '[contenteditable="true"]',
-    '[tabindex]'
-  ].join(',');
+    "[tabindex]",
+  ].join(",");
 
-  const getFocusable = () => Array.from(sideNav.querySelectorAll(focusableSelector));
+  const getFocusable = () =>
+    Array.from(sideNav.querySelectorAll(focusableSelector));
 
   const disableFocusWithin = () => {
     getFocusable().forEach((el) => {
       // Store previous tabindex only once
-      if (!el.hasAttribute('data-prev-tabindex')) {
-        const prev = el.getAttribute('tabindex');
-        el.setAttribute('data-prev-tabindex', prev !== null ? prev : '');
+      if (!el.hasAttribute("data-prev-tabindex")) {
+        const prev = el.getAttribute("tabindex");
+        el.setAttribute("data-prev-tabindex", prev !== null ? prev : "");
       }
-      el.setAttribute('tabindex', '-1');
+      el.setAttribute("tabindex", "-1");
     });
   };
 
   const enableFocusWithin = () => {
     getFocusable().forEach((el) => {
-      const prev = el.getAttribute('data-prev-tabindex');
+      const prev = el.getAttribute("data-prev-tabindex");
       if (prev !== null) {
-        if (prev === '') el.removeAttribute('tabindex');
-        else el.setAttribute('tabindex', prev);
-        el.removeAttribute('data-prev-tabindex');
+        if (prev === "") el.removeAttribute("tabindex");
+        else el.setAttribute("tabindex", prev);
+        el.removeAttribute("data-prev-tabindex");
       } else {
         // If we didn't store anything, remove the forced -1 we might have set
-        if (el.getAttribute('tabindex') === '-1') el.removeAttribute('tabindex');
+        if (el.getAttribute("tabindex") === "-1")
+          el.removeAttribute("tabindex");
       }
     });
   };
@@ -127,7 +129,7 @@ function toggleSideNav() {
       '<div id="side-nav-overlay" data-pochi-side-nav-overlay></div>',
     );
     sideNavOverlay =
-      document.querySelector('[data-pochi-side-nav-overlay]') ||
+      document.querySelector("[data-pochi-side-nav-overlay]") ||
       document.querySelector("#side-nav-overlay");
   };
 
@@ -162,19 +164,19 @@ function toggleSideNav() {
     if (
       !isSideNavOpen &&
       event.target.closest &&
-      (event.target.closest('[data-pochi-menu-button]') ||
-        event.target.closest('#menu-bar-btn'))
+      (event.target.closest("[data-pochi-menu-button]") ||
+        event.target.closest("#menu-bar-btn"))
     ) {
       // Handled by the button's listener; no-op here
     }
 
     // Close the side nav when a link inside it is clicked
     const linkInsideSideNav = event.target.closest
-      ? event.target.closest('[data-pochi-side-nav] a, #side-nav a')
+      ? event.target.closest("[data-pochi-side-nav] a, #side-nav a")
       : null;
     // Close when the explicit close button is clicked
     const closeBtn = event.target.closest
-      ? event.target.closest('[data-pochi-side-nav-close], #side-nav-close')
+      ? event.target.closest("[data-pochi-side-nav-close], #side-nav-close")
       : null;
     if (isSideNavOpen && (linkInsideSideNav || closeBtn)) {
       closeSideNav({ returnFocus: true });
@@ -198,7 +200,7 @@ function toggleSideNav() {
 
 function toggleTheme() {
   const themeSwitch =
-    document.querySelector('[data-pochi-theme-toggle]') ||
+    document.querySelector("[data-pochi-theme-toggle]") ||
     document.getElementById("theme-toggle-switch");
   if (!themeSwitch) return;
 
@@ -215,7 +217,10 @@ function toggleTheme() {
     localStorage.setItem("pref-theme", next);
     // Update aria-pressed to reflect toggled state
     try {
-      themeSwitch.setAttribute("aria-pressed", next === "dark" ? "true" : "false");
+      themeSwitch.setAttribute(
+        "aria-pressed",
+        next === "dark" ? "true" : "false",
+      );
     } catch (_) {}
   });
 }
@@ -231,7 +236,7 @@ function handleThemeChange() {
     // Keep toggle button state in sync when system preference changes
     try {
       const themeSwitch =
-        document.querySelector('[data-pochi-theme-toggle]') ||
+        document.querySelector("[data-pochi-theme-toggle]") ||
         document.getElementById("theme-toggle-switch");
       if (themeSwitch) {
         themeSwitch.setAttribute("aria-pressed", isDark ? "true" : "false");
@@ -298,9 +303,7 @@ function executeSearch(searchQuery) {
             "No matches found";
           if (resultsEl) {
             resultsEl.innerHTML =
-              '<p class="search-results-empty">' +
-              noResultsText +
-              '</p>';
+              '<p class="search-results-empty">' + noResultsText + "</p>";
           }
         }
         hide(document.querySelector(".search-loading"));
@@ -310,7 +313,6 @@ function executeSearch(searchQuery) {
       });
   });
 }
-
 
 function populateResults(results) {
   var searchQuery = document.getElementById("search-query").value;

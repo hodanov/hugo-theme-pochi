@@ -13,7 +13,12 @@
   {{ $name = .name }}
 {{ end }}
 <div class="lang-switcher">
-  <select id="{{ $id }}" name="{{ $name }}" aria-label="Language" onchange="var v=this.value; if(v){ window.location.href=v; }">
+  <select
+    id="{{ $id }}"
+    name="{{ $name }}"
+    aria-label="Language"
+    onchange="var v=this.value; if(v){ window.location.href=v; }"
+  >
     {{ range $ctx.Site.Languages }}
       {{ $lang := . }}
       {{ $isActive := eq $lang.Lang $ctx.Site.Language.Lang }}
@@ -33,7 +38,11 @@
           {{ end }}
         {{ end }}
       {{ end }}
-      <option value="{{ $href }}" hreflang="{{ $lang.Lang }}" {{ if $isActive }}selected{{ end }}>
+      <option
+        value="{{ $href }}"
+        hreflang="{{ $lang.Lang }}"
+        {{ if $isActive }}selected{{ end }}
+      >
         {{ $lang.LanguageName }}
       </option>
     {{ end }}

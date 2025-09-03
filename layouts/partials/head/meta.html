@@ -23,10 +23,7 @@
   {{- end -}}
 {{- end -}}
 {{- $descSan := $desc | plainify | htmlUnescape | replaceRE "\\s+" " " | truncate 160 -}}
-<meta
-  name="description"
-  content="{{- $descSan -}}"
-/>
+<meta name="description" content="{{- $descSan -}}" />
 <meta
   name="keywords"
   content="{{- $tags := slice -}}{{- range .GetTerms "tags" -}}

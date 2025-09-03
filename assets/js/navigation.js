@@ -123,6 +123,47 @@
     adoptAll('script[type="application/ld+json"]');
   }
 
+  // Replace header elements that depend on the current page/language
+  // without re-mounting the entire header (keeps global listeners intact).
+  function syncHeaderUI(nextDoc) {
+    if (!nextDoc) return;
+    try {
+      // Update top language switcher
+      const nextLangSwitcher = nextDoc.getElementById(
+        "lang-switcher-container",
+      );
+      const curLangSwitcher = document.getElementById(
+        "lang-switcher-container",
+      );
+      if (nextLangSwitcher && curLangSwitcher) {
+        curLangSwitcher.innerHTML = nextLangSwitcher.innerHTML;
+      }
+
+      // Update top global nav menu items
+      const nextTopMenu = nextDoc.getElementById("menu-global-nav");
+      const curTopMenu = document.getElementById("menu-global-nav");
+      if (nextTopMenu && curTopMenu) {
+        curTopMenu.innerHTML = nextTopMenu.innerHTML;
+      }
+
+      // Update side nav menu items
+      const nextSideMenu = nextDoc.getElementById("menu-global-nav-for-phone");
+      const curSideMenu = document.getElementById("menu-global-nav-for-phone");
+      if (nextSideMenu && curSideMenu) {
+        curSideMenu.innerHTML = nextSideMenu.innerHTML;
+      }
+
+      // Update side nav options area (contains language switcher)
+      const nextSideOption = nextDoc.getElementById("side-nav-option");
+      const curSideOption = document.getElementById("side-nav-option");
+      if (nextSideOption && curSideOption) {
+        curSideOption.innerHTML = nextSideOption.innerHTML;
+      }
+    } catch (_) {
+      // Non-fatal; fall back to existing header UI.
+    }
+  }
+
   function clearPreviousPjaxPreloads() {
     const nodes = document.head.querySelectorAll(
       'link[data-pjax-preload="true"]',
@@ -287,6 +328,8 @@
       adoptImagePreloads(doc);
       // Sync head metadata and structured data for correctness
       syncHead(doc);
+      // Sync header UI elements (language switcher, menus) that are language/page dependent
+      syncHeaderUI(doc);
       const ok = swapContent(doc, opts);
       if (!ok) throw new Error("Swap failed");
       // Update title
