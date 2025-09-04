@@ -1,3 +1,7 @@
 User-agent: *
 Sitemap: {{ .Site.BaseURL }}sitemap.xml
 Disallow: /index.json
+{{- /* Disallow per-language home indexes as well (e.g., /en/index.json, /ja/index.json) */ -}}
+{{- range .Site.Languages }}
+Disallow: /{{ .Lang }}/index.json
+{{- end }}
