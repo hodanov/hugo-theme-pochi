@@ -48,4 +48,3 @@ jobs:
           branch: chore/vendor-auto-update
           delete-branch: true
           labels: dependencies,vendor,automation
-
