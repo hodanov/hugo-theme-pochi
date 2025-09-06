@@ -318,6 +318,66 @@
       // Other global listeners (smoothScroll, toggleSideNav, theme) use document-level
       // delegation and remain active across swaps.
     } catch (_) {}
+
+    // Re-initialize Google AdSense after PJAX swap
+    // - Inline <script>(adsbygoogle...).push({})</script> inside content will not execute
+    //   when DOM is swapped via clone/replace, so we need to trigger it manually.
+    // - Ensure loader script exists once; if missing (e.g., navigated from a page without
+    //   AdSense), inject it using data-ad-client from the first ad unit.
+    try {
+      (function initAdSense() {
+        const adUnits = document.querySelectorAll(
+          'ins.adsbygoogle:not([data-adsbygoogle-status])',
+        );
+        if (adUnits.length === 0) return; // nothing to do
+
+        // Ensure loader exists (added on first article load normally; PJAX may skip head include)
+        const hasLoader = !!document.querySelector(
+          'script[src*="pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"]',
+        );
+
+        function renderPendingUnits() {
+          try {
+            // Initialize each pending unit. The library consumes the next pending <ins> per push.
+            window.adsbygoogle = window.adsbygoogle || [];
+            adUnits.forEach(() => {
+              try {
+                window.adsbygoogle.push({});
+              } catch (_) {}
+            });
+          } catch (_) {}
+        }
+
+        if (hasLoader && window.adsbygoogle) {
+          renderPendingUnits();
+          return;
+        }
+
+        // Inject loader using client from the first ad unit if available
+        const firstWithClient = document.querySelector(
+          'ins.adsbygoogle[data-ad-client]'
+        );
+        if (!hasLoader && firstWithClient) {
+          const client = firstWithClient.getAttribute('data-ad-client');
+          if (client) {
+            const s = document.createElement('script');
+            s.async = true;
+            s.src =
+              'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=' +
+              encodeURIComponent(client);
+            s.crossOrigin = 'anonymous';
+            s.addEventListener('load', renderPendingUnits, { once: true });
+            document.head.appendChild(s);
+            // Fallback: also try a delayed render in case onload didn’t fire
+            setTimeout(renderPendingUnits, 1200);
+            return;
+          }
+        }
+
+        // Last resort: if loader might be present but not ready yet, try a short delay
+        setTimeout(renderPendingUnits, 400);
+      })();
+    } catch (_) {}
   }
 
   async function navigateTo(url, opts) {

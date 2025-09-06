@@ -1,6 +1,6 @@
 /* Table of contents */
 .table-of-contents {
-  margin-top: 3rem;
+  margin: 3rem 0;
   padding: 0.5rem 0 1rem;
   border: 1px solid var(--pochi-border);
   border-radius: 0.25rem;
