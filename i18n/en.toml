@@ -36,3 +36,9 @@ other = "Table of Contents"
 
 [about_me]
 other = "About me"
+
+[leave_a_comment]
+other = "Leave a comment"
+
+[related_posts]
+other = "Related posts"
