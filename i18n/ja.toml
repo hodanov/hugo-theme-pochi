@@ -36,3 +36,9 @@ other = "目次"
 
 [about_me]
 other = "プロフィール"
+
+[leave_a_comment]
+other = "コメントを残す"
+
+[related_posts]
+other = "関連記事"
