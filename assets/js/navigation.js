@@ -327,7 +327,7 @@
     try {
       (function initAdSense() {
         const adUnits = document.querySelectorAll(
-          'ins.adsbygoogle:not([data-adsbygoogle-status])',
+          "ins.adsbygoogle:not([data-adsbygoogle-status])",
         );
         if (adUnits.length === 0) return; // nothing to do
 
@@ -355,18 +355,18 @@
 
         // Inject loader using client from the first ad unit if available
         const firstWithClient = document.querySelector(
-          'ins.adsbygoogle[data-ad-client]'
+          "ins.adsbygoogle[data-ad-client]",
         );
         if (!hasLoader && firstWithClient) {
-          const client = firstWithClient.getAttribute('data-ad-client');
+          const client = firstWithClient.getAttribute("data-ad-client");
           if (client) {
-            const s = document.createElement('script');
+            const s = document.createElement("script");
             s.async = true;
             s.src =
-              'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=' +
+              "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=" +
               encodeURIComponent(client);
-            s.crossOrigin = 'anonymous';
-            s.addEventListener('load', renderPendingUnits, { once: true });
+            s.crossOrigin = "anonymous";
+            s.addEventListener("load", renderPendingUnits, { once: true });
             document.head.appendChild(s);
             // Fallback: also try a delayed render in case onload didn’t fire
             setTimeout(renderPendingUnits, 1200);
@@ -376,6 +376,39 @@
 
         // Last resort: if loader might be present but not ready yet, try a short delay
         setTimeout(renderPendingUnits, 400);
+      })();
+    } catch (_) {}
+
+    // Re-initialize Giscus comments after PJAX swap
+    // Inline <script src="https://giscus.app/client.js" ...> inside the swapped
+    // content will not execute when nodes are cloned/replaced. To initialize
+    // Giscus on the new page, replace the script node with a fresh one so the
+    // browser executes it.
+    try {
+      (function initGiscus() {
+        // Scope to the content comments area to avoid touching any unrelated scripts
+        const container = document.querySelector(".comment-wrapper");
+        if (!container) return;
+        // If giscus is already rendered for this page (iframe present), skip
+        if (container.querySelector("iframe.giscus-frame")) return;
+        const old = container.querySelector(
+          'script[src*="giscus.app/client.js"]',
+        );
+        if (!old) return; // page has comments disabled or provider is different
+        const neu = document.createElement("script");
+        // Copy attributes verbatim
+        Array.from(old.attributes).forEach((a) => {
+          if (a.name === "src") neu.src = old.getAttribute("src");
+          else neu.setAttribute(a.name, a.value);
+        });
+        if (old.hasAttribute("async")) neu.async = true;
+        old.replaceWith(neu);
+        // After re-injecting, ensure theme matches current site mode
+        try {
+          if (typeof updateGiscusThemeWithRetry === "function") {
+            updateGiscusThemeWithRetry();
+          }
+        } catch (_) {}
       })();
     } catch (_) {}
   }

@@ -222,6 +222,13 @@ function toggleTheme() {
         next === "dark" ? "true" : "false",
       );
     } catch (_) {}
+
+    // Sync Giscus theme to match site theme
+    try {
+      if (typeof updateGiscusThemeWithRetry === "function") {
+        updateGiscusThemeWithRetry();
+      }
+    } catch (_) {}
   });
 }
 
@@ -240,6 +247,13 @@ function handleThemeChange() {
         document.getElementById("theme-toggle-switch");
       if (themeSwitch) {
         themeSwitch.setAttribute("aria-pressed", isDark ? "true" : "false");
+      }
+    } catch (_) {}
+
+    // Also update Giscus theme when system preference changes
+    try {
+      if (typeof updateGiscusThemeWithRetry === "function") {
+        updateGiscusThemeWithRetry();
       }
     } catch (_) {}
   });
@@ -402,4 +416,46 @@ onReady(() => {
   toggleTheme();
   handleThemeChange();
   initSearch();
+  // Ensure Giscus theme matches current mode on initial load
+  try {
+    if (typeof updateGiscusThemeWithRetry === "function") {
+      updateGiscusThemeWithRetry();
+    }
+  } catch (_) {}
 });
+
+// =============================
+// Giscus Theme Sync
+// =============================
+function getSiteTheme() {
+  try {
+    return document.documentElement.classList.contains("dark")
+      ? "dark"
+      : "light";
+  } catch (_) {
+    return "light";
+  }
+}
+
+function updateGiscusTheme() {
+  try {
+    const frame = document.querySelector("iframe.giscus-frame");
+    if (!frame || !frame.contentWindow) return false;
+    const theme = getSiteTheme();
+    frame.contentWindow.postMessage(
+      { giscus: { setConfig: { theme } } },
+      "https://giscus.app",
+    );
+    return true;
+  } catch (_) {
+    return false;
+  }
+}
+
+function updateGiscusThemeWithRetry() {
+  let tries = 0;
+  const maxTries = 30; // ~3s
+  const id = setInterval(() => {
+    if (updateGiscusTheme() || ++tries >= maxTries) clearInterval(id);
+  }, 100);
+}

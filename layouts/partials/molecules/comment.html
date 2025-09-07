@@ -1,9 +1,39 @@
-{{ if .Site.Params.comment.enable }}
+{{/* Comments partial
+  - Controlled by .Site.Params.comment.enable (global) and .Params.comments (per page; false to disable)
+  - Providers: giscus | disqus (default legacy)
+*/}}
+{{ $enabled := and (.Site.Params.comment.enable) (ne .Params.comments false) .IsPage }}
+{{ if $enabled }}
   <div class="row">
     <div class="col-md-12 comment-wrapper">
-      <div class="mymenu-thumb mymenu-related-list">
-        <h3>コメントを残す</h3>
-        {{ template "_internal/disqus.html" . }}
+      <div class="mymenu-thumb mymenu-related-list comments">
+        <h3>{{ T "leave_a_comment" }}</h3>
+        {{ $provider := .Site.Params.comment.provider | default "disqus" }}
+        {{ if eq (lower $provider) "giscus" }}
+          {{ $g := .Site.Params.comment.giscus }}
+          {{ $slug := .Params.slug | default .File.TranslationBaseName | default .Title }}
+          <script
+            src="https://giscus.app/client.js"
+            data-repo="{{ $g.repo }}"
+            data-repo-id="{{ $g.repoId }}"
+            data-category="{{ $g.category }}"
+            data-category-id="{{ $g.categoryId }}"
+            data-mapping="{{ $g.mapping | default "specific" }}"
+            data-term="{{ $slug }}"
+            data-strict="{{ $g.strict | default "1" }}"
+            data-reactions-enabled="{{ $g.reactionsEnabled | default "1" }}"
+            data-emit-metadata="{{ $g.emitMetadata | default "0" }}"
+            data-input-position="{{ $g.inputPosition | default "bottom" }}"
+            data-theme="{{ $g.theme | default "preferred_color_scheme" }}"
+            data-lang="{{ .Site.Language.Lang }}"
+            crossorigin="anonymous"
+            async
+          ></script>
+          <noscript>Enable JavaScript to view comments.</noscript>
+        {{ else }}
+          {{/* Legacy fallback: Disqus via Hugo internal template */}}
+          {{ template "_internal/disqus.html" . }}
+        {{ end }}
       </div>
     </div>
   </div>
