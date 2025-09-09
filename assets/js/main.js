@@ -441,6 +441,32 @@ function updateGiscusTheme() {
   try {
     const frame = document.querySelector("iframe.giscus-frame");
     if (!frame || !frame.contentWindow) return false;
+
+    // Avoid posting too early: when the iframe is just created but has not
+    // navigated to https://giscus.app yet, its window temporarily inherits
+    // the parent's origin (about:blank/same-origin). Posting to
+    // "https://giscus.app" at that moment throws a SecurityError and pollutes
+    // the console. Detect that state and bail until navigation completes.
+    try {
+      const loc = frame.contentWindow.location;
+      // If we can read location and it's our own origin or about:blank,
+      // the iframe hasn't navigated to giscus yet.
+      if (
+        !loc ||
+        loc.href === "about:blank" ||
+        loc.origin === "null" ||
+        loc.origin === location.origin
+      ) {
+        return false;
+      }
+      // Optional sanity check: if src is present but not giscus, skip.
+      const src = frame.getAttribute("src") || "";
+      if (src && !src.startsWith("https://giscus.app")) return false;
+    } catch (_) {
+      // Accessing contentWindow.location throws once the iframe is cross-origin,
+      // which is exactly when it's safe to post to https://giscus.app.
+    }
+
     const theme = getSiteTheme();
     frame.contentWindow.postMessage(
       { giscus: { setConfig: { theme } } },
