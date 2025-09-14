@@ -17,7 +17,6 @@ body {
   font-weight: 300;
   color: var(--pochi-text);
   background-color: var(--pochi-surface-soft);
-  letter-spacing: 2px;
   margin: 0;
 }
 
@@ -241,7 +240,6 @@ article .kiji-tag li a {
   display: inline-block;
   color: var(--pochi-text-muted);
   font-size: 0.75rem !important;
-  letter-spacing: 1px;
   text-transform: uppercase;
   padding: 0.5rem;
   margin-right: 0.5rem;
