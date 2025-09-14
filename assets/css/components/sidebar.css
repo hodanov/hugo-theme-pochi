@@ -54,7 +54,6 @@
   background-color: var(--pochi-card);
   color: var(--pochi-text-muted);
   font-size: 0.75rem !important;
-  letter-spacing: 1px;
   text-transform: uppercase;
   padding: 0.5rem;
   margin-right: 0.5rem;
