@@ -1,4 +1,47 @@
 {{ partial "head/meta.html" . }}
+{{/* Canonical URL */}}
+<link rel="canonical" href="{{ .Permalink }}" />
+
+{{/* Language alternates (hreflang) */}}
+{{- $ctx := . -}}
+{{- range .Site.Languages -}}
+  {{- $lang := . -}}
+  {{- $href := "" -}}
+  {{- $targets := where $ctx.AllTranslations "Lang" $lang.Lang -}}
+  {{- if gt (len $targets) 0 -}}
+    {{- $href = (index $targets 0).Permalink -}}
+  {{- else -}}
+    {{- $homeAlts := where $ctx.Site.Home.AllTranslations "Lang" $lang.Lang -}}
+    {{- if gt (len $homeAlts) 0 -}}
+      {{- $href = (index $homeAlts 0).Permalink -}}
+    {{- else -}}
+      {{- if eq $lang.Lang $ctx.Site.Language.Lang -}}
+        {{- $href = $ctx.Permalink -}}
+      {{- else -}}
+        {{- $href = (printf "%s%s/" $ctx.Site.BaseURL $lang.Lang) -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+  <link rel="alternate" hreflang="{{ $lang.Lang }}" href="{{ $href }}" />
+{{- end -}}
+
+{{/* x-default: default language or site root */}}
+{{- $defaultLang := (index (sort .Site.Languages "Weight" "asc") 0) -}}
+{{- if $defaultLang -}}
+  {{- $xHref := "" -}}
+  {{- $d := where .AllTranslations "Lang" $defaultLang.Lang -}}
+  {{- if gt (len $d) 0 -}}
+    {{- $xHref = (index $d 0).Permalink -}}
+  {{- else -}}
+    {{- $homeDefault := where .Site.Home.AllTranslations "Lang" $defaultLang.Lang -}}
+    {{- if gt (len $homeDefault) 0 -}}
+      {{- $xHref = (index $homeDefault 0).Permalink -}}
+    {{- else -}}
+      {{- $xHref = .Site.BaseURL -}}
+    {{- end -}}
+  {{- end -}}
+  <link rel="alternate" hreflang="x-default" href="{{ $xHref }}" />
+{{- end -}}
 {{ template "_internal/opengraph.html" . }}
 {{ template "_internal/twitter_cards.html" . }}
 {{ partial "head/schema.html" . }}
