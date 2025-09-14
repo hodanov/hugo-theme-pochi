@@ -90,6 +90,10 @@
     removeAll('link[rel="canonical"], link[rel="prev"], link[rel="next"]');
     adoptAll('link[rel="canonical"], link[rel="prev"], link[rel="next"]');
 
+    // Replace language alternates (hreflang). Avoid RSS alternates by requiring [hreflang]
+    removeAll('link[rel="alternate"][hreflang]');
+    adoptAll('link[rel="alternate"][hreflang]');
+
     // Replace standard meta description/keywords/robots/theme-color/author
     removeAll(
       [
