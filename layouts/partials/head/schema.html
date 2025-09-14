@@ -23,18 +23,47 @@
   {{ end }}
 {{ end }}
 
-{{ $logo := dict "@type" "ImageObject" "url" $logoURL }}
+{{/* Build Logo ImageObject, enrich with width/height when available */}}
+{{ $logoW := 0 }}
+{{ $logoH := 0 }}
+{{ if .Site.Params.logo }}
+  {{ $webPath := .Site.Params.logo }}
+  {{ if and $webPath (ne (substr $webPath 0 1) "/") }}
+    {{ $webPath = printf "/%s" $webPath }}
+  {{ end }}
+  {{ $fsPath := printf "static%s" $webPath }}
+  {{ if (fileExists $fsPath) }}
+    {{ with imageConfig $fsPath }}
+      {{ $logoW = .Width }}
+      {{ $logoH = .Height }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+{{ $logo := cond (and (gt $logoW 0) (gt $logoH 0)) (dict "@type" "ImageObject" "url" $logoURL "width" $logoW "height" $logoH) (dict "@type" "ImageObject" "url" $logoURL) }}
+
+{{/* Resolve language code for JSON-LD (BCP47). Prefer .Site.LanguageCode; fallback to .Site.Language.Lang */}}
+{{ $langCode := or .Site.LanguageCode .Site.Language.Lang }}
 {{ if .IsPage }}
   {{ $datePublished := .PublishDate.Format "2006-01-02T15:04:05Z07:00" }}
   {{ $dateModified := .Lastmod.Format "2006-01-02T15:04:05Z07:00" }}
   {{ $mainEntity := dict "@type" "WebPage" "@id" .Permalink }}
-  {{ $author := dict "@type" "Person" "name" .Site.Params.Author }}
+  {{/* Resolve author name and URL from site params */}}
+  {{ $authorName := "" }}
+  {{ with .Site.Params.profile.name }}
+    {{ $authorName = . }}
+  {{ else }}
+    {{ with .Site.Params.author }}{{ $authorName = . }}{{ end }}
+  {{ end }}
+  {{ $authorURL := "" }}
+  {{ with .Site.Params.authorURL }}{{ $authorURL = . }}{{ end }}
+  {{ $author := cond (ne $authorURL "") (dict "@type" "Person" "name" $authorName "url" $authorURL) (dict "@type" "Person" "name" $authorName) }}
   {{ $publisher := dict "@type" "Organization" "name" .Site.Params.Author "logo" $logo }}
   {{ $obj := dict
-    "@context" "https://schema.org/"
+    "@context" "https://schema.org"
     "@type" "BlogPosting"
     "headline" .Title
     "image" $imageURL
+    "inLanguage" $langCode
     "datePublished" $datePublished
     "dateModified" $dateModified
     "description" $desc
@@ -47,12 +76,34 @@
 {{ else }}
   {{ $siteURL := .Site.BaseURL }}
   {{ $siteName := .Site.Title }}
+
+  {{/* Organization (Logo) markup for home and other non-article pages */}}
   {{ $org := dict
     "@context" "https://schema.org"
     "@type" "Organization"
+    "@id" (printf "%s#organization" $siteURL)
     "name" $siteName
     "url" $siteURL
     "logo" $logo
   }}
   <script type="application/ld+json">{{ $org | jsonify | safeJS }}</script>
+  {{ if .IsHome }}
+    {{/* WebSite + Sitelinks Search Box (Rich Results対象) */}}
+    {{ $searchBase := ("search/" | absLangURL) }}
+    {{ $searchTarget := printf "%s?q={search_term_string}" $searchBase }}
+    {{ $website := dict
+      "@context" "https://schema.org"
+      "@type" "WebSite"
+      "@id" (printf "%s#website" $siteURL)
+      "url" $siteURL
+      "name" $siteName
+      "inLanguage" $langCode
+      "potentialAction" (dict
+      "@type" "SearchAction"
+      "target" $searchTarget
+      "query-input" "required name=search_term_string"
+      )
+    }}
+    <script type="application/ld+json">{{ $website | jsonify | safeJS }}</script>
+  {{ end }}
 {{ end }}
