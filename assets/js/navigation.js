@@ -438,21 +438,6 @@
         history.pushState({}, "", href);
       }
       afterSwapInit();
-      // Fire virtual pageview for common analytics if available
-      try {
-        if (window.gtag) {
-          // gtag.js: send page_view event with updated URL
-          window.gtag("event", "page_view", {
-            page_location: location.href,
-            page_path: location.pathname,
-            page_title: document.title,
-          });
-        } else if (window.ga) {
-          // analytics.js
-          window.ga("set", "page", location.pathname);
-          window.ga("send", "pageview");
-        }
-      } catch (_) {}
     } catch (e) {
       // Fallback to full navigation on error
       const href = typeof url === "string" ? url : url.href;
