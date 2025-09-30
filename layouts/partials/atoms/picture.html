@@ -4,8 +4,10 @@
 {{ $sizesAttr := or .sizes "(min-width: 1200px) 1200px, 100vw" }}
 {{ $priority := .priority }}
 
-{{ $isAVIF := eq (path.Ext $imgParam) ".avif" }}
-{{ $isWebP := eq (path.Ext $imgParam) ".webp" }}
+{{ $ext := lower (path.Ext $imgParam) }}
+{{ $isAVIF := eq $ext ".avif" }}
+{{ $isWebP := eq $ext ".webp" }}
+{{ $isSVGParam := or (eq $ext ".svg") (eq $ext ".svgz") }}
 
 {{ $fallbackSrc := "" }}
 {{ $width := 0 }}
@@ -28,10 +30,14 @@
 {{ end }}
 {{ $isImageRes := false }}
 {{ $isRasterRes := false }}
+{{ $isSvgRes := false }}
 {{ if $res }}
   {{ if eq $res.MediaType.MainType "image" }}
     {{ $isImageRes = true }}
-    {{ if ne $res.MediaType.SubType "svg+xml" }}
+    {{ $sub := $res.MediaType.SubType }}
+    {{ if or (eq $sub "svg") (eq $sub "svg+xml") }}
+      {{ $isSvgRes = true }}
+    {{ else }}
       {{ $isRasterRes = true }}
     {{ end }}
   {{ end }}
@@ -195,8 +201,8 @@
   {{ end }}
 {{ else }}
   {{/* Non-raster or non-resource path: keep safe behavior */}}
-  {{ if and $isImageRes (not $isRasterRes) }}
-    {{/* e.g., SVG: do not attempt resize; just output as-is */}}
+  {{ if and $isImageRes $isSvgRes }}
+    {{/* e.g., SVG Page Resource: do not attempt resize; just output as-is */}}
     <img
       src="{{ $res.RelPermalink }}"
       {{ with $alt }}alt="{{ . }}"{{ end }}
@@ -262,7 +268,8 @@
       </picture>
     {{ else }}
       {{ $fallbackSrc = $webPath }}
-      {{ if (fileExists $fsPath) }}
+      {{/* For SVG on static path, skip imageConfig (raster only) */}}
+      {{ if and (fileExists $fsPath) (not (or (eq $ext ".svg") (eq $ext ".svgz"))) }}
         {{ with imageConfig $fsPath }}
           {{ $width = .Width }}
           {{ $height = .Height }}
