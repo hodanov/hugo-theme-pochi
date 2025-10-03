@@ -30,13 +30,31 @@ article blockquote p {
   margin-bottom: 0;
 }
 
+/* Heading scale + measure tuned for article content */
+article h1 {
+  font-size: clamp(1.9rem, 2.2vw, 2.4rem);
+  line-height: 1.35;
+  font-weight: 600;
+  margin: 1.2em 0 0.6em;
+}
+
+article h2 {
+  font-size: clamp(1.6rem, 2.0vw, 2.0rem);
+  line-height: 1.4;
+  font-weight: 600;
+  margin: 1.2em 0 0.6em;
+}
+
+article h3 {
+  font-size: clamp(1.3rem, 1.6vw, 1.6rem);
+  line-height: 1.45;
+  font-weight: 600;
+  margin: 1.1em 0 0.5em;
+}
+
 @media (max-width: 414px) {
-  h2 {
-    font-size: 2rem;
-  }
-  h3 {
-    font-size: 1.75rem;
-  }
+  article h2 { font-size: 1.6rem; }
+  article h3 { font-size: 1.35rem; }
 }
 
 a {
