@@ -1,10 +1,15 @@
+{{ $p := .page | default . }}
+{{ $isPrio := .priority | default false }}
+{{ $priority := "" }}
+{{ if $isPrio }}{{ $priority = "high" }}{{ end }}
+
 <div class="row post-row">
   <div class="col-md-12">
-    <a href="{{ .Permalink }}">
-      {{ if and (.Params.featuredImage) (ne .Params.featuredImage "") }}
+    <a href="{{ $p.Permalink }}">
+      {{ if and ($p.Params.featuredImage) (ne $p.Params.featuredImage "") }}
         <div class="post-image-col">
-          {{ $page := . }}
-          {{ with .Params.featuredImage }}
+          {{ $page := $p }}
+          {{ with $p.Params.featuredImage }}
             <div class="featured-image-wrapper">
               {{ partial "atoms/picture.html" (dict
                 "image" .
@@ -12,6 +17,7 @@
                 "page" $page
                 "sizes" "(min-width: 800px) 480px, 100vw"
                 "widths" (slice 480 800)
+                "priority" $priority
                 )
               }}
             </div>
@@ -19,12 +25,12 @@
         </div>
       {{ end }}
       <div class="post-title">
-        <h2>{{ .Title }}</h2>
+        <h2>{{ $p.Title }}</h2>
       </div>
       <div class="post-text">
-        {{ partial "molecules/post_meta_date.html" . }}
+        {{ partial "molecules/post_meta_date.html" $p }}
         <div class="post-excerpt">
-          {{ .Summary }}
+          {{ $p.Summary }}
         </div>
       </div>
     </a>

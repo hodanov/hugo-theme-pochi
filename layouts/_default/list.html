@@ -1,5 +1,5 @@
 {{ define "main" }}
-  <div class="main-content{{ if eq (.Ancestors | len) 0 }} margin-top{{ end }}">
+  <main id="main-content" class="main-content{{ if eq (.Ancestors | len) 0 }} margin-top{{ end }}" role="main">
     {{ if ne (.Ancestors | len) 0 }}
       {{ partial "molecules/breadcrumbs.html" . }}
     {{ end }}
@@ -15,8 +15,20 @@
             {{ else }}
               {{ $paginator = .Paginate .Pages }}
             {{ end }}
-            {{ range $paginator.Pages }}
-              {{ partial "organisms/list_of_posts.html" . }}
+            {{ $pages := $paginator.Pages }}
+            {{ $pageNo := $paginator.PageNumber }}
+            {{ if and .IsHome (eq $pageNo 1) }}
+              {{ range $i, $p := $pages }}
+                {{ if eq $i 0 }}
+                  {{ partial "organisms/list_of_posts.html" (dict "page" $p "priority" true) }}
+                {{ else }}
+                  {{ partial "organisms/list_of_posts.html" (dict "page" $p "priority" false) }}
+                {{ end }}
+              {{ end }}
+            {{ else }}
+              {{ range $pages }}
+                {{ partial "organisms/list_of_posts.html" (dict "page" . "priority" false) }}
+              {{ end }}
             {{ end }}
             <div class="pagination-index">
               {{ template "_internal/pagination.html" . }}
@@ -27,5 +39,5 @@
         {{ end }}
       </div>
     </div>
-  </div>
+  </main>
 {{ end }}
