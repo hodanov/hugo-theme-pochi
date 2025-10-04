@@ -42,3 +42,18 @@ other = "Leave a comment"
 
 [related_posts]
 other = "Related posts"
+
+[categories]
+other = "Categories"
+
+[archives]
+other = "Archives"
+
+[no_categories]
+other = "No categories yet"
+
+[no_archives]
+other = "No posts yet"
+
+[skip_to_content]
+other = "Skip to content"

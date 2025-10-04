@@ -1,4 +1,5 @@
 {{ $main := resources.Get "js/main.js" }}
 {{ $nav := resources.Get "js/navigation.js" }}
-{{ $bundle := slice $main $nav | resources.Concat "js/bundle.js" | resources.Minify | fingerprint }}
+{{ $archives := resources.Get "js/archives-toggle.js" }}
+{{ $bundle := slice $main $nav $archives | resources.Concat "js/bundle.js" | resources.Minify | fingerprint }}
 <script defer src="{{ $bundle.RelPermalink }}"></script>

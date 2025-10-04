@@ -34,6 +34,7 @@ footer .copyright a:hover {
 }
 
 #sidebar h2,
+#sidebar-left h2,
 footer h2 {
   position: relative;
   text-align: center;
@@ -43,6 +44,7 @@ footer h2 {
 }
 
 #sidebar h2:before,
+#sidebar-left h2:before,
 footer h2:before {
   content: "";
   display: block;
@@ -64,6 +66,7 @@ footer h2:before {
 }
 
 #sidebar h2 span,
+#sidebar-left h2 span,
 footer h2 span {
   background: var(--pochi-bg);
   padding: 0 10px;
@@ -76,12 +79,14 @@ footer h2 span {
 }
 
 #sidebar p,
+#sidebar-left p,
 footer p {
   font-size: 0.9rem;
   line-height: 1.5rem;
 }
 
 #sidebar ul,
+#sidebar-left ul,
 footer ul {
   font-size: 0.9rem;
 }

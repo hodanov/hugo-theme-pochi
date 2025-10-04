@@ -1,35 +1,49 @@
 /* Sidebar-specific styles (extracted from main.scss) */
 
-#sidebar aside:last-child {
+#sidebar aside:last-child,
+#sidebar-left aside:last-child,
+#sidebar-right aside:last-child {
   position: -webkit-sticky;
   position: sticky;
   top: 5.5rem;
   margin-bottom: 3rem;
 }
 
-#sidebar .table-of-contents {
+#sidebar .table-of-contents,
+#sidebar-left .table-of-contents,
+#sidebar-right .table-of-contents {
   background-color: var(--pochi-card);
   border: none;
   max-height: 86vh;
   overflow-y: auto;
 }
 
-#sidebar .table-of-contents p {
+#sidebar .table-of-contents p,
+#sidebar-left .table-of-contents p,
+#sidebar-right .table-of-contents p {
   margin-top: 1rem;
 }
 
-#sidebar aside {
+#sidebar aside,
+#sidebar-left aside,
+#sidebar-right aside {
   margin-bottom: 2rem;
 }
 
-#sidebar a {
+#sidebar a,
+#sidebar-left a,
+#sidebar-right a {
   color: var(--pochi-text-muted);
 }
-#sidebar a:hover {
+#sidebar a:hover,
+#sidebar-left a:hover,
+#sidebar-right a:hover {
   color: var(--pochi-accent);
 }
 
-#sidebar .profile-flex-box {
+#sidebar .profile-flex-box,
+#sidebar-left .profile-flex-box,
+#sidebar-right .profile-flex-box {
   display: -webkit-box;
   display: -moz-box;
   display: -ms-flexbox;
@@ -41,7 +55,9 @@
   justify-content: space-around;
 }
 
-#sidebar #profile-image {
+#sidebar #profile-image,
+#sidebar-left #profile-image,
+#sidebar-right #profile-image {
   float: left;
   height: 30%;
   width: 30%;
@@ -50,7 +66,9 @@
   overflow: hidden;
 }
 
-#sidebar .tagcloud a {
+#sidebar .tagcloud a,
+#sidebar-left .tagcloud a,
+#sidebar-right .tagcloud a {
   background-color: var(--pochi-card);
   color: var(--pochi-text-muted);
   font-size: 0.75rem !important;
@@ -62,13 +80,61 @@
   border-radius: 2px;
 }
 
-#sidebar .tagcloud a:hover {
+#sidebar .tagcloud a:hover,
+#sidebar-left .tagcloud a:hover,
+#sidebar-right .tagcloud a:hover {
   background-color: var(--pochi-accent);
   color: var(--pochi-on-accent);
 }
 
 @media (max-width: 767px) {
-  #sidebar {
+  #sidebar,
+  #sidebar-left,
+  #sidebar-right {
     margin-left: 0rem;
   }
+}
+
+/* Dark theme adjustments to match right sidebar heading */
+.dark #sidebar-left h2 span {
+  background-color: var(--pochi-surface-soft);
+}
+.dark #sidebar-left h2:before {
+  background-image: linear-gradient(
+    to right,
+    var(--pochi-separator-end-dark),
+    var(--pochi-separator-mid-dark),
+    var(--pochi-separator-end-dark)
+  );
+}
+
+/* Archives collapsible list */
+#sidebar-left .archives-year {}
+#sidebar-left .archives-year-toggle {
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: 0;
+  padding: 0.25rem 0 0.25rem 1.1rem;
+  color: var(--pochi-text-muted);
+  cursor: pointer;
+  position: relative;
+}
+#sidebar-left .archives-year-toggle::before {
+  content: '▸';
+  position: absolute;
+  margin-left: -1.1rem;
+  margin-top: 0.1rem;
+}
+#sidebar-left .archives-year-toggle[aria-expanded="true"]::before {
+  content: '▾';
+}
+#sidebar-left .archives-year-toggle:hover {
+  color: var(--pochi-accent);
+}
+#sidebar-left .archives-months {
+  margin-left: 1.1rem;
+}
+#sidebar-left .archives-months.is-collapsed {
+  display: none;
 }

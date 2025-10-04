@@ -42,3 +42,18 @@ other = "コメントを残す"
 
 [related_posts]
 other = "関連記事"
+
+[categories]
+other = "カテゴリー"
+
+[archives]
+other = "月別アーカイブ"
+
+[no_categories]
+other = "カテゴリーはまだないよ"
+
+[no_archives]
+other = "まだ投稿がないよ"
+
+[skip_to_content]
+other = "本文へスキップ"

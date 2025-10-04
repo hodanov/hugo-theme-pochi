@@ -22,3 +22,59 @@ article blockquote ol,
 article blockquote ul {
   margin-bottom: 0;
 }
+
+/* Archives page toggles */
+.archive-year > summary {
+  list-style: none;
+  cursor: pointer;
+  position: relative;
+  padding-left: 1.1rem;
+}
+.archive-year > summary::-webkit-details-marker {
+  display: none;
+}
+.archive-year > summary::before {
+  content: '▸';
+  position: absolute;
+  left: 0;
+  top: 0.2rem;
+}
+.archive-year[open] > summary::before {
+  content: '▾';
+}
+
+/* Month-level toggles on /archives */
+.archive-month h3 {
+  margin: 0.5rem 0;
+}
+.archive-month-toggle {
+  background: transparent;
+  border: 0;
+  padding: 0 0 0 1.1rem;
+  color: var(--pochi-text);
+  cursor: pointer;
+  font: inherit;
+  position: relative;
+}
+.archive-month-toggle::before {
+  content: '▸';
+  position: absolute;
+  left: 0;
+  top: 0.1rem;
+}
+.archive-month-toggle[aria-expanded="true"]::before {
+  content: '▾';
+}
+.archive-month-cards.is-collapsed {
+  display: none;
+}
+
+/* Cards-only mode on archives page: show only post cards */
+#contents.cards-only-mode > h1,
+#contents.cards-only-mode details.archive-year > summary,
+#contents.cards-only-mode .archive-month > h3 {
+  display: none !important;
+}
+#contents.cards-only-mode details.archive-year:not(.is-selected-year) {
+  display: none !important;
+}

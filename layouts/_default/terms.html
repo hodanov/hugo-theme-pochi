@@ -3,7 +3,7 @@
     {{ partial "molecules/breadcrumbs.html" . }}
     <div class="container-fluid">
       <div class="row">
-        <div class="col-md-9" id="contents">
+        <div class="col-md-7" id="contents">
           {{ range sort .Pages "Title" "asc" }}
             <ul>
               <li>
@@ -12,8 +12,12 @@
             </ul>
           {{ end }}
         </div>
-        {{ block "sidebar" . }}
-        {{ end }}
+        <div class="col-md-2" id="sidebar-left">
+          {{ partial "organisms/sidebar_left.html" . }}
+        </div>
+        <div class="col-md-3" id="sidebar">
+          {{ partial "organisms/sidebar_right.html" . }}
+        </div>
       </div>
     </div>
   </main>

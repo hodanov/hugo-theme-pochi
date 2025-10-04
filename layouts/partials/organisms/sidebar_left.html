@@ -1,0 +1,49 @@
+<aside>
+  <h2 class="widgettitle"><span>{{ i18n "categories" | default "Categories" }}</span></h2>
+  {{ $cats := .Site.Taxonomies.categories }}
+  {{ if $cats }}
+    <ul class="list-unstyled">
+      {{ range $name, $pages := $cats }}
+        {{ $termPage := site.GetPage (printf "/categories/%s" ($name | urlize)) }}
+        <li>
+          {{ if $termPage }}
+            <a href="{{ $termPage.RelPermalink }}">{{ $name }} ({{ len $pages }})</a>
+          {{ else }}
+            {{ $name }} ({{ len $pages }})
+          {{ end }}
+        </li>
+      {{ end }}
+    </ul>
+  {{ else }}
+    <p>{{ i18n "no_categories" | default "No categories yet" }}</p>
+  {{ end }}
+</aside>
+
+<aside>
+  <h2 class="widgettitle"><span>{{ i18n "archives" | default "Archives" }}</span></h2>
+  {{ $mainSections := or .Site.Params.mainSections (slice "post" "posts") }}
+  {{ $pages := where .Site.RegularPages "Section" "in" $mainSections }}
+  {{ $years := sort ($pages.GroupByDate "2006") "Key" "desc" }}
+  {{ if gt (len $years) 0 }}
+    <ul class="list-unstyled archives-list">
+      {{ range $i, $y := $years }}
+        {{ $year := $y.Key }}
+        <li class="archives-year">
+          <button class="archives-year-toggle" type="button" data-year="{{ $year }}" aria-controls="archives-months-{{ $year }}" aria-expanded="{{ if eq $i 0 }}true{{ else }}false{{ end }}">
+            {{ $year }}
+          </button>
+          {{ $months := sort ($y.Pages.GroupByDate "2006-01") "Key" "desc" }}
+          <ul id="archives-months-{{ $year }}" class="archives-months{{ if ne $i 0 }} is-collapsed{{ end }}">
+            {{ range $m := $months }}
+              <li>
+                <a href="{{ "/archives/#" | relLangURL }}{{ $m.Key }}">{{ $m.Key }} ({{ len $m.Pages }})</a>
+              </li>
+            {{ end }}
+          </ul>
+        </li>
+      {{ end }}
+    </ul>
+  {{ else }}
+    <p>{{ i18n "no_archives" | default "No posts yet" }}</p>
+  {{ end }}
+</aside>
