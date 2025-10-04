@@ -1,0 +1,51 @@
+{{ define "main" }}
+  <main id="main-content" class="main-content" role="main">
+    {{ partial "molecules/breadcrumbs.html" . }}
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-7" id="contents">
+          <h1>{{ i18n "archives" | default "Archives" }}</h1>
+          {{ $mainSections := or .Site.Params.mainSections (slice "post" "posts") }}
+          {{ $pages := where .Site.RegularPages "Section" "in" $mainSections }}
+          {{ $years := sort ($pages.GroupByDate "2006") "Key" "desc" }}
+          {{ range $i, $y := $years }}
+            <details class="archive-year" {{ if eq $i 0 }}open{{ end }}>
+              <summary><h2 id="{{ $y.Key }}">{{ $y.Key }}</h2></summary>
+              {{ $months := sort ($y.Pages.GroupByDate "2006-01") "Key" "desc" }}
+              {{ range $m := $months }}
+                <section class="archive-month" id="section-{{ $m.Key }}">
+                  <h3 id="{{ $m.Key }}">
+                    <button
+                      type="button"
+                      class="archive-month-toggle"
+                      data-month="{{ $m.Key }}"
+                      aria-controls="cards-{{ $m.Key }}"
+                      aria-expanded="false"
+                    >
+                      {{ $m.Key }}
+                    </button>
+                  </h3>
+                  <div
+                    id="cards-{{ $m.Key }}"
+                    class="archive-month-cards article-list is-collapsed"
+                    data-month="{{ $m.Key }}"
+                  >
+                    {{ range $p := $m.Pages }}
+                      {{ partial "organisms/list_of_posts.html" (dict "page" $p "priority" false) }}
+                    {{ end }}
+                  </div>
+                </section>
+              {{ end }}
+            </details>
+          {{ end }}
+        </div>
+        <div class="col-md-2" id="sidebar-left">
+          {{ partial "organisms/sidebar_left.html" . }}
+        </div>
+        <div class="col-md-3" id="sidebar">
+          {{ partial "organisms/sidebar_right.html" . }}
+        </div>
+      </div>
+    </div>
+  </main>
+{{ end }}

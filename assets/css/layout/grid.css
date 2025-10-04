@@ -42,9 +42,21 @@
     flex: 0 0 auto;
     width: 100%;
   }
+  /* Desktop visual order: left (1) -> contents (2) -> right (3) */
+  #sidebar-left { order: 1; }
+  #contents { order: 2; }
+  #sidebar { order: 3; }
+  .col-md-2 {
+    flex: 0 0 auto;
+    width: 16.66666667%;
+  }
   .col-md-9 {
     flex: 0 0 auto;
     width: 75%;
+  }
+  .col-md-7 {
+    flex: 0 0 auto;
+    width: 58.33333333%;
   }
   .col-md-8 {
     flex: 0 0 auto;
@@ -57,4 +69,14 @@
   .col-md-3 {
     width: 25%;
   }
+}
+
+#sidebar-left,
+#sidebar-right,
+#contents,
+#sidebar,
+.col-md-12,
+.col-sm-4 {
+  padding-right: 1rem;
+  padding-left: 1rem;
 }

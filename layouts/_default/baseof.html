@@ -12,6 +12,7 @@
     {{ partial "head/head.html" . }}
   </head>
   <body>
+    <a class="skip-link" href="#main-content">{{ T "skip_to_content" }}</a>
     {{ block "header" . }}
     {{ end }}
     {{ block "main" . }}
