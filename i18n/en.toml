@@ -49,9 +49,6 @@ other = "Categories"
 [archives]
 other = "Archives"
 
-[view_all_archives]
-other = "View all"
-
 [no_categories]
 other = "No categories yet"
 

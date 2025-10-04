@@ -49,9 +49,6 @@ other = "カテゴリー"
 [archives]
 other = "月別アーカイブ"
 
-[view_all_archives]
-other = "すべて見る"
-
 [no_categories]
 other = "カテゴリーはまだないよ"
 
