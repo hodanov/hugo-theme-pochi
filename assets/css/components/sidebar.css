@@ -178,14 +178,20 @@
   align-items: center;
 }
 #sidebar-left .archives-year-toggle::before {
-  content: "▸";
+  content: "";
   position: absolute;
-  margin-left: -1.1rem;
+  left: 0.35rem; /* inside the left padding (1.1rem) */
   top: 50%;
-  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-top: 0.3em solid transparent;
+  border-bottom: 0.3em solid transparent;
+  border-left: 0.5em solid currentColor; /* filled caret */
+  transform: translateY(-50%) rotate(0deg);
+  pointer-events: none;
 }
 #sidebar-left .archives-year-toggle[aria-expanded="true"]::before {
-  content: "▾";
+  transform: translateY(-50%) rotate(90deg);
 }
 #sidebar-left .archives-year-toggle:hover {
   color: var(--pochi-accent);
@@ -206,6 +212,8 @@
   align-items: center;
   border-radius: 0.25rem;
 }
+
+/* Month links: no caret; keep spacing rules only */
 
 /* Hover/active feedback remains consistent */
 #sidebar-left ul.list-unstyled > li > a:hover,
