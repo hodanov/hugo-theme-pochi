@@ -5,7 +5,7 @@
   <main id="main-content" class="main-content" role="main">
     {{ partial "molecules/breadcrumbs.html" . }}
     <div class="container-fluid single-page">
-      <div class="row{{ if $hasToc }}has-toc-sidebar{{ end }}">
+      <div class="row {{ if $hasToc }}has-toc-sidebar{{ end }}">
         {{ if $hasToc }}
           {{/* Left sidebar for Like button (HEART) */}}
           <div class="col-md-1" id="sidebar-left">
