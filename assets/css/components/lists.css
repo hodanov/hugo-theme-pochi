@@ -34,13 +34,13 @@ article blockquote ul {
   display: none;
 }
 .archive-year > summary::before {
-  content: '▸';
+  content: "▸";
   position: absolute;
   left: 0;
   top: 0.2rem;
 }
 .archive-year[open] > summary::before {
-  content: '▾';
+  content: "▾";
 }
 
 /* Month-level toggles on /archives */
@@ -57,13 +57,13 @@ article blockquote ul {
   position: relative;
 }
 .archive-month-toggle::before {
-  content: '▸';
+  content: "▸";
   position: absolute;
   left: 0;
   top: 0.1rem;
 }
 .archive-month-toggle[aria-expanded="true"]::before {
-  content: '▾';
+  content: "▾";
 }
 .archive-month-cards.is-collapsed {
   display: none;

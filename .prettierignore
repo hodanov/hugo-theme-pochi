@@ -1,2 +1,4 @@
 layouts/_default/index.json
 layouts/_default/list.html
+assets/js/vendor/fuse.js
+assets/js/vendor/mark.js

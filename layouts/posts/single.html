@@ -1,12 +1,30 @@
 {{ define "main" }}
+  {{/* Determine if this page has a non-empty TOC */}}
+  {{ $toc := .TableOfContents }}
+  {{ $hasToc := gt (len (plainify $toc)) 0 }}
   <main id="main-content" class="main-content" role="main">
+    {{ partial "molecules/breadcrumbs.html" . }}
     <div class="container-fluid single-page">
-      <div class="row">
+      <div class="row {{ if $hasToc }}has-toc-sidebar{{ end }}">
+        {{ if $hasToc }}
+          {{/* Left sidebar for Like button (HEART) */}}
+          <div class="col-md-1" id="sidebar-left">
+            <aside>
+              {{ partial "molecules/like_button.html" . }}
+            </aside>
+          </div>
+        {{ end }}
         <div class="centered col-md-8" id="contents">
-          {{ partial "molecules/breadcrumbs.html" . }}
           {{ block "content" . }}
           {{ end }}
         </div>
+        {{ if $hasToc }}
+          <div class="col-md-3" id="sidebar-right">
+            <aside>
+              {{ partial "molecules/toc.html" (dict "Page" . "inSidebar" true) }}
+            </aside>
+          </div>
+        {{ end }}
       </div>
     </div>
   </main>

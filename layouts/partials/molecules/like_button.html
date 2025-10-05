@@ -1,0 +1,12 @@
+<div class="like-sidebar" data-like-root>
+  <button
+    class="like-btn"
+    type="button"
+    aria-pressed="false"
+    title="いいね"
+    data-like-button
+  >
+    {{ partial "atoms/icon.html" (dict "id" "icon-heart") }}
+    <span class="like-count" aria-live="polite" data-like-count>–</span>
+  </button>
+</div>
