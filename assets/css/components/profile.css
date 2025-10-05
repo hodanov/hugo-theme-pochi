@@ -1,3 +1,16 @@
-.profile-link {
-  line-height: 2rem;
+/* Right/standard sidebar profile links: comfortable tap targets */
+#sidebar-right .profile-link,
+#sidebar .profile-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px; /* match visual line-height (2rem) */
+  padding: 0 0.5rem; /* horizontal breathing room */
+  margin: 0.25rem 0; /* 4px上下 → 隣接リンク間で8px */
+  border-radius: 0.25rem;
+  line-height: 2rem; /* 約32pxの視覚高さ */
+}
+
+#sidebar-right .profile-link:hover,
+#sidebar .profile-link:hover {
+  background: var(--pochi-hover);
 }

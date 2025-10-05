@@ -51,6 +51,21 @@ ol li > code {
 .dark p > code,
 .dark ul li > code,
 .dark ol li > code {
-  color: var(--pochi-code-text);
+  /* Use defined token name; was --pochi-code-text (undefined) */
+  color: var(--pochi-code-fg);
+  background-color: var(--pochi-code-bg);
+}
+
+/* Ensure inline code in post list excerpts matches article styling */
+.article-list .post-excerpt code {
+  color: var(--pochi-text);
+  padding: 0.2rem 0.4rem;
+  background-color: var(--pochi-inline-code-bg);
+  border: 1px solid var(--pochi-inline-code-border);
+  border-radius: 0.25rem;
+}
+
+.dark .article-list .post-excerpt code {
+  color: var(--pochi-code-fg);
   background-color: var(--pochi-code-bg);
 }

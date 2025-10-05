@@ -167,16 +167,22 @@
   text-align: left;
   background: transparent;
   border: 0;
-  padding: 0.25rem 0 0.25rem 1.1rem;
+  /* Increase tappable area while keeping visuals compact */
+  padding: 0.5rem 0 0.5rem 1.1rem; /* 8px top/bottom */
+  min-height: 32px; /* try 32px per request */
+  margin: 0.25rem 0; /* 4px gap above/below → 8px between neighbors */
   color: var(--pochi-text-muted);
   cursor: pointer;
   position: relative;
+  display: flex;
+  align-items: center;
 }
 #sidebar-left .archives-year-toggle::before {
   content: "▸";
   position: absolute;
   margin-left: -1.1rem;
-  margin-top: 0.1rem;
+  top: 50%;
+  transform: translateY(-50%);
 }
 #sidebar-left .archives-year-toggle[aria-expanded="true"]::before {
   content: "▾";
@@ -186,6 +192,25 @@
 }
 #sidebar-left .archives-months {
   margin-left: 1.1rem;
+  margin-top: 0.25rem; /* add separation from year toggle */
+}
+
+/* Make category links and archive month links comfortable tap targets */
+#sidebar-left ul.list-unstyled > li > a,
+#sidebar-left .archives-months a {
+  display: block;
+  padding: 0.5rem 0.5rem; /* 8px vertical + 8px horizontal padding */
+  margin: 0.25rem 0; /* 4px gap above/below → 8px between neighbors */
+  min-height: 32px; /* ensure >= 32px target size */
+  display: flex;
+  align-items: center;
+  border-radius: 0.25rem;
+}
+
+/* Hover/active feedback remains consistent */
+#sidebar-left ul.list-unstyled > li > a:hover,
+#sidebar-left .archives-months a:hover {
+  background: var(--pochi-hover);
 }
 #sidebar-left .archives-months.is-collapsed {
   display: none;

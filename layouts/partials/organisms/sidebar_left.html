@@ -34,23 +34,20 @@
     <ul class="list-unstyled archives-list">
       {{ range $i, $y := $years }}
         {{ $year := $y.Key }}
+        {{ $isOpen := eq $i 0 }}
         <li class="archives-year">
           <button
             class="archives-year-toggle"
             type="button"
             data-year="{{ $year }}"
             aria-controls="archives-months-{{ $year }}"
-            aria-expanded="{{ if eq $i 0 }}
-              true
-            {{ else }}
-              false
-            {{ end }}"
+            aria-expanded="{{ printf "%t" $isOpen }}"
           >
             {{ $year }}
           </button>
           {{ $months := sort ($y.Pages.GroupByDate "2006-01") "Key" "desc" }}
           {{ $monthsClasses := slice "archives-months" }}
-          {{ if ne $i 0 }}
+          {{ if not $isOpen }}
             {{ $monthsClasses = $monthsClasses | append "is-collapsed" }}
           {{ end }}
           <ul
