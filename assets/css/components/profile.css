@@ -3,11 +3,11 @@
 #sidebar .profile-link {
   display: inline-flex;
   align-items: center;
-  min-height: 32px; /* match visual line-height (2rem) */
-  padding: 0 0.5rem; /* horizontal breathing room */
-  margin: 0.25rem 0; /* 4px上下 → 隣接リンク間で8px */
+  min-height: 32px;
+  padding: 0 0.5rem;
+  margin: 0.25rem 0;
   border-radius: 0.25rem;
-  line-height: 2rem; /* 約32pxの視覚高さ */
+  line-height: 2rem;
 }
 
 #sidebar-right .profile-link:hover,

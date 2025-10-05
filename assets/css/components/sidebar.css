@@ -25,7 +25,7 @@
 #sidebar .table-of-contents p,
 #sidebar-left .table-of-contents p,
 #sidebar-right .table-of-contents p {
-  display: none; /* Sidebar版はh2見出しを使うため非表示 */
+  display: none;
 }
 
 #sidebar aside,
@@ -97,11 +97,9 @@
   #sidebar-right {
     margin-left: 0rem;
   }
-  /* On small screens, hide the right TOC sidebar to avoid duplication */
   #sidebar-right {
     display: none;
   }
-  /* Hide left spacer on small screens */
   #sidebar-left {
     display: none;
   }
@@ -142,8 +140,6 @@
   color: var(--pochi-accent);
 }
 
-/* (flyout UI removed from bundle) */
-
 /* Dark theme adjustments to match right sidebar heading */
 .dark #sidebar-left h2 span,
 .dark #sidebar-right h2 span {
@@ -167,10 +163,9 @@
   text-align: left;
   background: transparent;
   border: 0;
-  /* Increase tappable area while keeping visuals compact */
-  padding: 0.5rem 0 0.5rem 1.1rem; /* 8px top/bottom */
-  min-height: 32px; /* try 32px per request */
-  margin: 0.25rem 0; /* 4px gap above/below → 8px between neighbors */
+  padding: 0.5rem 0 0.5rem 1.1rem;
+  min-height: 32px;
+  margin: 0.25rem 0;
   color: var(--pochi-text-muted);
   cursor: pointer;
   position: relative;
@@ -180,13 +175,13 @@
 #sidebar-left .archives-year-toggle::before {
   content: "";
   position: absolute;
-  left: 0.35rem; /* inside the left padding (1.1rem) */
+  left: 0.35rem;
   top: 50%;
   width: 0;
   height: 0;
   border-top: 0.3em solid transparent;
   border-bottom: 0.3em solid transparent;
-  border-left: 0.5em solid currentColor; /* filled caret */
+  border-left: 0.5em solid currentColor;
   transform: translateY(-50%) rotate(0deg);
   pointer-events: none;
 }
@@ -198,24 +193,20 @@
 }
 #sidebar-left .archives-months {
   margin-left: 1.1rem;
-  margin-top: 0.25rem; /* add separation from year toggle */
+  margin-top: 0.25rem;
 }
 
-/* Make category links and archive month links comfortable tap targets */
 #sidebar-left ul.list-unstyled > li > a,
 #sidebar-left .archives-months a {
   display: block;
-  padding: 0.5rem 0.5rem; /* 8px vertical + 8px horizontal padding */
-  margin: 0.25rem 0; /* 4px gap above/below → 8px between neighbors */
-  min-height: 32px; /* ensure >= 32px target size */
+  padding: 0.5rem 0.5rem;
+  margin: 0.25rem 0;
+  min-height: 32px;
   display: flex;
   align-items: center;
   border-radius: 0.25rem;
 }
 
-/* Month links: no caret; keep spacing rules only */
-
-/* Hover/active feedback remains consistent */
 #sidebar-left ul.list-unstyled > li > a:hover,
 #sidebar-left .archives-months a:hover {
   background: var(--pochi-hover);
@@ -224,7 +215,6 @@
   display: none;
 }
 
-/* Active link highlight for TOC in sidebar */
 #sidebar .table-of-contents a.is-active,
 #sidebar-left .table-of-contents a.is-active,
 #sidebar-right .table-of-contents a.is-active {
@@ -232,7 +222,6 @@
   font-weight: 600;
 }
 
-/* Sidebar section headings (moved from footer.css) */
 #sidebar h2,
 #sidebar-left h2,
 #sidebar-right h2 {

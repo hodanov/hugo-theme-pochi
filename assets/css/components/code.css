@@ -47,16 +47,13 @@ ol li > code {
   background-color: var(--pochi-code-bg);
 }
 
-/* Inline code color tweak in dark mode */
 .dark p > code,
 .dark ul li > code,
 .dark ol li > code {
-  /* Use defined token name; was --pochi-code-text (undefined) */
   color: var(--pochi-code-fg);
   background-color: var(--pochi-code-bg);
 }
 
-/* Ensure inline code in post list excerpts matches article styling */
 .article-list .post-excerpt code {
   color: var(--pochi-text);
   padding: 0.2rem 0.4rem;
