@@ -40,18 +40,14 @@
             type="button"
             data-year="{{ $year }}"
             aria-controls="archives-months-{{ $year }}"
-            aria-expanded="{{ if eq $i 0 }}
-              true
-            {{ else }}
-              false
-            {{ end }}"
+            aria-expanded="{{ if eq $i 0 }}true{{ else }}false{{ end }}"
           >
             {{ $year }}
           </button>
           {{ $months := sort ($y.Pages.GroupByDate "2006-01") "Key" "desc" }}
           <ul
             id="archives-months-{{ $year }}"
-            class="archives-months{{ if ne $i 0 }}is-collapsed{{ end }}"
+            class="archives-months{{ if ne $i 0 }} is-collapsed{{ end }}"
           >
             {{ range $m := $months }}
               <li>
