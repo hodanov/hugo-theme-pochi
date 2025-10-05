@@ -1,3 +1,16 @@
-.profile-link {
+/* Right/standard sidebar profile links: comfortable tap targets */
+#sidebar-right .profile-link,
+#sidebar .profile-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 0 0.5rem;
+  margin: 0.25rem 0;
+  border-radius: 0.25rem;
   line-height: 2rem;
+}
+
+#sidebar-right .profile-link:hover,
+#sidebar .profile-link:hover {
+  background: var(--pochi-hover);
 }
