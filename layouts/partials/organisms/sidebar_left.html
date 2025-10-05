@@ -45,9 +45,11 @@
             {{ $year }}
           </button>
           {{ $months := sort ($y.Pages.GroupByDate "2006-01") "Key" "desc" }}
+          {{ $monthsClasses := slice "archives-months" }}
+          {{ if ne $i 0 }}{{ $monthsClasses = $monthsClasses | append "is-collapsed" }}{{ end }}
           <ul
             id="archives-months-{{ $year }}"
-            class="archives-months{{ if ne $i 0 }} is-collapsed{{ end }}"
+            class="{{ delimit $monthsClasses " " }}"
           >
             {{ range $m := $months }}
               <li>
