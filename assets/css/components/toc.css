@@ -99,3 +99,31 @@
 nav#TableOfContents li:before {
   vertical-align: top;
 }
+
+/* Sidebar版はトップページのサイドバー見出しに寄せる（カード枠なし） */
+#sidebar .table-of-contents,
+#sidebar-left .table-of-contents,
+#sidebar-right .table-of-contents {
+  margin: 0 0 1rem;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+}
+
+#sidebar .table-of-contents nav ul,
+#sidebar-left .table-of-contents nav ul,
+#sidebar-right .table-of-contents nav ul {
+  padding: 0;
+}
+#sidebar .table-of-contents nav li,
+#sidebar-left .table-of-contents nav li,
+#sidebar-right .table-of-contents nav li {
+  line-height: 1.6rem;
+}
+
+/* When a right TOC sidebar exists, hide the inline TOC in contents on md+ */
+@media (min-width: 768px) {
+  .has-toc-sidebar #contents .table-of-contents {
+    display: none;
+  }
+}

@@ -1,7 +1,16 @@
-{{/* Hugo-powered Table of Contents */}}
-{{ if .IsPage }}
-  {{ $toc := .TableOfContents }}
-  {{ if gt (len (plainify $toc)) 0 }}
+{{/* Hugo-powered Table of Contents with sidebar-aware heading */}}
+{{ $page := .Page }}
+{{ $toc := $page.TableOfContents }}
+{{ $has := gt (len (plainify $toc)) 0 }}
+{{ if and $page.IsPage $has }}
+  {{/* inSidebar must be provided by caller via dict */}}
+  {{ $inSidebar := .inSidebar }}
+  {{ if $inSidebar }}
+    <h2><span>{{ T "table_of_contents" }}</span></h2>
+    <div class="table-of-contents">
+      {{ $toc | safeHTML }}
+    </div>
+  {{ else }}
     <div class="table-of-contents">
       <p><span>{{ T "table_of_contents" }}</span></p>
       {{ $toc | safeHTML }}

@@ -439,8 +439,14 @@
       }
       afterSwapInit();
       try {
-        const href = doc.location ? doc.location.href : (typeof url === 'string' ? url : url.href);
-        document.dispatchEvent(new CustomEvent('pochi:afterSwap', { detail: { href } }));
+        const href = doc.location
+          ? doc.location.href
+          : typeof url === "string"
+            ? url
+            : url.href;
+        document.dispatchEvent(
+          new CustomEvent("pochi:afterSwap", { detail: { href } }),
+        );
       } catch (_) {}
     } catch (e) {
       // Fallback to full navigation on error

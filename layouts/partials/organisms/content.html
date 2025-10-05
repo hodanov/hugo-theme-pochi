@@ -6,7 +6,7 @@
         <h1>{{ .Title }}</h1>
         {{ partial "molecules/post_meta_date.html" . }}
         {{ partial "molecules/post_meta_featured_image.html" . }}
-        {{ partial "molecules/toc.html" . }}
+        {{ partial "molecules/toc.html" (dict "Page" . "inSidebar" false) }}
         <div>
           {{ .Content }}
         </div>

@@ -43,9 +43,22 @@
     width: 100%;
   }
   /* Desktop visual order: left (1) -> contents (2) -> right (3) */
-  #sidebar-left { order: 1; }
-  #contents { order: 2; }
-  #sidebar { order: 3; }
+  #sidebar-left {
+    order: 1;
+  }
+  #contents {
+    order: 2;
+  }
+  #sidebar {
+    order: 3;
+  }
+  #sidebar-right {
+    order: 3;
+  }
+  .col-md-1 {
+    flex: 0 0 auto;
+    width: 8.33333333%;
+  }
   .col-md-2 {
     flex: 0 0 auto;
     width: 16.66666667%;
@@ -67,6 +80,7 @@
     width: 33.33333333%;
   }
   .col-md-3 {
+    flex: 0 0 auto;
     width: 25%;
   }
 }

@@ -39,7 +39,7 @@ article h1 {
 }
 
 article h2 {
-  font-size: clamp(1.6rem, 2.0vw, 2.0rem);
+  font-size: clamp(1.6rem, 2vw, 2rem);
   line-height: 1.4;
   font-weight: 600;
   margin: 1.2em 0 0.6em;
@@ -53,8 +53,12 @@ article h3 {
 }
 
 @media (max-width: 414px) {
-  article h2 { font-size: 1.6rem; }
-  article h3 { font-size: 1.35rem; }
+  article h2 {
+    font-size: 1.6rem;
+  }
+  article h3 {
+    font-size: 1.35rem;
+  }
 }
 
 a {

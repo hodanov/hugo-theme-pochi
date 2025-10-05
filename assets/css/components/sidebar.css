@@ -12,16 +12,20 @@
 #sidebar .table-of-contents,
 #sidebar-left .table-of-contents,
 #sidebar-right .table-of-contents {
-  background-color: var(--pochi-card);
-  border: none;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
   max-height: 86vh;
   overflow-y: auto;
+  margin: 0 0 2rem;
+  padding: 0;
 }
 
 #sidebar .table-of-contents p,
 #sidebar-left .table-of-contents p,
 #sidebar-right .table-of-contents p {
-  margin-top: 1rem;
+  display: none; /* Sidebar版はh2見出しを使うため非表示 */
 }
 
 #sidebar aside,
@@ -93,13 +97,60 @@
   #sidebar-right {
     margin-left: 0rem;
   }
+  /* On small screens, hide the right TOC sidebar to avoid duplication */
+  #sidebar-right {
+    display: none;
+  }
+  /* Hide left spacer on small screens */
+  #sidebar-left {
+    display: none;
+  }
 }
 
+/* Like button (left sidebar) */
+#sidebar-left .like-sidebar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#sidebar-left .like-btn {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  min-height: 60px;
+  border: 0;
+  background: transparent;
+  color: var(--pochi-text-muted);
+  cursor: pointer;
+}
+#sidebar-left .like-btn .icon {
+  width: 24px;
+  height: 24px;
+}
+#sidebar-left .like-btn .like-count {
+  font-size: 0.75rem;
+  line-height: 1rem;
+  margin-top: 0.25rem;
+}
+#sidebar-left .like-btn:hover,
+#sidebar-left .like-btn[aria-pressed="true"] {
+  color: var(--pochi-accent);
+}
+.dark #sidebar-left .like-btn[aria-pressed="true"] {
+  color: var(--pochi-accent);
+}
+
+/* (flyout UI removed from bundle) */
+
 /* Dark theme adjustments to match right sidebar heading */
-.dark #sidebar-left h2 span {
+.dark #sidebar-left h2 span,
+.dark #sidebar-right h2 span {
   background-color: var(--pochi-surface-soft);
 }
-.dark #sidebar-left h2:before {
+.dark #sidebar-left h2:before,
+.dark #sidebar-right h2:before {
   background-image: linear-gradient(
     to right,
     var(--pochi-separator-end-dark),
@@ -109,7 +160,8 @@
 }
 
 /* Archives collapsible list */
-#sidebar-left .archives-year {}
+#sidebar-left .archives-year {
+}
 #sidebar-left .archives-year-toggle {
   width: 100%;
   text-align: left;
@@ -121,13 +173,13 @@
   position: relative;
 }
 #sidebar-left .archives-year-toggle::before {
-  content: '▸';
+  content: "▸";
   position: absolute;
   margin-left: -1.1rem;
   margin-top: 0.1rem;
 }
 #sidebar-left .archives-year-toggle[aria-expanded="true"]::before {
-  content: '▾';
+  content: "▾";
 }
 #sidebar-left .archives-year-toggle:hover {
   color: var(--pochi-accent);
@@ -137,4 +189,65 @@
 }
 #sidebar-left .archives-months.is-collapsed {
   display: none;
+}
+
+/* Active link highlight for TOC in sidebar */
+#sidebar .table-of-contents a.is-active,
+#sidebar-left .table-of-contents a.is-active,
+#sidebar-right .table-of-contents a.is-active {
+  color: var(--pochi-accent);
+  font-weight: 600;
+}
+
+/* Sidebar section headings (moved from footer.css) */
+#sidebar h2,
+#sidebar-left h2,
+#sidebar-right h2 {
+  position: relative;
+  text-align: center;
+  font-size: 1rem;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+}
+
+#sidebar h2:before,
+#sidebar-left h2:before,
+#sidebar-right h2:before {
+  content: "";
+  display: block;
+  position: absolute;
+  margin: auto;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-image: linear-gradient(
+    to right,
+    var(--pochi-separator-transparent),
+    var(--pochi-separator-mid-light),
+    var(--pochi-separator-transparent)
+  );
+  z-index: 1;
+}
+
+#sidebar h2 span,
+#sidebar-left h2 span,
+#sidebar-right h2 span {
+  background: var(--pochi-bg);
+  padding: 0 10px;
+  position: relative;
+  z-index: 5;
+}
+
+#sidebar p,
+#sidebar-left p {
+  font-size: 0.9rem;
+  line-height: 1.5rem;
+}
+
+#sidebar ul,
+#sidebar-left ul {
+  font-size: 0.9rem;
 }
