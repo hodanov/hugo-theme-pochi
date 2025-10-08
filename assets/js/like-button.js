@@ -54,8 +54,6 @@
     } catch (_) {}
   }
 
-  // Flyout-related code removed as we use smooth scroll UX
-
   function findGiscusFrame(retries = 30) {
     return new Promise((resolve) => {
       function tick(left) {
@@ -67,8 +65,6 @@
       tick(retries);
     });
   }
-
-  //
 
   function initListeners() {
     // Metadata from giscus

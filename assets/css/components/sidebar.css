@@ -140,6 +140,34 @@
   color: var(--pochi-accent);
 }
 
+/* Share button (left sidebar) */
+#sidebar-left .share-sidebar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.25rem;
+}
+#sidebar-left .share-btn {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  min-height: 40px;
+  border: 0;
+  background: transparent;
+  color: var(--pochi-text-muted);
+  cursor: pointer;
+}
+#sidebar-left .share-btn .icon {
+  width: 24px;
+  height: 24px;
+}
+#sidebar-left .share-btn:hover,
+#sidebar-left .share-btn[aria-pressed="true"] {
+  color: var(--pochi-accent);
+}
+
 /* Dark theme adjustments to match right sidebar heading */
 .dark #sidebar-left h2 span,
 .dark #sidebar-right h2 span {

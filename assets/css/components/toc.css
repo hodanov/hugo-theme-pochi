@@ -87,6 +87,10 @@
 .table-of-contents nav ul {
   counter-reset: toc-item;
 }
+.table-of-contents nav ul ul {
+  /* Indent nested lists slightly to visualize depth */
+  margin-left: 0.75rem;
+}
 .table-of-contents nav li {
   counter-increment: toc-item;
 }
