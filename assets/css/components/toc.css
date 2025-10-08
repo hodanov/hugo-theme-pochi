@@ -88,7 +88,6 @@
   counter-reset: toc-item;
 }
 .table-of-contents nav ul ul {
-  /* Indent nested lists slightly to visualize depth */
   margin-left: 0.75rem;
 }
 .table-of-contents nav li {
@@ -104,7 +103,6 @@ nav#TableOfContents li:before {
   vertical-align: top;
 }
 
-/* Sidebar版はトップページのサイドバー見出しに寄せる（カード枠なし） */
 #sidebar .table-of-contents,
 #sidebar-left .table-of-contents,
 #sidebar-right .table-of-contents {
@@ -125,7 +123,6 @@ nav#TableOfContents li:before {
   line-height: 1.6rem;
 }
 
-/* When a right TOC sidebar exists, hide the inline TOC in contents on md+ */
 @media (min-width: 768px) {
   .has-toc-sidebar #contents .table-of-contents {
     display: none;
