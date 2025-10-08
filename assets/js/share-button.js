@@ -30,6 +30,31 @@
     return fallbackCopyTextToClipboard(text);
   }
 
+  // Detect mobile (iOS/iPadOS/Android) to prefer Web Share; others copy
+  function isMobileDevice() {
+    try {
+      const uaData = navigator.userAgentData;
+      if (uaData && typeof uaData.mobile === "boolean") {
+        return uaData.mobile;
+      }
+    } catch (_) {}
+    const ua = String(navigator.userAgent || "");
+    const isIOS = /iPhone|iPad|iPod/.test(ua);
+    const isIPadMacUA =
+      /Macintosh/.test(ua) &&
+      typeof navigator.maxTouchPoints === "number" &&
+      navigator.maxTouchPoints > 1;
+    const isAndroid = /Android/.test(ua);
+    const isMobileHint = /Mobile/.test(ua);
+    // Treat iPadOS masquerading as Mac as mobile
+    if (isIOS || isIPadMacUA) return true;
+    if (isAndroid) return true;
+    // Some Android tablets don't include "Mobile"; keep a conservative OR
+    if (isMobileHint) return true;
+    // Fallback: non-mobile platforms
+    return false;
+  }
+
   // Use event delegation so it works across PJAX swaps
   function onClick(e) {
     const btn =
@@ -43,7 +68,7 @@
     const live = btn.querySelector("[data-share-feedback]");
     (async () => {
       try {
-        if (navigator.share) {
+        if (isMobileDevice() && navigator.share) {
           await navigator.share({ title, url });
         } else {
           await copyToClipboard(url);
@@ -52,12 +77,12 @@
           setTimeout(() => {
             btn.setAttribute("aria-pressed", "false");
             if (live) live.textContent = "";
-          }, 1500);
+          }, 2000);
         }
       } catch (_) {
         if (live) {
           live.textContent = "コピーに失敗しました";
-          setTimeout(() => (live.textContent = ""), 1500);
+          setTimeout(() => (live.textContent = ""), 2000);
         }
       }
     })();
