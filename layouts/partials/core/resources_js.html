@@ -3,5 +3,6 @@
 {{ $archives := resources.Get "js/archives-toggle.js" }}
 {{ $scrollspy := resources.Get "js/scrollspy.js" }}
 {{ $like := resources.Get "js/like-button.js" }}
-{{ $bundle := slice $main $nav $archives $scrollspy $like | resources.Concat "js/bundle.js" | resources.Minify | fingerprint }}
+{{ $share := resources.Get "js/share-button.js" }}
+{{ $bundle := slice $main $nav $archives $scrollspy $like $share | resources.Concat "js/bundle.js" | resources.Minify | fingerprint }}
 <script defer src="{{ $bundle.RelPermalink }}"></script>

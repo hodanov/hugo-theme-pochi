@@ -140,6 +140,54 @@
   color: var(--pochi-accent);
 }
 
+/* Share button (left sidebar) */
+#sidebar-left .share-sidebar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.25rem;
+}
+#sidebar-left .share-btn {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  min-height: 40px;
+  border: 0;
+  background: transparent;
+  color: var(--pochi-text-muted);
+  cursor: pointer;
+  position: relative;
+}
+#sidebar-left .share-btn .icon {
+  width: 24px;
+  height: 24px;
+}
+#sidebar-left .share-btn:hover,
+#sidebar-left .share-btn[aria-pressed="true"] {
+  color: var(--pochi-accent);
+}
+
+/* Visual tooltip when copy completed */
+#sidebar-left .share-btn[aria-pressed="true"]::after {
+  content: "URLをコピーしました";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translate(-50%, 0.35rem);
+  background: var(--pochi-accent);
+  color: var(--pochi-on-accent);
+  padding: 0.15rem 0.4rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  border-radius: 0.25rem;
+  white-space: nowrap;
+  box-shadow: var(--pochi-shadow-2);
+  pointer-events: none;
+  z-index: 10;
+}
+
 /* Dark theme adjustments to match right sidebar heading */
 .dark #sidebar-left h2 span,
 .dark #sidebar-right h2 span {

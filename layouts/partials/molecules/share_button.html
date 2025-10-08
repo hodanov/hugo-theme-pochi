@@ -1,0 +1,18 @@
+<div class="share-sidebar" data-share-root>
+  <button
+    class="share-btn"
+    type="button"
+    aria-pressed="false"
+    title="URLをコピー"
+    data-share-button
+    data-share-url="{{ .Permalink }}"
+    data-share-title="{{ .Title }}"
+  >
+    {{ partial "atoms/icon.html" (dict "id" "icon-share") }}
+    <span
+      class="u-visually-hidden"
+      data-share-feedback
+      aria-live="polite"
+    ></span>
+  </button>
+</div>
