@@ -4,6 +4,7 @@ function smoothScroll() {
     document.getElementById("scroll-to-top");
 
   function scrollToTarget(targetEl) {
+    if (!targetEl) return; // guard missing target
     window.scrollTo({
       top: targetEl.offsetTop - 15,
       behavior: "smooth",
@@ -11,25 +12,34 @@ function smoothScroll() {
   }
 
   function handleLinkClick(event) {
-    const target = event.target;
-    if (!target || !target.getAttribute) return;
-    const href = target.getAttribute("href");
+    // Accept clicks on child elements inside <a> as well
+    const anchor = event.target && event.target.closest
+      ? event.target.closest('a[href*="#"]')
+      : event.target;
+    if (!anchor || !anchor.getAttribute) return;
+    const href = anchor.getAttribute("href");
     if (!href || href.charAt(0) !== "#") return;
     event.preventDefault();
-    if (href === "#top") {
+    // Support both href="#" and href="#top" as "scroll to top"
+    if (href === "#" || href === "#top") {
       window.scrollTo({ top: 0, behavior: "auto" });
     } else {
-      const targetEl = document.querySelector(href);
+      // If selector is invalid or element not found, fail gracefully
+      let targetEl = null;
+      try {
+        targetEl = document.querySelector(href);
+      } catch (_) {}
       scrollToTarget(targetEl);
     }
   }
 
   // Add a single click event listener on the parent, and delegate events to children
   document.addEventListener("click", (event) => {
-    const t = event.target;
-    if (t && t.matches && t.matches('a[href*="#"]')) {
-      handleLinkClick(event);
-    }
+    // Delegate to the nearest anchor so clicks on child elements also work
+    const anchor = event.target && event.target.closest
+      ? event.target.closest('a[href*="#"]')
+      : null;
+    if (anchor) handleLinkClick(event);
   });
 
   document.addEventListener("scroll", () => {
