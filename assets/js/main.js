@@ -471,7 +471,15 @@ function updateGiscusTheme() {
       }
       // Optional sanity check: if src is present but not giscus, skip.
       const src = frame.getAttribute("src") || "";
-      if (src && !src.startsWith("https://giscus.app")) return false;
+      if (src) {
+        try {
+          const urlObj = new URL(src);
+          if (urlObj.host !== "giscus.app") return false;
+        } catch (_) {
+          // If src is not a valid URL, treat as invalid.
+          return false;
+        }
+      }
     } catch (_) {
       // Accessing contentWindow.location throws once the iframe is cross-origin,
       // which is exactly when it's safe to post to https://giscus.app.
