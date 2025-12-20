@@ -12,12 +12,12 @@
   },
   "dependencies": {
     "@fsouza/prettierd": "^0.26.2",
-    "prettier": "^3.7.3",
+    "prettier": "^3.7.4",
     "prettier-plugin-go-template": "^0.0.15"
   },
   "devDependencies": {
     "fuse.js": "^7.1.0",
     "mark.js": "^8.11.1",
-    "npm-check-updates": "^19.1.2"
+    "npm-check-updates": "^19.2.0"
   }
 }
