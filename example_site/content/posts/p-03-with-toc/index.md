@@ -5,7 +5,7 @@ date: "2024-03-10T09:00:00+09:00"
 publishDate: "2024-03-10T09:00:00+09:00"
 lastmod: "2024-03-10T09:00:00+09:00"
 draft: false
-summary: "E2E用: TOCが生成される投稿。"
+summary: "E2E: A post that generates a table of contents."
 tags: ["toc", "alpha"]
 categories: ["news"]
 ---
