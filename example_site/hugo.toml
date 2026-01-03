@@ -8,6 +8,9 @@ defaultContentLanguageInSubdir = false
 description = "Pochi example site for theme E2E tests."
 keywords = ["pochi", "hugo", "theme", "example"]
 
+[outputs]
+home = ["HTML", "JSON", "RSS"]
+
 [languages]
 [languages.en]
 languageName = "English"
