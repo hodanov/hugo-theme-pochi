@@ -1,1 +1,6 @@
 node_modules
+.hugo_build.lock
+example_site/public/
+example_site/resources/
+test-results/
+playwright-report/
