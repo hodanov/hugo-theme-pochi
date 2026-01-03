@@ -1,10 +1,11 @@
 {
   "scripts": {
+    "e2e": "playwright test",
     "format": "prettier . --write",
     "format:check": "prettier . --check",
     "lint": "prettier . --check",
-    "serve": "hugo serve -s example_site --themesDir .. -t pochi",
-    "build": "hugo --gc -s example_site --themesDir .. -t pochi",
+    "serve": "hugo serve -s example_site --themesDir ../.. -t pochi",
+    "build": "hugo --gc -s example_site --themesDir ../.. -t pochi",
     "vendor:sync": "node scripts/vendor-sync.js",
     "vendor:verify": "node scripts/vendor-sync.js --verify",
     "vendor:update": "npm update fuse.js mark.js --save-dev && npm run vendor:sync",
@@ -16,6 +17,7 @@
     "prettier-plugin-go-template": "^0.0.15"
   },
   "devDependencies": {
+    "@playwright/test": "^1.50.1",
     "fuse.js": "^7.1.0",
     "mark.js": "^8.11.1",
     "npm-check-updates": "^19.1.1"
