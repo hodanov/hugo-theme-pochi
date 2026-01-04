@@ -48,9 +48,8 @@
             <div class="pagination-index"></div>
           </div>
         </div>
-        <div class="col-md-3" id="sidebar">
-          {{ partial "organisms/sidebar_right.html" . }}
-        </div>
+        {{ block "sidebar" . }}
+        {{ end }}
       </div>
     </div>
   </main>
