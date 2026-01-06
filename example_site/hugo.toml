@@ -11,6 +11,12 @@ keywords = ["pochi", "hugo", "theme", "example"]
 [outputs]
 home = ["HTML", "JSON", "RSS"]
 
+[menus]
+  [[menus.main]]
+    name = "About"
+    url = "/page/about/"
+    weight = 1
+
 [languages]
 [languages.en]
 languageName = "English"
