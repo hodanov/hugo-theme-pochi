@@ -20,6 +20,6 @@
     "@playwright/test": "^1.50.1",
     "fuse.js": "^7.1.0",
     "mark.js": "^8.11.1",
-    "npm-check-updates": "^19.2.0"
+    "npm-check-updates": "^19.3.0"
   }
 }
