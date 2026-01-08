@@ -27,3 +27,6 @@ weight = 1
 languageName = "日本語"
 languageCode = "ja"
 weight = 2
+
+[pagination]
+pagerSize = 3
