@@ -8,6 +8,10 @@ defaultContentLanguageInSubdir = false
 description = "Pochi example site for theme E2E tests."
 keywords = ["pochi", "hugo", "theme", "example"]
 
+[params.comment]
+enable = true
+provider = "disqus"
+
 [outputs]
 home = ["HTML", "JSON", "RSS"]
 
