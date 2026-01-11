@@ -4,6 +4,7 @@ test.describe("F-12 PJAX navigation", () => {
   test("updates content and keeps theme toggle working", async ({ page }) => {
     await page.goto("/");
 
+    // PJAX swaps dispatch "pochi:afterSwap"; use it as a reliable signal of swap.
     await page.evaluate(() => {
       window.__pochiSwapDone = false;
       document.addEventListener(
@@ -24,13 +25,17 @@ test.describe("F-12 PJAX navigation", () => {
       .innerText();
     const targetPath = new URL(targetHref, page.url()).pathname;
 
+    // Click an internal link to trigger PJAX navigation.
     await firstPost.click();
 
+    // Wait for PJAX swap + history update to the target path.
     await page.waitForFunction(() => window.__pochiSwapDone === true);
     await page.waitForFunction((path) => location.pathname === path, targetPath);
 
+    // Confirm main content was replaced.
     await expect(page.locator("h1")).toHaveText(targetTitle);
 
+    // Ensure post-swap UI behavior remains active.
     const wasDark = await page.evaluate(() =>
       document.documentElement.classList.contains("dark"),
     );
