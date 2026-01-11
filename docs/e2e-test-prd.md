@@ -38,10 +38,11 @@
 ## アーキテクチャ概要
 
 - ルート: `hugo/themes/pochi/`
-- 設定: `playwright.config.ts`
+- 設定: `playwright.config.js`
 - テスト: `tests/e2e/`
 - Hugo起動: Playwright `webServer` で `hugo serve` を起動
-  - `hugo serve -s example_site --themesDir .. -t pochi --disableFastRender --bind 127.0.0.1 --port 10391 --baseURL http://127.0.0.1:10391/ --buildDrafts --buildFuture`
+  - テーマ名/配置は `playwright.config.js` が `__dirname` から自動解決
+  - 例: `hugo serve -s example_site --themesDir <themesDir> -t <themeName> --disableFastRender --bind 127.0.0.1 --port 10391 --baseURL http://127.0.0.1:10391/ --buildDrafts --buildFuture`
 - テスト対象URLは `example_site` から生成したHTML一覧で作る
 
 ## 実行設定（環境変数）
@@ -129,7 +130,7 @@
 
 主要ページを固定URLで列挙する。`example_site` のE2E用コンテンツでURLを安定させる。
 
-- コマンド例: `hugo --gc -s example_site --themesDir .. -t pochi -d e2e-public --baseURL http://127.0.0.1:10391/ --buildDrafts --buildFuture`
+- コマンド例: `hugo --gc -s example_site --themesDir <themesDir> -t <themeName> -d e2e-public --baseURL http://127.0.0.1:10391/ --buildDrafts --buildFuture`
 - ルール
   - `index.html` はディレクトリURLに変換
   - `404.html` は `/404.html` で直接確認
@@ -138,7 +139,7 @@
 
 ## テストデータ方針
 
-- `example_site/content/_e2e/` を追加して安定データを置く
+- E2E専用の安定データは `example_site/content/` 配下に置く（主に `posts/`）
 - 記事は少なくとも以下を用意
   - TOCあり（見出し多数）+ featuredImage + tags/categories 付き
   - TOCなし（見出しなし）+ featuredImageなし
