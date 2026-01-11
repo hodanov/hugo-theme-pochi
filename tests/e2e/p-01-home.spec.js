@@ -1,4 +1,4 @@
-const { test, expect } = require("@playwright/test");
+const { test, expect } = require("./fixtures");
 
 test.describe("P-01 Home", () => {
   test("home shows main content and at least one post card", async ({

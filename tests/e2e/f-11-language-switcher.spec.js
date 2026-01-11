@@ -1,4 +1,4 @@
-const { test, expect } = require("@playwright/test");
+const { test, expect } = require("./fixtures");
 
 test.describe("F-11 Language switcher", () => {
   test("switches to Japanese content", async ({ page }) => {

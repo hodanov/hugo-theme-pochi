@@ -1,4 +1,4 @@
-const { test, expect } = require("@playwright/test");
+const { test, expect } = require("./fixtures");
 
 test.describe("F-10 Like button", () => {
   test("scrolls to comment section", async ({ page }) => {

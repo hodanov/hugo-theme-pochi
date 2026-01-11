@@ -1,4 +1,4 @@
-const { test, expect } = require("@playwright/test");
+const { test, expect } = require("./fixtures");
 
 test.describe("F-12 PJAX navigation", () => {
   test("updates content and keeps theme toggle working", async ({ page }) => {

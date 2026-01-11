@@ -1,4 +1,4 @@
-const { test, expect } = require("@playwright/test");
+const { test, expect } = require("./fixtures");
 
 test.describe("F-08 TOC scroll", () => {
   test("toc link scrolls to heading and updates active state", async ({ page }) => {

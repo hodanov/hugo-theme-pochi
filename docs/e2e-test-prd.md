@@ -38,10 +38,11 @@
 ## アーキテクチャ概要
 
 - ルート: `hugo/themes/pochi/`
-- 設定: `playwright.config.ts`
+- 設定: `playwright.config.js`
 - テスト: `tests/e2e/`
 - Hugo起動: Playwright `webServer` で `hugo serve` を起動
-  - `hugo serve -s example_site --themesDir .. -t pochi --disableFastRender --bind 127.0.0.1 --port 10391 --baseURL http://127.0.0.1:10391/ --buildDrafts --buildFuture`
+  - テーマ名/配置は `playwright.config.js` が `__dirname` から自動解決
+  - 例: `hugo serve -s example_site --themesDir <themesDir> -t <themeName> --disableFastRender --bind 127.0.0.1 --port 10391 --baseURL http://127.0.0.1:10391/ --buildDrafts --buildFuture`
 - テスト対象URLは `example_site` から生成したHTML一覧で作る
 
 ## 実行設定（環境変数）
@@ -89,6 +90,7 @@
 - いいねボタン（存在/クリック可能、コメント領域へスクロール）
 - 言語切替（トップ/サイドのセレクトが切り替わる）
 - PJAXナビゲーション（内部リンク遷移後も主要JSが動作）
+- Feature画像（一覧/記事で画像が表示される）
 
 ## テストケース表（機能×粒度）
 
@@ -124,12 +126,13 @@
 | F-10 | いいねボタン | いいねボタンをクリック | コメント領域へスクロール | giscus iframeは不要 |
 | F-11 | 言語切替 | 言語セレクト変更 | `/en/` へ遷移 | 多言語記事必要 |
 | F-12 | PJAX遷移 | 内部リンクで遷移 | `.main-content` 更新後もテーマ切替が動く | `navigation.js` |
+| F-13 | Feature画像 | 一覧と記事詳細で画像を表示 | `.post-image-col img` / `.featured-image-wrapper img` | featuredImage 付き記事が必要 |
 
 ## ページ一覧の生成仕様
 
 主要ページを固定URLで列挙する。`example_site` のE2E用コンテンツでURLを安定させる。
 
-- コマンド例: `hugo --gc -s example_site --themesDir .. -t pochi -d e2e-public --baseURL http://127.0.0.1:10391/ --buildDrafts --buildFuture`
+- コマンド例: `hugo --gc -s example_site --themesDir <themesDir> -t <themeName> -d e2e-public --baseURL http://127.0.0.1:10391/ --buildDrafts --buildFuture`
 - ルール
   - `index.html` はディレクトリURLに変換
   - `404.html` は `/404.html` で直接確認
@@ -138,7 +141,7 @@
 
 ## テストデータ方針
 
-- `example_site/content/_e2e/` を追加して安定データを置く
+- E2E専用の安定データは `example_site/content/` 配下に置く（主に `posts/`）
 - 記事は少なくとも以下を用意
   - TOCあり（見出し多数）+ featuredImage + tags/categories 付き
   - TOCなし（見出しなし）+ featuredImageなし

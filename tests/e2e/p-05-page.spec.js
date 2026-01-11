@@ -1,4 +1,4 @@
-const { test, expect } = require("@playwright/test");
+const { test, expect } = require("./fixtures");
 
 test.describe("P-05 Static page", () => {
   test("static page renders title and body", async ({ page }) => {

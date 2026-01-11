@@ -1,4 +1,4 @@
-const { test, expect } = require("@playwright/test");
+const { test, expect } = require("./fixtures");
 
 test.describe("F-06 Pagination", () => {
   test("navigates to next page", async ({ page }) => {

@@ -1,4 +1,4 @@
-const { test, expect } = require("@playwright/test");
+const { test, expect } = require("./fixtures");
 
 test.describe("F-03 Theme toggle", () => {
   test("toggles dark class and aria-pressed", async ({ page }) => {

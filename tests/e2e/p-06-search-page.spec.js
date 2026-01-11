@@ -1,4 +1,4 @@
-const { test, expect } = require("@playwright/test");
+const { test, expect } = require("./fixtures");
 
 test.describe("P-06 Search page", () => {
   test("search form returns matching results", async ({ page }) => {

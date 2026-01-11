@@ -7,6 +7,7 @@ draft: false
 summary: "Second sample post for E2E home list."
 tags: ["beta"]
 categories: ["updates"]
+featuredImage: "PXL_20250416_084003654.jpg"
 ---
 
 Another short sample post used for E2E tests.
