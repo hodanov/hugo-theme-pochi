@@ -1,4 +1,4 @@
-const { test, expect } = require("@playwright/test");
+const { test, expect } = require("./fixtures");
 
 test.describe("P-03 Post with TOC", () => {
   test("toc sidebar is shown for posts with headings", async ({ page }) => {

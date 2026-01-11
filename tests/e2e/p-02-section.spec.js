@@ -1,4 +1,4 @@
-const { test, expect } = require("@playwright/test");
+const { test, expect } = require("./fixtures");
 
 test.describe("P-02 Section list", () => {
   test("posts section shows list of posts", async ({ page }) => {

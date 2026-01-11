@@ -1,4 +1,4 @@
-const { test, expect } = require("@playwright/test");
+const { test, expect } = require("./fixtures");
 
 test.describe("F-01 Global navigation", () => {
   test("nav link navigates to about page", async ({ page }) => {

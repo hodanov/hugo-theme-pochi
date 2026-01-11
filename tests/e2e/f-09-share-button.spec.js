@@ -1,4 +1,4 @@
-const { test, expect } = require("@playwright/test");
+const { test, expect } = require("./fixtures");
 
 test.describe("F-09 Share button", () => {
   test("copies URL and shows feedback", async ({ page }) => {

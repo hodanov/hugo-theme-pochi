@@ -1,4 +1,4 @@
-const { test, expect } = require("@playwright/test");
+const { test, expect } = require("./fixtures");
 
 test.describe("P-11 Search index", () => {
   test("index.json returns array with items", async ({ request }) => {

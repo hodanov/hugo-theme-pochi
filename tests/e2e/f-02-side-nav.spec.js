@@ -1,4 +1,4 @@
-const { test, expect } = require("@playwright/test");
+const { test, expect } = require("./fixtures");
 
 test.describe("F-02 Side navigation", () => {
   test("opens and closes via toggle and close button", async ({ page }) => {

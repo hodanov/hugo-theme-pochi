@@ -1,4 +1,4 @@
-const { test, expect } = require("@playwright/test");
+const { test, expect } = require("./fixtures");
 
 test.describe("F-13 Featured image", () => {
   test("renders featured images in list and single view", async ({ page }) => {

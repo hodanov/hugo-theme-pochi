@@ -1,4 +1,4 @@
-const { test, expect } = require("@playwright/test");
+const { test, expect } = require("./fixtures");
 
 test.describe("P-10 404", () => {
   test("404 page renders not found image", async ({ page }) => {

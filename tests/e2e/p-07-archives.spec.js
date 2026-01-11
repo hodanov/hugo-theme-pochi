@@ -1,4 +1,4 @@
-const { test, expect } = require("@playwright/test");
+const { test, expect } = require("./fixtures");
 
 test.describe("P-07 Archives page", () => {
   test("archives page shows years and toggles month cards", async ({ page }) => {
