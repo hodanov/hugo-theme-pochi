@@ -8,6 +8,7 @@ draft: false
 summary: "Pagination sample 5."
 tags: ["pager"]
 categories: ["news"]
+featuredImage: "PXL_20240721_095522714.jpg"
 ---
 
 Pagination test content 5.
