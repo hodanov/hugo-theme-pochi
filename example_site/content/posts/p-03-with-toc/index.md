@@ -8,6 +8,7 @@ draft: false
 summary: "E2E: A post that generates a table of contents."
 tags: ["toc", "alpha"]
 categories: ["news"]
+featuredImage: "images/e2e/PXL_20240721_095522714.jpg"
 ---
 
 Intro paragraph for TOC sample.
