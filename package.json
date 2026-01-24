@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@fsouza/prettierd": "^0.26.2",
-    "prettier": "^3.7.4",
+    "prettier": "^3.8.0",
     "prettier-plugin-go-template": "^0.0.15"
   },
   "devDependencies": {
