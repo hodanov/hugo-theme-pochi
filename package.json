@@ -12,12 +12,12 @@
     "vendor:upgrade:major": "npx npm-check-updates -u --filter fuse.js,mark.js && npm i && npm run vendor:sync"
   },
   "dependencies": {
-    "@fsouza/prettierd": "^0.26.2",
+    "@fsouza/prettierd": "^0.27.0",
     "prettier": "^3.8.1",
     "prettier-plugin-go-template": "^0.0.15"
   },
   "devDependencies": {
-    "@playwright/test": "^1.58.1",
+    "@playwright/test": "^1.58.2",
     "fuse.js": "^7.1.0",
     "mark.js": "^8.11.1",
     "npm-check-updates": "^19.3.2",
