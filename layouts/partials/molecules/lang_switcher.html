@@ -17,7 +17,7 @@
     id="{{ $id }}"
     name="{{ $name }}"
     aria-label="Language"
-    onchange="(function(sel){var v=sel.value;if(!v)return;try{var u=new URL(v, window.location.origin);if(u.protocol==='http:'||u.protocol==='https:'){window.location.href=u.href;}}catch(e){if(v.charAt(0)==='/'){window.location.href=v;}}})(this)"
+    onchange="(function(sel){var v=sel.value;if(!v)return; if(/^[a-zA-Z][a-zA-Z0-9+.-]*:/.test(v))return; if(v.charAt(0)!=='/')return; if(!/^\/[0-9A-Za-z/_\-]*$/.test(v))return; window.location.href=v;})(this)"
   >
     {{ range $ctx.Site.Languages }}
       {{ $lang := . }}
