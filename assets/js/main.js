@@ -326,8 +326,11 @@ function executeSearch(searchQuery) {
             (resultsEl && resultsEl.getAttribute("data-i18n-no-results")) ||
             "No matches found";
           if (resultsEl) {
-            resultsEl.innerHTML =
-              '<p class="search-results-empty">' + noResultsText + "</p>";
+            var emptyParagraph = document.createElement("p");
+            emptyParagraph.className = "search-results-empty";
+            emptyParagraph.textContent = noResultsText;
+            resultsEl.innerHTML = "";
+            resultsEl.appendChild(emptyParagraph);
           }
         }
         hide(document.querySelector(".search-loading"));
