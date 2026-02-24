@@ -14,15 +14,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: npm
-
-      - name: Upgrade npm to v11
-        run: npm i -g npm@11
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
 
       - name: Show Node and npm versions
         run: node -v && npm -v
