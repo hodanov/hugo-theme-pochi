@@ -21,6 +21,12 @@ jobs:
           node-version: 20
           cache: npm
 
+      - name: Upgrade npm to v11
+        run: npm i -g npm@11
+
+      - name: Show Node and npm versions
+        run: node -v && npm -v
+
       - uses: peaceiris/actions-hugo@v3
         with:
           hugo-version: "0.154.1"
