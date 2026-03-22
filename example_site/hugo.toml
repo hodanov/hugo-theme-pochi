@@ -8,6 +8,9 @@ defaultContentLanguageInSubdir = false
 description = "Pochi example site for theme E2E tests."
 keywords = ["pochi", "hugo", "theme", "example"]
 
+[params.likeApi]
+baseUrl = "http://localhost:9999"
+
 [params.comment]
 enable = true
 provider = "disqus"
