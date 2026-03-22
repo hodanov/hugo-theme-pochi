@@ -28,5 +28,17 @@
         {{ end }}
       </div>
     </div>
+    {{/* Mobile floating action bar (hidden on desktop) */}}
+    <div id="action-bar-mobile">
+      {{ partial "molecules/like_button.html" . }}
+      {{ partial "molecules/share_button.html" . }}
+      <a
+        href="#top"
+        class="scroll-top-btn"
+        aria-label="{{ T "scroll_to_top" }}"
+      >
+        {{ partial "atoms/icon.html" (dict "id" "icon-chevron-up") }}
+      </a>
+    </div>
   </main>
 {{ end }}
