@@ -1,16 +1,20 @@
 (function () {
-  function $(sel, root) {
-    return (root || document).querySelector(sel);
+  function $$(sel, root) {
+    return Array.from((root || document).querySelectorAll(sel));
   }
 
-  function getElements() {
-    const btn = $("[data-like-button]");
-    if (!btn) return null;
-    const countEl = $("[data-like-count]");
-    const slug = btn.getAttribute("data-like-slug");
-    const apiBase = btn.getAttribute("data-like-api");
+  function getElementGroups() {
+    const btns = $$("[data-like-button]");
+    if (btns.length === 0) return null;
+    const slug = btns[0].getAttribute("data-like-slug");
+    const apiBase = btns[0].getAttribute("data-like-api");
     if (!slug || !apiBase) return null;
-    return { btn, countEl, slug, apiBase };
+    const groups = btns.map(function (btn) {
+      const root = btn.closest("[data-like-root]") || btn.parentElement;
+      const countEl = root ? root.querySelector("[data-like-count]") : null;
+      return { btn, countEl };
+    });
+    return { groups, slug, apiBase };
   }
 
   function isLiked(slug) {
@@ -27,13 +31,15 @@
     } catch (_) {}
   }
 
-  function updateUI(btn, countEl, count, liked) {
-    if (countEl && typeof count === "number") {
-      countEl.textContent = String(count);
-    }
-    if (btn) {
-      btn.setAttribute("aria-pressed", String(liked));
-    }
+  function updateAllUI(groups, count, liked) {
+    groups.forEach(function (g) {
+      if (g.countEl && typeof count === "number") {
+        g.countEl.textContent = String(count);
+      }
+      if (g.btn) {
+        g.btn.setAttribute("aria-pressed", String(liked));
+      }
+    });
   }
 
   async function fetchCount(apiBase, slug) {
@@ -62,46 +68,50 @@
   }
 
   function init() {
-    const els = getElements();
-    if (!els) return;
-    const { btn, countEl, slug, apiBase } = els;
+    const result = getElementGroups();
+    if (!result) return;
+    const { groups, slug, apiBase } = result;
 
     // Restore liked state from localStorage
     const liked = isLiked(slug);
     if (liked) {
-      btn.setAttribute("aria-pressed", "true");
+      groups.forEach(function (g) {
+        g.btn.setAttribute("aria-pressed", "true");
+      });
     }
 
     // Fetch current count
     fetchCount(apiBase, slug).then(function (count) {
       if (count !== null) {
-        updateUI(btn, countEl, count, isLiked(slug));
+        updateAllUI(groups, count, isLiked(slug));
       }
     });
 
-    // Click handler
-    btn.addEventListener("click", async function () {
-      if (isLiked(slug)) return;
+    // Click handler on each button
+    groups.forEach(function (g) {
+      g.btn.addEventListener("click", async function () {
+        if (isLiked(slug)) return;
 
-      // Optimistic update
-      const currentText = countEl ? countEl.textContent : "0";
-      const currentCount = parseInt(currentText, 10) || 0;
-      const optimisticCount = currentCount + 1;
-      updateUI(btn, countEl, optimisticCount, true);
-      markLiked(slug);
+        // Optimistic update
+        const currentText = g.countEl ? g.countEl.textContent : "0";
+        const currentCount = parseInt(currentText, 10) || 0;
+        const optimisticCount = currentCount + 1;
+        updateAllUI(groups, optimisticCount, true);
+        markLiked(slug);
 
-      try {
-        const serverCount = await postLike(apiBase, slug);
-        if (serverCount !== null) {
-          updateUI(btn, countEl, serverCount, true);
-        }
-      } catch (_) {
-        // Rollback on error
-        updateUI(btn, countEl, currentCount, false);
         try {
-          localStorage.removeItem("liked:" + slug);
-        } catch (_e) {}
-      }
+          const serverCount = await postLike(apiBase, slug);
+          if (serverCount !== null) {
+            updateAllUI(groups, serverCount, true);
+          }
+        } catch (_) {
+          // Rollback on error
+          updateAllUI(groups, currentCount, false);
+          try {
+            localStorage.removeItem("liked:" + slug);
+          } catch (_e) {}
+        }
+      });
     });
   }
 

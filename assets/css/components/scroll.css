@@ -22,3 +22,9 @@
   opacity: 1;
   bottom: 5rem;
 }
+
+@media (max-width: 767px) {
+  #scroll-to-top {
+    display: none;
+  }
+}

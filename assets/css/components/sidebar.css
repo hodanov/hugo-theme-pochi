@@ -105,6 +105,115 @@
   }
 }
 
+/* Mobile floating action bar */
+#action-bar-mobile {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  #action-bar-mobile {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 0.5rem 1rem;
+    background: var(--pochi-bg);
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.08);
+    z-index: 100;
+  }
+
+  .main-content {
+    padding-bottom: 3.5rem;
+  }
+}
+
+#action-bar-mobile .like-sidebar,
+#action-bar-mobile .share-sidebar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#action-bar-mobile .like-btn,
+#action-bar-mobile .share-btn {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  border: 0;
+  background: transparent;
+  color: var(--pochi-text-muted);
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  position: relative;
+}
+
+#action-bar-mobile .like-btn .icon,
+#action-bar-mobile .share-btn .icon {
+  width: 20px;
+  height: 20px;
+}
+
+#action-bar-mobile .like-btn .like-count {
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+
+#action-bar-mobile .like-btn:hover,
+#action-bar-mobile .like-btn[aria-pressed="true"] {
+  color: var(--pochi-accent);
+}
+
+#action-bar-mobile .share-btn:hover,
+#action-bar-mobile .share-btn[aria-pressed="true"] {
+  color: var(--pochi-accent);
+}
+
+#action-bar-mobile .share-btn[aria-pressed="true"]::after {
+  content: "URLをコピーしました";
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translate(-50%, -0.35rem);
+  background: var(--pochi-accent);
+  color: var(--pochi-on-accent);
+  padding: 0.15rem 0.4rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  border-radius: 0.25rem;
+  white-space: nowrap;
+  box-shadow: var(--pochi-shadow-2);
+  pointer-events: none;
+  z-index: 10;
+}
+
+#action-bar-mobile .scroll-top-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 0;
+  background: transparent;
+  color: var(--pochi-text-muted);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+#action-bar-mobile .scroll-top-btn .icon {
+  width: 20px;
+  height: 20px;
+}
+
+#action-bar-mobile .scroll-top-btn:hover {
+  color: var(--pochi-accent);
+}
+
 /* Like button (left sidebar) */
 #sidebar-left .like-sidebar {
   display: flex;
