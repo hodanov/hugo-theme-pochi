@@ -1,12 +1,12 @@
 const { test, expect } = require("./fixtures");
 
 test.describe("F-08 TOC scroll", () => {
-  test("toc link scrolls to heading and updates active state", async ({ page }) => {
+  test("toc link scrolls to heading and updates active state", async ({
+    page,
+  }) => {
     await page.goto("/posts/p-03-with-toc/");
 
-    const tocLink = page
-      .locator("#sidebar-right .table-of-contents a")
-      .nth(2);
+    const tocLink = page.locator("#sidebar-right .table-of-contents a").nth(2);
     await expect(tocLink).toBeVisible();
 
     const href = await tocLink.getAttribute("href");

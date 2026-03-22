@@ -13,9 +13,10 @@ function smoothScroll() {
 
   function handleLinkClick(event) {
     // Accept clicks on child elements inside <a> as well
-    const anchor = event.target && event.target.closest
-      ? event.target.closest('a[href*="#"]')
-      : event.target;
+    const anchor =
+      event.target && event.target.closest
+        ? event.target.closest('a[href*="#"]')
+        : event.target;
     if (!anchor || !anchor.getAttribute) return;
     const href = anchor.getAttribute("href");
     if (!href || href.charAt(0) !== "#") return;
@@ -36,9 +37,10 @@ function smoothScroll() {
   // Add a single click event listener on the parent, and delegate events to children
   document.addEventListener("click", (event) => {
     // Delegate to the nearest anchor so clicks on child elements also work
-    const anchor = event.target && event.target.closest
-      ? event.target.closest('a[href*="#"]')
-      : null;
+    const anchor =
+      event.target && event.target.closest
+        ? event.target.closest('a[href*="#"]')
+        : null;
     if (anchor) handleLinkClick(event);
   });
 

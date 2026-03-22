@@ -9,9 +9,7 @@ const matchesAllowList = (patterns, text) =>
 const formatConsoleError = (msg) => {
   const loc = msg.location();
   const suffix =
-    loc && loc.url
-      ? ` (${loc.url}:${loc.lineNumber}:${loc.columnNumber})`
-      : "";
+    loc && loc.url ? ` (${loc.url}:${loc.lineNumber}:${loc.columnNumber})` : "";
   return `${msg.text()}${suffix}`;
 };
 

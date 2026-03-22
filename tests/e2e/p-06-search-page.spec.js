@@ -9,7 +9,8 @@ test.describe("P-06 Search page", () => {
     await page.fill("#search-query", query);
     await Promise.all([
       page.waitForURL(
-        (url) => url.pathname === "/search/" && url.searchParams.get("q") === query,
+        (url) =>
+          url.pathname === "/search/" && url.searchParams.get("q") === query,
       ),
       page.click("#searchsubmit"),
     ]);
@@ -31,13 +32,16 @@ test.describe("P-06 Search page", () => {
     await page.fill("#search-query", query);
     await Promise.all([
       page.waitForURL(
-        (url) => url.pathname === "/search/" && url.searchParams.get("q") === query,
+        (url) =>
+          url.pathname === "/search/" && url.searchParams.get("q") === query,
       ),
       page.click("#searchsubmit"),
     ]);
 
     const empty = page.locator(".search-results-empty");
     await expect(empty).toHaveCount(1);
-    await expect(empty).toContainText(/一致する結果はありません|No matches found/);
+    await expect(empty).toContainText(
+      /一致する結果はありません|No matches found/,
+    );
   });
 });
