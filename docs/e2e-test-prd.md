@@ -123,7 +123,7 @@
 | F-07 | アーカイブ開閉   | 年/ 月トグルを開閉                         | `aria-expanded` / `is-collapsed` 変化                 | `archives-toggle.js`         |
 | F-08 | TOC + スクロール | TOCリンククリック                          | URLハッシュ変更、対象見出しへ移動                     | TOC付き記事                  |
 | F-09 | 共有ボタン       | 共有ボタンをクリック                       | `aria-pressed` 変化 / メッセージ表示                  | クリップボード許可           |
-| F-10 | いいねボタン     | いいねボタンをクリック                     | コメント領域へスクロール                              | giscus iframeは不要          |
+| F-10 | いいねボタン     | いいねボタンをクリック                     | カウントがインクリメントされliked状態に遷移           | giscus iframeは不要          |
 | F-11 | 言語切替         | 言語セレクト変更                           | `/en/` へ遷移                                         | 多言語記事必要               |
 | F-12 | PJAX遷移         | 内部リンクで遷移                           | `.main-content` 更新後もテーマ切替が動く              | `navigation.js`              |
 | F-13 | Feature画像      | 一覧と記事詳細で画像を表示                 | `.post-image-col img` / `.featured-image-wrapper img` | featuredImage 付き記事が必要 |
