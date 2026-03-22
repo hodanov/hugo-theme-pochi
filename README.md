@@ -16,6 +16,50 @@
   - Run `npm i` then `npm run vendor:sync`.
   - Verify with `npm run vendor:verify`.
 
+## Like Button
+
+The left sidebar on single post pages includes a like button (`#icon-heart`). It works with an external counter API, independent of giscus comments.
+
+### How it works
+
+- On page load, the button fetches the current count via `GET <apiBase>/like?slug=<slug>`.
+- On click, it sends `POST <apiBase>/like?slug=<slug>` and increments the count.
+- Duplicate likes are prevented client-side with `localStorage` (`liked:<slug>`).
+- The button reads `data-like-api` and `data-like-slug` attributes from the template.
+
+### Site configuration
+
+Add the API base URL to your Hugo `params`:
+
+```yaml
+# params.yaml
+likeApi:
+  baseUrl: "https://like.example.com"
+```
+
+### Counter API (Cloudflare Worker)
+
+A reference implementation lives in `workers/like-counter/` at the site repository level (not inside the theme).
+
+Setup:
+
+```bash
+cd workers/like-counter
+npm install
+npx wrangler login
+npx wrangler kv namespace create LIKES            # production
+npx wrangler kv namespace create LIKES --preview   # local dev
+```
+
+Paste the returned IDs into `wrangler.toml`, then:
+
+```bash
+npx wrangler dev --env preview   # local dev at localhost:8787
+npx wrangler deploy              # deploy to Cloudflare
+```
+
+Set `ALLOWED_ORIGIN` in `wrangler.toml` to match your blog domain for CORS protection.
+
 ## Template Contract
 
 - Each page template must render exactly one `.main-content` wrapper. PJAX navigation relies on swapping this node.

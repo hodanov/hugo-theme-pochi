@@ -9,10 +9,7 @@ test.describe("F-01 Global navigation", () => {
     const aboutLink = page.locator('#menu-global-nav a[href="/page/about/"]');
     await expect(aboutLink).toBeVisible();
 
-    await Promise.all([
-      page.waitForURL("**/page/about/"),
-      aboutLink.click(),
-    ]);
+    await Promise.all([page.waitForURL("**/page/about/"), aboutLink.click()]);
 
     await expect(page.locator("h1")).toContainText("About");
   });

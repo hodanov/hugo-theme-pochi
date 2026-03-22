@@ -1,113 +1,112 @@
 (function () {
-  const GISCUS_ORIGIN = "https://giscus.app";
-
   function $(sel, root) {
     return (root || document).querySelector(sel);
   }
 
-  function extractHeartCount(meta) {
-    try {
-      const r =
-        meta && (meta.reactions || meta.reactionGroups || meta.reaction);
-      if (!r) return null;
-      if (typeof r.HEART === "number") return r.HEART;
-      if (Array.isArray(r)) {
-        const found = r.find(
-          (x) => x && (x.content === "HEART" || x.emoji === "HEART"),
-        );
-        if (found && typeof found.count === "number") return found.count;
-      }
-      if (r.nodes && Array.isArray(r.nodes)) {
-        const n = r.nodes.find((x) => x && x.content === "HEART");
-        if (n && typeof n.users?.totalCount === "number")
-          return n.users.totalCount;
-      }
-      if (r.heart || r.hearts) return Number(r.heart || r.hearts) || null;
-    } catch (_) {}
-    return null;
-  }
-
-  function extractViewerHeart(meta) {
-    try {
-      if (typeof meta.viewerHasReacted === "boolean")
-        return meta.viewerHasReacted;
-      if (meta.viewer && typeof meta.viewer.hearted === "boolean")
-        return meta.viewer.hearted;
-      if (Array.isArray(meta.reactionGroups)) {
-        const g = meta.reactionGroups.find((g) => g && g.content === "HEART");
-        if (g && typeof g.viewerHasReacted === "boolean")
-          return g.viewerHasReacted;
-      }
-    } catch (_) {}
-    return null;
-  }
-
-  function updateUI(state) {
-    try {
-      const btn = $("[data-like-button]");
-      const countEl = $("[data-like-count]");
-      if (!btn || !countEl) return;
-      if (typeof state.count === "number")
-        countEl.textContent = String(state.count);
-      if (typeof state.viewer === "boolean")
-        btn.setAttribute("aria-pressed", String(state.viewer));
-    } catch (_) {}
-  }
-
-  function findGiscusFrame(retries = 30) {
-    return new Promise((resolve) => {
-      function tick(left) {
-        const frame = document.querySelector("iframe.giscus-frame");
-        if (frame) return resolve(frame);
-        if (left <= 0) return resolve(null);
-        setTimeout(() => tick(left - 1), 100);
-      }
-      tick(retries);
-    });
-  }
-
-  function initListeners() {
-    // Metadata from giscus
-    window.addEventListener("message", function onMessage(e) {
-      try {
-        if (e.origin !== GISCUS_ORIGIN) return;
-        const payload = e.data && (e.data.giscus || e.data);
-        if (!payload) return;
-        // Expect payload.discussion for metadata events
-        const meta = payload.discussion || payload.meta || null;
-        if (!meta) return;
-        const count = extractHeartCount(meta);
-        const viewer = extractViewerHeart(meta);
-        updateUI({ count, viewer });
-      } catch (_) {}
-    });
-
-    // Button scroll to giscus
+  function getElements() {
     const btn = $("[data-like-button]");
-    if (btn) {
-      btn.addEventListener("click", async () => {
-        // Find giscus container or iframe and scroll into view
-        const container = document.querySelector(".comments");
-        if (container) {
-          try {
-            container.scrollIntoView({ behavior: "smooth", block: "start" });
-          } catch (_) {}
-          return;
-        }
-        const frame =
-          document.querySelector("iframe.giscus-frame") ||
-          (await findGiscusFrame());
-        if (frame) {
-          try {
-            frame.scrollIntoView({ behavior: "smooth", block: "start" });
-          } catch (_) {}
-        }
-      });
+    if (!btn) return null;
+    const countEl = $("[data-like-count]");
+    const slug = btn.getAttribute("data-like-slug");
+    const apiBase = btn.getAttribute("data-like-api");
+    if (!slug || !apiBase) return null;
+    return { btn, countEl, slug, apiBase };
+  }
+
+  function isLiked(slug) {
+    try {
+      return localStorage.getItem("liked:" + slug) === "1";
+    } catch (_) {
+      return false;
     }
   }
 
+  function markLiked(slug) {
+    try {
+      localStorage.setItem("liked:" + slug, "1");
+    } catch (_) {}
+  }
+
+  function updateUI(btn, countEl, count, liked) {
+    if (countEl && typeof count === "number") {
+      countEl.textContent = String(count);
+    }
+    if (btn) {
+      btn.setAttribute("aria-pressed", String(liked));
+    }
+  }
+
+  async function fetchCount(apiBase, slug) {
+    try {
+      const res = await fetch(
+        apiBase + "/like?slug=" + encodeURIComponent(slug),
+      );
+      if (!res.ok) return null;
+      const data = await res.json();
+      return typeof data.count === "number" ? data.count : null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  async function postLike(apiBase, slug) {
+    const res = await fetch(
+      apiBase + "/like?slug=" + encodeURIComponent(slug),
+      {
+        method: "POST",
+      },
+    );
+    if (!res.ok) throw new Error("POST failed: " + res.status);
+    const data = await res.json();
+    return typeof data.count === "number" ? data.count : null;
+  }
+
+  function init() {
+    const els = getElements();
+    if (!els) return;
+    const { btn, countEl, slug, apiBase } = els;
+
+    // Restore liked state from localStorage
+    const liked = isLiked(slug);
+    if (liked) {
+      btn.setAttribute("aria-pressed", "true");
+    }
+
+    // Fetch current count
+    fetchCount(apiBase, slug).then(function (count) {
+      if (count !== null) {
+        updateUI(btn, countEl, count, isLiked(slug));
+      }
+    });
+
+    // Click handler
+    btn.addEventListener("click", async function () {
+      if (isLiked(slug)) return;
+
+      // Optimistic update
+      const currentText = countEl ? countEl.textContent : "0";
+      const currentCount = parseInt(currentText, 10) || 0;
+      const optimisticCount = currentCount + 1;
+      updateUI(btn, countEl, optimisticCount, true);
+      markLiked(slug);
+
+      try {
+        const serverCount = await postLike(apiBase, slug);
+        if (serverCount !== null) {
+          updateUI(btn, countEl, serverCount, true);
+        }
+      } catch (_) {
+        // Rollback on error
+        updateUI(btn, countEl, currentCount, false);
+        try {
+          localStorage.removeItem("liked:" + slug);
+        } catch (_e) {}
+      }
+    });
+  }
+
   function boot() {
-    initListeners();
+    init();
   }
 
   if (document.readyState === "loading") {

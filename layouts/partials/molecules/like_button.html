@@ -1,3 +1,5 @@
+{{ $slug := .Params.slug | default .File.TranslationBaseName | default .Title }}
+{{ $apiBase := .Site.Params.likeApi.baseUrl | default "" }}
 <div class="like-sidebar" data-like-root>
   <button
     class="like-btn"
@@ -5,6 +7,8 @@
     aria-pressed="false"
     title="いいね"
     data-like-button
+    data-like-slug="{{ $slug }}"
+    data-like-api="{{ $apiBase }}"
   >
     {{ partial "atoms/icon.html" (dict "id" "icon-heart") }}
     <span class="like-count" aria-live="polite" data-like-count>–</span>

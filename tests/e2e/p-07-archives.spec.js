@@ -1,7 +1,9 @@
 const { test, expect } = require("./fixtures");
 
 test.describe("P-07 Archives page", () => {
-  test("archives page shows years and toggles month cards", async ({ page }) => {
+  test("archives page shows years and toggles month cards", async ({
+    page,
+  }) => {
     await page.goto("/archives/");
 
     await expect(page.locator(".main-content")).toBeVisible();

@@ -4,7 +4,9 @@ test.describe("F-07 Archives toggle", () => {
   test("toggles archive year list in sidebar", async ({ page }) => {
     await page.goto("/");
 
-    const yearToggle = page.locator("#sidebar-left .archives-year-toggle").first();
+    const yearToggle = page
+      .locator("#sidebar-left .archives-year-toggle")
+      .first();
     await expect(yearToggle).toBeVisible();
 
     const year = await yearToggle.getAttribute("data-year");

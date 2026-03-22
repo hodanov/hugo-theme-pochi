@@ -20,9 +20,7 @@ test.describe("F-12 PJAX navigation", () => {
     await expect(firstPost).toBeVisible();
 
     const targetHref = await firstPost.getAttribute("href");
-    const targetTitle = await firstPost
-      .locator(".post-title h2")
-      .innerText();
+    const targetTitle = await firstPost.locator(".post-title h2").innerText();
     const targetPath = new URL(targetHref, page.url()).pathname;
 
     // Click an internal link to trigger PJAX navigation.
@@ -30,7 +28,10 @@ test.describe("F-12 PJAX navigation", () => {
 
     // Wait for PJAX swap + history update to the target path.
     await page.waitForFunction(() => window.__pochiSwapDone === true);
-    await page.waitForFunction((path) => location.pathname === path, targetPath);
+    await page.waitForFunction(
+      (path) => location.pathname === path,
+      targetPath,
+    );
 
     // Confirm main content was replaced.
     await expect(page.locator("h1")).toHaveText(targetTitle);

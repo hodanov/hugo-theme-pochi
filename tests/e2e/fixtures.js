@@ -9,9 +9,7 @@ const matchesAllowList = (patterns, text) =>
 const formatConsoleError = (msg) => {
   const loc = msg.location();
   const suffix =
-    loc && loc.url
-      ? ` (${loc.url}:${loc.lineNumber}:${loc.columnNumber})`
-      : "";
+    loc && loc.url ? ` (${loc.url}:${loc.lineNumber}:${loc.columnNumber})` : "";
   return `${msg.text()}${suffix}`;
 };
 
@@ -32,6 +30,26 @@ const test = base.test.extend({
       const text = msg.text();
       if (matchesAllowList(ALLOWED_CONSOLE_ERRORS, text)) return;
       consoleErrors.push(msg);
+    });
+
+    // Mock like-counter API so tests don't hit a real Worker
+    await page.route("**/like?slug=*", (route) => {
+      const method = route.request().method();
+      if (method === "GET") {
+        return route.fulfill({
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({ slug: "", count: 0 }),
+        });
+      }
+      if (method === "POST") {
+        return route.fulfill({
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({ slug: "", count: 1 }),
+        });
+      }
+      return route.continue();
     });
 
     await use(page);
