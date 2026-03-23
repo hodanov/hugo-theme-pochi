@@ -1,0 +1,62 @@
+name: CI
+permissions:
+  contents: read
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 25
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run lint
+        run: npm run lint
+
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: "0.154.1"
+          extended: true
+
+      - name: Build example site
+        run: |
+          THEME_NAME=$(basename "$GITHUB_WORKSPACE")
+          THEMES_DIR=$(dirname "$GITHUB_WORKSPACE")
+          hugo --gc -s example_site --themesDir "$THEMES_DIR" -t "$THEME_NAME"
+
+  vendor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 25
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Verify vendor integrity
+        run: npm run vendor:verify
