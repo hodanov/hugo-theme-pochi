@@ -92,6 +92,7 @@ strong {
   border: none;
   background: none;
   padding: 0 1rem;
+  color: var(--pochi-text);
 }
 
 /* moved to components/_icons.scss */
@@ -313,7 +314,7 @@ table {
 
 blockquote {
   border-left: 5px solid var(--pochi-accent);
-  background-color: var(--pochi-bg);
+  background-color: var(--pochi-blockquote-bg);
   padding: 2rem;
   margin: 3rem 0;
   font-style: italic;
@@ -428,25 +429,6 @@ article .featured-image-wrapper {
 
 /* moved to components/_scroll.scss */
 
-/*----- Vendor prefix  */
-/* for Edge */
-@supports (-ms-ime-align: auto) {
-  #sidebar aside:last-child {
-    position: inherit;
-  }
-}
-
-/* for IE11 */
-@media all and (-ms-high-contrast: none) {
-  .hero {
-    justify-content: inherit;
-  }
-
-  #sidebar aside:last-child {
-    position: inherit;
-  }
-}
-
 /* google adsense */
 .adsense {
   overflow: hidden;
@@ -455,76 +437,6 @@ article .featured-image-wrapper {
 /* moved to components/_forms.scss */
 
 /* dark mode */
-.dark article,
-.dark .comments,
-.dark .mymenu-related-list,
-.dark .dropdown-list,
-.dark .article-list .post-row,
-.dark nav.site-nav,
-.dark footer.footer-section,
-.dark .form-control,
-.dark .btn-primary,
-.dark .btn-secondary,
-.dark .table-of-contents p span,
-.dark #sidebar .tagcloud a,
-.dark #sidebar .table-of-contents,
-.dark #search-for:focus,
-.dark .pagination-index .pagination .page-item .page-link {
-  background-color: var(--pochi-card);
-  color: var(--pochi-text);
-}
-
-.dark #logo-container,
-.dark .logo,
-.dark .article-list a h2,
-.dark .mymenu-related a .text,
-.dark .article-list .post-info,
-.dark .mymenu-related .post-info,
-.dark .article-list .post-excerpt,
-.dark article .kiji-tag li a,
-.dark nav.site-nav ul a,
-.dark nav.site-nav,
-.dark #side-nav ul a,
-.dark #theme-toggle-switch,
-.dark #sidebar a,
-.dark .table-of-contents ol li a,
-.dark footer p.copyright,
-.dark footer .copyright a {
-  color: var(--pochi-text);
-}
-
-.dark #breadcrumbs li,
-.dark #breadcrumbs li a {
-  color: var(--pochi-text-muted);
-}
-
-.dark .btn-primary:hover,
-.dark .btn-secondary:hover,
-.dark .pagination-index .pagination .page-item .page-link:hover,
-.dark #sidebar .tagcloud a:hover {
-  background-color: var(--pochi-accent);
-  color: var(--pochi-on-accent);
-}
-
-.dark .article-list a:hover h2,
-.dark .mymenu-related a:hover .text {
-  color: var(--pochi-accent);
-}
-
-.dark #side-nav,
-.dark .main-content,
-.dark #breadcrumbs,
-.dark #sidebar h2 span,
-.dark footer h2 span,
-.dark .pagination-index .pagination .page-item.active .page-link {
-  background-color: var(--pochi-surface-soft);
-}
-
-.dark pre,
-.dark blockquote {
-  background-color: var(--pochi-blockquote-bg);
-}
-
 .dark .table-of-contents p:before,
 .dark #sidebar h2:before,
 .dark footer h2:before {
