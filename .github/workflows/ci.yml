@@ -39,7 +39,10 @@ jobs:
           extended: true
 
       - name: Build example site
-        run: hugo --gc -s example_site --themesDir ../.. -t pochi
+        run: |
+          THEME_NAME=$(basename "$GITHUB_WORKSPACE")
+          THEMES_DIR=$(dirname "$GITHUB_WORKSPACE")
+          hugo --gc -s example_site --themesDir "$THEMES_DIR" -t "$THEME_NAME"
 
   vendor:
     runs-on: ubuntu-latest
