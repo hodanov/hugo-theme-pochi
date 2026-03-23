@@ -245,10 +245,6 @@
 #sidebar-left .like-btn[aria-pressed="true"] {
   color: var(--pochi-accent);
 }
-.dark #sidebar-left .like-btn[aria-pressed="true"] {
-  color: var(--pochi-accent);
-}
-
 /* Share button (left sidebar) */
 #sidebar-left .share-sidebar {
   display: flex;
@@ -298,10 +294,6 @@
 }
 
 /* Dark theme adjustments to match right sidebar heading */
-.dark #sidebar-left h2 span,
-.dark #sidebar-right h2 span {
-  background-color: var(--pochi-surface-soft);
-}
 .dark #sidebar-left h2:before,
 .dark #sidebar-right h2:before {
   background-image: linear-gradient(

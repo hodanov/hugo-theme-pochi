@@ -30,6 +30,7 @@
   --pochi-code-fg: #fafafa;
   --pochi-inline-code-bg: #f8f9fa;
   --pochi-inline-code-border: #aaaaaa;
+  --pochi-inline-code-color: var(--pochi-text);
 
   /* Typography */
   --pochi-font-base:
@@ -78,4 +79,9 @@
   --pochi-required: #ed929f;
   --pochi-hover: rgba(255, 255, 255, 0.06);
   --pochi-scrim: rgba(0, 0, 0, 0.7);
+
+  /* Inline code */
+  --pochi-inline-code-bg: var(--pochi-code-bg);
+  --pochi-inline-code-border: transparent;
+  --pochi-inline-code-color: var(--pochi-code-fg);
 }

@@ -23,6 +23,8 @@
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
+  color: var(--pochi-text);
+  background-color: var(--pochi-card);
   background-clip: padding-box;
   border: 1px solid var(--pochi-border);
   -webkit-appearance: none;
