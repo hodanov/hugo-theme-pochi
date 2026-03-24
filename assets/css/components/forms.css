@@ -42,6 +42,11 @@ textarea:focus,
 input:focus {
   outline: none;
 }
+textarea:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--pochi-link);
+  outline-offset: -2px;
+}
 
 /* input */
 input.form-control {

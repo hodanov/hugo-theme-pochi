@@ -64,7 +64,7 @@
 
 .table-of-contents ol li a:hover,
 .table-of-contents ul li a:hover {
-  color: var(--pochi-accent);
+  color: var(--pochi-link);
 }
 
 .table-of-contents ol li a:after,

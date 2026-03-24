@@ -425,12 +425,85 @@ const onReady = (callback) => {
     });
 };
 
+function initDropdownKeyboard() {
+  const dropdowns = document.querySelectorAll("nav.site-nav .dropdown");
+  if (!dropdowns.length) return;
+
+  dropdowns.forEach((dropdown) => {
+    const trigger = dropdown.querySelector("a[aria-haspopup]");
+    const menu = dropdown.querySelector(".dropdown-list");
+    if (!trigger || !menu) return;
+
+    const getItems = () =>
+      Array.from(menu.querySelectorAll('a[role="menuitem"]'));
+
+    const open = () => {
+      trigger.setAttribute("aria-expanded", "true");
+    };
+
+    const close = (returnFocus) => {
+      trigger.setAttribute("aria-expanded", "false");
+      if (returnFocus) trigger.focus();
+    };
+
+    trigger.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
+        open();
+        const items = getItems();
+        if (items.length) items[0].focus();
+      }
+    });
+
+    menu.addEventListener("keydown", (e) => {
+      const items = getItems();
+      const idx = items.indexOf(document.activeElement);
+
+      switch (e.key) {
+        case "ArrowDown":
+          e.preventDefault();
+          if (idx < items.length - 1) items[idx + 1].focus();
+          break;
+        case "ArrowUp":
+          e.preventDefault();
+          if (idx > 0) items[idx - 1].focus();
+          else close(true);
+          break;
+        case "Escape":
+          e.preventDefault();
+          close(true);
+          break;
+      }
+    });
+
+    // Sync aria-expanded on hover
+    dropdown.addEventListener("mouseenter", () => {
+      trigger.setAttribute("aria-expanded", "true");
+    });
+    dropdown.addEventListener("mouseleave", () => {
+      if (!dropdown.contains(document.activeElement)) {
+        trigger.setAttribute("aria-expanded", "false");
+      }
+    });
+
+    // Close when focus leaves the dropdown entirely
+    dropdown.addEventListener("focusout", (e) => {
+      requestAnimationFrame(() => {
+        if (!dropdown.contains(document.activeElement)) {
+          trigger.setAttribute("aria-expanded", "false");
+        }
+      });
+    });
+  });
+}
+
 onReady(() => {
   smoothScroll();
   toggleSideNav();
   toggleTheme();
   handleThemeChange();
   initSearch();
+  initDropdownKeyboard();
   // Ensure Giscus theme matches current mode on initial load
   try {
     if (typeof updateGiscusThemeWithRetry === "function") {
