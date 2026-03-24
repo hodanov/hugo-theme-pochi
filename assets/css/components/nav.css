@@ -15,7 +15,7 @@ nav.site-nav {
 .navbar-fixed {
   position: relative;
   z-index: 997;
-  height: 4rem;
+  height: var(--pochi-nav-height);
 }
 
 nav.site-nav .nav-wrapper {
@@ -44,8 +44,8 @@ nav.site-nav #menu-bar-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 4rem;
-  line-height: 4rem;
+  height: var(--pochi-nav-height);
+  line-height: var(--pochi-nav-height);
   cursor: pointer;
   color: inherit;
 }
@@ -67,8 +67,8 @@ nav.site-nav #lang-switcher-container {
 
 /* Language switcher container within the top nav */
 #lang-switcher-container {
-  height: 4rem;
-  line-height: 4rem;
+  height: var(--pochi-nav-height);
+  line-height: var(--pochi-nav-height);
   padding: 0 0.25rem;
 }
 /* Dropdown style for language switcher */
@@ -130,7 +130,7 @@ nav.site-nav .menu-global-nav-container {
 
 nav.site-nav ul {
   margin: 0;
-  line-height: 4rem;
+  line-height: var(--pochi-nav-height);
 }
 
 nav.site-nav ul li {
@@ -328,8 +328,8 @@ nav.site-nav .logo {
 
 nav.site-nav,
 nav.site-nav .nav-wrapper i {
-  height: 4rem;
-  line-height: 4rem;
+  height: var(--pochi-nav-height);
+  line-height: var(--pochi-nav-height);
 }
 
 nav.site-nav .dropdown-list {

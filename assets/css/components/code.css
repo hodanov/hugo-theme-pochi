@@ -2,8 +2,8 @@
 
 pre {
   border: 0;
-  margin: 3rem -3rem;
-  padding: 3rem;
+  margin: var(--pochi-card-padding) calc(var(--pochi-card-padding) * -1);
+  padding: var(--pochi-card-padding);
   line-height: 1.2;
   background-color: var(--pochi-code-bg);
   color: var(--pochi-code-fg);
@@ -34,14 +34,6 @@ th > code {
   background-color: var(--pochi-inline-code-bg);
   border: 1px solid var(--pochi-inline-code-border);
   border-radius: 0.25rem;
-}
-
-@media (max-width: 767px) {
-  pre {
-    border: 0;
-    margin: 1rem -1rem;
-    padding: 1rem;
-  }
 }
 
 .article-list .post-excerpt code {

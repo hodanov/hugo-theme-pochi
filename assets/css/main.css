@@ -206,7 +206,7 @@ article,
 .mymenu-related-list {
   background-color: var(--pochi-card);
   border-radius: 0.25rem;
-  padding: 3rem;
+  padding: var(--pochi-card-padding);
   margin-bottom: 3rem;
   word-break: break-word;
 }
@@ -257,8 +257,8 @@ article svg {
 }
 
 article h2 {
-  margin-right: -3rem;
-  padding-right: 3rem;
+  margin-right: calc(var(--pochi-card-padding) * -1);
+  padding-right: var(--pochi-card-padding);
   padding-left: 0.5rem;
   position: relative;
   border-bottom: 1px solid var(--pochi-accent);
@@ -310,19 +310,6 @@ blockquote {
 
 blockquote cite {
   font-size: 0.85rem;
-}
-
-@media (max-width: 767px) {
-  article,
-  .comments,
-  .mymenu-related-list {
-    padding: 1rem;
-  }
-
-  article h2 {
-    margin-right: -1rem;
-    padding-right: 1rem;
-  }
 }
 
 @media (min-width: 768px) {

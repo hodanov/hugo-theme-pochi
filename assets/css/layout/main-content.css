@@ -3,7 +3,10 @@
   background-color: var(--pochi-bg);
   position: relative;
   z-index: 2;
-  min-height: calc(100vh - 4rem - 4rem - 4rem);
+  min-height: calc(
+    100vh - var(--pochi-nav-height) - var(--pochi-breadcrumb-height) -
+      var(--pochi-footer-min-height)
+  );
 }
 
 .main-content.margin-top {

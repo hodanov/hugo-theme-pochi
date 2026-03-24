@@ -57,11 +57,23 @@
     0 3px 14px 2px color-mix(in srgb, var(--pochi-accent) 32%, transparent),
     0 5px 5px -3px color-mix(in srgb, var(--pochi-accent) 40%, transparent);
 
+  /* Layout */
+  --pochi-nav-height: 4rem;
+  --pochi-breadcrumb-height: 4rem;
+  --pochi-footer-min-height: 4rem;
+  --pochi-card-padding: 3rem;
+
   /* Decorative gradient helpers */
   --pochi-separator-transparent: rgba(0, 0, 0, 0);
   --pochi-separator-mid-light: rgba(0, 0, 0, 0.5);
   --pochi-separator-end-dark: rgba(255, 255, 255, 0);
   --pochi-separator-mid-dark: rgba(255, 255, 255, 0.75);
+}
+
+@media (max-width: 767px) {
+  :root {
+    --pochi-card-padding: 1rem;
+  }
 }
 
 :root.dark {
