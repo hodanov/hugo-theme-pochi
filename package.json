@@ -22,6 +22,7 @@
     "mark.js": "^8.11.1",
     "modern-normalize": "^3.0.1",
     "npm-check-updates": "^19.6.5",
+    "picomatch": "^4.0.4",
     "typescript": "^5.9.3"
   }
 }
