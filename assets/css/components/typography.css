@@ -62,6 +62,6 @@ article h3 {
 }
 
 a {
-  color: var(--pochi-accent);
+  color: var(--pochi-link);
   text-decoration: none;
 }

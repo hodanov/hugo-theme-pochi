@@ -36,7 +36,7 @@
 
 .article-list a:hover h2,
 .mymenu-related a:hover .text {
-  color: var(--pochi-accent);
+  color: var(--pochi-link);
 }
 
 .article-list .post-info,

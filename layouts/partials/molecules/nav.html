@@ -36,10 +36,19 @@
           {{ range .Site.Menus.main }}
             {{ if .HasChildren }}
               <li class="dropdown">
-                <a href="{{ .URL | relLangURL }}">{{ .Name }}</a>
-                <ul class="dropdown-list">
+                <a
+                  href="{{ .URL | relLangURL }}"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                  >{{ .Name }}</a
+                >
+                <ul class="dropdown-list" role="menu">
                   {{ range .Children }}
-                    <li><a href="{{ .URL | relLangURL }}">{{ .Name }}</a></li>
+                    <li role="none">
+                      <a role="menuitem" href="{{ .URL | relLangURL }}"
+                        >{{ .Name }}</a
+                      >
+                    </li>
                   {{ end }}
                 </ul>
               </li>

@@ -42,7 +42,7 @@
 #sidebar a:hover,
 #sidebar-left a:hover,
 #sidebar-right a:hover {
-  color: var(--pochi-accent);
+  color: var(--pochi-link);
 }
 
 #sidebar .profile-flex-box,
@@ -166,12 +166,12 @@
 
 #action-bar-mobile .like-btn:hover,
 #action-bar-mobile .like-btn[aria-pressed="true"] {
-  color: var(--pochi-accent);
+  color: var(--pochi-link);
 }
 
 #action-bar-mobile .share-btn:hover,
 #action-bar-mobile .share-btn[aria-pressed="true"] {
-  color: var(--pochi-accent);
+  color: var(--pochi-link);
 }
 
 #action-bar-mobile .share-btn[aria-pressed="true"]::after {
@@ -211,7 +211,7 @@
 }
 
 #action-bar-mobile .scroll-top-btn:hover {
-  color: var(--pochi-accent);
+  color: var(--pochi-link);
 }
 
 /* Like button (left sidebar) */
@@ -243,7 +243,7 @@
 }
 #sidebar-left .like-btn:hover,
 #sidebar-left .like-btn[aria-pressed="true"] {
-  color: var(--pochi-accent);
+  color: var(--pochi-link);
 }
 /* Share button (left sidebar) */
 #sidebar-left .share-sidebar {
@@ -271,7 +271,7 @@
 }
 #sidebar-left .share-btn:hover,
 #sidebar-left .share-btn[aria-pressed="true"] {
-  color: var(--pochi-accent);
+  color: var(--pochi-link);
 }
 
 /* Visual tooltip when copy completed */
@@ -338,7 +338,7 @@
   transform: translateY(-50%) rotate(90deg);
 }
 #sidebar-left .archives-year-toggle:hover {
-  color: var(--pochi-accent);
+  color: var(--pochi-link);
 }
 #sidebar-left .archives-months {
   margin-left: 1.1rem;
@@ -367,7 +367,7 @@
 #sidebar .table-of-contents a.is-active,
 #sidebar-left .table-of-contents a.is-active,
 #sidebar-right .table-of-contents a.is-active {
-  color: var(--pochi-accent);
+  color: var(--pochi-link);
   font-weight: 600;
 }
 

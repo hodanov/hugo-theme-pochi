@@ -55,7 +55,7 @@ nav.site-nav #menu-bar-btn:focus {
 }
 nav.site-nav #menu-bar-btn:focus-visible {
   outline: 2px solid var(--pochi-link);
-  outline-offset: 2px;
+  outline-offset: -2px;
 }
 
 nav.site-nav #theme-toggle-switch-container,
@@ -151,7 +151,7 @@ nav.site-nav ul > li:hover > a {
 }
 
 nav.site-nav .dropdown-list li a:hover {
-  color: var(--pochi-accent);
+  color: var(--pochi-link);
   background-color: inherit;
 }
 
@@ -208,7 +208,8 @@ nav.site-nav .dropdown-list li a {
   padding: 0 10px;
 }
 
-nav.site-nav .dropdown:hover .dropdown-list {
+nav.site-nav .dropdown:hover .dropdown-list,
+nav.site-nav .dropdown:focus-within .dropdown-list {
   visibility: visible;
   opacity: 1;
   top: 100%;

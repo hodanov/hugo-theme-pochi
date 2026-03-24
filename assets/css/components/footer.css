@@ -30,7 +30,7 @@ footer .copyright a {
 }
 
 footer .copyright a:hover {
-  color: var(--pochi-accent);
+  color: var(--pochi-link);
 }
 
 footer h2 {
