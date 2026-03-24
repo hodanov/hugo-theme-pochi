@@ -1,5 +1,5 @@
 {{ $tokens := resources.Get "css/tokens.css" }}
-{{ $reboot := resources.Get "scss/reboot.scss" | css.Sass }}
+{{ $normalize := resources.Get "css/vendor/modern-normalize.css" }}
 {{ $utilities := resources.Get "css/utilities.css" }}
 {{ $base := resources.Get "css/base.css" }}
 {{ $layoutMain := resources.Get "css/layout/main-content.css" }}
@@ -27,5 +27,5 @@
 
 {{ $main := resources.Get "css/main.css" }}
 
-{{ $bundledCss := slice $tokens $reboot $utilities $base $layoutMain $layoutGrid $cButtons $cNav $cSidebar $cTypography $cContent $cCode $cForms $cIcons $cSearch $cLists $cToc $cPagination $cFooter $cBreadcrumbs $cHero $cMedia $cArticleList $cScroll $cProfile $main | resources.Concat "css/bundled.css" | resources.Minify | fingerprint }}
+{{ $bundledCss := slice $tokens $normalize $utilities $base $layoutMain $layoutGrid $cButtons $cNav $cSidebar $cTypography $cContent $cCode $cForms $cIcons $cSearch $cLists $cToc $cPagination $cFooter $cBreadcrumbs $cHero $cMedia $cArticleList $cScroll $cProfile $main | resources.Concat "css/bundled.css" | resources.Minify | fingerprint }}
 <link rel="stylesheet" href="{{ $bundledCss.RelPermalink }}" />

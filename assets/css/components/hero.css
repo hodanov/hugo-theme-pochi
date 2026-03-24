@@ -1,9 +1,7 @@
 /* Parallax & Hero */
 .parallax-container {
   position: relative;
-  height: 61.8vh;
-  height: -webkit-calc(61.8 - 4rem);
-  height: calc(61.8 - 4rem);
+  height: calc(61.8vh - 4rem);
 }
 
 .hero {
@@ -16,9 +14,7 @@
 }
 
 .hero.featured-image-wrapper picture {
-  height: 61.8vh;
-  height: -webkit-calc(61.8 - 4rem);
-  height: calc(61.8 - 4rem);
+  height: calc(61.8vh - 4rem);
   padding-bottom: 0;
   filter: brightness(0.8);
 }
@@ -45,14 +41,10 @@
 
 @media only screen and (max-width: 1280px) {
   .parallax-container {
-    height: 40vh;
-    height: -webkit-calc(40vh - 4rem);
     height: calc(40vh - 4rem);
   }
 
   .hero.featured-image-wrapper picture {
-    height: 40vh;
-    height: -webkit-calc(40vh - 4rem);
     height: calc(40vh - 4rem);
   }
 

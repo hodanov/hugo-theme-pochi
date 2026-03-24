@@ -15,8 +15,9 @@
 }
 
 #search-label {
+  color: var(--pochi-text-muted);
   position: absolute;
   z-index: 1;
-  top: 0.25rem;
+  top: 0.5rem;
   left: 1rem;
 }

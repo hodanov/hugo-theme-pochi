@@ -3,6 +3,7 @@
   display: inline-block;
   width: 1em;
   height: 1em;
+  vertical-align: -0.125em;
   stroke-width: 0;
   stroke: currentColor;
   fill: currentColor;

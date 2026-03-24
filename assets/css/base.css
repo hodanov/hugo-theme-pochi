@@ -1,7 +1,16 @@
-/* Base layer (migrated from _base.scss) */
-html {
-  -webkit-overflow-scrolling: touch;
+/* Box model reset (not included in modern-normalize) */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
+
+/* Hidden attribute */
+[hidden] {
+  display: none !important;
+}
+
+/* Base layer (migrated from _base.scss) */
 body {
   font-family: var(--pochi-font-base);
 }
