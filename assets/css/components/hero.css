@@ -1,7 +1,7 @@
 /* Parallax & Hero */
 .parallax-container {
   position: relative;
-  height: calc(61.8vh - 4rem);
+  height: calc(61.8vh - var(--pochi-nav-height));
 }
 
 .hero {
@@ -14,7 +14,7 @@
 }
 
 .hero.featured-image-wrapper picture {
-  height: calc(61.8vh - 4rem);
+  height: calc(61.8vh - var(--pochi-nav-height));
   padding-bottom: 0;
   filter: brightness(0.8);
 }
@@ -36,26 +36,21 @@
 
 .hero-caption h1 {
   font-family: var(--pochi-font-heading);
-  font-size: 3rem;
+  font-size: clamp(1.5rem, 3.5vw, 3rem);
 }
 
 @media only screen and (max-width: 1280px) {
   .parallax-container {
-    height: calc(40vh - 4rem);
+    height: calc(40vh - var(--pochi-nav-height));
   }
 
   .hero.featured-image-wrapper picture {
-    height: calc(40vh - 4rem);
-  }
-
-  .hero-caption h1 {
-    font-size: 2rem;
+    height: calc(40vh - var(--pochi-nav-height));
   }
 }
 
 @media only screen and (max-width: 768px) {
   .hero-caption h1 {
-    font-size: 1.5rem;
     text-align: left;
     margin: 0;
   }

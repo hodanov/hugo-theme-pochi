@@ -8,7 +8,7 @@
   list-style: none;
   overflow: auto;
   white-space: nowrap;
-  min-height: 4rem;
+  min-height: var(--pochi-breadcrumb-height);
 }
 
 #breadcrumbs li,
