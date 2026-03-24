@@ -24,6 +24,8 @@
 
 .article-list .post-excerpt {
   color: var(--pochi-text-muted);
+  font-size: 0.9rem;
+  line-height: 1.75;
 }
 
 .article-list a h2,

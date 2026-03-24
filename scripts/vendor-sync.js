@@ -1,10 +1,11 @@
 #!/usr/bin/env node
 /*
-  Sync vendor libraries from node_modules to assets/js/vendor with stable names.
+  Sync vendor libraries from node_modules to assets/ with stable names.
   - Source of truth: package.json devDependencies
   - Copies:
-    fuse.js  -> assets/js/vendor/fuse.js
-    mark.js  -> assets/js/vendor/mark.js
+    fuse.js           -> assets/js/vendor/fuse.js
+    mark.js           -> assets/js/vendor/mark.js
+    modern-normalize  -> assets/css/vendor/modern-normalize.css
   - Writes/validates VENDOR.lock.json with sha256 and version metadata.
 */
 const fs = require("fs");
@@ -12,7 +13,8 @@ const path = require("path");
 const crypto = require("crypto");
 
 const projectRoot = path.resolve(__dirname, "..");
-const assetsVendorDir = path.join(projectRoot, "assets", "js", "vendor");
+const jsVendorDir = path.join(projectRoot, "assets", "js", "vendor");
+const cssVendorDir = path.join(projectRoot, "assets", "css", "vendor");
 const lockPath = path.join(projectRoot, "VENDOR.lock.json");
 
 const pkg = require(path.join(projectRoot, "package.json"));
@@ -28,7 +30,7 @@ const specs = [
       "dist",
       "fuse.min.js",
     ),
-    dest: path.join(assetsVendorDir, "fuse.js"),
+    dest: path.join(jsVendorDir, "fuse.js"),
     header: (v) =>
       `/* vendored: fuse.js ${v} | https://github.com/krisk/Fuse | MIT */\n`,
   },
@@ -42,8 +44,22 @@ const specs = [
       "dist",
       "mark.min.js",
     ),
-    dest: path.join(assetsVendorDir, "mark.js"),
+    dest: path.join(jsVendorDir, "mark.js"),
     header: (v) => `/* vendored: mark.js ${v} | https://markjs.io/ | MIT */\n`,
+  },
+  {
+    name: "modern-normalize",
+    version:
+      (pkg.devDependencies && pkg.devDependencies["modern-normalize"]) || "",
+    src: path.join(
+      projectRoot,
+      "node_modules",
+      "modern-normalize",
+      "modern-normalize.css",
+    ),
+    dest: path.join(cssVendorDir, "modern-normalize.css"),
+    header: (v) =>
+      `/* vendored: modern-normalize ${v} | https://github.com/sindresorhus/modern-normalize | MIT */\n`,
   },
 ];
 
@@ -75,7 +91,8 @@ function copyWithHeader(src, dest, header) {
 }
 
 function sync() {
-  ensureDir(assetsVendorDir);
+  ensureDir(jsVendorDir);
+  ensureDir(cssVendorDir);
   const lock = readLock();
   for (const s of specs) {
     if (!fs.existsSync(s.src)) {

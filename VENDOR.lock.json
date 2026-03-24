@@ -9,6 +9,11 @@
       "package": "mark.js",
       "version": "^8.11.1",
       "sha256": "8a8fec472681f08d562f2c4049dd1d5fc0ed68ee2678f5800a28a706e7295286"
+    },
+    "assets/css/vendor/modern-normalize.css": {
+      "package": "modern-normalize",
+      "version": "^3.0.1",
+      "sha256": "6a739e79c769acc6a4ee37f83afe99dae70e11788d85b33879abe4c9bf033681"
     }
   }
 }

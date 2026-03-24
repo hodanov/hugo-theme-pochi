@@ -141,7 +141,6 @@ nav.site-nav ul li {
 nav.site-nav ul li a {
   display: block;
   padding: 0 1rem;
-  -webkit-transition: all 0.2s ease-in-out 0s;
   transition: all 0.2s ease-in-out 0s;
 }
 
@@ -195,7 +194,6 @@ nav.site-nav .dropdown-list {
   background-color: var(--pochi-card);
   box-shadow: var(--pochi-shadow-dropdown);
   z-index: 1;
-  -webkit-transition: all 0.2s ease-in-out 0s;
   transition: all 0.2s ease-in-out 0s;
 }
 

@@ -8,8 +8,8 @@
     "build": "hugo --gc -s example_site --themesDir ../.. -t pochi",
     "vendor:sync": "node scripts/vendor-sync.js",
     "vendor:verify": "node scripts/vendor-sync.js --verify",
-    "vendor:update": "npm update fuse.js mark.js --save-dev && npm run vendor:sync",
-    "vendor:upgrade:major": "npx npm-check-updates -u --filter fuse.js,mark.js && npm i && npm run vendor:sync"
+    "vendor:update": "npm update fuse.js mark.js modern-normalize --save-dev && npm run vendor:sync",
+    "vendor:upgrade:major": "npx npm-check-updates -u --filter fuse.js,mark.js,modern-normalize && npm i && npm run vendor:sync"
   },
   "dependencies": {
     "@fsouza/prettierd": "^0.27.0",
@@ -20,7 +20,9 @@
     "@playwright/test": "^1.58.2",
     "fuse.js": "^7.1.0",
     "mark.js": "^8.11.1",
+    "modern-normalize": "^3.0.1",
     "npm-check-updates": "^19.6.5",
+    "picomatch": "^4.0.4",
     "typescript": "^5.9.3"
   }
 }

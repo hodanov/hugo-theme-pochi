@@ -37,17 +37,18 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v8
         with:
-          commit-message: "chore(vendor): upgrade Fuse/Mark to latest and sync vendor"
-          title: "chore(vendor): upgrade Fuse/Mark to latest"
+          commit-message: "chore(vendor): upgrade Fuse/Mark/modern-normalize to latest and sync vendor"
+          title: "chore(vendor): upgrade Fuse/Mark/modern-normalize to latest"
           body: |
-            This PR was created automatically to upgrade vendored search libraries to their latest versions and sync them into `assets/js/vendor/` via Hugo Pipes.
+            This PR was created automatically to upgrade vendored libraries to their latest versions and sync them into `assets/` via Hugo Pipes.
 
-            - Updated devDependencies (fuse.js, mark.js) using npm-check-updates
+            - Updated devDependencies (fuse.js, mark.js, modern-normalize) using npm-check-updates
             - Synced vendored files and updated VENDOR.lock.json
             - Verified hashes with `npm run vendor:verify`
 
             Review notes:
             - Fuse.js may introduce behavior changes across major versions. Please verify search quality and performance.
+            - modern-normalize updates may affect browser normalization. Please verify visual consistency.
           branch: chore/vendor-auto-update
           delete-branch: true
           labels: dependencies,vendor,automation
