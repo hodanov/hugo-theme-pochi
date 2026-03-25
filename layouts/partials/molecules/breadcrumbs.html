@@ -1,17 +1,19 @@
 {{ if .Site.Params.breadcrumbs.enable }}
   <div class="container-fluid">
-    <ul id="breadcrumbs">
-      {{ range .Ancestors.Reverse }}
-        {{ if .IsHome }}
-          <li><a href="{{ .RelPermalink }}">Home</a></li>
-        {{ else }}
-          <li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
+    <nav aria-label="{{ T "breadcrumb" }}">
+      <ol id="breadcrumbs">
+        {{ range .Ancestors.Reverse }}
+          {{ if .IsHome }}
+            <li><a href="{{ .RelPermalink }}">Home</a></li>
+          {{ else }}
+            <li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
+          {{ end }}
+          <li class="separator">
+            &nbsp;{{ .Site.Params.breadcrumbs.separator }}&nbsp;
+          </li>
         {{ end }}
-        <li class="separator">
-          &nbsp;{{ .Site.Params.breadcrumbs.separator }}&nbsp;
-        </li>
-      {{ end }}
-      <li class="breadcrumb-active">{{ .Title | strings.FirstUpper }}</li>
-    </ul>
+        <li class="breadcrumb-active">{{ .Title | strings.FirstUpper }}</li>
+      </ol>
+    </nav>
   </div>
 {{ end }}
