@@ -169,7 +169,7 @@
 }
 
 #action-bar-mobile .share-btn[aria-pressed="true"]::after {
-  content: "URLをコピーしました";
+  content: attr(data-feedback-copied);
   position: absolute;
   bottom: 100%;
   left: 50%;
@@ -270,7 +270,7 @@
 
 /* Visual tooltip when copy completed */
 #sidebar-left .share-btn[aria-pressed="true"]::after {
-  content: "URLをコピーしました";
+  content: attr(data-feedback-copied);
   position: absolute;
   top: 100%;
   left: 50%;

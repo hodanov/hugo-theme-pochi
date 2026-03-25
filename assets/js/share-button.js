@@ -72,7 +72,8 @@
           await navigator.share({ title, url });
         } else {
           await copyToClipboard(url);
-          if (live) live.textContent = "URLをコピーしました";
+          if (live)
+            live.textContent = btn.dataset.feedbackCopied || "URL copied";
           btn.setAttribute("aria-pressed", "true");
           setTimeout(() => {
             btn.setAttribute("aria-pressed", "false");
@@ -81,7 +82,7 @@
         }
       } catch (_) {
         if (live) {
-          live.textContent = "コピーに失敗しました";
+          live.textContent = btn.dataset.feedbackFailed || "Copy failed";
           setTimeout(() => (live.textContent = ""), 2000);
         }
       }

@@ -3,10 +3,12 @@
     class="share-btn"
     type="button"
     aria-pressed="false"
-    title="URLをコピー"
+    title="{{ T "copy_url" }}"
     data-share-button
     data-share-url="{{ .Permalink }}"
     data-share-title="{{ .Title }}"
+    data-feedback-copied="{{ T "url_copied" }}"
+    data-feedback-failed="{{ T "copy_failed" }}"
   >
     {{ partial "atoms/icon.html" (dict "id" "icon-share") }}
     <span
