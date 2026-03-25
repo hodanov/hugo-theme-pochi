@@ -1,0 +1,44 @@
+{{- if and .IsPage .Params.featuredImage -}}
+  {{- $res := .Resources.GetMatch .Params.featuredImage -}}
+  {{- $ext := lower (path.Ext .Params.featuredImage) -}}
+  {{- $skip := or (eq $ext ".svg") (eq $ext ".svgz") (eq $ext ".avif") (eq $ext ".webp") -}}
+  {{- if and $res (eq $res.MediaType.MainType "image") (not $skip) -}}
+    {{- $widths := slice 480 800 1200 1600 2000 2400 -}}
+    {{- $origW := $res.Width -}}
+    {{- $enableAvif := false -}}
+    {{- with site.Params.images }}
+      {{ if .enableAvif }}{{ $enableAvif = true }}{{ end }}
+    {{ end -}}
+    {{- $srcsetWEBP := slice -}}
+    {{- $srcsetAVIF := slice -}}
+    {{- range $w := $widths -}}
+      {{- if le $w $origW -}}
+        {{- $webp := $res.Resize (printf "%dx webp q75" $w) -}}
+        {{- $srcsetWEBP = $srcsetWEBP | append (printf "%s %dw" $webp.RelPermalink $w) -}}
+        {{- if $enableAvif -}}
+          {{- $avif := $res.Resize (printf "%dx avif q60" $w) -}}
+          {{- $srcsetAVIF = $srcsetAVIF | append (printf "%s %dw" $avif.RelPermalink $w) -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+    {{- if gt (len $srcsetWEBP) 0 -}}
+      <link
+        rel="preload"
+        as="image"
+        imagesrcset="{{ delimit $srcsetWEBP ", " }}"
+        imagesizes="(min-width: 1200px) 1200px, 100vw"
+        fetchpriority="high"
+      />
+    {{- end -}}
+    {{- if and $enableAvif (gt (len $srcsetAVIF) 0) -}}
+      <link
+        rel="preload"
+        as="image"
+        type="image/avif"
+        imagesrcset="{{ delimit $srcsetAVIF ", " }}"
+        imagesizes="(min-width: 1200px) 1200px, 100vw"
+        fetchpriority="high"
+      />
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
