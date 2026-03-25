@@ -97,3 +97,29 @@
   --pochi-inline-code-border: transparent;
   --pochi-inline-code-color: var(--pochi-code-fg);
 }
+
+/* Fallback for JS-disabled: follow OS dark mode preference.
+   :root:not(.light) ensures an explicit light choice by the user wins. */
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) {
+    --pochi-text: #c9d1d9;
+    --pochi-text-muted: #a1a1a1;
+    --pochi-bg: #1d1d1d;
+    --pochi-card: #2f2f2f;
+    --pochi-surface: #2f2f2f;
+    --pochi-surface-soft: #1d1d1d;
+    --pochi-border: #a1a1a1;
+    --pochi-blockquote-bg: #212121;
+    --pochi-link: #6ec4b4;
+    --pochi-on-accent: #ffffff;
+    --pochi-on-dark: #ffffff;
+    --pochi-required: #ed929f;
+    --pochi-hover: rgba(255, 255, 255, 0.06);
+    --pochi-scrim: rgba(0, 0, 0, 0.7);
+
+    /* Inline code */
+    --pochi-inline-code-bg: var(--pochi-code-bg);
+    --pochi-inline-code-border: transparent;
+    --pochi-inline-code-color: var(--pochi-code-fg);
+  }
+}

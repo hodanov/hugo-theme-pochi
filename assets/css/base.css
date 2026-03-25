@@ -10,11 +10,6 @@
   display: none !important;
 }
 
-/* Base layer (migrated from _base.scss) */
-body {
-  font-family: var(--pochi-font-base);
-}
-
 /* Skip to content link: visible on keyboard focus */
 .skip-link {
   position: absolute;

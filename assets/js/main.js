@@ -226,6 +226,11 @@ function toggleTheme() {
     const isDarkMode = root.classList.contains("dark");
     const next = isDarkMode ? "light" : "dark";
     root.classList.toggle("dark");
+    if (next === "light") {
+      root.classList.add("light");
+    } else {
+      root.classList.remove("light");
+    }
     localStorage.setItem("pref-theme", next);
     // Update aria-pressed to reflect toggled state
     try {
@@ -251,6 +256,7 @@ function handleThemeChange() {
     const root = document.documentElement;
     const isDark = e.matches;
     root.classList.toggle("dark", isDark);
+    root.classList.toggle("light", !isDark);
     localStorage.setItem("pref-theme", isDark ? "dark" : "light");
     // Keep toggle button state in sync when system preference changes
     try {
