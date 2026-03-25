@@ -375,6 +375,12 @@ function populateResults(results) {
   });
 }
 
+function escapeHtml(str) {
+  var div = document.createElement("div");
+  div.appendChild(document.createTextNode(str));
+  return div.innerHTML;
+}
+
 function render(templateString, data) {
   var conditionalMatches, conditionalPattern, copy;
   conditionalPattern = /\$\{\s*isset ([a-zA-Z]*) \s*\}(.*)\$\{\s*end\s*}/g;
@@ -397,7 +403,7 @@ function render(templateString, data) {
   for (key in data) {
     find = "\\$\\{\\s*" + key + "\\s*\\}";
     re = new RegExp(find, "g");
-    templateString = templateString.replace(re, data[key]);
+    templateString = templateString.replace(re, escapeHtml(data[key]));
   }
   return templateString;
 }

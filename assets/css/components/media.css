@@ -29,7 +29,7 @@
   width: 100%;
   height: 100%;
   background-color: var(--pochi-overlay-light);
-  transition: all 0.2s ease-in-out 0s;
+  transition: bottom 0.2s ease-in-out;
 }
 
 .image-wrapper .div-content,

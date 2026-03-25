@@ -88,18 +88,20 @@ strong {
 /* moved to components/_lists.scss */
 
 /* -----Animation----- */
-a,
 .article-list h2,
 .mymenu-related a .text,
-.mymenu-related a .div-cover,
 #scroll-to-top,
 .table-of-contents ol li a:after,
 .article-list .post-row,
 .btn-primary,
 .btn-secondary {
-  transition: all 0.2s ease 0s;
-  backface-visibility: hidden;
-  overflow: hidden;
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease,
+    box-shadow 0.2s ease,
+    opacity 0.2s ease,
+    transform 0.2s ease,
+    bottom 0.2s ease;
 }
 
 /* -----Material design----- */
@@ -374,7 +376,11 @@ article .featured-image-wrapper {
   padding-top: 61.8%;
 }
 
-.mymenu-related a:hover .div-cover {
+.mymenu-related a .featured-image-wrapper img {
+  transition: transform 0.2s ease;
+}
+
+.mymenu-related a:hover .featured-image-wrapper img {
   transform: scale(1.1);
 }
 

@@ -141,7 +141,9 @@ nav.site-nav ul li {
 nav.site-nav ul li a {
   display: block;
   padding: 0 1rem;
-  transition: all 0.2s ease-in-out 0s;
+  transition:
+    color 0.2s ease-in-out,
+    background-color 0.2s ease-in-out;
 }
 
 nav.site-nav ul > li:hover > a {
@@ -194,7 +196,10 @@ nav.site-nav .dropdown-list {
   background-color: var(--pochi-card);
   box-shadow: var(--pochi-shadow-dropdown);
   z-index: 1;
-  transition: all 0.2s ease-in-out 0s;
+  transition:
+    opacity 0.2s ease-in-out,
+    visibility 0.2s ease-in-out,
+    top 0.2s ease-in-out;
 }
 
 nav.site-nav .dropdown-list li {
@@ -239,8 +244,9 @@ nav.site-nav .logo {
   overflow-y: auto;
   will-change: transform;
   backface-visibility: hidden;
-  transition: all 0.3s;
-  overflow: hidden;
+  transition:
+    transform 0.3s,
+    opacity 0.3s;
 }
 
 #side-nav.is-active {
@@ -323,7 +329,7 @@ nav.site-nav .logo {
   height: 120vh;
   background-color: var(--pochi-scrim);
   z-index: 997;
-  transition: all 0.3s;
+  transition: opacity 0.3s;
 }
 
 nav.site-nav,
