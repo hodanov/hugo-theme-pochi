@@ -21,7 +21,8 @@ test.describe("F-09 Share button", () => {
     await shareBtn.click();
 
     await expect(shareBtn).toHaveAttribute("aria-pressed", "true");
-    await expect(feedback).toHaveText(/URLをコピーしました/);
+    const expectedText = await shareBtn.getAttribute("data-feedback-copied");
+    await expect(feedback).toHaveText(expectedText);
   });
 
   test("mobile: share button is visible in action bar", async ({ browser }) => {

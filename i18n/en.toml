@@ -63,3 +63,15 @@ other = "Breadcrumb"
 
 [main_navigation]
 other = "Main navigation"
+
+[like]
+other = "Like"
+
+[copy_url]
+other = "Copy URL"
+
+[url_copied]
+other = "URL copied"
+
+[copy_failed]
+other = "Copy failed"

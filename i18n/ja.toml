@@ -63,3 +63,15 @@ other = "パンくずリスト"
 
 [main_navigation]
 other = "メインナビゲーション"
+
+[like]
+other = "いいね"
+
+[copy_url]
+other = "URLをコピー"
+
+[url_copied]
+other = "URLをコピーしました"
+
+[copy_failed]
+other = "コピーに失敗しました"
