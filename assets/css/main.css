@@ -77,8 +77,11 @@ strong {
 #theme-toggle-switch {
   border: none;
   background: none;
-  padding: 0 1rem;
+  margin: 0 0.5rem;
   color: var(--pochi-text);
+  display: block;
+  height: 100%;
+  cursor: pointer;
 }
 
 /* moved to components/_icons.scss */
