@@ -12,7 +12,7 @@
             <div class="featured-image-wrapper">
               {{ partial "atoms/picture.html" (dict
                 "image" .
-                "alt" "featured image"
+                "alt" ($page.Params.featuredImageAlt | default $page.Title)
                 "page" $page
                 "sizes" "(min-width: 800px) 480px, 100vw"
                 "widths" (slice 480 800)

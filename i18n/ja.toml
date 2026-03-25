@@ -57,3 +57,9 @@ other = "まだ投稿がないよ"
 
 [skip_to_content]
 other = "本文へスキップ"
+
+[breadcrumb]
+other = "パンくずリスト"
+
+[main_navigation]
+other = "メインナビゲーション"

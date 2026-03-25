@@ -57,3 +57,9 @@ other = "No posts yet"
 
 [skip_to_content]
 other = "Skip to content"
+
+[breadcrumb]
+other = "Breadcrumb"
+
+[main_navigation]
+other = "Main navigation"

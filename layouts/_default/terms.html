@@ -4,13 +4,13 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-7" id="contents">
-          {{ range sort .Pages "Title" "asc" }}
-            <ul>
+          <ul>
+            {{ range sort .Pages "Title" "asc" }}
               <li>
                 <a href="{{ .Permalink }}">{{ .Title }}</a> ({{ len .Pages }})
               </li>
-            </ul>
-          {{ end }}
+            {{ end }}
+          </ul>
         </div>
         <div class="col-md-2" id="sidebar-left">
           {{ partial "organisms/sidebar_left.html" . }}
