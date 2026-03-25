@@ -326,11 +326,6 @@ blockquote cite {
   }
 }
 
-/* IE用の設定 */
-a img {
-  border: none;
-}
-
 /* moved to components/_media.scss (img sizing, icatch) */
 
 /* moved to components/_media.scss (featured-image-wrapper, picture) */
