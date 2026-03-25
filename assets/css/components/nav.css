@@ -135,6 +135,7 @@ nav.site-nav #lang-switcher-container {
 
 nav.site-nav #theme-toggle-switch-container {
   order: 3;
+  height: 100%;
 }
 
 nav.site-nav ul {
