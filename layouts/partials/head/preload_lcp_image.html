@@ -3,7 +3,9 @@
   {{- $ext := lower (path.Ext .Params.featuredImage) -}}
   {{- $skip := or (eq $ext ".svg") (eq $ext ".svgz") (eq $ext ".avif") (eq $ext ".webp") -}}
   {{- if and $res (eq $res.MediaType.MainType "image") (not $skip) -}}
-    {{- $widths := slice 480 800 1200 1600 2000 2400 -}}
+    {{- $isPost := eq .Section "posts" -}}
+    {{- $widths := cond $isPost (slice 480 800 1200 1600) (slice 480 800 1200 1600 2000 2400) -}}
+    {{- $sizes := cond $isPost "(min-width: 800px) 800px, 100vw" "(min-width: 1200px) 1200px, 100vw" -}}
     {{- $origW := $res.Width -}}
     {{- $enableAvif := false -}}
     {{- with site.Params.images }}
@@ -21,22 +23,22 @@
         {{- end -}}
       {{- end -}}
     {{- end -}}
-    {{- if gt (len $srcsetWEBP) 0 -}}
-      <link
-        rel="preload"
-        as="image"
-        imagesrcset="{{ delimit $srcsetWEBP ", " }}"
-        imagesizes="(min-width: 1200px) 1200px, 100vw"
-        fetchpriority="high"
-      />
-    {{- end -}}
     {{- if and $enableAvif (gt (len $srcsetAVIF) 0) -}}
       <link
         rel="preload"
         as="image"
         type="image/avif"
-        imagesrcset="{{ delimit $srcsetAVIF ", " }}"
-        imagesizes="(min-width: 1200px) 1200px, 100vw"
+        {{ printf `imagesrcset="%s"` (delimit $srcsetAVIF ", ") | safeHTMLAttr }}
+        {{ printf `imagesizes="%s"` $sizes | safeHTMLAttr }}
+        fetchpriority="high"
+      />
+    {{- else if gt (len $srcsetWEBP) 0 -}}
+      <link
+        rel="preload"
+        as="image"
+        type="image/webp"
+        {{ printf `imagesrcset="%s"` (delimit $srcsetWEBP ", ") | safeHTMLAttr }}
+        {{ printf `imagesizes="%s"` $sizes | safeHTMLAttr }}
         fetchpriority="high"
       />
     {{- end -}}
