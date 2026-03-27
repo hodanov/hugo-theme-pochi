@@ -142,8 +142,10 @@
 
     {{ $srcsetPrimary := slice }}
     {{ $srcsetFallback := slice }}
+    {{ $sidecarQ := 65 }}
+    {{ with site.Params.images.sidecarQuality }}{{ $sidecarQ = . }}{{ end }}
     {{ range $bounded }}
-      {{ $p := $base.Resize (printf "%dx %s q65" . $type) }}
+      {{ $p := $base.Resize (printf "%dx %s q%d" . $type $sidecarQ) }}
       {{ $fb := $base.Resize (printf "%dx jpg q80" .) }}
       {{ $srcsetPrimary = $srcsetPrimary | append (printf "%s %dw" $p.RelPermalink .) }}
       {{ $srcsetFallback = $srcsetFallback | append (printf "%s %dw" $fb.RelPermalink .) }}
