@@ -47,15 +47,7 @@
   {{/* Source is JPG/PNG etc. Generate AVIF/WEBP + fallback responsive variants */}}
   {{ $origW := $res.Width }}
   {{ $origH := $res.Height }}
-  {{ $bounded := slice }}
-  {{ range $w := $widths }}
-    {{ if le $w $origW }}
-      {{ $bounded = $bounded | append $w }}
-    {{ end }}
-  {{ end }}
-  {{ if eq (len $bounded) 0 }}
-    {{ $bounded = slice $origW }}
-  {{ end }}
+  {{ $bounded := partial "atoms/bounded_widths.html" (dict "widths" $widths "origW" $origW) }}
 
   {{/* Build srcset strings */}}
   {{ $srcsetAVIF := slice }}
@@ -124,15 +116,7 @@
 
   {{ if $base }}
     {{ $origW := $base.Width }}
-    {{ $bounded := slice }}
-    {{ range $w := $widths }}
-      {{ if le $w $origW }}
-        {{ $bounded = $bounded | append $w }}
-      {{ end }}
-    {{ end }}
-    {{ if eq (len $bounded) 0 }}
-      {{ $bounded = slice $origW }}
-    {{ end }}
+    {{ $bounded := partial "atoms/bounded_widths.html" (dict "widths" $widths "origW" $origW) }}
 
     {{ $srcsetPrimary := slice }}
     {{ $srcsetFallback := slice }}
