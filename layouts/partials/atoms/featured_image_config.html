@@ -1,0 +1,4 @@
+{{- $isPost := eq .Section "posts" -}}
+{{- $widths := cond $isPost (slice 480 800 1200 1600) (slice 480 800 1200 1600 2000 2400) -}}
+{{- $sizes := cond $isPost "(min-width: 800px) 800px, 100vw" "(min-width: 1200px) 1200px, 100vw" -}}
+{{- return (dict "widths" $widths "sizes" $sizes) -}}

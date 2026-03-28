@@ -1,12 +1,13 @@
 {{ if and (.Params.featuredImage) (ne .Params.featuredImage "") }}
+  {{ $cfg := partial "atoms/featured_image_config.html" . }}
   <div class="parallax-container">
     <div class="hero featured-image-wrapper">
       {{ partial "atoms/picture.html" (dict
         "image" .Params.featuredImage
         "alt" (.Params.featuredImageAlt | default .Title)
         "page" .
-        "sizes" "(min-width: 1200px) 1200px, 100vw"
-        "widths" (slice 480 800 1200 1600 2000 2400)
+        "sizes" $cfg.sizes
+        "widths" $cfg.widths
         "priority" "high"
         )
       }}

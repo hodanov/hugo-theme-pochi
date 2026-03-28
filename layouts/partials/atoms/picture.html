@@ -17,9 +17,13 @@
 {{ $defaultWidths := slice 480 800 1200 }}
 {{ $widths := $defaultWidths }}
 {{ $enableAvif := false }}
+{{ $webpQ := 75 }}
+{{ $avifQ := 60 }}
 {{ with site.Params.images }}
   {{ if .enableAvif }}{{ $enableAvif = true }}{{ end }}
   {{ with .widths }}{{ $widths = . }}{{ end }}
+  {{ with .webpQuality }}{{ $webpQ = . }}{{ end }}
+  {{ with .avifQuality }}{{ $avifQ = . }}{{ end }}
 {{ end }}
 {{ with .widths }}{{ $widths = . }}{{ end }}
 
@@ -47,15 +51,7 @@
   {{/* Source is JPG/PNG etc. Generate AVIF/WEBP + fallback responsive variants */}}
   {{ $origW := $res.Width }}
   {{ $origH := $res.Height }}
-  {{ $bounded := slice }}
-  {{ range $w := $widths }}
-    {{ if le $w $origW }}
-      {{ $bounded = $bounded | append $w }}
-    {{ end }}
-  {{ end }}
-  {{ if eq (len $bounded) 0 }}
-    {{ $bounded = slice $origW }}
-  {{ end }}
+  {{ $bounded := partial "atoms/bounded_widths.html" (dict "widths" $widths "origW" $origW) }}
 
   {{/* Build srcset strings */}}
   {{ $srcsetAVIF := slice }}
@@ -67,9 +63,9 @@
     {{ $webp := false }}
     {{ $fallback := $res.Resize (printf "%dx" $w) }}
     {{/* Generate webp; avif is optional via site param */}}
-    {{ $webp = $res.Resize (printf "%dx webp q75" $w) }}
+    {{ $webp = $res.Resize (printf "%dx webp q%d" $w $webpQ) }}
     {{ if $enableAvif }}
-      {{ $avif = $res.Resize (printf "%dx avif q60" $w) }}
+      {{ $avif = $res.Resize (printf "%dx avif q%d" $w $avifQ) }}
     {{ end }}
     {{ if $avif }}
       {{ $srcsetAVIF = $srcsetAVIF | append (printf "%s %dw" $avif.RelPermalink $w) }}
@@ -109,13 +105,7 @@
       srcset="{{ delimit $srcsetFallback ", " }}"
       sizes="{{ $sizesAttr }}"
       {{ with $alt }}alt="{{ . }}"{{ end }}
-      loading="{{ if eq $priority "high" }}
-        eager
-      {{ else }}
-        lazy
-      {{ end }}"
-      decoding="async"
-      {{ if eq $priority "high" }}fetchpriority="high"{{ end }}
+      {{ partial "atoms/img_attrs.html" (dict "priority" $priority) | safeHTMLAttr }}
       width="{{ $width }}"
       height="{{ $height }}"
     />
@@ -130,20 +120,14 @@
 
   {{ if $base }}
     {{ $origW := $base.Width }}
-    {{ $bounded := slice }}
-    {{ range $w := $widths }}
-      {{ if le $w $origW }}
-        {{ $bounded = $bounded | append $w }}
-      {{ end }}
-    {{ end }}
-    {{ if eq (len $bounded) 0 }}
-      {{ $bounded = slice $origW }}
-    {{ end }}
+    {{ $bounded := partial "atoms/bounded_widths.html" (dict "widths" $widths "origW" $origW) }}
 
     {{ $srcsetPrimary := slice }}
     {{ $srcsetFallback := slice }}
+    {{ $sidecarQ := 65 }}
+    {{ with site.Params.images.sidecarQuality }}{{ $sidecarQ = . }}{{ end }}
     {{ range $bounded }}
-      {{ $p := $base.Resize (printf "%dx %s q65" . $type) }}
+      {{ $p := $base.Resize (printf "%dx %s q%d" . $type $sidecarQ) }}
       {{ $fb := $base.Resize (printf "%dx jpg q80" .) }}
       {{ $srcsetPrimary = $srcsetPrimary | append (printf "%s %dw" $p.RelPermalink .) }}
       {{ $srcsetFallback = $srcsetFallback | append (printf "%s %dw" $fb.RelPermalink .) }}
@@ -166,13 +150,7 @@
         srcset="{{ delimit $srcsetFallback ", " }}"
         sizes="{{ $sizesAttr }}"
         {{ with $alt }}alt="{{ . }}"{{ end }}
-        loading="{{ if eq $priority "high" }}
-          eager
-        {{ else }}
-          lazy
-        {{ end }}"
-        decoding="async"
-        {{ if eq $priority "high" }}fetchpriority="high"{{ end }}
+        {{ partial "atoms/img_attrs.html" (dict "priority" $priority) | safeHTMLAttr }}
         width="{{ $width }}"
         height="{{ $height }}"
       />
@@ -186,13 +164,7 @@
       <img
         src="{{ $res.RelPermalink }}"
         {{ with $alt }}alt="{{ . }}"{{ end }}
-        loading="{{ if eq $priority "high" }}
-          eager
-        {{ else }}
-          lazy
-        {{ end }}"
-        decoding="async"
-        {{ if eq $priority "high" }}fetchpriority="high"{{ end }}
+        {{ partial "atoms/img_attrs.html" (dict "priority" $priority) | safeHTMLAttr }}
         {{ if and (gt $width 0) (gt $height 0) }}
           width="{{ $width }}" height="{{ $height }}"
         {{ end }}
@@ -206,13 +178,7 @@
     <img
       src="{{ $res.RelPermalink }}"
       {{ with $alt }}alt="{{ . }}"{{ end }}
-      loading="{{ if eq $priority "high" }}
-        eager
-      {{ else }}
-        lazy
-      {{ end }}"
-      decoding="async"
-      {{ if eq $priority "high" }}fetchpriority="high"{{ end }}
+      {{ partial "atoms/img_attrs.html" (dict "priority" $priority) | safeHTMLAttr }}
     />
   {{ else }}
     {{ $webPath := $imgParam }}
@@ -254,13 +220,7 @@
         <img
           src="{{ $fallbackSrc }}"
           {{ with $alt }}alt="{{ . }}"{{ end }}
-          loading="{{ if eq $priority "high" }}
-            eager
-          {{ else }}
-            lazy
-          {{ end }}"
-          decoding="async"
-          {{ if eq $priority "high" }}fetchpriority="high"{{ end }}
+          {{ partial "atoms/img_attrs.html" (dict "priority" $priority) | safeHTMLAttr }}
           {{ if and (gt $width 0) (gt $height 0) }}
             width="{{ $width }}" height="{{ $height }}"
           {{ end }}
@@ -278,13 +238,7 @@
       <img
         src="{{ $fallbackSrc }}"
         {{ with $alt }}alt="{{ . }}"{{ end }}
-        loading="{{ if eq $priority "high" }}
-          eager
-        {{ else }}
-          lazy
-        {{ end }}"
-        decoding="async"
-        {{ if eq $priority "high" }}fetchpriority="high"{{ end }}
+        {{ partial "atoms/img_attrs.html" (dict "priority" $priority) | safeHTMLAttr }}
         {{ if and (gt $width 0) (gt $height 0) }}
           width="{{ $width }}" height="{{ $height }}"
         {{ end }}

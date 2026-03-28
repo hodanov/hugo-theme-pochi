@@ -1,0 +1,12 @@
+{{- $widths := .widths -}}
+{{- $origW := .origW -}}
+{{- $bounded := slice -}}
+{{- range $w := $widths -}}
+  {{- if le $w $origW -}}
+    {{- $bounded = $bounded | append $w -}}
+  {{- end -}}
+{{- end -}}
+{{- if eq (len $bounded) 0 -}}
+  {{- $bounded = slice $origW -}}
+{{- end -}}
+{{- return $bounded -}}

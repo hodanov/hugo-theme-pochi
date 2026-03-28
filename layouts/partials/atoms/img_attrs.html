@@ -1,0 +1,4 @@
+{{- $priority := .priority -}}
+{{- $loading := cond (eq $priority "high") "eager" "lazy" -}}
+{{- $base := printf "loading=%q decoding=%q" $loading "async" -}}
+{{- return cond (eq $priority "high") (printf "%s fetchpriority=%q" $base "high") $base -}}
