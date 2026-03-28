@@ -5,5 +5,6 @@
 {{ $like := resources.Get "js/like-button.js" }}
 {{ $share := resources.Get "js/share-button.js" }}
 {{ $langSwitcher := resources.Get "js/lang-switcher.js" }}
-{{ $bundle := slice $main $nav $archives $scrollspy $like $share $langSwitcher | resources.Concat "js/bundle.js" | resources.Minify | fingerprint }}
+{{ $lightbox := resources.Get "js/lightbox.js" }}
+{{ $bundle := slice $main $nav $archives $scrollspy $like $share $langSwitcher $lightbox | resources.Concat "js/bundle.js" | resources.Minify | fingerprint }}
 <script defer src="{{ $bundle.RelPermalink }}"></script>
