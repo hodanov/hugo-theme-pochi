@@ -17,9 +17,13 @@
 {{ $defaultWidths := slice 480 800 1200 }}
 {{ $widths := $defaultWidths }}
 {{ $enableAvif := false }}
+{{ $webpQ := 75 }}
+{{ $avifQ := 60 }}
 {{ with site.Params.images }}
   {{ if .enableAvif }}{{ $enableAvif = true }}{{ end }}
   {{ with .widths }}{{ $widths = . }}{{ end }}
+  {{ with .webpQuality }}{{ $webpQ = . }}{{ end }}
+  {{ with .avifQuality }}{{ $avifQ = . }}{{ end }}
 {{ end }}
 {{ with .widths }}{{ $widths = . }}{{ end }}
 
@@ -59,9 +63,9 @@
     {{ $webp := false }}
     {{ $fallback := $res.Resize (printf "%dx" $w) }}
     {{/* Generate webp; avif is optional via site param */}}
-    {{ $webp = $res.Resize (printf "%dx webp q75" $w) }}
+    {{ $webp = $res.Resize (printf "%dx webp q%d" $w $webpQ) }}
     {{ if $enableAvif }}
-      {{ $avif = $res.Resize (printf "%dx avif q60" $w) }}
+      {{ $avif = $res.Resize (printf "%dx avif q%d" $w $avifQ) }}
     {{ end }}
     {{ if $avif }}
       {{ $srcsetAVIF = $srcsetAVIF | append (printf "%s %dw" $avif.RelPermalink $w) }}
