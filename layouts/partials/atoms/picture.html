@@ -109,13 +109,7 @@
       srcset="{{ delimit $srcsetFallback ", " }}"
       sizes="{{ $sizesAttr }}"
       {{ with $alt }}alt="{{ . }}"{{ end }}
-      loading="{{ if eq $priority "high" }}
-        eager
-      {{ else }}
-        lazy
-      {{ end }}"
-      decoding="async"
-      {{ if eq $priority "high" }}fetchpriority="high"{{ end }}
+      {{ partial "atoms/img_attrs.html" (dict "priority" $priority) | safeHTMLAttr }}
       width="{{ $width }}"
       height="{{ $height }}"
     />
@@ -168,13 +162,7 @@
         srcset="{{ delimit $srcsetFallback ", " }}"
         sizes="{{ $sizesAttr }}"
         {{ with $alt }}alt="{{ . }}"{{ end }}
-        loading="{{ if eq $priority "high" }}
-          eager
-        {{ else }}
-          lazy
-        {{ end }}"
-        decoding="async"
-        {{ if eq $priority "high" }}fetchpriority="high"{{ end }}
+        {{ partial "atoms/img_attrs.html" (dict "priority" $priority) | safeHTMLAttr }}
         width="{{ $width }}"
         height="{{ $height }}"
       />
@@ -188,13 +176,7 @@
       <img
         src="{{ $res.RelPermalink }}"
         {{ with $alt }}alt="{{ . }}"{{ end }}
-        loading="{{ if eq $priority "high" }}
-          eager
-        {{ else }}
-          lazy
-        {{ end }}"
-        decoding="async"
-        {{ if eq $priority "high" }}fetchpriority="high"{{ end }}
+        {{ partial "atoms/img_attrs.html" (dict "priority" $priority) | safeHTMLAttr }}
         {{ if and (gt $width 0) (gt $height 0) }}
           width="{{ $width }}" height="{{ $height }}"
         {{ end }}
@@ -208,13 +190,7 @@
     <img
       src="{{ $res.RelPermalink }}"
       {{ with $alt }}alt="{{ . }}"{{ end }}
-      loading="{{ if eq $priority "high" }}
-        eager
-      {{ else }}
-        lazy
-      {{ end }}"
-      decoding="async"
-      {{ if eq $priority "high" }}fetchpriority="high"{{ end }}
+      {{ partial "atoms/img_attrs.html" (dict "priority" $priority) | safeHTMLAttr }}
     />
   {{ else }}
     {{ $webPath := $imgParam }}
@@ -256,13 +232,7 @@
         <img
           src="{{ $fallbackSrc }}"
           {{ with $alt }}alt="{{ . }}"{{ end }}
-          loading="{{ if eq $priority "high" }}
-            eager
-          {{ else }}
-            lazy
-          {{ end }}"
-          decoding="async"
-          {{ if eq $priority "high" }}fetchpriority="high"{{ end }}
+          {{ partial "atoms/img_attrs.html" (dict "priority" $priority) | safeHTMLAttr }}
           {{ if and (gt $width 0) (gt $height 0) }}
             width="{{ $width }}" height="{{ $height }}"
           {{ end }}
@@ -280,13 +250,7 @@
       <img
         src="{{ $fallbackSrc }}"
         {{ with $alt }}alt="{{ . }}"{{ end }}
-        loading="{{ if eq $priority "high" }}
-          eager
-        {{ else }}
-          lazy
-        {{ end }}"
-        decoding="async"
-        {{ if eq $priority "high" }}fetchpriority="high"{{ end }}
+        {{ partial "atoms/img_attrs.html" (dict "priority" $priority) | safeHTMLAttr }}
         {{ if and (gt $width 0) (gt $height 0) }}
           width="{{ $width }}" height="{{ $height }}"
         {{ end }}
