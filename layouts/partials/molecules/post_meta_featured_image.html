@@ -1,13 +1,14 @@
 {{ if and (.Params.featuredImage) (ne .Params.featuredImage "") }}
   {{ $page := . }}
+  {{ $cfg := partial "atoms/featured_image_config.html" $page }}
   {{ with .Params.featuredImage }}
     <div class="featured-image-wrapper golden-ratio">
       {{ partial "atoms/picture.html" (dict
         "image" .
         "alt" ($page.Params.featuredImageAlt | default $page.Title)
         "page" $page
-        "sizes" "(min-width: 800px) 800px, 100vw"
-        "widths" (slice 480 800 1200 1600)
+        "sizes" $cfg.sizes
+        "widths" $cfg.widths
         "priority" "high"
         )
       }}
