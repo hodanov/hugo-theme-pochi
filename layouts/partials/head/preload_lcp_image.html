@@ -24,12 +24,11 @@
       {{- with site.Params.images.sidecarQuality }}{{ $sidecarQ = . }}{{ end -}}
       {{- if $base -}}
         {{- $origW := $base.Width -}}
+        {{- $bounded := partial "atoms/bounded_widths.html" (dict "widths" $widths "origW" $origW) -}}
         {{- $srcsetPrimary := slice -}}
-        {{- range $w := $widths -}}
-          {{- if le $w $origW -}}
-            {{- $p := $base.Resize (printf "%dx %s q%d" $w $type $sidecarQ) -}}
-            {{- $srcsetPrimary = $srcsetPrimary | append (printf "%s %dw" $p.RelPermalink $w) -}}
-          {{- end -}}
+        {{- range $w := $bounded -}}
+          {{- $p := $base.Resize (printf "%dx %s q%d" $w $type $sidecarQ) -}}
+          {{- $srcsetPrimary = $srcsetPrimary | append (printf "%s %dw" $p.RelPermalink $w) -}}
         {{- end -}}
         {{- if gt (len $srcsetPrimary) 0 -}}
           <link
@@ -46,16 +45,15 @@
     {{- else -}}
       {{/* Existing JPG/PNG path */}}
       {{- $origW := $res.Width -}}
+      {{- $bounded := partial "atoms/bounded_widths.html" (dict "widths" $widths "origW" $origW) -}}
       {{- $srcsetWEBP := slice -}}
       {{- $srcsetAVIF := slice -}}
-      {{- range $w := $widths -}}
-        {{- if le $w $origW -}}
-          {{- $webp := $res.Resize (printf "%dx webp q75" $w) -}}
-          {{- $srcsetWEBP = $srcsetWEBP | append (printf "%s %dw" $webp.RelPermalink $w) -}}
-          {{- if $enableAvif -}}
-            {{- $avif := $res.Resize (printf "%dx avif q60" $w) -}}
-            {{- $srcsetAVIF = $srcsetAVIF | append (printf "%s %dw" $avif.RelPermalink $w) -}}
-          {{- end -}}
+      {{- range $w := $bounded -}}
+        {{- $webp := $res.Resize (printf "%dx webp q75" $w) -}}
+        {{- $srcsetWEBP = $srcsetWEBP | append (printf "%s %dw" $webp.RelPermalink $w) -}}
+        {{- if $enableAvif -}}
+          {{- $avif := $res.Resize (printf "%dx avif q60" $w) -}}
+          {{- $srcsetAVIF = $srcsetAVIF | append (printf "%s %dw" $avif.RelPermalink $w) -}}
         {{- end -}}
       {{- end -}}
       {{- if and $enableAvif (gt (len $srcsetAVIF) 0) -}}
