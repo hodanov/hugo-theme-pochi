@@ -83,9 +83,8 @@ test.describe("F-14 Lightbox", () => {
   // ── Exclusions ─────────────────────────────────────────
 
   test("featured image (hero) does not open lightbox", async ({ page }) => {
-    // p-03-with-toc has a featuredImage rendered as hero
-    await page.goto("/posts/p-03-with-toc/");
-    const hero = page.locator(".featured-image-wrapper picture img");
+    await page.goto("/page/about");
+    const hero = page.locator(".hero.featured-image-wrapper");
     await expect(hero).toBeVisible();
     await hero.click();
     await expect(page.locator(".lightbox-overlay")).toHaveCount(0);
@@ -93,7 +92,6 @@ test.describe("F-14 Lightbox", () => {
 
   test("SVG image does not open lightbox", async ({ page }) => {
     await page.goto(POST_URL);
-    // The SVG is the second image in the article
     const svgImg = page.locator('article img[src$=".svg"]');
     await expect(svgImg).toBeVisible();
     await svgImg.click();
@@ -117,7 +115,7 @@ test.describe("F-14 Lightbox", () => {
     await expect(overlay).toBeVisible();
 
     // Close it
-    await overlay.press("Escape");
+    await page.keyboard.press("Escape");
     await expect(page.locator(".lightbox-overlay")).toHaveCount(0);
 
     // Verify we can open again (event delegation still works)

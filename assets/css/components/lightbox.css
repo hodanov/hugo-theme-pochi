@@ -7,6 +7,10 @@ article picture img {
 
 /* Overlay */
 .lightbox-overlay {
+  --_fade-duration: 0.2s;
+  --_btn-bg: rgba(255, 255, 255, 0.15);
+  --_btn-bg-hover: rgba(255, 255, 255, 0.3);
+
   position: fixed;
   inset: 0;
   z-index: 9999;
@@ -16,7 +20,7 @@ article picture img {
   justify-content: center;
   background: var(--pochi-scrim);
   opacity: 0;
-  transition: opacity 0.2s ease;
+  transition: opacity var(--_fade-duration) ease;
   cursor: zoom-out;
 }
 
@@ -37,7 +41,7 @@ article picture img {
 .lightbox-caption {
   max-width: 90vw;
   margin-top: 0.75rem;
-  color: #fff;
+  color: var(--pochi-on-dark);
   font-size: 0.875rem;
   text-align: center;
   line-height: 1.5;
@@ -52,8 +56,8 @@ article picture img {
   height: 2.5rem;
   border: none;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.15);
-  color: #fff;
+  background: var(--_btn-bg);
+  color: var(--pochi-on-dark);
   font-size: 1.5rem;
   line-height: 1;
   cursor: pointer;
@@ -65,5 +69,5 @@ article picture img {
 
 .lightbox-close:hover,
 .lightbox-close:focus-visible {
-  background: rgba(255, 255, 255, 0.3);
+  background: var(--_btn-bg-hover);
 }
