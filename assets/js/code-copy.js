@@ -67,7 +67,28 @@
     if (!pre) return;
 
     const code = pre.querySelector("code");
-    const text = (code || pre).textContent.trim();
+    const source = code || pre;
+
+    // Hugo Chroma with lineNos + lineNumbersInTable=false renders each line
+    // as <span style="display:flex;"><span (line-number)>…</span><span (code)>…</span></span>.
+    // The line-number span has user-select:none. Extract only the code spans.
+    const lineSpans = source.querySelectorAll("span[style*='display:flex']");
+    let text;
+    if (lineSpans.length > 0) {
+      const lines = [];
+      lineSpans.forEach((line) => {
+        const children = line.children;
+        // Last child span contains the actual code; earlier spans are line numbers
+        if (children.length >= 2) {
+          lines.push(children[children.length - 1].textContent);
+        } else {
+          lines.push(line.textContent);
+        }
+      });
+      text = lines.join("").trim();
+    } else {
+      text = source.textContent.trim();
+    }
 
     (async () => {
       try {

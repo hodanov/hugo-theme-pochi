@@ -59,6 +59,8 @@ test.describe("F-15 Code copy button", () => {
     const copied = await page.evaluate(() => window.__copiedText);
     expect(copied).toBeTruthy();
     expect(copied).toContain("greet");
+    // Line numbers must NOT be included in copied text
+    expect(copied).not.toMatch(/^\d+\n/m);
   });
 
   test("copy button shows check icon after copy", async ({ page }) => {

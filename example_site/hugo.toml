@@ -35,5 +35,9 @@ languageName = "日本語"
 languageCode = "ja"
 weight = 2
 
+[markup.highlight]
+lineNos = true
+lineNumbersInTable = false
+
 [pagination]
 pagerSize = 3
