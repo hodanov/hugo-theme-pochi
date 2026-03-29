@@ -43,3 +43,43 @@ th > code {
   border: 1px solid var(--pochi-inline-code-border);
   border-radius: 0.25rem;
 }
+
+/* Code copy button */
+pre {
+  position: relative;
+}
+
+.code-copy-button {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 0.25rem;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--pochi-code-fg);
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.2s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .code-copy-button {
+    transition: none;
+  }
+}
+
+.code-copy-button:hover,
+.code-copy-button:focus-visible {
+  opacity: 1;
+}
+
+.code-copy-button--copied {
+  opacity: 1;
+  color: #4caf50;
+}
