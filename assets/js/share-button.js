@@ -1,35 +1,4 @@
 (() => {
-  function fallbackCopyTextToClipboard(text) {
-    try {
-      const textArea = document.createElement("textarea");
-      textArea.value = text;
-      textArea.setAttribute("readonly", "");
-      textArea.style.position = "absolute";
-      textArea.style.left = "-9999px";
-      document.body.appendChild(textArea);
-      const selection = document.getSelection();
-      const selected =
-        selection && selection.rangeCount > 0 ? selection.getRangeAt(0) : null;
-      textArea.select();
-      document.execCommand("copy");
-      document.body.removeChild(textArea);
-      if (selected) {
-        selection.removeAllRanges();
-        selection.addRange(selected);
-      }
-      return Promise.resolve();
-    } catch (e) {
-      return Promise.reject(e);
-    }
-  }
-
-  function copyToClipboard(text) {
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      return navigator.clipboard.writeText(text);
-    }
-    return fallbackCopyTextToClipboard(text);
-  }
-
   // Detect mobile (iOS/iPadOS/Android) to prefer Web Share; others copy
   function isMobileDevice() {
     try {
@@ -71,7 +40,7 @@
         if (isMobileDevice() && navigator.share) {
           await navigator.share({ title, url });
         } else {
-          await copyToClipboard(url);
+          await window.__pochiClipboard.copy(url);
           if (live)
             live.textContent = btn.dataset.feedbackCopied || "URL copied";
           btn.setAttribute("aria-pressed", "true");

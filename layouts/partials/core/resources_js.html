@@ -1,3 +1,4 @@
+{{ $clipboard := resources.Get "js/clipboard.js" }}
 {{ $main := resources.Get "js/main.js" }}
 {{ $nav := resources.Get "js/navigation.js" }}
 {{ $archives := resources.Get "js/archives-toggle.js" }}
@@ -6,5 +7,6 @@
 {{ $share := resources.Get "js/share-button.js" }}
 {{ $langSwitcher := resources.Get "js/lang-switcher.js" }}
 {{ $lightbox := resources.Get "js/lightbox.js" }}
-{{ $bundle := slice $main $nav $archives $scrollspy $like $share $langSwitcher $lightbox | resources.Concat "js/bundle.js" | resources.Minify | fingerprint }}
+{{ $codeCopy := resources.Get "js/code-copy.js" }}
+{{ $bundle := slice $clipboard $main $nav $archives $scrollspy $like $share $langSwitcher $lightbox $codeCopy | resources.Concat "js/bundle.js" | resources.Minify | fingerprint }}
 <script defer src="{{ $bundle.RelPermalink }}"></script>

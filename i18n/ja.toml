@@ -75,3 +75,9 @@ other = "URLをコピーしました"
 
 [copy_failed]
 other = "コピーに失敗しました"
+
+[copy_code]
+other = "コードをコピー"
+
+[code_copied]
+other = "コピーしました"

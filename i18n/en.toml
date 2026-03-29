@@ -75,3 +75,9 @@ other = "URL copied"
 
 [copy_failed]
 other = "Copy failed"
+
+[copy_code]
+other = "Copy code"
+
+[code_copied]
+other = "Copied!"
