@@ -1,40 +1,77 @@
-# Repository Guidelines
+# AGENTS.md
 
-## Project Structure & Module Organization
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-- `layouts/`: Hugo templates (Go templates). Prefer small, composable partials in `layouts/partials/`.
-- `assets/`: Hugo Pipes sources. SCSS in `assets/scss/` with `_variables.scss`, `_mixins.scss`, `layout/`, `components/`, `utilities/`, and entry `main.scss`.
-- `example_site/`: Local preview content; use for manual testing.
-- `.github/`: CI and dependency tooling.
-- `theme.toml`: Theme metadata; keep Hugo version compatibility.
+## Project Overview
 
-## Build, Test, and Development Commands
+Pochi is a Hugo theme for the hodalog.com blog. It supports light/dark mode, client-side search (Fuse.js + Mark.js), PJAX navigation, i18n (ja/en), like button (external API), and Giscus comments. Hugo minimum version: 0.101.1.
 
-- `npm run serve`: Run `hugo serve -s example_site --themesDir .. -t pochi` with live reload.
-- `npm run build`: Build the example site for a production-like check.
-- `npm run format`: Format HTML (Go templates via plugin), SCSS, JS, YAML.
-- `npm run format:check` (alias: `npm run lint`): CI-friendly formatting check.
+## Build & Development Commands
 
-## Coding Style & Naming Conventions
+```bash
+npm ci                      # Install dependencies
+npm run vendor:sync          # Copy Fuse/Mark/normalize into assets/js/vendor/ (required after npm ci)
+npm run serve                # Dev server with live reload via example_site
+npm run build                # Production-like build of example_site
+npm run lint                 # Prettier check (alias: format:check)
+npm run format               # Auto-format all files with Prettier
+npm run e2e                  # Playwright E2E tests (auto-starts Hugo server)
+npm run vendor:verify        # Verify vendored files match node_modules
+npm run vendor:update        # Bump patch versions & re-vendor
+```
 
-- **Indentation:** 2 spaces.
-- **Templates:** Keep partials small; name files in kebab-case (e.g., `post-card.html`).
-- **Assets:** Lowercase file names; centralize tokens in `assets/scss/_variables.scss`.
-- **Dark mode:** Use CSS variables; toggle adds/removes `dark` on `html` (not `body`).
-- **JS hooks:** Prefix with `data-pochi-*` to avoid collisions.
+### Running a single E2E test
 
-## Testing Guidelines
+```bash
+npx playwright test tests/e2e/f-03-theme-toggle.spec.js
+```
 
-- No unit tests currently. Perform manual checks via `npm run serve` on: home, posts, pagination, 404, robots.
-- Verify theme toggle `#theme-toggle-switch` works without FOUC; check console for errors; do a quick cross-browser smoke test.
+### Playwright setup (first time)
 
-## Commit & Pull Request Guidelines
+```bash
+npx playwright install --with-deps chromium
+```
 
-- **Commits:** Imperative, concise scope (e.g., `fix(list): correct ellipsis wrap`). Keep diffs focused and reversible.
-- **PRs:** Clear description, linked issues (e.g., `#123`), before/after screenshots for UI, and verification steps (include `npm run serve`). Note any breaking changes to template variables or CSS classes and provide migration notes.
+### CI pipeline
 
-## Security & Configuration Tips
+CI runs three independent jobs: `lint` (Prettier), `build` (Hugo build), `vendor` (integrity check). E2E runs in a separate workflow. Hugo version pinned to 0.154.1 in CI.
 
-- Do not commit secrets; `.env` is out of scope.
-- Prefer local, licensed assets in `assets/`; validate third‑party licenses.
-- Maintain compatibility with the Hugo version declared in `theme.toml`.
+## Architecture
+
+### Template layer (`layouts/`)
+
+- `_default/baseof.html` — base skeleton; blocks: `header`, `main`, `footer`
+- Page types: `_default/single.html`, `_default/list.html`, `_default/terms.html`, `_default/search.html`, `posts/single.html`, `archives/list.html`, `404.html`
+- Partials follow atomic design: `atoms/`, `molecules/`, `organisms/`, `core/`, `head/`
+- **PJAX contract**: every page must render exactly one `.main-content` wrapper. PJAX swaps this node during navigation.
+
+### Asset pipeline (`assets/`)
+
+- **CSS**: Hugo Pipes bundles all CSS in `core/resources_css.html`. Design tokens live in `css/tokens.css`. Files organized as `css/{base,layout/,components/,vendor/,utilities}.css` plus `css/main.css`.
+- **JS**: Hugo Pipes bundles all JS in `core/resources_js.html`. Entry point is `js/main.js` (initializes all modules on DOMContentLoaded). Other modules: `navigation.js` (PJAX), `scrollspy.js`, `archives-toggle.js`, `like-button.js`, `share-button.js`, `lang-switcher.js`, `lightbox.js`.
+- **Vendor**: Fuse.js, Mark.js, modern-normalize are vendored under `assets/{js,css}/vendor/`. Managed via `scripts/vendor-sync.js` with integrity hashes in `VENDOR.lock.json`. Never edit vendored files directly.
+
+### Dark mode
+
+CSS variables in `tokens.css`; toggled by adding/removing `dark` class on `<html>` (not `<body>`). JS persists preference to `localStorage` key `pref-theme`.
+
+### Search
+
+Client-side via Fuse.js. Index served as `index.json` from Hugo's output. Search form reads `data-index-url` attribute for the index URL.
+
+### i18n
+
+Translation strings in `i18n/ja.toml` and `i18n/en.toml`. Templates use `{{ T "key" }}`.
+
+### E2E tests (`tests/e2e/`)
+
+Playwright tests using a custom fixture (`fixtures.js`) that auto-fails on uncaught `pageerror` and `console.error`. The fixture also mocks the like-counter API. Tests are prefixed: `p-*` for page-level, `f-*` for feature-level.
+
+## Coding Conventions
+
+- **Indentation**: 2 spaces
+- **Template files**: kebab-case (e.g., `post-card.html`)
+- **JS hooks**: use `data-pochi-*` attributes for JS selectors to avoid coupling with styling classes
+- **Formatting**: Prettier with `prettier-plugin-go-template` for `.html`, plus SCSS/JS/YAML. A PostToolUse hook auto-runs `npm run format` after edits.
+- **Commits**: imperative mood with scope (e.g., `fix(list): correct ellipsis wrap`)
+- **PRs**: include before/after screenshots for UI changes
