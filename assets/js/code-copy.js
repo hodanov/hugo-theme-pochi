@@ -9,36 +9,6 @@
     return document.body.dataset[key] || "";
   }
 
-  function fallbackCopyText(text) {
-    try {
-      const ta = document.createElement("textarea");
-      ta.value = text;
-      ta.setAttribute("readonly", "");
-      ta.style.position = "absolute";
-      ta.style.left = "-9999px";
-      document.body.appendChild(ta);
-      const sel = document.getSelection();
-      const range = sel && sel.rangeCount > 0 ? sel.getRangeAt(0) : null;
-      ta.select();
-      document.execCommand("copy");
-      document.body.removeChild(ta);
-      if (range) {
-        sel.removeAllRanges();
-        sel.addRange(range);
-      }
-      return Promise.resolve();
-    } catch (e) {
-      return Promise.reject(e);
-    }
-  }
-
-  function copyToClipboard(text) {
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      return navigator.clipboard.writeText(text);
-    }
-    return fallbackCopyText(text);
-  }
-
   function injectButtons(root) {
     const blocks = (root || document).querySelectorAll("pre");
     blocks.forEach((pre) => {
@@ -72,14 +42,16 @@
     // Hugo Chroma with lineNos + lineNumbersInTable=false renders each line
     // as <span style="display:flex;"><span (line-number)>…</span><span (code)>…</span></span>.
     // The line-number span has user-select:none. Extract only the code spans.
-    const lineSpans = source.querySelectorAll("span[style*='display:flex']");
+    const lineSpans = source.querySelectorAll(
+      "span[style*='display:flex'], span[style*='display: flex']",
+    );
     let text;
     if (lineSpans.length > 0) {
       const lines = [];
       lineSpans.forEach((line) => {
         const children = line.children;
         // Last child span contains the actual code; earlier spans are line numbers
-        if (children.length >= 2) {
+        if (children.length > 0) {
           lines.push(children[children.length - 1].textContent);
         } else {
           lines.push(line.textContent);
@@ -92,7 +64,7 @@
 
     (async () => {
       try {
-        await copyToClipboard(text);
+        await window.__pochiClipboard.copy(text);
         btn.innerHTML = ICON_CHECK;
         btn.setAttribute("aria-label", getLabel("codeCopiedLabel"));
         btn.classList.add("code-copy-button--copied");

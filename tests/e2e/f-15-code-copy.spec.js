@@ -63,6 +63,23 @@ test.describe("F-15 Code copy button", () => {
     expect(copied).not.toMatch(/^\d+\n/m);
   });
 
+  test("copying code block with empty lines excludes line numbers", async ({
+    page,
+  }) => {
+    await page.goto(POST_URL);
+
+    // The Go code block (with empty lines) is the 3rd pre block
+    const btns = page.locator("article pre .code-copy-button");
+    const goBtn = btns.nth(2);
+    await goBtn.click();
+
+    const copied = await page.evaluate(() => window.__copiedText);
+    expect(copied).toBeTruthy();
+    expect(copied).toContain("fmt.Println");
+    // Line numbers must NOT be included
+    expect(copied).not.toMatch(/^\d+\n/m);
+  });
+
   test("copy button shows check icon after copy", async ({ page }) => {
     await page.goto(POST_URL);
 

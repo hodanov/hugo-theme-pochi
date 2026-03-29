@@ -27,6 +27,16 @@ plain text block
 no language specified
 ```
 
+## Code with empty lines
+
+```go
+func main() {
+
+ fmt.Println("hello")
+
+}
+```
+
 ## Python example
 
 ```python
