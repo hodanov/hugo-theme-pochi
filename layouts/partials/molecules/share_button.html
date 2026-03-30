@@ -17,4 +17,17 @@
       aria-live="polite"
     ></span>
   </button>
+
+  {{/* SNS share links — desktop sidebar only (hidden on mobile via CSS) */}}
+  {{- $parsed := urls.Parse .Permalink -}}
+  <a
+    class="sns-share-link"
+    href="https://b.hatena.ne.jp/entry/s/{{ $parsed.Host }}{{ $parsed.Path }}"
+    target="_blank"
+    rel="noopener noreferrer"
+    title="{{ T "share_on_hatena" }}"
+    aria-label="{{ T "share_on_hatena" }}"
+  >
+    {{ partial "atoms/icon.html" (dict "id" "icon-hatena-bookmark") }}
+  </a>
 </div>

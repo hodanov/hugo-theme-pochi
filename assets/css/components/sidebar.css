@@ -186,6 +186,11 @@
   z-index: 10;
 }
 
+/* Hide SNS share links in mobile action bar (Web Share API covers all services) */
+#action-bar-mobile .sns-share-link {
+  display: none;
+}
+
 #action-bar-mobile .scroll-top-btn {
   display: inline-flex;
   align-items: center;
@@ -242,6 +247,7 @@
 /* Share button (left sidebar) */
 #sidebar-left .share-sidebar {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   margin-top: 0.25rem;
@@ -265,6 +271,36 @@
 }
 #sidebar-left .share-btn:hover,
 #sidebar-left .share-btn[aria-pressed="true"] {
+  color: var(--pochi-link);
+}
+
+/* Hatena Bookmark icon text color (light/dark) */
+.icon-hatena-bookmark {
+  --pochi-hatena-bg: #555555;
+  --pochi-hatena-text: #f5f5f5;
+}
+.dark .icon-hatena-bookmark {
+  --pochi-hatena-bg: #a1a1a1;
+  --pochi-hatena-text: #1d1d1d;
+}
+
+/* SNS share links (left sidebar) */
+#sidebar-left .sns-share-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  min-height: 40px;
+  border: 0;
+  background: transparent;
+  color: var(--pochi-text-muted);
+  text-decoration: none;
+}
+#sidebar-left .sns-share-link .icon {
+  width: 24px;
+  height: 24px;
+}
+#sidebar-left .sns-share-link:hover {
   color: var(--pochi-link);
 }
 
