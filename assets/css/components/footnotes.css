@@ -1,0 +1,57 @@
+/* Footnotes: styling for Goldmark-generated footnote markup */
+
+/* Footnote reference in body text: display as [1] */
+.footnote-ref {
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.footnote-ref::before {
+  content: "[";
+}
+
+.footnote-ref::after {
+  content: "]";
+}
+
+/* Footnotes section at the end of the article */
+.footnotes {
+  margin-top: 3rem;
+  font-size: 0.85rem;
+  line-height: 1.7;
+  color: var(--pochi-text-muted);
+}
+
+.footnotes hr {
+  border: none;
+  border-top: 2px solid var(--pochi-accent);
+  margin-bottom: 1.5rem;
+}
+
+.footnotes ol {
+  padding-left: 1.5rem;
+  margin: 0;
+}
+
+.footnotes li {
+  margin-bottom: 0.5rem;
+}
+
+.footnotes li p {
+  font-size: 0.85rem;
+  line-height: 1.7;
+  margin-bottom: 0.5rem;
+}
+
+/* Back-reference link (↩︎) */
+.footnote-backref {
+  margin-left: 0.25rem;
+  text-decoration: none;
+  font-size: 0.8rem;
+}
+
+/* Scroll offset so the target isn't hidden behind the nav bar */
+.footnotes li[id],
+sup[id] {
+  scroll-margin-top: calc(var(--pochi-nav-height) + 1rem);
+}

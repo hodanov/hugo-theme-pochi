@@ -28,7 +28,7 @@ function smoothScroll() {
       // If selector is invalid or element not found, fail gracefully
       let targetEl = null;
       try {
-        targetEl = document.querySelector(href);
+        targetEl = document.getElementById(href.slice(1));
       } catch (_) {}
       scrollToTarget(targetEl);
     }
