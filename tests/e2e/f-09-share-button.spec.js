@@ -48,4 +48,40 @@ test.describe("F-09 Share button", () => {
 
     await context.close();
   });
+
+  test("hatena bookmark link is visible on desktop", async ({ page }) => {
+    await page.goto("/posts/p-03-with-toc/");
+
+    const sidebar = page.locator("#sidebar-left");
+    const hatenaLink = sidebar.locator(
+      "a.sns-share-link[href*='b.hatena.ne.jp']",
+    );
+
+    await expect(hatenaLink).toBeVisible();
+    await expect(hatenaLink).toHaveAttribute("target", "_blank");
+    await expect(hatenaLink).toHaveAttribute("rel", "noopener noreferrer");
+
+    const href = await hatenaLink.getAttribute("href");
+    expect(href).toContain("https://b.hatena.ne.jp/entry/s/");
+    expect(href).toContain("/posts/p-03-with-toc/");
+  });
+
+  test("mobile: hatena bookmark link is hidden in action bar", async ({
+    browser,
+  }) => {
+    const context = await browser.newContext({
+      ...devices["iPhone 13"],
+    });
+    const page = await context.newPage();
+
+    await page.goto("/posts/p-03-with-toc/");
+
+    const actionBar = page.locator("#action-bar-mobile");
+    await expect(actionBar).toBeVisible();
+
+    const hatenaLink = actionBar.locator("a.sns-share-link");
+    await expect(hatenaLink).toBeHidden();
+
+    await context.close();
+  });
 });

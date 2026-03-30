@@ -76,6 +76,9 @@ other = "URLをコピーしました"
 [copy_failed]
 other = "コピーに失敗しました"
 
+[share_on_hatena]
+other = "はてなブックマークに追加"
+
 [copy_code]
 other = "コードをコピー"
 

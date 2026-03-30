@@ -76,6 +76,9 @@ other = "URL copied"
 [copy_failed]
 other = "Copy failed"
 
+[share_on_hatena]
+other = "Save to Hatena Bookmark"
+
 [copy_code]
 other = "Copy code"
 
