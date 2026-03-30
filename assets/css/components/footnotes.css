@@ -24,13 +24,14 @@
 
 .footnotes hr {
   border: none;
-  border-top: 2px solid var(--pochi-accent);
+  border-top: 1px solid var(--pochi-border);
   margin-bottom: 1.5rem;
 }
 
 .footnotes ol {
   padding-left: 1.5rem;
   margin: 0;
+  font-size: 0.85rem;
 }
 
 .footnotes li {

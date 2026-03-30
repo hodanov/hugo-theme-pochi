@@ -41,7 +41,7 @@ test.describe("F-16 Footnotes", () => {
     expect(after).toContain("]");
   });
 
-  test("footnotes hr uses accent color border", async ({ page }) => {
+  test("footnotes hr uses border separator", async ({ page }) => {
     await page.goto(POST_URL);
 
     const hr = page.locator("article .footnotes hr");
