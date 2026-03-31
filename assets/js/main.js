@@ -222,30 +222,40 @@ function toggleTheme() {
     themeSwitch.setAttribute("aria-pressed", isDarkInit ? "true" : "false");
   } catch (_) {}
   themeSwitch.addEventListener("click", () => {
-    const root = document.documentElement; // keep in sync with head FOUC script
-    const isDarkMode = root.classList.contains("dark");
-    const next = isDarkMode ? "light" : "dark";
-    root.classList.toggle("dark");
-    if (next === "light") {
-      root.classList.add("light");
-    } else {
-      root.classList.remove("light");
-    }
-    localStorage.setItem("pref-theme", next);
-    // Update aria-pressed to reflect toggled state
-    try {
-      themeSwitch.setAttribute(
-        "aria-pressed",
-        next === "dark" ? "true" : "false",
-      );
-    } catch (_) {}
-
-    // Sync Giscus theme to match site theme
-    try {
-      if (typeof updateGiscusThemeWithRetry === "function") {
-        updateGiscusThemeWithRetry();
+    const doToggle = () => {
+      const root = document.documentElement; // keep in sync with head FOUC script
+      const isDarkMode = root.classList.contains("dark");
+      const next = isDarkMode ? "light" : "dark";
+      root.classList.toggle("dark");
+      if (next === "light") {
+        root.classList.add("light");
+      } else {
+        root.classList.remove("light");
       }
-    } catch (_) {}
+      localStorage.setItem("pref-theme", next);
+      // Update aria-pressed to reflect toggled state
+      try {
+        themeSwitch.setAttribute(
+          "aria-pressed",
+          next === "dark" ? "true" : "false",
+        );
+      } catch (_) {}
+
+      // Sync Giscus theme to match site theme
+      try {
+        if (typeof updateGiscusThemeWithRetry === "function") {
+          updateGiscusThemeWithRetry();
+        }
+      } catch (_) {}
+    };
+
+    const vtEnabled =
+      document.body?.getAttribute("data-view-transitions") === "true";
+    if (vtEnabled && typeof document.startViewTransition === "function") {
+      document.startViewTransition(doToggle);
+    } else {
+      doToggle();
+    }
   });
 }
 
@@ -509,6 +519,21 @@ function initDropdownKeyboard() {
   });
 }
 
+// Intercept search form submission to use PJAX navigation (enables View Transitions)
+function setupSearchFormPjax() {
+  document.addEventListener("submit", function (e) {
+    var form = e.target.closest("#searchform");
+    if (!form || !window.__pochiNavigate) return;
+    e.preventDefault();
+    var params = new URLSearchParams(new FormData(form)).toString();
+    var action = form.getAttribute("action");
+    // Ensure trailing slash for Hugo pretty URLs
+    if (action && !action.endsWith("/")) action += "/";
+    var url = action + "?" + params;
+    window.__pochiNavigate(url);
+  });
+}
+
 onReady(() => {
   smoothScroll();
   toggleSideNav();
@@ -516,6 +541,7 @@ onReady(() => {
   handleThemeChange();
   initSearch();
   initDropdownKeyboard();
+  setupSearchFormPjax();
   // Ensure Giscus theme matches current mode on initial load
   try {
     if (typeof updateGiscusThemeWithRetry === "function") {

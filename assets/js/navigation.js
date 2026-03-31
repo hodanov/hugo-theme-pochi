@@ -317,11 +317,33 @@
   }
 
   function afterSwapInit() {
+    // Re-initialize search after PJAX swap.
+    // The search page loads Fuse.js + Mark.js via inline <script defer> which
+    // won't execute when cloned by PJAX. Re-inject them if needed.
     try {
-      // Functions declared in assets/js/main.js are global in classic scripts
-      if (typeof initSearch === "function") initSearch();
-      // Other global listeners (smoothScroll, toggleSideNav, theme) use document-level
-      // delegation and remain active across swaps.
+      (function initSearchAfterSwap() {
+        if (typeof initSearch !== "function") return;
+        // If Fuse is already loaded (from a previous search page visit), just init
+        if (typeof Fuse !== "undefined") {
+          initSearch();
+          return;
+        }
+        // Find vendor script in swapped content and re-inject it
+        var vendorScript = document.querySelector(
+          'script[src*="vendor-search"], script[src*="fuse"]',
+        );
+        if (!vendorScript) return;
+        var neu = document.createElement("script");
+        neu.src = vendorScript.src;
+        neu.addEventListener(
+          "load",
+          function () {
+            initSearch();
+          },
+          { once: true },
+        );
+        vendorScript.replaceWith(neu);
+      })();
     } catch (_) {}
 
     // Re-initialize Google AdSense after PJAX swap
@@ -490,6 +512,11 @@
       navigateTo(location.href, { updateHistory: false, scroll: "preserve" });
     });
   }
+
+  // Expose navigate for other modules (lang-switcher, search form, etc.)
+  window.__pochiNavigate = function (url) {
+    return navigateTo(url);
+  };
 
   function init() {
     setupPrefetching();
