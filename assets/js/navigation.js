@@ -6,8 +6,9 @@
 
 (function () {
   const CACHE = new Map(); // url -> Promise<string> (HTML)
-  // Feature toggle: set to true to enable View Transitions animations
-  const ENABLE_VIEW_TRANSITIONS = false;
+  // Feature toggle: controlled by site param viewTransitions.enable
+  const ENABLE_VIEW_TRANSITIONS =
+    document.body?.getAttribute("data-view-transitions") === "true";
   const SUPPORTS_VT =
     ENABLE_VIEW_TRANSITIONS &&
     typeof document.startViewTransition === "function";
@@ -307,11 +308,11 @@
     };
 
     if (SUPPORTS_VT) {
-      document.startViewTransition(doSwap);
-    } else {
-      doSwap();
+      const transition = document.startViewTransition(doSwap);
+      return transition.updateCallbackDone.then(() => true);
     }
 
+    doSwap();
     return true;
   }
 
@@ -427,7 +428,7 @@
       syncHead(doc);
       // Sync header UI elements (language switcher, menus) that are language/page dependent
       syncHeaderUI(doc);
-      const ok = swapContent(doc, opts);
+      const ok = await swapContent(doc, opts);
       if (!ok) throw new Error("Swap failed");
       // Update title
       const newTitle = doc.title;

@@ -11,6 +11,9 @@ keywords = ["pochi", "hugo", "theme", "example"]
 [params.likeApi]
 baseUrl = "http://localhost:9999"
 
+[params.viewTransitions]
+enable = true
+
 [params.comment]
 enable = true
 provider = "disqus"
