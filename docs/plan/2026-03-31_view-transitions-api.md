@@ -106,7 +106,7 @@ const SUPPORTS_VT =
 
 - [x] `params.viewTransitions.enable = true` でビルドし、Chrome でページ遷移時に crossfade アニメーションが表示される
 - [x] `params.viewTransitions.enable = false`（またはキー未設定）で従来通りの即時遷移になる
-- [ ] Firefox（VT 未対応）で正常にフォールバック動作する
+- [x] Firefox（VT 未対応）で正常にフォールバック動作する
 - [x] `prefers-reduced-motion: reduce` 設定時にアニメーションが無効化される
 - [x] ブラウザの戻る/進むボタンで正常にナビゲーションできる
 - [x] ダークモード切り替えが VT と干渉しない

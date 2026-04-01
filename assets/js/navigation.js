@@ -6,6 +6,7 @@
 
 (function () {
   const CACHE = new Map(); // url -> Promise<string> (HTML)
+  const CACHE_MAX = 50;
   // Feature toggle: controlled by site param viewTransitions.enable
   const ENABLE_VIEW_TRANSITIONS =
     document.body?.getAttribute("data-view-transitions") === "true";
@@ -45,6 +46,10 @@
         throw err;
       });
     CACHE.set(key, p);
+    // Evict oldest entry when cache exceeds limit
+    if (CACHE.size > CACHE_MAX) {
+      CACHE.delete(CACHE.keys().next().value);
+    }
     return p;
   }
 
@@ -514,7 +519,14 @@
   }
 
   // Expose navigate for other modules (lang-switcher, search form, etc.)
+  // Validates same-origin to prevent misuse by third-party scripts.
   window.__pochiNavigate = function (url) {
+    try {
+      var parsed = new URL(url, location.href);
+      if (parsed.origin !== location.origin) return;
+    } catch (_) {
+      return;
+    }
     return navigateTo(url);
   };
 

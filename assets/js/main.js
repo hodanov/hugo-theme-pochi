@@ -368,12 +368,11 @@ function populateResults(results) {
     "search-result-template",
   ).innerHTML;
 
+  var html = "";
   results.forEach(function (value, key) {
     var snippet = value.item.summary;
-    var snippetHighlights = [];
-    snippetHighlights.push(searchQuery);
 
-    var output = render(templateDefinition, {
+    html += render(templateDefinition, {
       key: key,
       title: value.item.title,
       link: value.item.permalink,
@@ -382,12 +381,12 @@ function populateResults(results) {
       featuredImage: "",
       snippet: snippet,
     });
-    searchResults.innerHTML += output;
+  });
+  searchResults.innerHTML = html;
 
-    snippetHighlights.forEach(function (snipvalue, snipkey) {
-      var instance = new Mark(document.getElementById("summary-" + key));
-      instance.mark(snipvalue);
-    });
+  results.forEach(function (value, key) {
+    var instance = new Mark(document.getElementById("summary-" + key));
+    instance.mark(searchQuery);
   });
 }
 
@@ -520,18 +519,22 @@ function initDropdownKeyboard() {
 }
 
 // Intercept search form submission to use PJAX navigation (enables View Transitions)
+function handleSearchFormSubmit(e) {
+  var form = e.target.closest("#searchform");
+  if (!form || !window.__pochiNavigate) return;
+  e.preventDefault();
+  var params = new URLSearchParams(new FormData(form)).toString();
+  var action = form.getAttribute("action");
+  // Allow only safe relative paths
+  if (!action || !/^\/[0-9A-Za-z/_\-]*$/.test(action)) return;
+  // Ensure trailing slash for Hugo pretty URLs
+  if (!action.endsWith("/")) action += "/";
+  var url = action + "?" + params;
+  window.__pochiNavigate(url);
+}
+
 function setupSearchFormPjax() {
-  document.addEventListener("submit", function (e) {
-    var form = e.target.closest("#searchform");
-    if (!form || !window.__pochiNavigate) return;
-    e.preventDefault();
-    var params = new URLSearchParams(new FormData(form)).toString();
-    var action = form.getAttribute("action");
-    // Ensure trailing slash for Hugo pretty URLs
-    if (action && !action.endsWith("/")) action += "/";
-    var url = action + "?" + params;
-    window.__pochiNavigate(url);
-  });
+  document.addEventListener("submit", handleSearchFormSubmit);
 }
 
 onReady(() => {
