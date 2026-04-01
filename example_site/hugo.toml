@@ -14,6 +14,9 @@ baseUrl = "http://localhost:9999"
 [params.viewTransitions]
 enable = true
 
+[params.scrollFadeIn]
+enable = true
+
 [params.comment]
 enable = true
 provider = "disqus"
