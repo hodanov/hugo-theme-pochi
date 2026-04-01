@@ -24,11 +24,12 @@
 {{ $cLightbox := resources.Get "css/components/lightbox.css" }}
 {{ $cArticleList := resources.Get "css/components/article-list.css" }}
 {{ $cScroll := resources.Get "css/components/scroll.css" }}
+{{ $cScrollFadeIn := resources.Get "css/components/scroll-fade-in.css" }}
 {{ $cProfile := resources.Get "css/components/profile.css" }}
 {{ $cFootnotes := resources.Get "css/components/footnotes.css" }}
 {{ $cViewTransitions := resources.Get "css/components/view-transitions.css" }}
 
 {{ $main := resources.Get "css/main.css" }}
 
-{{ $bundledCss := slice $tokens $normalize $utilities $base $layoutMain $layoutGrid $cButtons $cNav $cSidebar $cTypography $cContent $cCode $cForms $cIcons $cSearch $cLists $cToc $cPagination $cFooter $cBreadcrumbs $cHero $cMedia $cLightbox $cArticleList $cScroll $cProfile $cFootnotes $cViewTransitions $main | resources.Concat "css/bundled.css" | resources.Minify | fingerprint }}
+{{ $bundledCss := slice $tokens $normalize $utilities $base $layoutMain $layoutGrid $cButtons $cNav $cSidebar $cTypography $cContent $cCode $cForms $cIcons $cSearch $cLists $cToc $cPagination $cFooter $cBreadcrumbs $cHero $cMedia $cLightbox $cArticleList $cScroll $cScrollFadeIn $cProfile $cFootnotes $cViewTransitions $main | resources.Concat "css/bundled.css" | resources.Minify | fingerprint }}
 <link rel="stylesheet" href="{{ $bundledCss.RelPermalink }}" />

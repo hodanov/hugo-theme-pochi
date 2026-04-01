@@ -7,6 +7,9 @@
     data-code-copy-label="{{ T "copy_code" }}"
     data-code-copied-label="{{ T "code_copied" }}"
     data-code-copy-failed-label="{{ T "copy_failed" }}"
+    data-scroll-fade-in="{{- with .Site.Params.scrollFadeIn -}}
+      {{- .enable -}}
+    {{- end -}}"
     data-view-transitions="{{- with .Site.Params.viewTransitions -}}
       {{- .enable -}}
     {{- end -}}"
