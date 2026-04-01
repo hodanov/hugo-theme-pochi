@@ -11,5 +11,9 @@ document.addEventListener("change", function (event) {
   if (v.charAt(0) !== "/") return;
   // Allow only safe path characters
   if (!/^\/[0-9A-Za-z/_\-]*$/.test(v)) return;
-  window.location.href = v;
+  if (window.__pochiNavigate) {
+    window.__pochiNavigate(v);
+  } else {
+    window.location.href = v;
+  }
 });

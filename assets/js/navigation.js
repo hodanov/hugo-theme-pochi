@@ -6,8 +6,10 @@
 
 (function () {
   const CACHE = new Map(); // url -> Promise<string> (HTML)
-  // Feature toggle: set to true to enable View Transitions animations
-  const ENABLE_VIEW_TRANSITIONS = false;
+  const CACHE_MAX = 50;
+  // Feature toggle: controlled by site param viewTransitions.enable
+  const ENABLE_VIEW_TRANSITIONS =
+    document.body?.getAttribute("data-view-transitions") === "true";
   const SUPPORTS_VT =
     ENABLE_VIEW_TRANSITIONS &&
     typeof document.startViewTransition === "function";
@@ -44,6 +46,10 @@
         throw err;
       });
     CACHE.set(key, p);
+    // Evict oldest entry when cache exceeds limit
+    if (CACHE.size > CACHE_MAX) {
+      CACHE.delete(CACHE.keys().next().value);
+    }
     return p;
   }
 
@@ -307,20 +313,42 @@
     };
 
     if (SUPPORTS_VT) {
-      document.startViewTransition(doSwap);
-    } else {
-      doSwap();
+      const transition = document.startViewTransition(doSwap);
+      return transition.updateCallbackDone.then(() => true);
     }
 
+    doSwap();
     return true;
   }
 
   function afterSwapInit() {
+    // Re-initialize search after PJAX swap.
+    // The search page loads Fuse.js + Mark.js via inline <script defer> which
+    // won't execute when cloned by PJAX. Re-inject them if needed.
     try {
-      // Functions declared in assets/js/main.js are global in classic scripts
-      if (typeof initSearch === "function") initSearch();
-      // Other global listeners (smoothScroll, toggleSideNav, theme) use document-level
-      // delegation and remain active across swaps.
+      (function initSearchAfterSwap() {
+        if (typeof initSearch !== "function") return;
+        // If Fuse is already loaded (from a previous search page visit), just init
+        if (typeof Fuse !== "undefined") {
+          initSearch();
+          return;
+        }
+        // Find vendor script in swapped content and re-inject it
+        var vendorScript = document.querySelector(
+          'script[src*="vendor-search"], script[src*="fuse"]',
+        );
+        if (!vendorScript) return;
+        var neu = document.createElement("script");
+        neu.src = vendorScript.src;
+        neu.addEventListener(
+          "load",
+          function () {
+            initSearch();
+          },
+          { once: true },
+        );
+        vendorScript.replaceWith(neu);
+      })();
     } catch (_) {}
 
     // Re-initialize Google AdSense after PJAX swap
@@ -427,7 +455,7 @@
       syncHead(doc);
       // Sync header UI elements (language switcher, menus) that are language/page dependent
       syncHeaderUI(doc);
-      const ok = swapContent(doc, opts);
+      const ok = await swapContent(doc, opts);
       if (!ok) throw new Error("Swap failed");
       // Update title
       const newTitle = doc.title;
@@ -489,6 +517,18 @@
       navigateTo(location.href, { updateHistory: false, scroll: "preserve" });
     });
   }
+
+  // Expose navigate for other modules (lang-switcher, search form, etc.)
+  // Validates same-origin to prevent misuse by third-party scripts.
+  window.__pochiNavigate = function (url) {
+    try {
+      var parsed = new URL(url, location.href);
+      if (parsed.origin !== location.origin) return;
+    } catch (_) {
+      return;
+    }
+    return navigateTo(url);
+  };
 
   function init() {
     setupPrefetching();

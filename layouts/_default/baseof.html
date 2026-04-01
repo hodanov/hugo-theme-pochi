@@ -7,6 +7,9 @@
     data-code-copy-label="{{ T "copy_code" }}"
     data-code-copied-label="{{ T "code_copied" }}"
     data-code-copy-failed-label="{{ T "copy_failed" }}"
+    data-view-transitions="{{- with .Site.Params.viewTransitions -}}
+      {{- .enable -}}
+    {{- end -}}"
   >
     <a class="skip-link" href="#main-content">{{ T "skip_to_content" }}</a>
     {{ block "header" . }}

@@ -7,13 +7,14 @@ test.describe("F-04/05 Search", () => {
 
     await expect(page.locator(".main-content")).toBeVisible();
     await page.fill("#search-query", query);
-    await Promise.all([
-      page.waitForURL(
-        (url) =>
-          url.pathname === "/search/" && url.searchParams.get("q") === query,
-      ),
-      page.click("#searchsubmit"),
-    ]);
+    await page.click("#searchsubmit");
+    // PJAX uses pushState so wait for URL change via location check
+    await page.waitForFunction(
+      (q) =>
+        location.pathname === "/search/" &&
+        new URLSearchParams(location.search).get("q") === q,
+      query,
+    );
 
     const results = page.locator("#search-results");
     await expect(results).toHaveCount(1);
@@ -30,13 +31,14 @@ test.describe("F-04/05 Search", () => {
 
     await expect(page.locator(".main-content")).toBeVisible();
     await page.fill("#search-query", query);
-    await Promise.all([
-      page.waitForURL(
-        (url) =>
-          url.pathname === "/search/" && url.searchParams.get("q") === query,
-      ),
-      page.click("#searchsubmit"),
-    ]);
+    await page.click("#searchsubmit");
+    // PJAX uses pushState so wait for URL change via location check
+    await page.waitForFunction(
+      (q) =>
+        location.pathname === "/search/" &&
+        new URLSearchParams(location.search).get("q") === q,
+      query,
+    );
 
     const empty = page.locator(".search-results-empty");
     await expect(empty).toHaveCount(1);

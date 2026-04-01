@@ -222,30 +222,40 @@ function toggleTheme() {
     themeSwitch.setAttribute("aria-pressed", isDarkInit ? "true" : "false");
   } catch (_) {}
   themeSwitch.addEventListener("click", () => {
-    const root = document.documentElement; // keep in sync with head FOUC script
-    const isDarkMode = root.classList.contains("dark");
-    const next = isDarkMode ? "light" : "dark";
-    root.classList.toggle("dark");
-    if (next === "light") {
-      root.classList.add("light");
-    } else {
-      root.classList.remove("light");
-    }
-    localStorage.setItem("pref-theme", next);
-    // Update aria-pressed to reflect toggled state
-    try {
-      themeSwitch.setAttribute(
-        "aria-pressed",
-        next === "dark" ? "true" : "false",
-      );
-    } catch (_) {}
-
-    // Sync Giscus theme to match site theme
-    try {
-      if (typeof updateGiscusThemeWithRetry === "function") {
-        updateGiscusThemeWithRetry();
+    const doToggle = () => {
+      const root = document.documentElement; // keep in sync with head FOUC script
+      const isDarkMode = root.classList.contains("dark");
+      const next = isDarkMode ? "light" : "dark";
+      root.classList.toggle("dark");
+      if (next === "light") {
+        root.classList.add("light");
+      } else {
+        root.classList.remove("light");
       }
-    } catch (_) {}
+      localStorage.setItem("pref-theme", next);
+      // Update aria-pressed to reflect toggled state
+      try {
+        themeSwitch.setAttribute(
+          "aria-pressed",
+          next === "dark" ? "true" : "false",
+        );
+      } catch (_) {}
+
+      // Sync Giscus theme to match site theme
+      try {
+        if (typeof updateGiscusThemeWithRetry === "function") {
+          updateGiscusThemeWithRetry();
+        }
+      } catch (_) {}
+    };
+
+    const vtEnabled =
+      document.body?.getAttribute("data-view-transitions") === "true";
+    if (vtEnabled && typeof document.startViewTransition === "function") {
+      document.startViewTransition(doToggle);
+    } else {
+      doToggle();
+    }
   });
 }
 
@@ -358,12 +368,11 @@ function populateResults(results) {
     "search-result-template",
   ).innerHTML;
 
+  var html = "";
   results.forEach(function (value, key) {
     var snippet = value.item.summary;
-    var snippetHighlights = [];
-    snippetHighlights.push(searchQuery);
 
-    var output = render(templateDefinition, {
+    html += render(templateDefinition, {
       key: key,
       title: value.item.title,
       link: value.item.permalink,
@@ -372,12 +381,12 @@ function populateResults(results) {
       featuredImage: "",
       snippet: snippet,
     });
-    searchResults.innerHTML += output;
+  });
+  searchResults.innerHTML = html;
 
-    snippetHighlights.forEach(function (snipvalue, snipkey) {
-      var instance = new Mark(document.getElementById("summary-" + key));
-      instance.mark(snipvalue);
-    });
+  results.forEach(function (value, key) {
+    var instance = new Mark(document.getElementById("summary-" + key));
+    instance.mark(searchQuery);
   });
 }
 
@@ -509,6 +518,25 @@ function initDropdownKeyboard() {
   });
 }
 
+// Intercept search form submission to use PJAX navigation (enables View Transitions)
+function handleSearchFormSubmit(e) {
+  var form = e.target.closest("#searchform");
+  if (!form || !window.__pochiNavigate) return;
+  e.preventDefault();
+  var params = new URLSearchParams(new FormData(form)).toString();
+  var action = form.getAttribute("action");
+  // Allow only safe relative paths
+  if (!action || !/^\/[0-9A-Za-z/_\-]*$/.test(action)) return;
+  // Ensure trailing slash for Hugo pretty URLs
+  if (!action.endsWith("/")) action += "/";
+  var url = action + "?" + params;
+  window.__pochiNavigate(url);
+}
+
+function setupSearchFormPjax() {
+  document.addEventListener("submit", handleSearchFormSubmit);
+}
+
 onReady(() => {
   smoothScroll();
   toggleSideNav();
@@ -516,6 +544,7 @@ onReady(() => {
   handleThemeChange();
   initSearch();
   initDropdownKeyboard();
+  setupSearchFormPjax();
   // Ensure Giscus theme matches current mode on initial load
   try {
     if (typeof updateGiscusThemeWithRetry === "function") {
