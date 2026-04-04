@@ -93,29 +93,14 @@ pre {
   position: absolute;
   top: 0.5rem;
   right: 2.75rem;
-  padding: 0.2rem 0.5rem;
+  padding: 0.15rem 0.4rem;
   border-radius: 0.25rem;
-  background: var(--pochi-code-fg);
-  color: var(--pochi-code-bg);
+  background: var(--pochi-accent);
+  color: var(--pochi-on-accent);
   font-size: 0.75rem;
+  line-height: 1rem;
   white-space: nowrap;
+  box-shadow: var(--pochi-shadow-2);
   pointer-events: none;
-  animation: code-copy-chip-fade 0.2s ease;
-}
-
-@keyframes code-copy-chip-fade {
-  from {
-    opacity: 0;
-    transform: translateY(4px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .code-copy-chip {
-    animation: none;
-  }
+  z-index: 10;
 }
