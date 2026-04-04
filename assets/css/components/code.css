@@ -68,6 +68,11 @@ pre {
   transition: opacity 0.2s ease;
 }
 
+.code-copy-button svg {
+  width: 16px;
+  height: 16px;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .code-copy-button {
     transition: none;
@@ -82,4 +87,35 @@ pre {
 .code-copy-button--copied {
   opacity: 1;
   color: #4caf50;
+}
+
+.code-copy-chip {
+  position: absolute;
+  top: 0.5rem;
+  right: 2.75rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 0.25rem;
+  background: var(--pochi-code-fg);
+  color: var(--pochi-code-bg);
+  font-size: 0.75rem;
+  white-space: nowrap;
+  pointer-events: none;
+  animation: code-copy-chip-fade 0.2s ease;
+}
+
+@keyframes code-copy-chip-fade {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .code-copy-chip {
+    animation: none;
+  }
 }

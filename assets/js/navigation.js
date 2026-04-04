@@ -58,6 +58,21 @@
     return parser.parseFromString(html, "text/html");
   }
 
+  // Sync language-dependent <body> data attributes (i18n labels)
+  // These are set by Hugo templates and change when the language changes.
+  // swapContent() only replaces .main-content, so body attributes must be
+  // synced explicitly on each PJAX navigation.
+  function syncBodyI18n(nextDoc) {
+    if (!nextDoc || !nextDoc.body) return;
+    const nextDataset = nextDoc.body.dataset;
+    const keys = ["codeCopyLabel", "codeCopiedLabel", "codeCopyFailedLabel"];
+    keys.forEach((key) => {
+      if (nextDataset[key] !== undefined) {
+        document.body.dataset[key] = nextDataset[key];
+      }
+    });
+  }
+
   // Sync critical <head> metadata with the next document
   // - Whitelist replacement for SEO/UX relevant tags
   // - Avoid touching analytics or app bootstrap scripts
@@ -453,6 +468,8 @@
       adoptImagePreloads(doc);
       // Sync head metadata and structured data for correctness
       syncHead(doc);
+      // Sync language-dependent body data attributes (i18n labels)
+      syncBodyI18n(doc);
       // Sync header UI elements (language switcher, menus) that are language/page dependent
       syncHeaderUI(doc);
       const ok = await swapContent(doc, opts);
