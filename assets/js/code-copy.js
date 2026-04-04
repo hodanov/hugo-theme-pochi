@@ -68,6 +68,16 @@
         btn.innerHTML = ICON_CHECK;
         btn.setAttribute("aria-label", getLabel("codeCopiedLabel"));
         btn.classList.add("code-copy-button--copied");
+
+        if (!pre.querySelector(".code-copy-chip")) {
+          const chip = document.createElement("span");
+          chip.className = "code-copy-chip";
+          chip.textContent = getLabel("codeCopiedLabel");
+          chip.setAttribute("aria-hidden", "true");
+          pre.appendChild(chip);
+          setTimeout(() => chip.remove(), FEEDBACK_DURATION);
+        }
+
         setTimeout(() => {
           btn.innerHTML = ICON_COPY;
           btn.setAttribute("aria-label", getLabel("codeCopyLabel"));

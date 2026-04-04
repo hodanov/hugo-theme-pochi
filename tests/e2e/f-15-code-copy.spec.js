@@ -114,6 +114,45 @@ test.describe("F-15 Code copy button", () => {
     await expect(btn).not.toHaveClass(/code-copy-button--copied/);
   });
 
+  // ── Chip feedback ──────────────────────────────────────
+
+  test("copy button shows chip after copy", async ({ page }) => {
+    await page.goto(POST_URL);
+
+    const btn = page.locator("article pre .code-copy-button").first();
+    await btn.click();
+
+    const chip = page.locator("article pre .code-copy-chip").first();
+    await expect(chip).toBeVisible();
+  });
+
+  test("chip disappears after feedback duration", async ({ page }) => {
+    await page.goto(POST_URL);
+
+    const btn = page.locator("article pre .code-copy-button").first();
+    await btn.click();
+
+    await page.waitForFunction(
+      () => !document.querySelector(".code-copy-chip"),
+      { timeout: 5000 },
+    );
+
+    await expect(page.locator("article pre .code-copy-chip")).toHaveCount(0);
+  });
+
+  test("rapid double-click does not create duplicate chips", async ({
+    page,
+  }) => {
+    await page.goto(POST_URL);
+
+    const btn = page.locator("article pre .code-copy-button").first();
+    await btn.click();
+    await btn.click();
+
+    const chips = page.locator("article pre .code-copy-chip");
+    await expect(chips).toHaveCount(1);
+  });
+
   // ── No duplicate injection ─────────────────────────────
 
   test("buttons are not duplicated on repeated injection", async ({ page }) => {
