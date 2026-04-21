@@ -1,0 +1,25 @@
+{{- /*
+  Emit `width="..." height="..."` attributes for <img>.
+  - If displayWidth or displayHeight is provided (>0), use them verbatim.
+  Missing side is omitted so CSS `height: auto` keeps the aspect ratio.
+  - Otherwise, fall back to intrinsic width/height (emitted only when both > 0,
+  preserving the original behaviour of existing branches).
+  */
+-}}
+{{- $dw := int (or .displayWidth 0) -}}
+{{- $dh := int (or .displayHeight 0) -}}
+{{- $iw := int (or .intrinsicWidth 0) -}}
+{{- $ih := int (or .intrinsicHeight 0) -}}
+{{- $parts := slice -}}
+{{- if or (gt $dw 0) (gt $dh 0) -}}
+  {{- if gt $dw 0 -}}
+    {{- $parts = $parts | append (printf "width=\"%d\"" $dw) -}}
+  {{- end -}}
+  {{- if gt $dh 0 -}}
+    {{- $parts = $parts | append (printf "height=\"%d\"" $dh) -}}
+  {{- end -}}
+{{- else if and (gt $iw 0) (gt $ih 0) -}}
+  {{- $parts = $parts | append (printf "width=\"%d\"" $iw) -}}
+  {{- $parts = $parts | append (printf "height=\"%d\"" $ih) -}}
+{{- end -}}
+{{- return (delimit $parts " ") -}}

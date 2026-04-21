@@ -1,1 +1,26 @@
-{{ partial "atoms/picture.html" (dict "image" (.Destination | safeURL) "alt" .Text "page" .Page) }}
+{{- $displayWidth := 0 -}}
+{{- $displayHeight := 0 -}}
+{{- with .Title -}}
+  {{- if hasPrefix . "=" -}}
+    {{- $spec := strings.TrimPrefix "=" . -}}
+    {{- $parts := split $spec "x" -}}
+    {{- if eq (len $parts) 2 -}}
+      {{- with index $parts 0 -}}
+        {{- $n := int . -}}
+        {{- if gt $n 0 -}}{{- $displayWidth = $n -}}{{- end -}}
+      {{- end -}}
+      {{- with index $parts 1 -}}
+        {{- $n := int . -}}
+        {{- if gt $n 0 -}}{{- $displayHeight = $n -}}{{- end -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{ partial "atoms/picture.html" (dict
+  "image" (.Destination | safeURL)
+  "alt" .Text
+  "page" .Page
+  "displayWidth" $displayWidth
+  "displayHeight" $displayHeight
+  )
+}}

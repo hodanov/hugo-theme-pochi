@@ -25,10 +25,10 @@ provider = "disqus"
 home = ["HTML", "JSON", "RSS"]
 
 [menus]
-  [[menus.main]]
-    name = "About"
-    url = "/page/about/"
-    weight = 1
+[[menus.main]]
+name = "About"
+url = "/page/about/"
+weight = 1
 
 [languages]
 [languages.en]
@@ -40,6 +40,9 @@ weight = 1
 languageName = "日本語"
 languageCode = "ja"
 weight = 2
+
+[markup.goldmark.renderer]
+unsafe = true
 
 [markup.highlight]
 lineNos = true
