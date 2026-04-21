@@ -1,7 +1,9 @@
 {{ $page := .page }}
 {{ $imgParam := .image }}
 {{ $alt := .alt }}
-{{ $sizesAttr := or .sizes "(min-width: 1200px) 1200px, 100vw" }}
+{{ $displayWidth := int (or .displayWidth 0) }}
+{{ $displayHeight := int (or .displayHeight 0) }}
+{{ $sizesAttr := or .sizes (cond (gt $displayWidth 0) (printf "%dpx" $displayWidth) "(min-width: 1200px) 1200px, 100vw") }}
 {{ $priority := .priority }}
 
 {{ $ext := lower (path.Ext $imgParam) }}
@@ -106,8 +108,13 @@
       sizes="{{ $sizesAttr }}"
       {{ with $alt }}alt="{{ . }}"{{ end }}
       {{ partial "atoms/img_attrs.html" (dict "priority" $priority) | safeHTMLAttr }}
-      width="{{ $width }}"
-      height="{{ $height }}"
+      {{ partial "atoms/img_size_attrs.html" (dict
+        "displayWidth" $displayWidth
+        "displayHeight" $displayHeight
+        "intrinsicWidth" $width
+        "intrinsicHeight" $height
+        ) | safeHTMLAttr
+      }}
     />
   </picture>
 {{ else if and $isRasterRes (or $isAVIF $isWebP) }}
@@ -151,8 +158,13 @@
         sizes="{{ $sizesAttr }}"
         {{ with $alt }}alt="{{ . }}"{{ end }}
         {{ partial "atoms/img_attrs.html" (dict "priority" $priority) | safeHTMLAttr }}
-        width="{{ $width }}"
-        height="{{ $height }}"
+        {{ partial "atoms/img_size_attrs.html" (dict
+          "displayWidth" $displayWidth
+          "displayHeight" $displayHeight
+          "intrinsicWidth" $width
+          "intrinsicHeight" $height
+          ) | safeHTMLAttr
+        }}
       />
     </picture>
   {{ else }}
@@ -165,9 +177,13 @@
         src="{{ $res.RelPermalink }}"
         {{ with $alt }}alt="{{ . }}"{{ end }}
         {{ partial "atoms/img_attrs.html" (dict "priority" $priority) | safeHTMLAttr }}
-        {{ if and (gt $width 0) (gt $height 0) }}
-          width="{{ $width }}" height="{{ $height }}"
-        {{ end }}
+        {{ partial "atoms/img_size_attrs.html" (dict
+          "displayWidth" $displayWidth
+          "displayHeight" $displayHeight
+          "intrinsicWidth" $width
+          "intrinsicHeight" $height
+          ) | safeHTMLAttr
+        }}
       />
     </picture>
   {{ end }}
@@ -179,6 +195,11 @@
       src="{{ $res.RelPermalink }}"
       {{ with $alt }}alt="{{ . }}"{{ end }}
       {{ partial "atoms/img_attrs.html" (dict "priority" $priority) | safeHTMLAttr }}
+      {{ partial "atoms/img_size_attrs.html" (dict
+        "displayWidth" $displayWidth
+        "displayHeight" $displayHeight
+        ) | safeHTMLAttr
+      }}
     />
   {{ else }}
     {{ $webPath := $imgParam }}
@@ -221,9 +242,13 @@
           src="{{ $fallbackSrc }}"
           {{ with $alt }}alt="{{ . }}"{{ end }}
           {{ partial "atoms/img_attrs.html" (dict "priority" $priority) | safeHTMLAttr }}
-          {{ if and (gt $width 0) (gt $height 0) }}
-            width="{{ $width }}" height="{{ $height }}"
-          {{ end }}
+          {{ partial "atoms/img_size_attrs.html" (dict
+            "displayWidth" $displayWidth
+            "displayHeight" $displayHeight
+            "intrinsicWidth" $width
+            "intrinsicHeight" $height
+            ) | safeHTMLAttr
+          }}
         />
       </picture>
     {{ else }}
@@ -239,9 +264,13 @@
         src="{{ $fallbackSrc }}"
         {{ with $alt }}alt="{{ . }}"{{ end }}
         {{ partial "atoms/img_attrs.html" (dict "priority" $priority) | safeHTMLAttr }}
-        {{ if and (gt $width 0) (gt $height 0) }}
-          width="{{ $width }}" height="{{ $height }}"
-        {{ end }}
+        {{ partial "atoms/img_size_attrs.html" (dict
+          "displayWidth" $displayWidth
+          "displayHeight" $displayHeight
+          "intrinsicWidth" $width
+          "intrinsicHeight" $height
+          ) | safeHTMLAttr
+        }}
       />
     {{ end }}
   {{ end }}

@@ -59,6 +59,22 @@ CSS variables in `tokens.css`; toggled by adding/removing `dark` class on `<html
 
 Client-side via Fuse.js. Index served as `index.json` from Hugo's output. Search form reads `data-index-url` attribute for the index URL.
 
+### Markdown image size hints
+
+Markdown images resolve through `layouts/_default/_markup/render-image.html` and
+the `atoms/picture.html` partial. Authors can request a display size via the
+Markdown title attribute using an `=` prefix:
+
+- `![alt](image.jpg "=300x")` — width only (aspect ratio preserved via CSS `height: auto`)
+- `![alt](image.jpg "=300x200")` — width and height
+- `![alt](image.jpg "=x200")` — height only
+
+When a size hint is present, the `<img>` `width` / `height` attributes and the
+`<picture>` `sizes` attribute are set accordingly; otherwise the existing
+responsive pipeline is untouched. Raw `<img width="...">` tags also work (via
+`markup.goldmark.renderer.unsafe = true`), but they bypass the `<picture>`
+AVIF/WebP generation.
+
 ### i18n
 
 Translation strings in `i18n/ja.toml` and `i18n/en.toml`. Templates use `{{ T "key" }}`.
