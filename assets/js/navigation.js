@@ -153,6 +153,17 @@
   function syncHeaderUI(nextDoc) {
     if (!nextDoc) return;
     try {
+      // Update brand logo (href and text depend on the current language/site)
+      const nextLogo = nextDoc.getElementById("logo-container");
+      const curLogo = document.getElementById("logo-container");
+      if (nextLogo && curLogo) {
+        const nextHref = nextLogo.getAttribute("href");
+        if (nextHref !== null) {
+          curLogo.setAttribute("href", nextHref);
+        }
+        curLogo.textContent = nextLogo.textContent;
+      }
+
       // Update top language switcher
       const nextLangSwitcher = nextDoc.getElementById(
         "lang-switcher-container",
