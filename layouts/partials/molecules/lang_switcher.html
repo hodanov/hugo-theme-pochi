@@ -19,8 +19,8 @@
     aria-label="Language"
     data-pochi-lang-switcher
   >
-    {{ range $ctx.Site.Languages }}
-      {{ $lang := . }}
+    {{ range partialCached "core/get_languages.html" . }}
+      {{ $lang := .Language }}
       {{ $isActive := eq $lang.Lang $ctx.Site.Language.Lang }}
       {{ $href := "" }}
       {{ $targets := where $ctx.AllTranslations "Lang" $lang.Lang }}
