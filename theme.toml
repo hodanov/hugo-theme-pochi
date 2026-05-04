@@ -5,9 +5,8 @@ description = "A theme for hugo websites."
 homepage = "https://github.com/hodanov/hugo-theme-pochi"
 demosite = ""
 tags = ["Blog", "Responsive", "Light mode", "Dark mode"]
-min_version = "0.101.1"
+min_version = "0.156.0"
 
 [author]
 name = "hodanov"
 homepage = "https://github.com/hodanov"
-

@@ -4,8 +4,9 @@
 
 {{/* Language alternates (hreflang) */}}
 {{- $ctx := . -}}
-{{- range .Site.Languages -}}
-  {{- $lang := . -}}
+{{- $sites := partialCached "core/get_languages.html" . -}}
+{{- range $sites -}}
+  {{- $lang := .Language -}}
   {{- $href := "" -}}
   {{- $targets := where $ctx.AllTranslations "Lang" $lang.Lang -}}
   {{- if gt (len $targets) 0 -}}
@@ -26,18 +27,19 @@
 {{- end -}}
 
 {{/* x-default: default language or site root */}}
-{{- $defaultLang := (index (sort .Site.Languages "Weight" "asc") 0) -}}
-{{- if $defaultLang -}}
+{{- $defaultSites := where $sites "Language.IsDefault" true -}}
+{{- with (index $defaultSites 0) -}}
+  {{- $defaultLang := .Language -}}
   {{- $xHref := "" -}}
-  {{- $d := where .AllTranslations "Lang" $defaultLang.Lang -}}
+  {{- $d := where $ctx.AllTranslations "Lang" $defaultLang.Lang -}}
   {{- if gt (len $d) 0 -}}
     {{- $xHref = (index $d 0).Permalink -}}
   {{- else -}}
-    {{- $homeDefault := where .Site.Home.AllTranslations "Lang" $defaultLang.Lang -}}
+    {{- $homeDefault := where $ctx.Site.Home.AllTranslations "Lang" $defaultLang.Lang -}}
     {{- if gt (len $homeDefault) 0 -}}
       {{- $xHref = (index $homeDefault 0).Permalink -}}
     {{- else -}}
-      {{- $xHref = .Site.BaseURL -}}
+      {{- $xHref = $ctx.Site.BaseURL -}}
     {{- end -}}
   {{- end -}}
   <link rel="alternate" hreflang="x-default" href="{{ $xHref }}" />

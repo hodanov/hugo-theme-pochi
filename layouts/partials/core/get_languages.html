@@ -1,0 +1,10 @@
+{{/* Returns project-wide sites filtered to the default Version and Role
+  dimensions, so language is the only varying dimension.
+  Replaces deprecated .Site.Languages (Hugo v0.156.0+).
+  Intended to be invoked via `partialCached`.
+  */
+-}}
+{{- $sites := hugo.Sites -}}
+{{- $sites = where $sites "Version.IsDefault" true -}}
+{{- $sites = where $sites "Role.IsDefault" true -}}
+{{- return $sites -}}
