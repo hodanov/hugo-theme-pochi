@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@fsouza/prettierd": "^0.27.0",
-    "prettier": "^3.8.1",
+    "prettier": "^3.8.3",
     "prettier-plugin-go-template": "^0.0.15"
   },
   "devDependencies": {
@@ -21,7 +21,7 @@
     "fuse.js": "^7.1.0",
     "mark.js": "^8.11.1",
     "modern-normalize": "^3.0.1",
-    "npm-check-updates": "^20.0.0",
+    "npm-check-updates": "^21.0.1",
     "picomatch": "^4.0.4",
     "typescript": "^6.0.2"
   }
