@@ -12,7 +12,7 @@
     "vendor:upgrade:major": "npx npm-check-updates -u --filter fuse.js,mark.js,modern-normalize && npm i && npm run vendor:sync"
   },
   "dependencies": {
-    "@fsouza/prettierd": "^0.27.0",
+    "@fsouza/prettierd": "^0.28.0",
     "prettier": "^3.8.3",
     "prettier-plugin-go-template": "^0.0.15"
   },
@@ -21,7 +21,7 @@
     "fuse.js": "^7.1.0",
     "mark.js": "^8.11.1",
     "modern-normalize": "^3.0.1",
-    "npm-check-updates": "^22.2.0",
+    "npm-check-updates": "^22.2.1",
     "picomatch": "^4.0.4",
     "typescript": "^6.0.3"
   }
