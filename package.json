@@ -17,7 +17,7 @@
     "prettier-plugin-go-template": "^0.0.15"
   },
   "devDependencies": {
-    "@playwright/test": "^1.60.0",
+    "@playwright/test": "^1.61.0",
     "fuse.js": "^7.1.0",
     "mark.js": "^8.11.1",
     "modern-normalize": "^3.0.1",
