@@ -41,8 +41,8 @@
 {{ end }}
 {{ $logo := cond (and (gt $logoW 0) (gt $logoH 0)) (dict "@type" "ImageObject" "url" $logoURL "width" $logoW "height" $logoH) (dict "@type" "ImageObject" "url" $logoURL) }}
 
-{{/* Resolve language code for JSON-LD (BCP47). Prefer .Site.LanguageCode; fallback to .Site.Language.Lang */}}
-{{ $langCode := or .Site.LanguageCode .Site.Language.Lang }}
+{{/* Resolve language code for JSON-LD (BCP47). Prefer .Site.Language.Locale; fallback to .Site.Language.Lang */}}
+{{ $langCode := or .Site.Language.Locale .Site.Language.Lang }}
 {{ if .IsPage }}
   {{ $datePublished := .PublishDate.Format "2006-01-02T15:04:05Z07:00" }}
   {{ $dateModified := .Lastmod.Format "2006-01-02T15:04:05Z07:00" }}
