@@ -17,11 +17,11 @@
     "prettier-plugin-go-template": "^0.0.15"
   },
   "devDependencies": {
-    "@playwright/test": "^1.62.0",
+    "@playwright/test": "^1.62.1",
     "fuse.js": "^7.1.0",
     "mark.js": "^8.11.1",
     "modern-normalize": "^3.0.1",
-    "npm-check-updates": "^23.0.0",
+    "npm-check-updates": "^23.0.1",
     "picomatch": "^4.0.5",
     "typescript": "^7.0.2"
   }
