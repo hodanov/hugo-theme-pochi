@@ -19,15 +19,17 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
+      # Playwright bumps change VRT rendering; baselines are updated by hand
+      # (see AGENTS.md), so they never auto-merge.
       - name: Approve PR
-        if: steps.metadata.outputs.update-type != 'version-update:semver-major'
+        if: steps.metadata.outputs.update-type != 'version-update:semver-major' && !contains(steps.metadata.outputs.dependency-names, '@playwright/test')
         run: gh pr review "$PR_URL" --approve
         env:
           PR_URL: ${{ github.event.pull_request.html_url }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Enable auto-merge (squash)
-        if: steps.metadata.outputs.update-type != 'version-update:semver-major'
+        if: steps.metadata.outputs.update-type != 'version-update:semver-major' && !contains(steps.metadata.outputs.dependency-names, '@playwright/test')
         run: gh pr merge "$PR_URL" --auto --squash
         env:
           PR_URL: ${{ github.event.pull_request.html_url }}
