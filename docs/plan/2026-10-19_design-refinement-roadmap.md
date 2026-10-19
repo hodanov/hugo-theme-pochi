@@ -152,15 +152,16 @@ pochi テーマのデザインを、デザイナー／FE エンジニアが実�
 - **完了条件**：ベースラインを記録してある。CI とローカルが同じ Hugo（0.164.0）でビルドできる。
 - **残作業**：本番の PSI / CrUX の数値を取得したら、上の「ベースライン計測」表に追記する。
 
-### P1 安全網（M・PR 4〜5 本）
+### P1 安全網（M・PR 3 本）
 
-1. スタイルガイドページ（`example_site/content/page/styleguide/`）を作る。中身は日英混在の長文、h2〜h6、10 列の表、長いコード、kbd、引用、脚注、画像の各パターン、長い URL、details。トークン見本の shortcode は example_site 側に置く。同じ PR で関連記事の `shuffle` をやめ、表示を決定的にする（N-01）。
-2. VRT：`playwright.config.js` を projects（e2e / vrt / a11y）に分ける。6 ページ × 375 / 768 / 1280px × ライト / ダークで撮る。`reducedMotion: 'reduce'` と `animations: 'disabled'` を指定し、年といいね数は mask する。ベースラインは Docker だけで生成する。
-3. a11y：`@axe-core/playwright`（`wcag2a/aa/21aa/22aa`）を使い、既知の違反は `known-violations.json` に記録してラチェット運用する。あわせて ARIA スナップショットを取る。
-4. 静的チェック：html-validate、stylelint（まず警告から）、`scripts/check-contrast.mjs`（WCAG2 と APCA を判定）。
-5. Lighthouse CI：`example_site/public` を対象にし、最初は警告だけにする。
+詳細は `2026-10-19_p1-safety-net.md`。当初の「`playwright.config.js` を projects で分ける」案は採らず、Docker 内で静的ビルドに対して走らせる `playwright.snapshot.config.js` を別に設ける（ベースラインを持つ VRT と a11y は Linux で固定する必要があるため）。
 
-- **完了条件**：`--repeat-each=5` で VRT が一度も揺れない。CI の所要時間の増加が 5 分以内。
+1. **PR1**：スタイルガイドページ（`example_site/content/page/styleguide/`）、出力の固定（関連記事の `shuffle` を廃止（N-01）、ビルド時にいいね API と年号を上書き）、VRT（42 枚、Docker）。
+2. **PR2**：a11y（axe のラチェット、ランドマークと見出しのアウトライン）と静的チェック（html-validate、stylelint、コントラスト）。いずれもベースラインと完全一致させるラチェットで運用する。
+3. **PR3**：Lighthouse CI（静的ビルド、判定は warn のみ）。
+
+- **あわせて実施**：main のブランチ保護（必須チェック）と、`@playwright/test` の更新を自動マージの対象から外す。
+- **完了条件**：`--repeat-each=5` で VRT が一度も揺れない。CI の所要時間の増加が 5 分以内（ジョブは並列）。
 
 ### P2 トークン基盤とカスケード（M・見た目は変えない）
 
