@@ -25,6 +25,7 @@ npm run vrt                  # Visual regression tests in Docker (see below)
 npm run vrt:update           # Re-generate changed VRT baselines in Docker
 npm run a11y                 # axe + landmark/heading outline in Docker (see below)
 npm run a11y:update          # Rewrite the axe baseline and changed outline snapshots
+npm run lighthouse           # Lighthouse on the static build (report only, see below)
 npm run build:snapshot       # Deterministic static build used by VRT (.snapshot/site)
 npm run vendor:verify        # Verify vendored files match node_modules
 npm run vendor:update        # Bump patch versions & re-vendor
@@ -44,7 +45,7 @@ npx playwright install --with-deps chromium
 
 ### CI pipeline
 
-CI runs three independent jobs: `lint` (Prettier, stylelint and contrast ratchets), `build` (Hugo build + html-validate ratchet), `vendor` (integrity check). E2E runs in a separate workflow, and VRT and a11y run in `snapshot.yml` (jobs `vrt` and `a11y`). All workflows install Hugo and Node from `mise.toml` via `jdx/mise-action`. `main` is protected: `lint`, `build`, `vendor`, `e2e`, `vrt` and `a11y` are required status checks.
+CI runs three independent jobs: `lint` (Prettier, stylelint and contrast ratchets), `build` (Hugo build + html-validate ratchet), `vendor` (integrity check). E2E runs in a separate workflow, VRT and a11y run in `snapshot.yml` (jobs `vrt` and `a11y`), and Lighthouse runs in `lighthouse.yml` (report only, not required). All workflows install Hugo and Node from `mise.toml` via `jdx/mise-action`. `main` is protected: `lint`, `build`, `vendor`, `e2e`, `vrt` and `a11y` are required status checks.
 
 ### Visual regression tests (VRT)
 
@@ -63,6 +64,10 @@ Existing findings are recorded as counts, and every check must match its baselin
 - html-validate (`.htmlvalidate.json`): counts per rule in `tests/baselines/html-validate.json`, over an unminified build in `.snapshot/html`. Hugo's alias redirect pages are skipped.
 - Contrast (`scripts/check-contrast.mjs`): resolves the tokens in `tokens.css` for light and dark (`var()`, `light-dark()`, `color-mix()`, alpha compositing) and checks each pair in `scripts/contrast-pairs.json` with WCAG 2.1 contrast (APCA is printed for reference). A failing pair must carry the roadmap audit ID in `known`, and a known failure that starts passing fails until the ID is removed. It also fails when the `prefers-color-scheme: dark` fallback block drifts from `:root.dark`. When adding a color token, add the pairs it is used in.
 - a11y (`tests/a11y/`, Docker like VRT, 13 pages in `pages.js`): axe (WCAG 2.0–2.2 A/AA + best-practice) per page and theme, counted per rule in `tests/a11y/known-violations.json`; the landmark/heading outline from the accessibility tree is a text snapshot per page in `tests/a11y/__snapshots__/`. `npm run a11y:update` (`A11Y_UPDATE=1`) rewrites both.
+
+### Lighthouse
+
+`npm run lighthouse` builds `.snapshot/site`, serves it with gzip and runs Lighthouse 3 times per page (mobile defaults) through its Node API (`scripts/lighthouse.mjs`), keeping the median run. Pages and assertions live in `scripts/lighthouse-targets.json` (Lighthouse CI's assertion shape): `warn` is only reported, `error` exits 1. Reports and `summary.md` go to `.lighthouse/`; on CI the table is written to the job summary and the reports are uploaded as the `lighthouse-reports` artifact. Chrome is Playwright's Chromium unless `CHROME_PATH` is set. Lighthouse CI itself is not used because its pinned dependencies carry known vulnerabilities.
 
 ## Architecture
 

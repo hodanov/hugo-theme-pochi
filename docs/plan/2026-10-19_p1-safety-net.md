@@ -1,4 +1,4 @@
-# Plan: P1 安全網（スタイルガイド・VRT・a11y・静的チェック・Lighthouse CI）
+# Plan: P1 安全網（スタイルガイド・VRT・a11y・静的チェック・Lighthouse）
 
 デザイン磨き込みロードマップ（`2026-10-19_design-refinement-roadmap.md`）の P1。P2 以降で見た目を変える前に、次の 3 つを用意する。
 
@@ -51,9 +51,10 @@
 - **ラチェット（PR2）**
   - axe / html-validate / stylelint / コントラストの 4 つとも、ベースラインと完全一致させる。
   - 新規の違反や件数増は失敗。件数が減った場合も「`*:update` で締めて」と促す失敗にする。
-- **Lighthouse CI（PR3）**
-  - 判定はすべて warn。アップロード先は `filesystem`（公開ストレージは使わない）。
+- **Lighthouse（PR3）**
+  - 判定はすべて warn。レポートはローカルの `.lighthouse/` と CI の artifact に残す（公開ストレージは使わない）。
   - 必須チェックにはしない。
+  - 当初は Lighthouse CI（`@lhci/cli`）を使う予定だったが、Lighthouse の Node API を直接呼ぶ `scripts/lighthouse.mjs` に変えた。理由は Decisions を参照。
 
 ### VRT の撮影対象
 
@@ -124,10 +125,12 @@
 
 ### PR3 `chore/p1-lighthouse-ci`
 
-- `@lhci/cli` と `lighthouserc.json` を追加する。
-  - 対象は 5 URL を各 3 回。
-  - 判定はすべて warn：perf 0.95 / a11y 1 / bp 0.95 / seo 1、LCP 2500ms、CLS 0.05、CSS 12KB、JS 25KB。
-- `lighthouse.yml` を追加する。summary と artifact を出力する。
+- `lighthouse` と `chrome-launcher` を追加し、`scripts/lighthouse.mjs` と `scripts/lighthouse-targets.json` を作る。
+  - 対象は 5 URL を各 3 回。run ごとに Chrome を起動し直し、Lighthouse の `computeMedianRun` で中央値の run を採る。
+  - 判定はすべて warn：perf 0.95 / a11y 1 / bp 0.95 / seo 1、LCP 2500ms、CLS 0.05、CSS 12KB、JS 25KB、コンソールエラー 0。書き方は LHCI の assertions と同じ形にして、error にすると exit 1 になる。
+  - Chrome は Playwright の Chromium（`CHROME_PATH` で上書きできる）。
+- `serve-static.mjs` に `--gzip` を足す。
+- `lighthouse.yml`（ジョブ `lighthouse`）を追加する。job summary に表を書き、レポートを artifact に残す。
 
 ## File changes
 
@@ -138,7 +141,7 @@
   - `example_site/content/page/styleguide/`
   - `example_site/layouts/shortcodes/tokens.html`
   - `.github/workflows/snapshot.yml`
-  - PR2・PR3 で `scripts/{check-contrast.mjs,lint-css.mjs,lint-html.mjs,lhci-summary.mjs,lib/ratchet.cjs}`、`tests/{a11y,baselines}/`、`.stylelintrc.json`、`.htmlvalidate.json`、`lighthouserc.json`、`.github/workflows/lighthouse.yml`
+  - PR2・PR3 で `scripts/{check-contrast.mjs,lint-css.mjs,lint-html.mjs,lighthouse.mjs,lib/ratchet.cjs}`、`tests/{a11y,baselines}/`、`.stylelintrc.json`、`.htmlvalidate.json`、`scripts/lighthouse-targets.json`、`.github/workflows/lighthouse.yml`
 - 変更
   - `layouts/partials/molecules/related_posts.html`
   - `package.json` / `package-lock.json`
@@ -186,7 +189,7 @@
     - `shuffle` を戻す。
     - ホストで snapshot config を直接実行する。
 - PR2：`npm run lint`、`lint:html`、`a11y -- --repeat-each=3` が通る。各ラチェットについて、件数増・件数減・新規の違反を起こして落ちることを確かめる。
-- PR3：`npm run lhci` がローカルと CI で exit 0。assertion を error にすると exit が 0 以外になる。
+- PR3：`npm run lighthouse` がローカルと CI で exit 0。assertion を error にすると exit が 0 以外になる。
 
 ## Decisions
 
@@ -198,6 +201,9 @@
 - 2026-10-19（PR2）：コントラスト検査で、ダークの `.u-focus-ring`（`--pochi-primary`）が 2.97:1 と分かり、ロードマップに A-24 として登録した。A-04 の teal はダークでも 4.46:1 で不合格。
 - 2026-10-19（PR2）：`A11Y_UPDATE=1` のときは各テストが共有の `known-violations.json` を書き換えるので、`axe.spec.js` を 1 ワーカーで順番に実行する。通常は並列のまま。
 - 2026-10-19（PR2）：追加した依存は、Dependabot の cooldown に合わせて公開から 14 日以上経った版にした。`npm audit` の high 7 件は stylelint が依存する `braces` 3.0.3 によるもの。3.0.3 が最新版で修正版が無く、開発時に自分の CSS に対してしか動かないので受け入れる。
+- 2026-10-19（PR3）：Lighthouse CI（`@lhci/cli` 0.15.1、2025-06 公開が最新）は Lighthouse 12.6.1 に固定されていて、extract-zip のパストラバーサルや tmp・basic-ftp など high の脆弱性を 10 件以上持ち込む。Lighthouse 13.5.0 本体は依存 114 パッケージで脆弱性 0 件だったので、Node API を直接呼ぶ `scripts/lighthouse.mjs`（約 200 行）にした。LHCI から使うのは「中央値の run を選ぶ」と「assertion の書き方」だけで、前者は Lighthouse 同梱の `computeMedianRun` を使う。
+- 2026-10-19（PR3）：example_site に `favicon`（`static/favicon.svg`）を設定した。未設定だとブラウザが `/favicon.ico` を取りに行き、その 404 が全ページで `errors-in-console` の警告になって、警告が常に出ている状態になるため。
+- 2026-10-19（PR3）：初回の計測で、検索ページの CLS が 0.131（結果の描画でサイドバーが下にずれる）と分かり、ロードマップに P-07 として登録した。ほかの 4 ページは 4 カテゴリとも 100。
 
 ## Open questions
 
