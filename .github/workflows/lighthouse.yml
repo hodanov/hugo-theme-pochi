@@ -1,0 +1,42 @@
+name: Lighthouse
+permissions:
+  contents: read
+
+# Report only: every assertion in scripts/lighthouse-targets.json is a warning
+# and this job is not a required status check. Results go to the job summary
+# and the lighthouse-reports artifact.
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      # Node/Hugo versions come from mise.toml (single source of truth).
+      - uses: jdx/mise-action@c2a87611a18de5b3828c5652fe268e992400cb5c # v4.3.0
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Same Chromium build as the E2E tests, pinned by @playwright/test.
+      - name: Install Playwright (Chromium only)
+        run: npx playwright install --with-deps chromium
+
+      - name: Run Lighthouse
+        run: npm run lighthouse
+
+      - name: Upload Lighthouse reports
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: lighthouse-reports
+          path: .lighthouse
+          if-no-files-found: ignore
+          retention-days: 14
