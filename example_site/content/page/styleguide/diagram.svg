@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="160" viewBox="0 0 480 160">
+  <rect width="480" height="160" fill="#f5f5f5"/>
+  <g fill="#ffffff" stroke="#424242" stroke-width="2">
+    <rect x="20" y="50" width="120" height="60" rx="6"/>
+    <rect x="180" y="50" width="120" height="60" rx="6"/>
+    <rect x="340" y="50" width="120" height="60" rx="6"/>
+  </g>
+  <g stroke="#2a8c7e" stroke-width="3" fill="none">
+    <path d="M140 80 H172"/>
+    <path d="M300 80 H332"/>
+  </g>
+  <g font-family="sans-serif" font-size="16" text-anchor="middle" fill="#212121">
+    <text x="80" y="86">Markdown</text>
+    <text x="240" y="86">Hugo</text>
+    <text x="400" y="86">HTML</text>
+  </g>
+</svg>

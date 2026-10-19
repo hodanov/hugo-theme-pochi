@@ -6,6 +6,9 @@ defaultContentLanguageInSubdir = false
 
 [params]
 description = "Pochi example site for theme E2E tests."
+# Explicit, because Hugo's automatic pick (the section with the most pages) is
+# a tie on the ja site (posts vs. the styleguide page) and flips between builds.
+mainSections = ["posts"]
 keywords = ["pochi", "hugo", "theme", "example"]
 
 [params.likeApi]
