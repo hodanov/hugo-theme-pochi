@@ -30,14 +30,16 @@
   width: 100%;
 }
 
-@media (min-width: 576px) {
+/* 576px is outside the 768 / 1200px breakpoints; grid.css is replaced by
+   CSS Grid in P5. */
+@media (width >= 576px) {
   .col-sm-4 {
     flex: 0 0 auto;
     width: 33.33333333%;
   }
 }
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
   .col-md-12 {
     flex: 0 0 auto;
     width: 100%;

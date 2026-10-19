@@ -340,7 +340,7 @@ nav.site-nav .dropdown-list {
   line-height: 2rem;
 }
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
   nav.site-nav #menu-bar-btn {
     display: none;
   }
@@ -351,7 +351,7 @@ nav.site-nav .dropdown-list {
   }
 }
 
-@media (max-width: 767px) {
+@media (width < 768px) {
   nav.site-nav .menu-global-nav-container {
     display: none;
   }
