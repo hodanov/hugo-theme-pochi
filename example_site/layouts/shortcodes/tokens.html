@@ -1,0 +1,65 @@
+{{- /*
+  Token swatches for the styleguide page (example_site only, not part of the
+  theme). Reads the theme's tokens.css and renders every --pochi-* custom
+  property declared before the dark-mode block. Swatches use var() so they
+  follow the active theme; values shown are the light-mode declarations.
+  */
+-}}
+{{- $css := (resources.Get "css/tokens.css").Content -}}
+{{- $light := index (split $css ":root.dark") 0 -}}
+{{- $decls := findRESubmatch `(--pochi-[a-z0-9-]+)\s*:\s*([^;]+);` $light -}}
+{{- $seen := slice -}}
+{{- $colors := slice -}}
+{{- $shadows := slice -}}
+{{- $others := slice -}}
+{{- range $decls -}}
+  {{- $name := index . 1 -}}
+  {{- $value := replaceRE `\s+` " " (index . 2) | strings.TrimSpace -}}
+  {{- if not (in $seen $name) -}}
+    {{- $seen = $seen | append $name -}}
+    {{- if in $name "shadow" -}}
+      {{- $shadows = $shadows | append $name -}}
+    {{- else if findRE `^(#|rgba?\(|var\()` $value -}}
+      {{- $colors = $colors | append (dict "name" $name "value" $value) -}}
+    {{- else -}}
+      {{- $others = $others | append (dict "name" $name "value" $value) -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+<!-- [html-validate-disable-block no-inline-style: swatches render CSS variables] -->
+<div class="sg-tokens">
+  <p><strong>Color</strong></p>
+  <ul
+    style="display:grid;grid-template-columns:repeat(auto-fill,minmax(15rem,1fr));gap:0.5rem 1rem;list-style:none;padding:0"
+  >
+    {{- range $colors }}
+      <li style="display:flex;align-items:center;gap:0.5rem">
+        <span
+          aria-hidden="true"
+          style="flex:none;inline-size:2.5rem;block-size:1.5rem;border:1px solid var(--pochi-border);background:var({{ .name | safeCSS }})"
+        ></span>
+        <code>{{ .name }}</code>
+      </li>
+    {{- end }}
+  </ul>
+  <p><strong>Shadow</strong></p>
+  <ul
+    style="display:grid;grid-template-columns:repeat(auto-fill,minmax(12rem,1fr));gap:1rem;list-style:none;padding:0"
+  >
+    {{- range $shadows }}
+      <li>
+        <span
+          aria-hidden="true"
+          style="display:block;block-size:3rem;margin-block-end:0.5rem;background:var(--pochi-card);box-shadow:var({{ . | safeCSS }})"
+        ></span>
+        <code>{{ . }}</code>
+      </li>
+    {{- end }}
+  </ul>
+  <p><strong>Other</strong></p>
+  <ul>
+    {{- range $others }}
+      <li><code>{{ .name }}</code>: <code>{{ .value }}</code></li>
+    {{- end }}
+  </ul>
+</div>

@@ -1,0 +1,6 @@
+/* Injected only while taking VRT screenshots (see playwright.snapshot.config.js).
+   Raster images are painted solid so PNG baselines stay small; their box,
+   position and object-fit are still compared. SVGs are left as-is. */
+img:not([src$=".svg"]) {
+  filter: brightness(0);
+}

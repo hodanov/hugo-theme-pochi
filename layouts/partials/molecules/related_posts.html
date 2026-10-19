@@ -2,7 +2,7 @@
   "document" .
   "indices" (slice "tags")
 }}
-{{ with .Site.RegularPages.Related $opts | shuffle | first 3 }}
+{{ with .Site.RegularPages.Related $opts | first 3 }}
   <div class="row related-posts">
     <div class="col-md-12 recent-posts-wrapper">
       <div class="mymenu-thumb mymenu-related-list">

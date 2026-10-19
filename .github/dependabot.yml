@@ -9,10 +9,35 @@ updates:
     ignore:
       - dependency-name: "fuse.js"
       - dependency-name: "mark.js"
+    # Dependabot puts a dependency into the first group it matches.
     groups:
+      # Playwright bumps change the Docker image and browser used for VRT
+      # baselines, so they are reviewed by hand (excluded in auto-merge.yml).
+      playwright:
+        patterns:
+          - "@playwright/test"
+      # Linters and auditors whose upgrades can change ratchet baselines.
+      quality-tools:
+        patterns:
+          - "@axe-core/*"
+          - "html-validate"
+          - "stylelint"
+          - "stylelint-*"
+          - "@lhci/*"
+          - "colorjs.io"
+          - "postcss"
       node-module-dependencies:
         patterns:
           - "*"
+        exclude-patterns:
+          - "@playwright/test"
+          - "@axe-core/*"
+          - "html-validate"
+          - "stylelint"
+          - "stylelint-*"
+          - "@lhci/*"
+          - "colorjs.io"
+          - "postcss"
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:

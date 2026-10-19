@@ -3,3 +3,6 @@ layouts/_default/list.html
 assets/js/vendor/fuse.js
 assets/js/vendor/mark.js
 assets/css/vendor/modern-normalize.css
+
+# Styleguide fixtures: Prettier rewrites *emphasis* to _emphasis_, which breaks intra-word emphasis in Japanese.
+example_site/content/page/styleguide/*.md

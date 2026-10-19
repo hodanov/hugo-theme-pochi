@@ -18,6 +18,9 @@ npm run build                # Production-like build of example_site
 npm run lint                 # Prettier check (alias: format:check)
 npm run format               # Auto-format all files with Prettier
 npm run e2e                  # Playwright E2E tests (auto-starts Hugo server)
+npm run vrt                  # Visual regression tests in Docker (see below)
+npm run vrt:update           # Re-generate changed VRT baselines in Docker
+npm run build:snapshot       # Deterministic static build used by VRT (.snapshot/site)
 npm run vendor:verify        # Verify vendored files match node_modules
 npm run vendor:update        # Bump patch versions & re-vendor
 ```
@@ -36,7 +39,16 @@ npx playwright install --with-deps chromium
 
 ### CI pipeline
 
-CI runs three independent jobs: `lint` (Prettier), `build` (Hugo build), `vendor` (integrity check). E2E runs in a separate workflow. Both workflows install Hugo and Node from `mise.toml` via `jdx/mise-action`.
+CI runs three independent jobs: `lint` (Prettier), `build` (Hugo build), `vendor` (integrity check). E2E runs in a separate workflow, and VRT runs in `snapshot.yml` (job `vrt`). All workflows install Hugo and Node from `mise.toml` via `jdx/mise-action`. `main` is protected: `lint`, `build`, `vendor`, `e2e` and `vrt` are required status checks.
+
+### Visual regression tests (VRT)
+
+- Baselines live in `tests/vrt/__snapshots__/` and are committed to git. They are only ever produced inside the official Playwright Docker image (`linux/amd64`), so `npm run vrt` / `vrt:update` need Docker. On Apple silicon, enable "Use Rosetta for x86_64/amd64 emulation" in Docker Desktop.
+- `scripts/pw-docker.sh` builds `example_site` with `scripts/build-site.sh` (likeApi removed, footer year fixed, `TZ=UTC`) and runs `playwright.snapshot.config.js` against a static server. That config refuses to run outside the container.
+- The styleguide page (`example_site/content/page/styleguide/`) is excluded from lists, search, related posts and the sitemap; VRT shoots it section by section.
+- When a UI change is intended, run `npm run vrt:update`, review the PNG diff, and commit the updated baselines with the change. Delete baselines that a renamed test no longer produces.
+- Dependabot PRs for `@playwright/test` are excluded from auto-merge (the browser and Docker image change with it). Check out the PR branch, run `npm run vrt:update`, review, and push the baselines before merging.
+- Vendor auto-update PRs are created with `GITHUB_TOKEN`, so CI does not run on them and required checks stay pending; merge them manually as an admin after checking the diff.
 
 ## Architecture
 
