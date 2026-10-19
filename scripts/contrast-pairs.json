@@ -1,0 +1,146 @@
+{
+  "$comment": "Token pairs checked by scripts/check-contrast.mjs. fg/bg name tokens in assets/css/tokens.css; bg may be a list from top to bottom (translucent layers are composited). min: 4.5 for text, 3 for non-text (WCAG 1.4.11) and link vs. body text (G183). known: audit ID per theme for a failure already tracked in docs/plan/2026-10-19_design-refinement-roadmap.md; remove it once the pair passes.",
+  "pairs": [
+    {
+      "id": "text-on-bg",
+      "fg": "--pochi-text",
+      "bg": "--pochi-bg",
+      "min": 4.5,
+      "use": "本文（main-content の背景）"
+    },
+    {
+      "id": "text-on-card",
+      "fg": "--pochi-text",
+      "bg": "--pochi-card",
+      "min": 4.5,
+      "use": "カード・ナビ・入力欄の文字"
+    },
+    {
+      "id": "text-on-surface-soft",
+      "fg": "--pochi-text",
+      "bg": "--pochi-surface-soft",
+      "min": 4.5,
+      "use": "body の文字"
+    },
+    {
+      "id": "text-on-blockquote",
+      "fg": "--pochi-text",
+      "bg": "--pochi-blockquote-bg",
+      "min": 4.5,
+      "use": "引用"
+    },
+    {
+      "id": "text-on-hover",
+      "fg": "--pochi-text",
+      "bg": ["--pochi-hover", "--pochi-card"],
+      "min": 4.5,
+      "use": "ホバー中の行"
+    },
+    {
+      "id": "muted-on-card",
+      "fg": "--pochi-text-muted",
+      "bg": "--pochi-card",
+      "min": 4.5,
+      "use": "日付・タグ・サイドバーの補助テキスト"
+    },
+    {
+      "id": "muted-on-bg",
+      "fg": "--pochi-text-muted",
+      "bg": "--pochi-bg",
+      "min": 4.5,
+      "use": "ページネーション・パンくず"
+    },
+    {
+      "id": "link-on-card",
+      "fg": "--pochi-link",
+      "bg": "--pochi-card",
+      "min": 4.5,
+      "use": "カード内のリンク",
+      "known": { "light": "A-01" }
+    },
+    {
+      "id": "link-on-bg",
+      "fg": "--pochi-link",
+      "bg": "--pochi-bg",
+      "min": 4.5,
+      "use": "本文のリンク",
+      "known": { "light": "A-01" }
+    },
+    {
+      "id": "link-vs-text",
+      "fg": "--pochi-link",
+      "bg": "--pochi-text",
+      "min": 3,
+      "use": "下線の無いリンクと周りの本文の差（WCAG 1.4.1 / G183）",
+      "known": { "light": "A-02", "dark": "A-02" }
+    },
+    {
+      "id": "on-accent",
+      "fg": "--pochi-on-accent",
+      "bg": "--pochi-accent",
+      "min": 4.5,
+      "use": "アクセントの塗り（現在ページ・タグのホバー・トップへ戻る）",
+      "known": { "light": "A-03", "dark": "A-03" }
+    },
+    {
+      "id": "code",
+      "fg": "--pochi-code-fg",
+      "bg": "--pochi-code-bg",
+      "min": 4.5,
+      "use": "コードブロック"
+    },
+    {
+      "id": "inline-code",
+      "fg": "--pochi-inline-code-color",
+      "bg": "--pochi-inline-code-bg",
+      "min": 4.5,
+      "use": "インラインコード"
+    },
+    {
+      "id": "on-scrim",
+      "fg": "--pochi-on-dark",
+      "bg": ["--pochi-scrim", "--pochi-bg"],
+      "min": 4.5,
+      "use": "ライトボックスのキャプション・ボタン"
+    },
+    {
+      "id": "teal-on-card",
+      "fg": "--pochi-teal",
+      "bg": "--pochi-card",
+      "min": 4.5,
+      "use": ".button-collapse（main.css。テンプレートからは未使用）",
+      "known": { "light": "A-04", "dark": "A-04" }
+    },
+    {
+      "id": "required-on-card",
+      "fg": "--pochi-required",
+      "bg": "--pochi-card",
+      "min": 4.5,
+      "use": ".required（main.css・forms.css。テンプレートからは未使用）",
+      "known": { "light": "A-04" }
+    },
+    {
+      "id": "border-on-card",
+      "fg": "--pochi-border",
+      "bg": "--pochi-card",
+      "min": 3,
+      "use": "入力欄の枠（forms.css。WCAG 1.4.11）",
+      "known": { "light": "A-23" }
+    },
+    {
+      "id": "focus-link-on-card",
+      "fg": "--pochi-link",
+      "bg": "--pochi-card",
+      "min": 3,
+      "use": "フォーカスリング（outline: 2px solid link）"
+    },
+    {
+      "id": "focus-primary-on-card",
+      "fg": "--pochi-primary",
+      "bg": "--pochi-card",
+      "min": 3,
+      "use": ".u-focus-ring（utilities.css。テンプレートからは未使用）",
+      "known": { "dark": "A-24" }
+    }
+  ]
+}

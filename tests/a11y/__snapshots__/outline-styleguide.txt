@@ -1,0 +1,20 @@
+- banner
+  - navigation "メインナビゲーション"
+- main
+  - complementary
+  - heading "スタイルガイド" [level=1]
+  - heading "本文と見出し" [level=2]
+  - heading "見出しレベル 3" [level=3]
+  - heading "見出しレベル 4" [level=4]
+  - heading "見出しレベル 5" [level=5]
+  - heading "見出しレベル 6" [level=6]
+  - heading "リスト" [level=3]
+  - heading "表" [level=2]
+  - heading "コード" [level=2]
+  - heading "引用と補足情報" [level=2]
+  - heading "デザイントークン" [level=2]
+  - heading "画像と脚注" [level=2]
+  - complementary
+    - heading "目次" [level=2]
+    - navigation
+- contentinfo

@@ -1,0 +1,6 @@
+- banner
+  - navigation "メインナビゲーション"
+- main
+  - heading "サンプル記事1" [level=1]
+  - heading "コメントを残す" [level=3]
+- contentinfo

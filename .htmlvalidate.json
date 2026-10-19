@@ -1,0 +1,19 @@
+{
+  "$schema": "https://html-validate.org/schemas/config.json",
+  "root": true,
+  "extends": ["html-validate:recommended"],
+  "rules": {
+    "attr-case": "off",
+    "attr-delimiter": "off",
+    "attr-quotes": "off",
+    "attr-spacing": "off",
+    "attribute-boolean-style": "off",
+    "attribute-empty-style": "off",
+    "doctype-style": "off",
+    "element-case": "off",
+    "no-implicit-close": "off",
+    "no-self-closing": "off",
+    "no-trailing-whitespace": "off",
+    "void-style": "off"
+  }
+}

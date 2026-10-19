@@ -1,11 +1,12 @@
-// Playwright config for snapshot suites (VRT; a11y is added in a later step).
-// Runs only inside the Playwright Docker image via scripts/pw-docker.sh, against
-// a static build in .snapshot/site, so baselines are pinned to one environment.
+// Playwright config for the snapshot suites: VRT (screenshots) and a11y (axe
+// and the landmark/heading outline). Runs only inside the Playwright Docker
+// image via scripts/pw-docker.sh, against a static build in .snapshot/site, so
+// baselines are pinned to one environment.
 const path = require("path");
 
 if (!process.env.POCHI_PW_DOCKER || process.platform !== "linux") {
   throw new Error(
-    "playwright.snapshot.config.js runs only inside Docker. Use `npm run vrt` or `npm run vrt:update`.",
+    "playwright.snapshot.config.js runs only inside Docker. Use the `npm run vrt` / `npm run a11y` scripts.",
   );
 }
 
@@ -53,7 +54,14 @@ const config = {
     reuseExistingServer: false,
     timeout: 30 * 1000,
   },
-  projects: [{ name: "vrt", testDir: "tests/vrt" }],
+  projects: [
+    { name: "vrt", testDir: "tests/vrt" },
+    {
+      name: "a11y",
+      testDir: "tests/a11y",
+      use: { viewport: { width: 1280, height: 800 } },
+    },
+  ],
 };
 
 module.exports = config;

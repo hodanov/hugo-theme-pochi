@@ -1,0 +1,14 @@
+{
+  "element-required-attributes": 5,
+  "hidden-focusable": 180,
+  "no-dup-id": 7,
+  "no-implicit-button-type": 60,
+  "no-inline-style": 425,
+  "no-raw-characters": 62,
+  "no-redundant-role": 60,
+  "prefer-native-element": 134,
+  "text-content": 24,
+  "unique-landmark": 142,
+  "valid-id": 23,
+  "wcag/h37": 7
+}

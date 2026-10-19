@@ -15,11 +15,16 @@ npm ci                      # Install dependencies
 npm run vendor:sync          # Copy Fuse/Mark/normalize into assets/js/vendor/ (required after npm ci)
 npm run serve                # Dev server with live reload via example_site
 npm run build                # Production-like build of example_site
-npm run lint                 # Prettier check (alias: format:check)
+npm run lint                 # Prettier check + stylelint and contrast ratchets
+npm run lint:css             # stylelint ratchet (lint:css:update rewrites the baseline)
+npm run lint:contrast        # WCAG contrast of token pairs (scripts/contrast-pairs.json)
+npm run lint:html            # Build unminified site + html-validate ratchet (lint:html:update)
 npm run format               # Auto-format all files with Prettier
 npm run e2e                  # Playwright E2E tests (auto-starts Hugo server)
 npm run vrt                  # Visual regression tests in Docker (see below)
 npm run vrt:update           # Re-generate changed VRT baselines in Docker
+npm run a11y                 # axe + landmark/heading outline in Docker (see below)
+npm run a11y:update          # Rewrite the axe baseline and changed outline snapshots
 npm run build:snapshot       # Deterministic static build used by VRT (.snapshot/site)
 npm run vendor:verify        # Verify vendored files match node_modules
 npm run vendor:update        # Bump patch versions & re-vendor
@@ -39,7 +44,7 @@ npx playwright install --with-deps chromium
 
 ### CI pipeline
 
-CI runs three independent jobs: `lint` (Prettier), `build` (Hugo build), `vendor` (integrity check). E2E runs in a separate workflow, and VRT runs in `snapshot.yml` (job `vrt`). All workflows install Hugo and Node from `mise.toml` via `jdx/mise-action`. `main` is protected: `lint`, `build`, `vendor`, `e2e` and `vrt` are required status checks.
+CI runs three independent jobs: `lint` (Prettier, stylelint and contrast ratchets), `build` (Hugo build + html-validate ratchet), `vendor` (integrity check). E2E runs in a separate workflow, and VRT and a11y run in `snapshot.yml` (jobs `vrt` and `a11y`). All workflows install Hugo and Node from `mise.toml` via `jdx/mise-action`. `main` is protected: `lint`, `build`, `vendor`, `e2e`, `vrt` and `a11y` are required status checks.
 
 ### Visual regression tests (VRT)
 
@@ -49,6 +54,15 @@ CI runs three independent jobs: `lint` (Prettier), `build` (Hugo build), `vendor
 - When a UI change is intended, run `npm run vrt:update`, review the PNG diff, and commit the updated baselines with the change. Delete baselines that a renamed test no longer produces.
 - Dependabot PRs for `@playwright/test` are excluded from auto-merge (the browser and Docker image change with it). Check out the PR branch, run `npm run vrt:update`, review, and push the baselines before merging.
 - Vendor auto-update PRs are created with `GITHUB_TOKEN`, so CI does not run on them and required checks stay pending; merge them manually as an admin after checking the diff.
+
+### Ratchets (stylelint, html-validate, contrast, axe)
+
+Existing findings are recorded as counts, and every check must match its baseline exactly (`scripts/lib/ratchet.cjs`): a new or increased finding fails, and so does a decrease, which is fixed by re-running the matching `*:update` script and committing the tighter baseline. Fix new findings instead of updating the baseline to hide them.
+
+- stylelint (`.stylelintrc.json`, all rules are warnings): counts per `rule[property]` in `tests/baselines/stylelint.json`. Custom properties share the key `--*`. The extra rules ask for tokens (`var()`) in `z-index` / `border-radius` / `font-size`, unitless `line-height`, no `!important` and no raw colors outside `tokens.css`.
+- html-validate (`.htmlvalidate.json`): counts per rule in `tests/baselines/html-validate.json`, over an unminified build in `.snapshot/html`. Hugo's alias redirect pages are skipped.
+- Contrast (`scripts/check-contrast.mjs`): resolves the tokens in `tokens.css` for light and dark (`var()`, `light-dark()`, `color-mix()`, alpha compositing) and checks each pair in `scripts/contrast-pairs.json` with WCAG 2.1 contrast (APCA is printed for reference). A failing pair must carry the roadmap audit ID in `known`, and a known failure that starts passing fails until the ID is removed. It also fails when the `prefers-color-scheme: dark` fallback block drifts from `:root.dark`. When adding a color token, add the pairs it is used in.
+- a11y (`tests/a11y/`, Docker like VRT, 13 pages in `pages.js`): axe (WCAG 2.0–2.2 A/AA + best-practice) per page and theme, counted per rule in `tests/a11y/known-violations.json`; the landmark/heading outline from the accessibility tree is a text snapshot per page in `tests/a11y/__snapshots__/`. `npm run a11y:update` (`A11Y_UPDATE=1`) rewrites both.
 
 ## Architecture
 

@@ -1,0 +1,7 @@
+- banner
+  - navigation "Main navigation"
+- main
+  - heading "Post Without TOC" [level=1]
+  - heading "Leave a comment" [level=3]
+  - heading "Related posts" [level=3]
+- contentinfo
