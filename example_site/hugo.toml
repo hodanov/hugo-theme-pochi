@@ -10,6 +10,9 @@ description = "Pochi example site for theme E2E tests."
 # a tie on the ja site (posts vs. the styleguide page) and flips between builds.
 mainSections = ["posts"]
 keywords = ["pochi", "hugo", "theme", "example"]
+# Without it browsers request /favicon.ico, and the 404 shows up as a console
+# error in Lighthouse.
+favicon = "/favicon.svg"
 
 [params.likeApi]
 baseUrl = "http://localhost:9999"

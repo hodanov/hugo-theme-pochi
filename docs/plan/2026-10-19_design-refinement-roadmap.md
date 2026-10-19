@@ -16,24 +16,25 @@ pochi テーマのデザインを、デザイナー／FE エンジニアが実�
 
 ### ベースライン計測（2026-10-19、Hugo 0.164.0、example_site を `--minify` でビルド）
 
-| 項目                                | 値                                                                                                                                                                     |
-| ----------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| CSS バンドル（全ページ共通）        | 39,599 B（gzip 8,237 B）                                                                                                                                               |
-| JS バンドル（全ページ共通）         | 31,494 B（gzip 9,293 B）                                                                                                                                               |
-| 検索 vendor JS（検索ページのみ）    | 42,593 B（gzip 14,125 B）                                                                                                                                              |
-| CSS ファイル数・行数（vendor 除く） | 29 ファイル・2,692 行                                                                                                                                                  |
-| `font-size`                         | 宣言 51・値 20 種（トークン参照 0）                                                                                                                                    |
-| `line-height`                       | 宣言 33・値 15 種（`2rem` `1rem` など rem 固定が中心）                                                                                                                 |
-| `z-index`                           | 直書き 21・値 9 種（1〜9999）                                                                                                                                          |
-| `border-radius`                     | 値 9 種（`0.25rem` ×15 のほか 2px/4px/6px/8px/0.15rem）                                                                                                                |
-| メディアクエリの境界値              | 5 種（576/767/768/1200/1280）。`max-width: 768px` と `min-width: 768px` が 768px で重なる                                                                              |
-| `!important`                        | 18                                                                                                                                                                     |
-| `tokens.css` 外の色の直書き         | hex 5・rgb(a) 3                                                                                                                                                        |
-| `tokens.css` 外の `.dark` セレクタ  | 9                                                                                                                                                                      |
-| `prefers-reduced-motion` の対応     | 3 ファイルのみ（code / scroll-fade-in / view-transitions）                                                                                                             |
-| `:focus-visible`                    | 5 箇所（`outline: none` / `0` が 2 箇所）                                                                                                                              |
-| 不合格のコントラストペア            | 6 組（下表 A-01〜A-04）                                                                                                                                                |
-| 本番の Lighthouse / CWV             | **未取得**。PSI API はキー無しだと 1 日のクォータが 0。PSI の Web UI か API キーで、ホーム・`/claude-code-otel-grafana/`・`/tags/neovim/` をモバイルで計測して追記する |
+| 項目                                    | 値                                                                                                                                                                                                                                              |
+| --------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| CSS バンドル（全ページ共通）            | 39,599 B（gzip 8,237 B）                                                                                                                                                                                                                        |
+| JS バンドル（全ページ共通）             | 31,494 B（gzip 9,293 B）                                                                                                                                                                                                                        |
+| 検索 vendor JS（検索ページのみ）        | 42,593 B（gzip 14,125 B）                                                                                                                                                                                                                       |
+| CSS ファイル数・行数（vendor 除く）     | 29 ファイル・2,692 行                                                                                                                                                                                                                           |
+| `font-size`                             | 宣言 51・値 20 種（トークン参照 0）                                                                                                                                                                                                             |
+| `line-height`                           | 宣言 33・値 15 種（`2rem` `1rem` など rem 固定が中心）                                                                                                                                                                                          |
+| `z-index`                               | 直書き 21・値 9 種（1〜9999）                                                                                                                                                                                                                   |
+| `border-radius`                         | 値 9 種（`0.25rem` ×15 のほか 2px/4px/6px/8px/0.15rem）                                                                                                                                                                                         |
+| メディアクエリの境界値                  | 5 種（576/767/768/1200/1280）。`max-width: 768px` と `min-width: 768px` が 768px で重なる                                                                                                                                                       |
+| `!important`                            | 18                                                                                                                                                                                                                                              |
+| `tokens.css` 外の色の直書き             | hex 5・rgb(a) 3                                                                                                                                                                                                                                 |
+| `tokens.css` 外の `.dark` セレクタ      | 9                                                                                                                                                                                                                                               |
+| `prefers-reduced-motion` の対応         | 3 ファイルのみ（code / scroll-fade-in / view-transitions）                                                                                                                                                                                      |
+| `:focus-visible`                        | 5 箇所（`outline: none` / `0` が 2 箇所）                                                                                                                                                                                                       |
+| 不合格のコントラストペア                | 6 組（下表 A-01〜A-04）                                                                                                                                                                                                                         |
+| example_site の Lighthouse（P1 で追加） | `npm run lighthouse`（モバイル既定、3 回の中央値、gzip 配信）。home / post-toc / about / archives は Perf 100・A11y 100・BP 100・SEO 100、LCP 0.9〜1.2s。search は Perf 95・CLS 0.131（P-07）。転送量は CSS 8.3KB・JS 9.3KB（search は 23.3KB） |
+| 本番の Lighthouse / CWV                 | **未取得**。PSI API はキー無しだと 1 日のクォータが 0。PSI の Web UI か API キーで、ホーム・`/claude-code-otel-grafana/`・`/tags/neovim/` をモバイルで計測して追記する                                                                          |
 
 ### 監査結果（ヒューリスティック評価と CSS 棚卸し）
 
@@ -117,6 +118,7 @@ pochi テーマのデザインを、デザイナー／FE エンジニアが実�
 | P-04 | `<title>` に改行が入っている。`shrink-to-fit` が残っている。RSS の `<link rel=alternate>` と `theme-color` が無い               | `head/meta.html:4-13`                          | —                  | 1      | P2/P7 |
 | P-05 | Giscus を遅延読み込みしていない。AdSense の枠にスペースを予約していない（CLS）                                                  | `molecules/comment.html`、`molecules/ads.html` | CWV                | 2      | P7    |
 | P-06 | 全ページにアイコンの SVG 一式（約 6.8KB）をインラインで埋め込んでいる                                                           | `molecules/icons.html`                         | パフォーマンス予算 | 1      | P7    |
+| P-07 | 検索ページで結果を描画するとサイドバーが下にずれ、モバイルの CLS が 0.131 になる                                                | `_default/search.html`、`sidebar.css`          | CWV（CLS）         | 2      | P7    |
 
 ## Design policy
 
@@ -138,7 +140,7 @@ pochi テーマのデザインを、デザイナー／FE エンジニアが実�
 | 和文タイポ       | JLREQ（行長 35〜40 字、行送り 175〜190%、禁則処理、和欧間アキ）、Utopia の流体タイプスケール、WCAG 1.4.4                | Utopia calculator、DevTools の Rendered Fonts、実機（mac / Win / iOS / Android）                                        | P4    |
 | レイアウト       | CSS Grid の名前付きエリア、ゲシュタルト（近接・類同・共通領域）、コンテナクエリ                                         | DevTools の Grid オーバーレイ、VRT                                                                                      | P5    |
 | 情報設計         | 情報の匂い（information scent）、Jakob の法則、Hick の法則                                                              | GA4、Search Console                                                                                                     | P6    |
-| 性能・SEO        | Core Web Vitals の p75、RAIL、パフォーマンス予算、サードパーティの facade 化                                            | LHCI、WebPageTest、DevTools の Performance（INP）、Rich Results Test                                                    | P7    |
+| 性能・SEO        | Core Web Vitals の p75、RAIL、パフォーマンス予算、サードパーティの facade 化                                            | Lighthouse（`npm run lighthouse`）、WebPageTest、DevTools の Performance（INP）、Rich Results Test                      | P7    |
 
 ## Implementation steps
 
@@ -160,7 +162,7 @@ pochi テーマのデザインを、デザイナー／FE エンジニアが実�
 
 1. **PR1**：スタイルガイドページ（`example_site/content/page/styleguide/`）、出力の固定（関連記事の `shuffle` を廃止（N-01）、ビルド時にいいね API と年号を上書き）、VRT（42 枚、Docker）。
 2. **PR2**：a11y（axe のラチェット、ランドマークと見出しのアウトライン）と静的チェック（html-validate、stylelint、コントラスト）。いずれもベースラインと完全一致させるラチェットで運用する。
-3. **PR3**：Lighthouse CI（静的ビルド、判定は warn のみ）。
+3. **PR3**：Lighthouse の計測（静的ビルド、判定は warn のみ）。`@lhci/cli` は古い Lighthouse と脆弱な依存を引き込むので使わず、Lighthouse の Node API を直接呼ぶ `scripts/lighthouse.mjs` で回す。
 
 - **あわせて実施**：main のブランチ保護（必須チェック）と、`@playwright/test` の更新を自動マージの対象から外す。
 - **完了条件**：`--repeat-each=5` で VRT が一度も揺れない。CI の所要時間の増加が 5 分以内（ジョブは並列）。
@@ -200,7 +202,7 @@ pochi テーマのデザインを、デザイナー／FE エンジニアが実�
 ### P7 パフォーマンス・SEO メタ（M・P1 以降なら並行して進められる）
 
 - P-01〜P-06 と L-07 を対応する。`sizes` を実際のカラム幅に合わせる。og:image を生成して `summary_large_image` にする。JSON-LD を修正する。RSS の link を追加する。Giscus を lazy にし、AdSense の枠を予約する。Chroma の CSS をテーマに同梱してから、サイト側で `noClasses: false` に切り替える。CSP は Report-Only で始める（任意）。
-- **完了条件**：LHCI で Perf ≥ 95、A11y = 100、BP ≥ 95、SEO = 100。gzip 後の予算は CSS ≤ 12KB、JS ≤ 25KB。フィールドデータは LCP ≤ 2.0s、INP ≤ 150ms、CLS ≤ 0.05。
+- **完了条件**：`npm run lighthouse` で Perf ≥ 95、A11y = 100、BP ≥ 95、SEO = 100。gzip 後の予算は CSS ≤ 12KB、JS ≤ 25KB。フィールドデータは LCP ≤ 2.0s、INP ≤ 150ms、CLS ≤ 0.05。
 
 ### P8（任意・ADR）PJAX を廃止するかどうかの判断
 
@@ -219,7 +221,7 @@ pochi テーマのデザインを、デザイナー／FE エンジニアが実�
 
 - `npm run lint`（P1 以降は stylelint、html-validate、コントラスト判定も含む）
 - `npm run e2e`（既存の 28 spec）。P1 以降は `npm run vrt` と a11y の project も実行する。
-- `npm run build`（example_site がビルドできること）。P1 以降は `npx lhci autorun` も実行する。
+- `npm run build`（example_site がビルドできること）。P1 以降は `npm run lighthouse` も実行する。
 - 手動：スタイルガイドを実機（mac / Win / iOS / Android）で目視確認する。VoiceOver で主要 4 タスク（記事を探す、読む、次の記事に進む、テーマ / 言語を切り替える）を通す。キーボードだけで一周操作する。
 - 本番：取り込み PR の CF Pages プレビューで、PSI / WebPageTest の before / after を比べる。マージから 28 日後に CrUX と GA4 を確認する。
 
