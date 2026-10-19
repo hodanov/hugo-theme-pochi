@@ -32,13 +32,13 @@ weight = 1
 
 [languages]
 [languages.en]
-languageName = "English"
-languageCode = "en"
+label = "English"
+locale = "en"
 weight = 1
 
 [languages.ja]
-languageName = "日本語"
-languageCode = "ja"
+label = "日本語"
+locale = "ja"
 weight = 2
 
 [markup.goldmark.renderer]
