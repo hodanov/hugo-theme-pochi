@@ -22,6 +22,14 @@ for (const { id, shots, realImages } of SECTIONS) {
       test("matches baseline", async ({ page }) => {
         await page.goto("/ja/page/styleguide/");
         await settle(page, { theme });
+        // The token list grows and shrinks with tokens.css. Round its height
+        // up to a whole pixel so the sections after it keep their sub-pixel
+        // offset (otherwise every glyph and image edge below re-antialiases).
+        await page.evaluate(() => {
+          for (const el of document.querySelectorAll(".sg-tokens")) {
+            el.style.blockSize = `${Math.ceil(el.getBoundingClientRect().height)}px`;
+          }
+        });
         const clip = await page.evaluate((sectionId) => {
           const heading = document.getElementById(sectionId);
           const article = heading.closest("article");
