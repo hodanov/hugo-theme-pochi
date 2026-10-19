@@ -6,6 +6,8 @@
 {{ $layoutGrid := resources.Get "css/layout/grid.css" }}
 
 {{ $cButtons := resources.Get "css/components/buttons.css" }}
+{{ $cChip := resources.Get "css/components/chip.css" }}
+{{ $cSectionHeading := resources.Get "css/components/section-heading.css" }}
 {{ $cNav := resources.Get "css/components/nav.css" }}
 {{ $cSidebar := resources.Get "css/components/sidebar.css" }}
 {{ $cTypography := resources.Get "css/components/typography.css" }}
@@ -28,8 +30,8 @@
 {{ $cProfile := resources.Get "css/components/profile.css" }}
 {{ $cFootnotes := resources.Get "css/components/footnotes.css" }}
 {{ $cViewTransitions := resources.Get "css/components/view-transitions.css" }}
+{{ $cArticle := resources.Get "css/components/article.css" }}
+{{ $cRelated := resources.Get "css/components/related.css" }}
 
-{{ $main := resources.Get "css/main.css" }}
-
-{{ $bundledCss := slice $tokens $normalize $utilities $base $layoutMain $layoutGrid $cButtons $cNav $cSidebar $cTypography $cContent $cCode $cForms $cIcons $cSearch $cLists $cToc $cPagination $cFooter $cBreadcrumbs $cHero $cMedia $cLightbox $cArticleList $cScroll $cScrollFadeIn $cProfile $cFootnotes $cViewTransitions $main | resources.Concat "css/bundled.css" | resources.Minify | fingerprint }}
+{{ $bundledCss := slice $tokens $normalize $utilities $base $layoutMain $layoutGrid $cButtons $cChip $cSectionHeading $cNav $cSidebar $cTypography $cContent $cCode $cForms $cIcons $cSearch $cLists $cToc $cPagination $cFooter $cBreadcrumbs $cHero $cMedia $cLightbox $cArticleList $cScroll $cScrollFadeIn $cProfile $cFootnotes $cViewTransitions $cArticle $cRelated | resources.Concat "css/bundled.css" | resources.Minify | fingerprint }}
 <link rel="stylesheet" href="{{ $bundledCss.RelPermalink }}" />

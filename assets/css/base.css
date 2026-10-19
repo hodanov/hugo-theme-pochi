@@ -5,6 +5,32 @@
   box-sizing: border-box;
 }
 
+/* Document defaults */
+body {
+  font-family: var(--pochi-font-base);
+  font-weight: 300;
+  color: var(--pochi-text);
+  background-color: var(--pochi-surface-soft);
+  margin: 0;
+}
+
+/* Root font size steps up with the viewport; rem sizes follow it */
+html {
+  font-size: 14px;
+}
+
+@media (width >= 768px) {
+  html {
+    font-size: 15px;
+  }
+}
+
+@media (width >= 1200px) {
+  html {
+    font-size: 16px;
+  }
+}
+
 /* Hidden attribute */
 [hidden] {
   display: none !important;

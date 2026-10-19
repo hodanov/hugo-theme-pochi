@@ -1,0 +1,95 @@
+/* Post page: the article card and the comment / related-posts cards that
+   follow it */
+article,
+.comments,
+.mymenu-related-list {
+  background-color: var(--pochi-card);
+  border-radius: 0.25rem;
+  padding: var(--pochi-card-padding);
+  margin-bottom: 3rem;
+  word-break: break-word;
+  box-shadow: var(--pochi-shadow-card);
+}
+
+.mymenu-related-list h3,
+.comments h3 {
+  font-size: 1.5rem;
+  text-align: center;
+  margin-top: 0;
+}
+
+/* Tags */
+article .kiji-tag ul {
+  margin: 0;
+  padding: 0;
+  line-height: 1rem;
+}
+
+article .kiji-tag li {
+  display: inline-block;
+}
+
+article .kiji-tag li a {
+  display: inline-block;
+  color: var(--pochi-text-muted);
+  font-size: 0.75rem !important;
+  text-transform: uppercase;
+  padding: 0.5rem;
+  margin-right: 0.5rem;
+  border-radius: 2px;
+  border: 1px solid var(--pochi-border);
+}
+
+article .kiji-tag li a:hover {
+  background-color: var(--pochi-accent);
+  border-color: var(--pochi-accent);
+  color: var(--pochi-on-accent);
+}
+
+/* Meta and media */
+article .post-info {
+  font-size: 0.9rem;
+  margin: 1rem 0 3rem;
+}
+
+article .kiji-date {
+  color: var(--pochi-text-muted);
+}
+
+article svg {
+  width: 100%;
+  height: auto;
+}
+
+article .featured-image-wrapper {
+  margin: 0 0 3rem;
+}
+
+/* Headings: accent rules (size and spacing: typography.css) */
+article h2 {
+  margin-right: calc(var(--pochi-card-padding) * -1);
+  padding-right: var(--pochi-card-padding);
+  padding-left: 0.5rem;
+  position: relative;
+  border-bottom: 1px solid var(--pochi-accent);
+  border-left: 5px solid var(--pochi-accent);
+}
+
+article h3 {
+  padding-left: 5px;
+  border-bottom: 1px solid var(--pochi-accent);
+}
+
+article h4,
+article h5,
+article h6 {
+  font-size: 1.2rem;
+  margin: 3rem 0 2rem 0;
+  padding-left: 0.5rem;
+  border-left: 4px solid var(--pochi-accent);
+}
+
+/* Ad slot between the article and the related posts */
+.adsense {
+  overflow: hidden;
+}

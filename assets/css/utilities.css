@@ -12,14 +12,3 @@
   white-space: nowrap !important;
   border: 0 !important;
 }
-
-/* Completely hide */
-.u-hidden {
-  display: none !important;
-}
-
-/* Optional focus ring utility (replacement for focus-ring mixin) */
-.u-focus-ring {
-  outline: 2px solid var(--pochi-primary);
-  outline-offset: 2px;
-}

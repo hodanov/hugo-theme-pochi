@@ -24,3 +24,12 @@
 .icon-light {
   display: none;
 }
+
+/* The theme toggle shows the sun in dark mode and the moon in light mode */
+.dark .icon-light {
+  display: inline-block;
+}
+
+.dark .icon-dark {
+  display: none;
+}

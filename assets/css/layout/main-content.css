@@ -9,6 +9,11 @@
   );
 }
 
+/* Centers the single-column content (posts, pages, 404) */
+.centered {
+  margin: 0 auto;
+}
+
 .main-content.margin-top {
   margin-top: 3rem;
 }
