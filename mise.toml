@@ -1,0 +1,6 @@
+# Pinned runtimes shared by local dev and CI (jdx/mise-action reads this file).
+# Keep Hugo in sync with the site repo's mise.toml (hodalog-hugo).
+[tools]
+# Standard (non-extended) build: the theme ships plain CSS, no .scss/.sass.
+hugo = "0.164.0"
+node = "24"
