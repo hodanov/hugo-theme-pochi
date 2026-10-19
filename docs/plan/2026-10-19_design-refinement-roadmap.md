@@ -167,9 +167,11 @@ pochi テーマのデザインを、デザイナー／FE エンジニアが実�
 - **あわせて実施**：main のブランチ保護（必須チェック）と、`@playwright/test` の更新を自動マージの対象から外す。
 - **完了条件**：`--repeat-each=5` で VRT が一度も揺れない。CI の所要時間の増加が 5 分以内（ジョブは並列）。
 
-### P2 トークン基盤とカスケード（M・見た目は変えない）
+### P2 トークン基盤とカスケード（M・見た目は変えない・PR 3 本）
 
-- `tokens.css` を primitive（oklch のランプ）と semantic（`light-dark()` + `color-scheme`）に分け、ダーク配色の重複を無くす（L-01、A-18）。space / radius / z / motion / leading / focus-ring のトークンを追加する。
+詳細は `2026-10-20_p2-tokens-cascade.md`。PR A（未使用の削除・`main.css` の分割・ブレークポイント）→ PR B（トークン）→ PR C（`@layer`）の順に出す。VRT が写さない hover / focus の状態は、computed style を全要素で比べる `npm run style:diff` で確かめる。space / leading / font-size のトークンは、ルートの文字サイズを変える P4 で作る。
+
+- `tokens.css` を primitive（oklch のランプ）と semantic（`light-dark()` + `color-scheme`）に分け、ダーク配色の重複を無くす（L-01、A-18）。radius / z / motion / focus-ring のトークンを追加する。
 - `core/resources_css.html` で `resources.FromString` を使って `@layer` に包む。レイヤー順は `reset, tokens, base, layout, components, utilities`。`!important` は全件点検する。
 - `main.css` を分割し、ツールチップとグラデーション見出しを共通化する（L-04）。ブレークポイントを range 構文の 3 段階に正規化する（L-03）。使っていないものを削除する（L-08）。
 - `head/meta.html`：`color-scheme`、`theme-color` を追加し、`shrink-to-fit` を削除する（P-04 の一部）。
