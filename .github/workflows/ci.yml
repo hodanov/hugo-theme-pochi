@@ -39,6 +39,13 @@ jobs:
           THEMES_DIR=$(dirname "$GITHUB_WORKSPACE")
           hugo --gc -s example_site --themesDir "$THEMES_DIR" -t "$THEME_NAME"
 
+      - name: Install dependencies
+        run: npm ci
+
+      # Ratchet: html-validate findings per rule must match tests/baselines.
+      - name: Validate HTML
+        run: npm run lint:html
+
   vendor:
     runs-on: ubuntu-latest
     timeout-minutes: 5
