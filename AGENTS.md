@@ -4,9 +4,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Pochi is a Hugo theme for the hodalog.com blog. It supports light/dark mode, client-side search (Fuse.js + Mark.js), PJAX navigation, i18n (ja/en), like button (external API), and Giscus comments. Hugo minimum version: 0.101.1.
+Pochi is a Hugo theme for the hodalog.com blog. It supports light/dark mode, client-side search (Fuse.js + Mark.js), PJAX navigation, i18n (ja/en), like button (external API), and Giscus comments. Hugo minimum version: 0.158.0 (`theme.toml`).
 
 ## Build & Development Commands
+
+Hugo and Node versions are pinned in `mise.toml` (single source of truth for local dev and CI; keep Hugo in sync with the site repo). Run `mise install` before the commands below.
 
 ```bash
 npm ci                      # Install dependencies
@@ -34,7 +36,7 @@ npx playwright install --with-deps chromium
 
 ### CI pipeline
 
-CI runs three independent jobs: `lint` (Prettier), `build` (Hugo build), `vendor` (integrity check). E2E runs in a separate workflow. Hugo version pinned to 0.154.1 in CI.
+CI runs three independent jobs: `lint` (Prettier), `build` (Hugo build), `vendor` (integrity check). E2E runs in a separate workflow. Both workflows install Hugo and Node from `mise.toml` via `jdx/mise-action`.
 
 ## Architecture
 

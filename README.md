@@ -2,6 +2,7 @@
 
 ## Local Development
 
+- Install pinned Hugo/Node (see `mise.toml`): `mise install`
 - Install deps and sync vendor libraries:
   - `npm ci`
   - `npm run vendor:sync` (copies Fuse/Mark into `assets/js/vendor/`)
