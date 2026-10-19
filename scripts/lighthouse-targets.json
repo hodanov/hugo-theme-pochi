@@ -1,0 +1,22 @@
+{
+  "$comment": "Pages and assertions for scripts/lighthouse.mjs. Assertions use Lighthouse CI's shape: [level, options], level is warn (report only) or error (fail). categories:<id> takes minScore; an audit id takes maxNumericValue or maxLength (number of details items); resource-summary:<type>:size takes maxNumericValue in transferred bytes.",
+  "runs": 3,
+  "urls": [
+    { "id": "home", "path": "/" },
+    { "id": "post-toc", "path": "/posts/p-03-with-toc/" },
+    { "id": "about", "path": "/page/about/" },
+    { "id": "archives", "path": "/archives/" },
+    { "id": "search", "path": "/search/?q=TOC" }
+  ],
+  "assertions": {
+    "categories:performance": ["warn", { "minScore": 0.95 }],
+    "categories:accessibility": ["warn", { "minScore": 1 }],
+    "categories:best-practices": ["warn", { "minScore": 0.95 }],
+    "categories:seo": ["warn", { "minScore": 1 }],
+    "largest-contentful-paint": ["warn", { "maxNumericValue": 2500 }],
+    "cumulative-layout-shift": ["warn", { "maxNumericValue": 0.05 }],
+    "resource-summary:stylesheet:size": ["warn", { "maxNumericValue": 12288 }],
+    "resource-summary:script:size": ["warn", { "maxNumericValue": 25600 }],
+    "errors-in-console": ["warn", { "maxLength": 0 }]
+  }
+}

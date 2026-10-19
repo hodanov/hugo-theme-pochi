@@ -5,3 +5,4 @@ example_site/resources/
 test-results/
 playwright-report/
 .snapshot/
+.lighthouse/
