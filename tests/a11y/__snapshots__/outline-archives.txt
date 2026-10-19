@@ -1,0 +1,19 @@
+- banner
+  - navigation "Main navigation"
+- main
+  - heading "Archives" [level=1]
+  - heading "2024" [level=2]
+  - heading "▸ 2024-06" [level=3]
+  - heading "▸ 2024-05" [level=3]
+  - heading "▸ 2024-04" [level=3]
+  - heading "▸ 2024-03" [level=3]
+  - heading "▸ 2024-02" [level=3]
+  - heading "▸ 2024-01" [level=3]
+  - heading "2023" [level=2]
+  - complementary
+    - heading "Categories" [level=2]
+  - complementary
+    - heading "Archives" [level=2]
+  - complementary
+    - search
+- contentinfo

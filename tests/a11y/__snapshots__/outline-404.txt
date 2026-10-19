@@ -1,0 +1,4 @@
+- banner
+  - navigation "Main navigation"
+- main
+- contentinfo

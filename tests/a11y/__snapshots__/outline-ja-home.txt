@@ -1,0 +1,11 @@
+- banner
+  - navigation "メインナビゲーション"
+- main
+  - heading "サンプル記事1" [level=2]
+  - complementary
+    - heading "カテゴリー" [level=2]
+  - complementary
+    - heading "月別アーカイブ" [level=2]
+  - complementary
+    - search
+- contentinfo

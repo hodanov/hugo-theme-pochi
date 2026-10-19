@@ -1,0 +1,5 @@
+- banner
+  - navigation "Main navigation"
+- heading "About" [level=1]
+- main
+- contentinfo

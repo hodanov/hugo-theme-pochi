@@ -14,6 +14,8 @@
     "build:snapshot": "bash scripts/build-site.sh .snapshot/site --minify --baseURL http://127.0.0.1:4173/",
     "vrt": "bash scripts/pw-docker.sh --project=vrt",
     "vrt:update": "bash scripts/pw-docker.sh --project=vrt --update-snapshots=changed",
+    "a11y": "bash scripts/pw-docker.sh --project=a11y",
+    "a11y:update": "A11Y_UPDATE=1 bash scripts/pw-docker.sh --project=a11y --update-snapshots=changed",
     "vendor:sync": "node scripts/vendor-sync.js",
     "vendor:verify": "node scripts/vendor-sync.js --verify",
     "vendor:update": "npm update fuse.js mark.js modern-normalize --save-dev && npm run vendor:sync",
