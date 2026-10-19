@@ -13,10 +13,13 @@
 //   :hover / :active and :focus / :focus-visible / :focus-within in the CSS to
 //   `:not(.__sd-never)`, which matches every element with the same
 //   specificity, so those rules apply from the first paint (no transitions).
+// - The "active" state turns on what scripts toggle: every aria-pressed /
+//   aria-expanded becomes "true", the side nav opens and the scroll-to-top
+//   button shows. Running transitions are finished before reading.
 //
 // Usage: node scripts/style-diff.mjs [--base origin/main] [--pages id,...]
 //          [--themes light,dark] [--widths 375,768,1280]
-//          [--states default,hover,focus]
+//          [--states default,hover,focus,active]
 // Writes .snapshot/style-diff/report.md; exits 1 when anything differs.
 import { execFileSync, spawn } from "node:child_process";
 import fs from "node:fs";
@@ -42,7 +45,7 @@ const baseRef = option("--base", "origin/main");
 const pageIds = list("--pages", PAGES.map((p) => p.id).join(","));
 const themes = list("--themes", "light,dark");
 const widths = list("--widths", "375,768,1280").map(Number);
-const states = list("--states", "default,hover,focus");
+const states = list("--states", "default,hover,focus,active");
 
 const unknown = pageIds.filter((id) => !PAGES.some((p) => p.id === id));
 if (unknown.length > 0) {
@@ -100,7 +103,32 @@ const STATE_PSEUDOS = {
   default: null,
   hover: /:(?:hover|active)(?![\w-])/g,
   focus: /:(?:focus-visible|focus-within|focus)(?![\w-])/g,
+  active: null,
 };
+if (!states.every((s) => s in STATE_PSEUDOS)) {
+  console.error(`[style-diff] 状態は ${Object.keys(STATE_PSEUDOS).join(", ")}`);
+  process.exit(2);
+}
+
+// Runs in the page for the "active" state.
+function activate() {
+  for (const el of document.querySelectorAll("[aria-pressed]")) {
+    el.setAttribute("aria-pressed", "true");
+  }
+  for (const el of document.querySelectorAll("[aria-expanded]")) {
+    el.setAttribute("aria-expanded", "true");
+  }
+  document.querySelector("#side-nav")?.classList.add("is-active");
+  document.querySelector("#scroll-to-top")?.classList.add("fade-in");
+  getComputedStyle(document.body).color; // start the transitions now
+  for (const animation of document.getAnimations()) {
+    try {
+      animation.finish();
+    } catch {
+      // Infinite animations cannot finish; they are the same on both sides.
+    }
+  }
+}
 
 function forceState(text, state) {
   const re = STATE_PSEUDOS[state];
@@ -230,6 +258,7 @@ async function render(browser, job, side) {
   );
   await page.goto(`${origin}${job.path}`);
   await settle(page, job.waitFor);
+  if (job.state === "active") await page.evaluate(activate);
   const hashes = await page.evaluate(collect);
   return { context, page, hashes };
 }
