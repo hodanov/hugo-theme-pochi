@@ -44,8 +44,11 @@
 - 基準の ref（既定は `origin/main`）を `git archive` で取り出してビルドし、作業ツリーのビルドと並べる。
 - HTML は作業ツリーのものを使い、CSS だけを差し替えて 2 回描画する（Playwright の `page.route`）。テンプレートの変更に引きずられず、CSS の変化だけを取り出せる。
 - 全要素と `::before` / `::after` について、computed style の全プロパティを比べる。色は描画結果と同じ 8bit の sRGB に正規化してから比べる（`oklch()` と `rgb()` の書き方の違いを差分にしない）。
-- 状態は 3 つ：初期、hover、focus。hover と focus は、CSS の `:hover` / `:focus` / `:focus-visible` / `:focus-within` / `:active` を `:not(.__never)` に書き換えて全要素に当てる。詳細度は同じ（疑似クラス 1 個 = クラス 1 個）で、初期描画から当たるのでトランジションの途中値も拾わない。
-- 対象は a11y と同じ 13 ページ × ライト / ダーク × 375 / 768 / 1280px。差分は「プロパティ：基準 → 変更後」でまとめ、どのページのどの要素かを添える。
+- 状態は 4 つ：初期、hover、focus、active。
+  - hover と focus は、CSS の `:hover` / `:active` と `:focus` / `:focus-visible` / `:focus-within` を `:not(.__sd-never)` に書き換えて全要素に当てる。詳細度は同じ（疑似クラス 1 個 = クラス 1 個）で、初期描画から当たるのでトランジションの途中値も拾わない。
+  - active は、スクリプトが切り替える状態を全部オンにする：`aria-pressed` / `aria-expanded` を `true` に、ドロワーを開き、トップへ戻るボタンを出す（コピー完了のチップやアーカイブの開閉がこれで写る）。始まったトランジションは終わらせてから読む。
+- 対象は a11y と同じ 13 ページ × ライト / ダーク × 375 / 768 / 1280px。差分は「プロパティ：基準 → 変更後」でまとめ、どのページのどの要素かを添える。親と同じ変化は継承とみなして親にまとめる。
+- 差分が出たら 500ms 待って両側を読み直し、2 回とも違うものだけを数える。1 回だけのものは「不安定」として別に出す。
 - 開発用の道具で、CI には入れない（基準のビルドが要り、PR ごとに意図した差分が違うため）。P5 のレイアウト移行でも使う。
 
 ### トークン（PR B）
@@ -80,12 +83,14 @@
 
 ### 意図した差分
 
-| PR  | 差分                                                                             | 写る場所                                         |
-| --- | -------------------------------------------------------------------------------- | ------------------------------------------------ |
-| A   | 768px ちょうどで `.main-content` の上余白が 1rem → 3rem、hero の見出しが中央寄せ | VRT の 768px（home / post-toc / about）          |
-| B   | ダークモードでフォーム部品・スクロールバーが暗くなる（`color-scheme`）           | VRT のダーク（スクロールバーが出る要素があれば） |
-| B   | 角丸の 1〜2px の差（トップへ戻る、ライトボックス、ドロワーを閉じるボタン）       | VRT には写らない。style:diff に出る              |
-| B   | 区切り線の透明端が `rgba(255,255,255,0)` → `transparent`（描画は同じ）           | style:diff の文字列だけ                          |
+| PR  | 差分                                                                          | 写る場所                                         |
+| --- | ----------------------------------------------------------------------------- | ------------------------------------------------ |
+| A   | 768px ちょうどで、ホーム（1・2 ページ目）と日本語ホームの上余白が 15px → 45px | VRT の home@768                                  |
+| A   | 768px ちょうどで、hero の見出しが中央寄せになり上下の余白が付く               | 見出しの箱は中央に置かれるので画面上は動かない   |
+| A   | スタイルガイドのトークン見本から、消したトークンが消える                      | VRT の sg-tokens（2 枚）                         |
+| B   | ダークモードでフォーム部品・スクロールバーが暗くなる（`color-scheme`）        | VRT のダーク（スクロールバーが出る要素があれば） |
+| B   | 角丸の 1〜2px の差（トップへ戻る、ライトボックス、ドロワーを閉じるボタン）    | VRT には写らない。style:diff に出る              |
+| B   | 区切り線の透明端が `rgba(255,255,255,0)` → `transparent`（描画は同じ）        | style:diff の文字列だけ                          |
 
 ## Implementation steps
 
@@ -95,13 +100,13 @@
 2. `scripts/style-diff.mjs` と `npm run style:diff` を追加する。
 3. 未使用のルールとトークンを消す（上の一覧）。`contrast-pairs.json` から消えたトークンのペア（teal-on-card、focus-primary-on-card）を外す。A-24 と A-04 の teal はこれで解消。
 4. `main.css` を分割して消す。
-   - `body`・ルートの文字サイズ → `base.css`。`mark`・`strong`・`a:hover`・表・引用 → `typography.css`。
+   - `body`・ルートの文字サイズ → `base.css`。`mark`・`strong` → `typography.css`。表・引用 → `content.css`。`a:hover` は効果が無い（`a` で下線を消している）ので消す。
    - ボタン → `components/buttons.css`（今は空のプレースホルダ）。テーマ切替ボタン → `nav.css`。トップへ戻る → `scroll.css`。
    - 記事カード・見出しの飾り・タグ・コメント → `components/article.css`（新規）。関連記事 → `components/related.css`（新規）。
    - ダークモードの上書きは、対応する部品のファイルへ移す（PR B でトークンに置き換える）。
 5. 共通化する（L-04）。
    - コピー完了のチップ（コードのコピー、左サイドバーとモバイルのシェア）→ `components/chip.css`。3 つのセレクタを 1 つのルールにまとめ、位置だけを各部品に残す。
-   - 線の上に文字を載せる見出し（目次、サイドバー、フッター）→ `components/section-heading.css`。線の幅と文字の背景色は変数で渡す。
+   - 線の上に文字を載せる見出し（目次、サイドバー、フッター）→ `components/section-heading.css`。共通部分を部品より前に読み、線の幅と文字の背景色は各部品が同じ詳細度で上書きする。
 6. ブレークポイントを range 構文にし、768px の重なりを直す。`@media (min-width: 0)` を外す。
 7. `resources_css.html` のファイル一覧を更新する。
 8. style:diff と VRT で差分を確認し、768px の VRT ベースラインと stylelint のベースラインを更新する。
@@ -130,17 +135,17 @@
   - `assets/css/components/{article,related,chip,section-heading}.css`
   - 本書
 - 削除
-  - `assets/css/main.css`、`assets/css/components/content.css`
+  - `assets/css/main.css`
 - 変更
   - `assets/css/` のほぼ全ファイル、`layouts/partials/core/resources_css.html`、`layouts/partials/head/meta.html`
   - `scripts/{check-contrast.mjs,contrast-pairs.json,lint-css.mjs}`、`.stylelintrc.json`
-  - `tests/baselines/stylelint.json`、`tests/vrt/__snapshots__/`（意図した差分のみ）
+  - `tests/baselines/{stylelint,html-validate}.json`、`tests/vrt/__snapshots__/`（意図した差分のみ）、`tests/vrt/styleguide.spec.js`
   - `example_site/layouts/shortcodes/tokens.html`
   - `package.json`、`AGENTS.md`、ロードマップ
 
 ## Risks and mitigations
 
-- **記述順に頼っていたルールが逆転する**：`main.css` は結合の最後にあったので、同じ詳細度なら勝っていた。分割で前に移すと負けることがある。style:diff で全要素・3 状態を比べて検出する。
+- **記述順に頼っていたルールが逆転する**：`main.css` は結合の最後にあったので、同じ詳細度なら勝っていた。分割で前に移すと負けることがある。style:diff で全要素・4 状態を比べて検出する。
 - **レイヤーで勝敗が変わる**：前の層のルールは、詳細度が高くても後ろの層に負ける。同じく style:diff で検出する。
 - **`light-dark()` 非対応のブラウザ**：ライトの値に落とす。テーマ切替ボタンを隠し、押しても変わらない状態を作らない。
 - **サイト側の CSS**：hodalog はテーマの CSS に上書きを足していない（サイトのテンプレートに CSS の読み込みが無い）。今後サイトで足す CSS はレイヤーの外になり、テーマより常に強い。
@@ -152,7 +157,7 @@
 - 各 PR：`npm run lint`、`lint:html`、`a11y`、`e2e` が通る。ラチェットは件数が減った分だけ更新する。
 - PR B：`lint:contrast` が通る。`@supports not` のフォールバックからトークンを 1 つ消すと失敗する。`:root.dark` の `color-scheme` を消すと失敗する。
 - PR B / C：色・z-index・角丸の直書きを 1 つ足すと stylelint がエラーで落ちる。
-- P2 の完了時：`npm run lighthouse` の CSS 転送量が main（8.3KB）の ±5% に収まる。
+- P2 の完了時：`npm run lighthouse` の CSS 転送量が P1 終了時（8.3KB）から 5% を超えて増えない（未使用の削除で減るのは構わない）。
 
 ## Decisions
 
@@ -161,6 +166,10 @@
 - 2026-10-20：space / leading / font-size のトークンは P4 で作る（ルートの文字サイズを変えると作り直しになるため）。
 - 2026-10-20：`light-dark()` 非対応のブラウザはライトのみにする。
 - 2026-10-20：576px と 1280px のブレークポイントは P5 まで残す。
+- 2026-10-20（PR A）：style:diff は 312 通り（13 ページ × 2 テーマ × 3 幅 × 4 状態）を約 45 秒で回す。変更なしで差分 0、hover の色・focus の outline・`::before` の幅・チップの padding・トップへ戻るボタンの位置を変えるとそれぞれ検出し、`oklch()` / `rgb()` で書いた同じ色は差分にならないことを確かめた。一度だけ `.container-fluid` の margin が 40px → 0px と出て再現しなかったので、読み直して 2 回とも違うものだけを数えるようにした。
+- 2026-10-20（PR A）：`main.css` の分割と未使用の削除は style:diff の差分 0 で確かめた。CSS バンドルは 39,599 → 35,411 バイト（-10.6%）、stylelint は 183 → 151 件、html-validate は 1129 → 1105 件（トークン見本のインラインスタイルが減った分）。
+- 2026-10-20（PR A）：`content.css` は消さずに、表・引用・x shortcode の置き場にした（もともとそのためのファイルで、中身は未使用の align 系だけだった）。同じ transition が 5 か所にあったので、`--pochi-transition-interactive` を PR A で先に足した（PR B で duration のトークンに分ける）。
+- 2026-10-20（PR A）：トークンを消すとスタイルガイドの見本が 46.125px 短くなり、後ろの sg-media の位置が小数点以下でずれて、画素の 18% が差分になった（CSS は同じ）。VRT で撮る前に見本の高さを整数 px に切り上げ、トークンを増減しても sg-tokens 以外の節が揺れないようにした。PR B でトークンを組み替えるときに効く。
 
 ## Open questions
 
