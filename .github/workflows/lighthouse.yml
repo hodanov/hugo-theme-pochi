@@ -38,5 +38,7 @@ jobs:
         with:
           name: lighthouse-reports
           path: .lighthouse
+          # upload-artifact skips dot directories unless told otherwise.
+          include-hidden-files: true
           if-no-files-found: ignore
           retention-days: 14
