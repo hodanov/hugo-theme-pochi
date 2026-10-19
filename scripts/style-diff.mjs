@@ -296,7 +296,19 @@ for (const id of pageIds) {
 // key "label, pseudo, props, base, head" -> list of "page@theme/width/state"
 const diffs = new Map();
 const failures = [];
+const unstable = [];
 const PSEUDOS = ["", "::before", "::after"];
+const RECHECK_MS = 500;
+
+function mismatches(a, b) {
+  const keys = [];
+  for (let i = 0; i < a.length; i++) {
+    for (const pseudo of PSEUDOS) {
+      if (a[i][pseudo] !== b[i][pseudo]) keys.push(`${i}${pseudo}`);
+    }
+  }
+  return keys;
+}
 
 async function runJob(browser, job) {
   const where = `${job.id}@${job.theme}/${job.width}/${job.state}`;
@@ -311,25 +323,43 @@ async function runJob(browser, job) {
       );
       return;
     }
+    // A layout read before the page settles can differ once. Read both sides
+    // again and keep only differences seen both times.
+    let keys = mismatches(a.hashes, b.hashes);
+    if (keys.length > 0) {
+      await new Promise((resolve) => setTimeout(resolve, RECHECK_MS));
+      [a.hashes, b.hashes] = await Promise.all([
+        a.page.evaluate(collect),
+        b.page.evaluate(collect),
+      ]);
+      const again = new Set(mismatches(a.hashes, b.hashes));
+      for (const key of [...keys, ...again]) {
+        if (keys.includes(key) && again.has(key)) continue;
+        const i = Number.parseInt(key, 10);
+        unstable.push(
+          `${where} ${a.hashes[i].label}${key.slice(String(i).length)}`,
+        );
+      }
+      keys = keys.filter((key) => again.has(key));
+    }
     // "<index><pseudo>" -> Map(prop -> "base\0head")
     const changed = new Map();
-    for (let i = 0; i < a.hashes.length; i++) {
-      for (const pseudo of PSEUDOS) {
-        if (a.hashes[i][pseudo] === b.hashes[i][pseudo]) continue;
-        const get = (side) =>
-          side.page.evaluate(([n, p]) => window.__sd[n][p], [i, pseudo]);
-        const [pa, pb] = await Promise.all([get(a), get(b)]);
-        const props = new Map();
-        for (const prop of new Set([
-          ...Object.keys(pa ?? {}),
-          ...Object.keys(pb ?? {}),
-        ])) {
-          const va = pa?.[prop] ?? "（無し）";
-          const vb = pb?.[prop] ?? "（無し）";
-          if (va !== vb) props.set(prop, `${va}\0${vb}`);
-        }
-        changed.set(`${i}${pseudo}`, props);
+    for (const key of keys) {
+      const i = Number.parseInt(key, 10);
+      const pseudo = key.slice(String(i).length);
+      const get = (side) =>
+        side.page.evaluate(([n, p]) => window.__sd[n][p], [i, pseudo]);
+      const [pa, pb] = await Promise.all([get(a), get(b)]);
+      const props = new Map();
+      for (const prop of new Set([
+        ...Object.keys(pa ?? {}),
+        ...Object.keys(pb ?? {}),
+      ])) {
+        const va = pa?.[prop] ?? "（無し）";
+        const vb = pb?.[prop] ?? "（無し）";
+        if (va !== vb) props.set(prop, `${va}\0${vb}`);
       }
+      changed.set(key, props);
     }
     for (const [key, props] of changed) {
       const i = Number.parseInt(key, 10);
@@ -389,6 +419,11 @@ const lines = [
   "",
 ];
 for (const f of failures) lines.push(`- ❌ ${f}`);
+if (unstable.length > 0) {
+  lines.push(
+    `- 不安定（1 回目と 2 回目で結果が違ったので除外）：${unstable.join("、")}`,
+  );
+}
 const byElement = new Map();
 for (const [key, wheres] of diffs) {
   const [label, pseudo, names, va, vb] = key.split("\0");
