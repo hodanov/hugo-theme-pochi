@@ -4,3 +4,4 @@ example_site/public/
 example_site/resources/
 test-results/
 playwright-report/
+.snapshot/
