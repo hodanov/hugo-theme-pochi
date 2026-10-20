@@ -2,7 +2,7 @@
   "declaration-block-no-duplicate-properties[display]": 1,
   "declaration-property-unit-disallowed-list[line-height]": 15,
   "declaration-property-value-keyword-no-deprecated[word-break]": 1,
-  "no-descending-specificity": 25,
+  "no-descending-specificity": 23,
   "no-duplicate-selectors": 5,
   "property-no-deprecated[clip]": 1,
   "property-no-deprecated[word-wrap]": 1,

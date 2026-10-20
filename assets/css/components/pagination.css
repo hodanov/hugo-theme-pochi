@@ -21,9 +21,11 @@
   padding: 0.5rem 0.75rem;
 }
 
-.pagination-index .pagination .page-item .page-link:hover {
-  background-color: var(--pochi-accent);
-  color: var(--pochi-on-accent);
+@media (hover: hover) {
+  .pagination-index .pagination .page-item .page-link:hover {
+    background-color: var(--pochi-accent);
+    color: var(--pochi-on-accent);
+  }
 }
 
 .pagination-index .pagination .page-item.active .page-link {
@@ -34,4 +36,13 @@
 
 .pagination-index .pagination .page-item.disabled {
   display: none;
+}
+
+/* Forced colors: the current page is marked by more than its background */
+@media (forced-colors: active) {
+  .pagination-index .pagination .page-item.active .page-link {
+    forced-color-adjust: none;
+    background-color: Highlight;
+    color: HighlightText;
+  }
 }
