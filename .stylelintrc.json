@@ -5,19 +5,43 @@
   "defaultSeverity": "warning",
   "rules": {
     "scale-unlimited/declaration-strict-value": [
-      ["z-index", "border-radius", "font-size"],
+      ["font-size"],
       {
         "ignoreValues": ["0", "auto", "inherit", "initial", "unset", "revert"],
         "disableFix": true
       }
     ],
+    "declaration-property-value-allowed-list": [
+      {
+        "z-index": ["/^(0|var\\(--pochi-z-[a-z-]+\\))$/"],
+        "/^border(-[a-z]+)*-radius$/": [
+          "/^(0|var\\(--pochi-radius-[a-z]+\\))( (0|var\\(--pochi-radius-[a-z]+\\))){0,3}$/"
+        ]
+      },
+      { "severity": "error" }
+    ],
     "declaration-property-unit-disallowed-list": {
       "line-height": ["px", "rem", "em", "%"]
     },
     "declaration-no-important": true,
-    "color-no-hex": true,
-    "color-named": "never",
-    "function-disallowed-list": ["rgb", "rgba", "hsl", "hsla"]
+    "color-no-hex": [true, { "severity": "error" }],
+    "color-named": ["never", { "severity": "error" }],
+    "function-disallowed-list": [
+      [
+        "rgb",
+        "rgba",
+        "hsl",
+        "hsla",
+        "hwb",
+        "lab",
+        "lch",
+        "oklab",
+        "oklch",
+        "color",
+        "light-dark"
+      ],
+      { "severity": "error" }
+    ]
   },
   "overrides": [
     {

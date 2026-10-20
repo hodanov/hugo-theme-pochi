@@ -120,11 +120,18 @@
       "known": { "light": "A-23" }
     },
     {
-      "id": "focus-link-on-card",
-      "fg": "--pochi-link",
+      "id": "focus-ring-on-card",
+      "fg": "--pochi-focus-ring-color",
       "bg": "--pochi-card",
       "min": 3,
-      "use": "フォーカスリング（outline: 2px solid link）"
+      "use": "フォーカスリング（--pochi-focus-ring）"
+    },
+    {
+      "id": "success-on-code",
+      "fg": "--pochi-success",
+      "bg": "--pochi-code-bg",
+      "min": 3,
+      "use": "コピー完了のアイコン（code.css。WCAG 1.4.11）"
     }
   ]
 }

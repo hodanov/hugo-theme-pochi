@@ -1,28 +1,83 @@
-/* Design tokens (CSS variables) for Pochi theme */
+/* Design tokens (CSS variables) for Pochi theme, in two tiers:
+   - Primitives: raw colors with no role. Written in OKLCH and named by
+     their lightness rounded (--pochi-gray-97 is L 97%), so the gap between
+     two numbers hints at their contrast. Each notes the hex it replaced.
+   - Semantic: what a value is for. Components use these, not primitives.
+     Colors that differ per theme pick a primitive with light-dark(), which
+     follows color-scheme. Keep light-dark() in this file: the fallback at
+     the end must redeclare every such token (scripts/check-contrast.mjs).
+   Translucent overlays and shadows are black or white at an alpha, so they
+   stay as rgba(). */
 :root {
+  /* Theme: follow the OS until the head script (or the toggle) sets a
+     class, see :root.light / :root.dark below */
+  color-scheme: light dark;
+
+  /* ---- Primitives ---- */
+  --pochi-gray-100: oklch(100% 0 0); /* #ffffff */
+  --pochi-gray-99: oklch(98.5% 0 0); /* #fafafa */
+  --pochi-gray-97: oklch(97% 0 0); /* #f5f5f5 */
+  --pochi-gray-88: oklch(88.2% 0 0); /* #d8d8d8 */
+  --pochi-gray-74: oklch(73.8% 0 0); /* #aaaaaa */
+  --pochi-gray-71: oklch(70.9% 0 0); /* #a1a1a1 */
+  --pochi-gray-45: oklch(44.95% 0 0); /* #555555 */
+  --pochi-gray-38: oklch(37.9% 0 0); /* #424242 */
+  --pochi-gray-31: oklch(30.5% 0 0); /* #2f2f2f */
+  --pochi-gray-25: oklch(24.8% 0 0); /* #212121 */
+  --pochi-gray-23: oklch(23.1% 0 0); /* #1d1d1d */
+  --pochi-gray-0: oklch(0% 0 0); /* #000000 */
+  --pochi-slate-98: oklch(98.16% 0.0017 248); /* #f8f9fa */
+  --pochi-slate-86: oklch(85.7% 0.014 248); /* #c9d1d9 */
+  --pochi-teal-77: oklch(77.2% 0.0802 179.3); /* #79c6b6 */
+  --pochi-teal-76: oklch(76.15% 0.0873 180.4); /* #6ec4b4 */
+  --pochi-teal-58: oklch(58.06% 0.0913 181.5); /* #2a8c7e */
+  --pochi-pink-76: oklch(75.7% 0.1107 10.8); /* #ed929f */
+  --pochi-green-67: oklch(67.3% 0.1624 144.2); /* #4caf50 */
+
+  /* ---- Semantic ---- */
+
   /* Colors */
-  --pochi-text: #424242;
-  --pochi-bg: #f5f5f5;
-  --pochi-accent: #79c6b6;
-  --pochi-border: #d8d8d8;
-  --pochi-card: #ffffff;
-  --pochi-text-muted: #555555;
-  --pochi-blockquote-bg: #f5f5f5;
-  --pochi-surface-soft: #f5f5f5;
-  --pochi-link: #2a8c7e;
-  --pochi-on-accent: #ffffff;
-  --pochi-on-dark: #ffffff;
-  --pochi-required: #ed929f;
-  --pochi-hover: rgba(0, 0, 0, 0.04);
+  --pochi-text: light-dark(var(--pochi-gray-38), var(--pochi-slate-86));
+  --pochi-bg: light-dark(var(--pochi-gray-97), var(--pochi-gray-23));
+  --pochi-accent: var(--pochi-teal-77);
+  --pochi-border: light-dark(var(--pochi-gray-88), var(--pochi-gray-71));
+  --pochi-card: light-dark(var(--pochi-gray-100), var(--pochi-gray-31));
+  --pochi-text-muted: light-dark(var(--pochi-gray-45), var(--pochi-gray-71));
+  --pochi-blockquote-bg: light-dark(var(--pochi-gray-97), var(--pochi-gray-25));
+  --pochi-surface-soft: light-dark(var(--pochi-gray-97), var(--pochi-gray-23));
+  --pochi-link: light-dark(var(--pochi-teal-58), var(--pochi-teal-76));
+  --pochi-on-accent: var(--pochi-gray-100);
+  --pochi-on-dark: var(--pochi-gray-100);
+  --pochi-required: var(--pochi-pink-76);
+  --pochi-success: var(--pochi-green-67);
+  --pochi-hover: light-dark(rgba(0, 0, 0, 0.04), rgba(255, 255, 255, 0.06));
   --pochi-scrim: rgba(0, 0, 0, 0.7);
-  --pochi-text-shadow-strong: #000000;
+  --pochi-scrim-control: rgba(255, 255, 255, 0.15);
+  --pochi-scrim-control-hover: rgba(255, 255, 255, 0.3);
+  --pochi-text-shadow-strong: var(--pochi-gray-0);
+  /* Line behind the section headings, fading out at both ends */
+  --pochi-separator: light-dark(rgba(0, 0, 0, 0.5), rgba(255, 255, 255, 0.75));
 
   /* Code colors */
-  --pochi-code-bg: #212121;
-  --pochi-code-fg: #fafafa;
-  --pochi-inline-code-bg: #f8f9fa;
-  --pochi-inline-code-border: #aaaaaa;
-  --pochi-inline-code-color: var(--pochi-text);
+  --pochi-code-bg: var(--pochi-gray-25);
+  --pochi-code-fg: var(--pochi-gray-99);
+  --pochi-inline-code-bg: light-dark(
+    var(--pochi-slate-98),
+    var(--pochi-code-bg)
+  );
+  --pochi-inline-code-border: light-dark(var(--pochi-gray-74), transparent);
+  --pochi-inline-code-color: light-dark(
+    var(--pochi-text),
+    var(--pochi-code-fg)
+  );
+
+  /* Focus ring: inset where the outline would be clipped (nav bar, fields) */
+  --pochi-focus-ring-width: 2px;
+  --pochi-focus-ring-color: var(--pochi-link);
+  --pochi-focus-ring: var(--pochi-focus-ring-width) solid
+    var(--pochi-focus-ring-color);
+  --pochi-focus-ring-offset: 2px;
+  --pochi-focus-ring-offset-inset: -2px;
 
   /* Typography */
   --pochi-font-base:
@@ -36,34 +91,79 @@
     0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12),
     0 2px 4px -1px rgba(0, 0, 0, 0.3);
   --pochi-shadow-dropdown: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+  --pochi-shadow-bottom-bar: 0 -2px 8px rgba(0, 0, 0, 0.08);
   --pochi-shadow-card:
     0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12),
     0 3px 1px -2px rgba(0, 0, 0, 0.2);
+  /* Dark mode tints the hover shadow with the accent */
   --pochi-shadow-card-hover:
-    0 8px 17px 2px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12),
-    0 5px 5px -3px rgba(0, 0, 0, 0.2);
-  /* Accent-tinted hover shadow for dark mode cards (uses color-mix) */
-  --pochi-shadow-card-hover-accent:
-    0 8px 17px 2px color-mix(in srgb, var(--pochi-accent) 34%, transparent),
-    0 3px 14px 2px color-mix(in srgb, var(--pochi-accent) 32%, transparent),
-    0 5px 5px -3px color-mix(in srgb, var(--pochi-accent) 40%, transparent);
+    0 8px 17px 2px
+      light-dark(
+        rgba(0, 0, 0, 0.14),
+        color-mix(in srgb, var(--pochi-accent) 34%, transparent)
+      ),
+    0 3px 14px 2px
+      light-dark(
+        rgba(0, 0, 0, 0.12),
+        color-mix(in srgb, var(--pochi-accent) 32%, transparent)
+      ),
+    0 5px 5px -3px
+      light-dark(
+        rgba(0, 0, 0, 0.2),
+        color-mix(in srgb, var(--pochi-accent) 40%, transparent)
+      );
 
-  /* Motion: hover feedback on cards, buttons and links */
+  /* Corner radius */
+  --pochi-radius-sm: 2px;
+  --pochi-radius-md: 0.25rem;
+  --pochi-radius-lg: 6px;
+  --pochi-radius-full: 50%;
+
+  /* Stacking. Local values order siblings inside one component; page-level
+     values order fixed and positioned parts of the page. Equal values tie
+     and the later element in the DOM wins. */
+  --pochi-z-raised: 1; /* dropdown, search label, heading line, hero image */
+  --pochi-z-content: 2; /* main content over the fixed hero */
+  --pochi-z-label: 5; /* section heading text over its line */
+  --pochi-z-tooltip: 10; /* "Copied" chip */
+  --pochi-z-action-bar: 100; /* mobile action bar */
+  --pochi-z-chrome: 997; /* nav bar, footer, scroll-to-top */
+  --pochi-z-scrim: 997; /* drawer scrim: ties with chrome, later in the DOM */
+  --pochi-z-drawer: 999;
+  --pochi-z-skip-link: 1001;
+  --pochi-z-modal: 9999; /* lightbox */
+
+  /* Motion */
+  --pochi-duration-xs: 0.15s; /* form fields, lightbox buttons */
+  --pochi-duration-sm: 0.2s; /* hover feedback, dropdown, lightbox */
+  --pochi-duration-md: 0.25s; /* page cross-fade (View Transitions) */
+  --pochi-duration-lg: 0.3s; /* drawer */
+  --pochi-duration-xl: 0.6s; /* scroll fade-in */
+  --pochi-ease: ease;
+  --pochi-ease-in-out: ease-in-out;
+  --pochi-ease-out: ease-out;
+  /* Hover feedback on cards, buttons and links */
   --pochi-transition-interactive:
-    color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease,
-    opacity 0.2s ease, transform 0.2s ease, bottom 0.2s ease;
+    color var(--pochi-duration-sm) var(--pochi-ease),
+    background-color var(--pochi-duration-sm) var(--pochi-ease),
+    box-shadow var(--pochi-duration-sm) var(--pochi-ease),
+    opacity var(--pochi-duration-sm) var(--pochi-ease),
+    transform var(--pochi-duration-sm) var(--pochi-ease),
+    bottom var(--pochi-duration-sm) var(--pochi-ease);
 
   /* Layout */
   --pochi-nav-height: 4rem;
   --pochi-breadcrumb-height: 4rem;
   --pochi-footer-min-height: 4rem;
   --pochi-card-padding: 3rem;
+}
 
-  /* Decorative gradient helpers */
-  --pochi-separator-transparent: rgba(0, 0, 0, 0);
-  --pochi-separator-mid-light: rgba(0, 0, 0, 0.5);
-  --pochi-separator-end-dark: rgba(255, 255, 255, 0);
-  --pochi-separator-mid-dark: rgba(255, 255, 255, 0.75);
+:root.light {
+  color-scheme: light;
+}
+
+:root.dark {
+  color-scheme: dark;
 }
 
 /* Breakpoints: 768px and 1200px (mobile / tablet / desktop), written as
@@ -75,48 +175,31 @@
   }
 }
 
-:root.dark {
-  --pochi-text: #c9d1d9;
-  --pochi-text-muted: #a1a1a1;
-  --pochi-bg: #1d1d1d;
-  --pochi-card: #2f2f2f;
-  --pochi-surface-soft: #1d1d1d;
-  --pochi-border: #a1a1a1;
-  --pochi-blockquote-bg: #212121;
-  --pochi-link: #6ec4b4;
-  --pochi-on-accent: #ffffff;
-  --pochi-on-dark: #ffffff;
-  --pochi-required: #ed929f;
-  --pochi-hover: rgba(255, 255, 255, 0.06);
-  --pochi-scrim: rgba(0, 0, 0, 0.7);
+/* Without light-dark() (Safari before 17.5, Chrome before 123, Firefox
+   before 120) the theme is light only, and nav.css hides the toggle.
+   Redeclare every token above that uses light-dark() with its light value. */
+@supports not (color: light-dark(#000, #fff)) {
+  :root,
+  :root.dark {
+    color-scheme: light;
+  }
 
-  /* Inline code */
-  --pochi-inline-code-bg: var(--pochi-code-bg);
-  --pochi-inline-code-border: transparent;
-  --pochi-inline-code-color: var(--pochi-code-fg);
-}
-
-/* Fallback for JS-disabled: follow OS dark mode preference.
-   :root:not(.light) ensures an explicit light choice by the user wins. */
-@media (prefers-color-scheme: dark) {
-  :root:not(.light) {
-    --pochi-text: #c9d1d9;
-    --pochi-text-muted: #a1a1a1;
-    --pochi-bg: #1d1d1d;
-    --pochi-card: #2f2f2f;
-    --pochi-surface-soft: #1d1d1d;
-    --pochi-border: #a1a1a1;
-    --pochi-blockquote-bg: #212121;
-    --pochi-link: #6ec4b4;
-    --pochi-on-accent: #ffffff;
-    --pochi-on-dark: #ffffff;
-    --pochi-required: #ed929f;
-    --pochi-hover: rgba(255, 255, 255, 0.06);
-    --pochi-scrim: rgba(0, 0, 0, 0.7);
-
-    /* Inline code */
-    --pochi-inline-code-bg: var(--pochi-code-bg);
-    --pochi-inline-code-border: transparent;
-    --pochi-inline-code-color: var(--pochi-code-fg);
+  :root {
+    --pochi-text: var(--pochi-gray-38);
+    --pochi-bg: var(--pochi-gray-97);
+    --pochi-border: var(--pochi-gray-88);
+    --pochi-card: var(--pochi-gray-100);
+    --pochi-text-muted: var(--pochi-gray-45);
+    --pochi-blockquote-bg: var(--pochi-gray-97);
+    --pochi-surface-soft: var(--pochi-gray-97);
+    --pochi-link: var(--pochi-teal-58);
+    --pochi-hover: rgba(0, 0, 0, 0.04);
+    --pochi-separator: rgba(0, 0, 0, 0.5);
+    --pochi-inline-code-bg: var(--pochi-slate-98);
+    --pochi-inline-code-border: var(--pochi-gray-74);
+    --pochi-inline-code-color: var(--pochi-text);
+    --pochi-shadow-card-hover:
+      0 8px 17px 2px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12),
+      0 5px 5px -3px rgba(0, 0, 0, 0.2);
   }
 }

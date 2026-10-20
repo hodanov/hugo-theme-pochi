@@ -4,7 +4,7 @@ article,
 .comments,
 .mymenu-related-list {
   background-color: var(--pochi-card);
-  border-radius: 0.25rem;
+  border-radius: var(--pochi-radius-md);
   padding: var(--pochi-card-padding);
   margin-bottom: 3rem;
   word-break: break-word;
@@ -36,7 +36,7 @@ article .kiji-tag li a {
   text-transform: uppercase;
   padding: 0.5rem;
   margin-right: 0.5rem;
-  border-radius: 2px;
+  border-radius: var(--pochi-radius-sm);
   border: 1px solid var(--pochi-border);
 }
 

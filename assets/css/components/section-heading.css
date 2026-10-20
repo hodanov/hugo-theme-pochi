@@ -29,24 +29,11 @@ footer h2:before {
   height: 1px;
   background-image: linear-gradient(
     to right,
-    var(--pochi-separator-transparent),
-    var(--pochi-separator-mid-light),
-    var(--pochi-separator-transparent)
+    transparent,
+    var(--pochi-separator),
+    transparent
   );
-  z-index: 1;
-}
-
-.dark .table-of-contents p:before,
-.dark #sidebar h2:before,
-.dark #sidebar-left h2:before,
-.dark #sidebar-right h2:before,
-.dark footer h2:before {
-  background-image: linear-gradient(
-    to right,
-    var(--pochi-separator-end-dark),
-    var(--pochi-separator-mid-dark),
-    var(--pochi-separator-end-dark)
-  );
+  z-index: var(--pochi-z-raised);
 }
 
 .table-of-contents p span,
@@ -56,5 +43,5 @@ footer h2:before {
 footer h2 span {
   padding: 0 10px;
   position: relative;
-  z-index: 5;
+  z-index: var(--pochi-z-label);
 }

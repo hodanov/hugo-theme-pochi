@@ -63,5 +63,5 @@ strong {
 }
 
 mark {
-  border-radius: 0.25rem;
+  border-radius: var(--pochi-radius-md);
 }

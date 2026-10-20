@@ -75,7 +75,7 @@ pochi テーマのデザインを、デザイナー／FE エンジニアが実�
 | A-15 | フォーカスの見た目が要素ごとにバラバラで、`:focus { outline: none }` が残っている。固定ヘッダーの高さ分を `offsetTop - 15` という場当たりの値で補正している      | `nav.css:55`、`forms.css:43`、`main.js:9-10`                                        | WCAG 2.4.7 / 2.4.11                | 2      | P3A   |
 | A-16 | 操作対象が 44px 未満（コピーボタン約 28〜32px、モバイルのトップへ戻る 32px、タグチップ約 26px、ドロワーを閉じる 36px）                                           | `code.css`、`sidebar.css:198`、`nav.css:297`                                        | WCAG 2.5.8、Fitts の法則           | 1      | P3A   |
 | A-17 | `prefers-reduced-motion` の対応が一部だけ。ホバー効果をタッチ端末でも出している                                                                                  | 「ベースライン計測」を参照                                                          | WCAG 2.3.3                         | 1      | P3A   |
-| A-18 | `color-scheme` を指定していないため、ダークモードでもスクロールバーとフォームが明るいまま                                                                        | `tokens.css`、`head/meta.html`                                                      | 一貫性                             | 1      | P2    |
+| A-18 | `color-scheme` を指定していないため、ダークモードでもスクロールバーとフォームが明るいまま。P2 PR B で `:root` と meta に指定して解消                             | `tokens.css`、`head/meta.html`                                                      | 一貫性                             | 1      | P2    |
 | A-19 | 検索結果に live region が無く、入力欄が `type=text`。クラスと id の間の空白が抜けている                                                                          | `_default/search.html:14`、`search_form.html`                                       | WCAG 4.1.3                         | 2      | P3B   |
 | A-20 | パンくずの区切りを `<li>` にしている。`aria-current` が無い。「Home」がハードコード                                                                              | `breadcrumbs.html`                                                                  | WCAG 1.3.1                         | 1      | P3B   |
 | A-21 | `role="main"` が冗長。`<aside>` にラベルが無い                                                                                                                   | 各 `<main>`、`sidebar_*.html`                                                       | WCAG 1.3.1                         | 1      | P3B   |
@@ -85,17 +85,17 @@ pochi テーマのデザインを、デザイナー／FE エンジニアが実�
 
 #### L: レイアウト・デザインシステム
 
-| ID   | 指摘                                                                                                                             | 根拠                                                       | 基準・原則                  | 重大度 | Phase  |
-| ---- | -------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- | --------------------------- | ------ | ------ |
-| L-01 | トークンが色と影だけで、spacing / type / radius / z / motion が無い。ダーク配色を 2 箇所に重複定義している                       | `tokens.css:79-124`                                        | デザイントークンの 3 層構造 | 2      | P2     |
-| L-02 | font-size 20 種、line-height 15 種、z-index 直書き 21、radius 9 種                                                               | 「ベースライン計測」を参照                                 | 一貫性（Nielsen #4）        | 2      | P2/P4  |
-| L-03 | ブレークポイントがバラバラで、768px で重なっている                                                                               | `main-content.css:16`、`hero.css:52`                       | —                           | 2      | P2     |
-| L-04 | `main.css` が 439 行の雑多な集まり。ツールチップを 3 回、グラデーション線の見出しを 4 回コピーしている                           | `code.css:96`、`sidebar.css:179,316`、`toc.css:17-35` ほか | DRY / ITCSS                 | 1      | P2     |
-| L-05 | Bootstrap 風の flex グリッドで、テンプレートに `col-*` が約 23 箇所。sticky の `top` が 5.5rem 固定                              | `layout/grid.css`、`sidebar.css:8`                         | CSS Grid                    | 1      | P5     |
-| L-06 | 表のスタイルがグローバルに当たっていて、横スクロール用のラッパーが無い。モバイルではみ出す                                       | `main.css:287-306`                                         | WCAG 1.4.10                 | 2      | P3B/P5 |
-| L-07 | Chroma がインラインスタイルを出力するため、コードブロックがダークモードに追従しない                                              | サイト `config.yaml` の `markup.highlight`                 | 一貫性                      | 2      | P7     |
-| L-08 | 使われていないトークンとユーティリティが残っている（`--pochi-shadow-1`、`--pochi-surface`、`.u-focus-ring`）。`!important` が 18 | `tokens.css`、`utilities.css`                              | —                           | 1      | P2     |
-| L-09 | いいね・シェアのレールが、目次のある記事にしか出ない                                                                             | `posts/single.html:9-17`                                   | 一貫性                      | 1      | P5     |
+| ID   | 指摘                                                                                                                                                                                                                              | 根拠                                                       | 基準・原則                  | 重大度 | Phase  |
+| ---- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- | --------------------------- | ------ | ------ |
+| L-01 | トークンが色と影だけで、spacing / type / radius / z / motion が無い。ダーク配色を 2 箇所に重複定義している。P2 PR B で primitive / semantic に分け、radius / z / motion / focus-ring を追加して重複も解消（spacing / type は P4） | `tokens.css:79-124`                                        | デザイントークンの 3 層構造 | 2      | P2     |
+| L-02 | font-size 20 種、line-height 15 種、z-index 直書き 21、radius 9 種。z-index と radius は P2 PR B でトークン化し、直書きを stylelint のエラーにした                                                                                | 「ベースライン計測」を参照                                 | 一貫性（Nielsen #4）        | 2      | P2/P4  |
+| L-03 | ブレークポイントがバラバラで、768px で重なっている                                                                                                                                                                                | `main-content.css:16`、`hero.css:52`                       | —                           | 2      | P2     |
+| L-04 | `main.css` が 439 行の雑多な集まり。ツールチップを 3 回、グラデーション線の見出しを 4 回コピーしている                                                                                                                            | `code.css:96`、`sidebar.css:179,316`、`toc.css:17-35` ほか | DRY / ITCSS                 | 1      | P2     |
+| L-05 | Bootstrap 風の flex グリッドで、テンプレートに `col-*` が約 23 箇所。sticky の `top` が 5.5rem 固定                                                                                                                               | `layout/grid.css`、`sidebar.css:8`                         | CSS Grid                    | 1      | P5     |
+| L-06 | 表のスタイルがグローバルに当たっていて、横スクロール用のラッパーが無い。モバイルではみ出す                                                                                                                                        | `main.css:287-306`                                         | WCAG 1.4.10                 | 2      | P3B/P5 |
+| L-07 | Chroma がインラインスタイルを出力するため、コードブロックがダークモードに追従しない                                                                                                                                               | サイト `config.yaml` の `markup.highlight`                 | 一貫性                      | 2      | P7     |
+| L-08 | 使われていないトークンとユーティリティが残っている（`--pochi-shadow-1`、`--pochi-surface`、`.u-focus-ring`）。`!important` が 18                                                                                                  | `tokens.css`、`utilities.css`                              | —                           | 1      | P2     |
+| L-09 | いいね・シェアのレールが、目次のある記事にしか出ない                                                                                                                                                                              | `posts/single.html:9-17`                                   | 一貫性                      | 1      | P5     |
 
 #### N: 情報設計・回遊
 
@@ -110,15 +110,15 @@ pochi テーマのデザインを、デザイナー／FE エンジニアが実�
 
 #### P: パフォーマンス・SEO
 
-| ID   | 指摘                                                                                                                            | 根拠                                           | 基準・原則         | 重大度 | Phase |
-| ---- | ------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- | ------------------ | ------ | ----- |
-| P-01 | Markdown 画像の `sizes` が既定の 1200px / 100vw で、実際のカラム幅（約 670px）より大きい                                        | `atoms/picture.html:6`、`render-image.html`    | CWV（LCP・転送量） | 2      | P7    |
-| P-02 | featuredImage から og:image を出力しておらず、`twitter:card` が `summary`                                                       | `head/head.html:47-48`                         | SNS での発見性     | 2      | P7    |
-| P-03 | JSON-LD の問題：全ページを BlogPosting にしている、画像 URL が誤っている、廃止済みの SearchAction がある、BreadcrumbList が無い | `head/schema.html:10-11`                       | 構造化データ       | 2      | P7    |
-| P-04 | `<title>` に改行が入っている。`shrink-to-fit` が残っている。RSS の `<link rel=alternate>` と `theme-color` が無い               | `head/meta.html:4-13`                          | —                  | 1      | P2/P7 |
-| P-05 | Giscus を遅延読み込みしていない。AdSense の枠にスペースを予約していない（CLS）                                                  | `molecules/comment.html`、`molecules/ads.html` | CWV                | 2      | P7    |
-| P-06 | 全ページにアイコンの SVG 一式（約 6.8KB）をインラインで埋め込んでいる                                                           | `molecules/icons.html`                         | パフォーマンス予算 | 1      | P7    |
-| P-07 | 検索ページで結果を描画するとサイドバーが下にずれ、モバイルの CLS が 0.131 になる                                                | `_default/search.html`、`sidebar.css`          | CWV（CLS）         | 2      | P7    |
+| ID   | 指摘                                                                                                                                                                  | 根拠                                           | 基準・原則         | 重大度 | Phase |
+| ---- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- | ------------------ | ------ | ----- |
+| P-01 | Markdown 画像の `sizes` が既定の 1200px / 100vw で、実際のカラム幅（約 670px）より大きい                                                                              | `atoms/picture.html:6`、`render-image.html`    | CWV（LCP・転送量） | 2      | P7    |
+| P-02 | featuredImage から og:image を出力しておらず、`twitter:card` が `summary`                                                                                             | `head/head.html:47-48`                         | SNS での発見性     | 2      | P7    |
+| P-03 | JSON-LD の問題：全ページを BlogPosting にしている、画像 URL が誤っている、廃止済みの SearchAction がある、BreadcrumbList が無い                                       | `head/schema.html:10-11`                       | 構造化データ       | 2      | P7    |
+| P-04 | `<title>` に改行が入っている。`shrink-to-fit` が残っている。RSS の `<link rel=alternate>` と `theme-color` が無い。`shrink-to-fit` と `theme-color` は P2 PR B で対応 | `head/meta.html:4-13`                          | —                  | 1      | P2/P7 |
+| P-05 | Giscus を遅延読み込みしていない。AdSense の枠にスペースを予約していない（CLS）                                                                                        | `molecules/comment.html`、`molecules/ads.html` | CWV                | 2      | P7    |
+| P-06 | 全ページにアイコンの SVG 一式（約 6.8KB）をインラインで埋め込んでいる                                                                                                 | `molecules/icons.html`                         | パフォーマンス予算 | 1      | P7    |
+| P-07 | 検索ページで結果を描画するとサイドバーが下にずれ、モバイルの CLS が 0.131 になる                                                                                      | `_default/search.html`、`sidebar.css`          | CWV（CLS）         | 2      | P7    |
 
 ## Design policy
 

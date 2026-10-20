@@ -1,47 +1,60 @@
 {{- /*
   Token swatches for the styleguide page (example_site only, not part of the
   theme). Reads the theme's tokens.css and renders every --pochi-* custom
-  property declared before the dark-mode block. Swatches use var() so they
-  follow the active theme; values shown are the light-mode declarations.
+  property of the main :root block: primitive colors (OKLCH), semantic colors
+  (anything that resolves to a color, shown with the primitives it picks per
+  theme), shadows and the rest. Swatches use var() so they follow the active
+  theme.
   */
 -}}
 {{- $css := (resources.Get "css/tokens.css").Content -}}
-{{- $light := index (split $css ":root.dark") 0 -}}
-{{- $decls := findRESubmatch `(--pochi-[a-z0-9-]+)\s*:\s*([^;]+);` $light -}}
+{{- $root := index (split $css "\n}\n") 0 -}}
+{{- $decls := findRESubmatch `(--pochi-[a-z0-9-]+)\s*:\s*([^;]+);` $root -}}
 {{- $seen := slice -}}
-{{- $colors := slice -}}
+{{- $colorNames := slice -}}
+{{- $primitives := slice -}}
+{{- $semantic := slice -}}
 {{- $shadows := slice -}}
 {{- $others := slice -}}
 {{- range $decls -}}
   {{- $name := index . 1 -}}
-  {{- $value := replaceRE `\s+` " " (index . 2) | strings.TrimSpace -}}
+  {{- $value := replaceRE `\s+` " " (index . 2) | replaceRE `\(\s+` "(" | replaceRE `\s+\)` ")" | strings.TrimSpace -}}
+  {{- $ref := replaceRE `^var\((--pochi-[a-z0-9-]+)\)$` "$1" $value -}}
   {{- if not (in $seen $name) -}}
     {{- $seen = $seen | append $name -}}
-    {{- if in $name "shadow" -}}
+    {{- $item := dict "name" $name "value" (replaceRE `var\(--pochi-([a-z0-9-]+)\)` "$1" $value) -}}
+    {{- if hasPrefix $name "--pochi-shadow-" -}}
       {{- $shadows = $shadows | append $name -}}
-    {{- else if findRE `^(#|rgba?\(|var\()` $value -}}
-      {{- $colors = $colors | append (dict "name" $name "value" $value) -}}
+    {{- else if hasPrefix $value "oklch(" -}}
+      {{- $colorNames = $colorNames | append $name -}}
+      {{- $primitives = $primitives | append $item -}}
+    {{- else if or (findRE `^(light-dark|rgba?|color-mix)\(` $value) (in $colorNames $ref) -}}
+      {{- $colorNames = $colorNames | append $name -}}
+      {{- $semantic = $semantic | append $item -}}
     {{- else -}}
-      {{- $others = $others | append (dict "name" $name "value" $value) -}}
+      {{- $others = $others | append $item -}}
     {{- end -}}
   {{- end -}}
 {{- end -}}
 <!-- [html-validate-disable-block no-inline-style: swatches render CSS variables] -->
 <div class="sg-tokens">
-  <p><strong>Color</strong></p>
-  <ul
-    style="display:grid;grid-template-columns:repeat(auto-fill,minmax(15rem,1fr));gap:0.5rem 1rem;list-style:none;padding:0"
-  >
-    {{- range $colors }}
-      <li style="display:flex;align-items:center;gap:0.5rem">
-        <span
-          aria-hidden="true"
-          style="flex:none;inline-size:2.5rem;block-size:1.5rem;border:1px solid var(--pochi-border);background:var({{ .name | safeCSS }})"
-        ></span>
-        <code>{{ .name }}</code>
-      </li>
-    {{- end }}
-  </ul>
+  {{- range slice (dict "title" "Color: primitive" "items" $primitives) (dict "title" "Color: semantic" "items" $semantic) }}
+    <p><strong>{{ .title }}</strong></p>
+    <ul
+      style="display:grid;grid-template-columns:repeat(auto-fill,minmax(15rem,1fr));gap:0.5rem 1rem;list-style:none;padding:0"
+    >
+      {{- range .items }}
+        <li>
+          <span
+            aria-hidden="true"
+            style="display:inline-block;vertical-align:middle;inline-size:2.5rem;block-size:1.5rem;margin-inline-end:0.5rem;border:1px solid var(--pochi-border);background:var({{ .name | safeCSS }})"
+          ></span>
+          <code>{{ .name }}</code><br />
+          <small>{{ .value }}</small>
+        </li>
+      {{- end }}
+    </ul>
+  {{- end }}
   <p><strong>Shadow</strong></p>
   <ul
     style="display:grid;grid-template-columns:repeat(auto-fill,minmax(12rem,1fr));gap:1rem;list-style:none;padding:0"

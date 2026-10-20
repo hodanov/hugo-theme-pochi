@@ -30,7 +30,7 @@
 }
 
 .mymenu-related a .featured-image-wrapper img {
-  transition: transform 0.2s ease;
+  transition: transform var(--pochi-duration-sm) var(--pochi-ease);
 }
 
 .mymenu-related a:hover .featured-image-wrapper img {

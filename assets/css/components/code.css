@@ -33,7 +33,7 @@ th > code {
   padding: 0.2rem 0.4rem;
   background-color: var(--pochi-inline-code-bg);
   border: 1px solid var(--pochi-inline-code-border);
-  border-radius: 0.25rem;
+  border-radius: var(--pochi-radius-md);
 }
 
 .article-list .post-excerpt code {
@@ -41,7 +41,7 @@ th > code {
   padding: 0.2rem 0.4rem;
   background-color: var(--pochi-inline-code-bg);
   border: 1px solid var(--pochi-inline-code-border);
-  border-radius: 0.25rem;
+  border-radius: var(--pochi-radius-md);
 }
 
 /* Code copy button */
@@ -60,12 +60,12 @@ pre {
   height: 2rem;
   padding: 0;
   border: none;
-  border-radius: 0.25rem;
+  border-radius: var(--pochi-radius-md);
   background: var(--pochi-code-bg);
   color: var(--pochi-code-fg);
   cursor: pointer;
   opacity: 0.6;
-  transition: opacity 0.2s ease;
+  transition: opacity var(--pochi-duration-sm) var(--pochi-ease);
 }
 
 .code-copy-button svg {
@@ -86,7 +86,7 @@ pre {
 
 .code-copy-button--copied {
   opacity: 1;
-  color: #4caf50;
+  color: var(--pochi-success);
 }
 
 /* Copied chip left of the copy button (look: chip.css) */
