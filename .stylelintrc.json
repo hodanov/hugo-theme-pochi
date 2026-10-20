@@ -23,7 +23,7 @@
     "declaration-property-unit-disallowed-list": {
       "line-height": ["px", "rem", "em", "%"]
     },
-    "declaration-no-important": true,
+    "declaration-no-important": [true, { "severity": "error" }],
     "color-no-hex": [true, { "severity": "error" }],
     "color-named": ["never", { "severity": "error" }],
     "function-disallowed-list": [

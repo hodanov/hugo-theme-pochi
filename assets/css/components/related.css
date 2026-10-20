@@ -1,8 +1,4 @@
 /* Related posts (cards inside .mymenu-related-list, see article.css) */
-.mymenu-related-list .row {
-  margin-bottom: 0 !important;
-}
-
 .mymenu-related {
   margin-bottom: 1.5rem;
 }
