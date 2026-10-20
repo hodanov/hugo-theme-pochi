@@ -1,6 +1,7 @@
 #!/usr/bin/env node
-// Stylelint with a ratchet. Every rule in .stylelintrc.json is a warning; the
-// warnings are counted per "rule[property]" and compared with
+// Stylelint with a ratchet. Rules at "error" severity in .stylelintrc.json
+// (colors, z-index and radius outside the tokens) must have no violations.
+// The rest are warnings, counted per "rule[property]" and compared with
 // tests/baselines/stylelint.json, so existing debt is tolerated but must not
 // grow (see scripts/lib/ratchet.cjs).
 //
@@ -32,10 +33,17 @@ function declarationAt(decls, line, column) {
 }
 
 const warnings = [];
+const errors = [];
 const broken = [];
 for (const result of results) {
   const file = path.relative(root, result.source);
   for (const w of result.invalidOptionWarnings) broken.push(w.text);
+  if (result.warnings.some((w) => w.rule === "CssSyntaxError")) {
+    for (const w of result.warnings) {
+      broken.push(`${file}:${w.line}:${w.column} ${w.text}`);
+    }
+    continue;
+  }
   const decls = [];
   postcss.parse(fs.readFileSync(result.source, "utf8")).walkDecls((d) => {
     const prop = d.prop.startsWith("--") ? "--*" : d.prop;
@@ -43,7 +51,7 @@ for (const result of results) {
   });
   for (const w of result.warnings) {
     if (w.severity === "error") {
-      broken.push(`${file}:${w.line}:${w.column} ${w.text}`);
+      errors.push(`${file}:${w.line}:${w.column} ${w.text}`);
       continue;
     }
     const decl = declarationAt(decls, w.line, w.column);
@@ -61,7 +69,16 @@ if (broken.length > 0) {
   process.exit(2);
 }
 
-process.exitCode = ratchet.run({
+if (errors.length > 0) {
+  console.error(
+    [
+      "[stylelint] エラーのルールに違反（ラチェットの対象外。トークンを使って直して）:",
+      ...errors.map((e) => `  ${e}`),
+    ].join("\n"),
+  );
+}
+
+const ratchetCode = ratchet.run({
   name: "stylelint",
   baselineFile,
   current: ratchet.countBy(warnings, (w) => w.key),
@@ -70,3 +87,5 @@ process.exitCode = ratchet.run({
   details: (key) =>
     warnings.filter((w) => w.key === key).map((w) => `${w.where} ${w.text}`),
 });
+
+process.exitCode = errors.length > 0 ? 1 : ratchetCode;
