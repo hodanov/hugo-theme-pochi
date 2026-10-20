@@ -82,6 +82,10 @@ pochi テーマのデザインを、デザイナー／FE エンジニアが実�
 | A-22 | テーマ切替が 2 状態だけ。`handleThemeChange()` が OS の設定変更を `localStorage` に書き込んでしまう                                                              | `main.js:213-288`                                                                   | Nielsen #3（ユーザーの制御と自由） | 1      | P3C   |
 | A-23 | ライトモードの入力欄の枠 `--pochi-border #d8d8d8` が card 上で 1.43:1                                                                                            | `forms.css:29`                                                                      | WCAG 1.4.11                        | 2      | P3A   |
 | A-24 | `.u-focus-ring` の `--pochi-primary #1a73e8` がダークの card 上で 2.97:1。クラス自体は未使用（L-08）。P2 PR A でクラスとトークンを削除して解消                   | `utilities.css:23`                                                                  | WCAG 1.4.11                        | 1      | P2    |
+| A-25 | ページネーションが Hugo 内蔵テンプレートで、リンクに `role="button"` が付き、nav のラベルも無い（P3 の調査で追加）                                               | `_default/list.html`（`_internal/pagination.html`）                                 | WCAG 4.1.2                         | 2      | P3B   |
+| A-26 | ページ内リンク（スキップリンク・目次）でフォーカスが移らない。移動先が固定ナビの下に潜る（P3 の調査で追加）                                                      | `main.js`（`smoothScroll()`）                                                       | WCAG 2.4.1 / 2.4.11                | 3      | P3A   |
+| A-27 | トップへ戻るボタンと固定ページのヒーローがランドマークの外にある。記事の h1 の次が h3（P3 の調査で追加）                                                         | `footer.html`、`_default/single.html`、`comment.html`、`related_posts.html`         | WCAG 1.3.1                         | 1      | P3B   |
+| A-28 | Markdown のタスクリストのチェックボックスに名前が無い（P3 の調査で追加）                                                                                         | `organisms/content.html`（Goldmark の出力）                                         | WCAG 4.1.2                         | 1      | P3B   |
 
 #### L: レイアウト・デザインシステム
 
@@ -177,12 +181,14 @@ pochi テーマのデザインを、デザイナー／FE エンジニアが実�
 - `head/meta.html`：`color-scheme`、`theme-color` を追加し、`shrink-to-fit` を削除する（P-04 の一部）。
 - **完了条件**：VRT の差分 0（ダークモードのスクロールバーとフォームだけは意図した差分）。色・z-index・radius の直書きが 0（stylelint でエラーにする）。バンドルサイズの変化が ±5% 以内。
 
-### P3 WCAG 2.2 AA 準拠（3A / 3B / 3C は個別に出荷）
+### P3 WCAG 2.2 AA 準拠（PR 4 本：3A → 3B-1 → 3B-2 → 3C）
 
-- **3A CSS**：A-01〜A-04、A-15〜A-17、T-06。リンク色を `#1f7a6d` 相当（5.17:1）にし、本文リンクに下線を付ける。アクセント上の文字は濃い色（8.48:1）にする。フォーカスは `:focus-visible` で統一し、`scroll-padding-top` を設定する。主要な操作対象は 44px 以上にする。`@media (hover: hover)` と reduced-motion をまとめて適用し、`forced-colors` にも対応する。
-- **3B テンプレート**：A-05、A-06、A-09〜A-14、A-19〜A-21、L-06、N-03。全ページに h1 を置く。404 に回復導線を付ける。言語切替をリンクにする。ナビを disclosure パターンにする。カードは「`<h2><a>` + `::after` でクリック範囲を広げる」形にする。表の render hook を追加する。
+詳細は `2026-10-20_p3-wcag22-aa.md`。3B が大きいので、骨組み（3B-1：見出し・ランドマーク・ナビ・パンくず・ページネーション・404）と部品（3B-2：言語切替・アイコン・画像・カード・いいね・検索・表）に分けた。ホームの h1 は見えない h1、言語切替は今の言語以外へのリンク、テーマ切替は 1 つのボタンで 3 状態を回す。
+
+- **3A CSS**：A-01〜A-04、A-15〜A-17、A-23、A-26、T-06。リンク色を `#1f7a6d` 相当（5.17:1）にし、本文リンクに下線を付ける。アクセント上の文字は濃い色（8.48:1）にする。フォーカスは `:focus-visible` で統一し、`scroll-padding-top` を設定する。主要な操作対象は 44px 以上にする。`@media (hover: hover)` と reduced-motion をまとめて適用し、`forced-colors` にも対応する。3A で解消した（コントラストの `known` が 0、本文の APCA は Lc75 以上）。
+- **3B テンプレート**：A-05、A-06、A-09〜A-14、A-19〜A-21、A-25、A-27、A-28、L-06、N-03。全ページに h1 を置く。404 に回復導線を付ける。言語切替をリンクにする。ナビを disclosure パターンにする。カードは「`<h2><a>` + `::after` でクリック範囲を広げる」形にする。表の render hook を追加する。
 - **3C JS**：A-07、A-08、A-22。サイドナビを `<dialog>` にする。テーマ切替を 3 状態にする。PJAX の遷移後に h1 へフォーカスを移し、live region でページ名を読み上げる。
-- **完了条件**：axe の serious / critical が 0、html-validate のエラーが 0。トークンのペアが WCAG2 で 4.5 / 3 以上、かつ APCA で本文 Lc75 以上。操作できる要素が 24px 以上（自動で測る）。影響する E2E は同じ PR で更新する。
+- **完了条件**：axe のベースラインが空（styleguide のコードハイライト内の color-contrast は L-07 として P7 に残す）。html-validate の a11y に関わるルールが 0（no-inline-style と Goldmark の脚注の valid-id は残る）。トークンのペアが WCAG2 で 4.5 / 3 以上、かつ APCA で本文 Lc75 以上。操作できる要素が 375 / 1280px で 24px 以上、主要な操作対象は 44px 以上（自動で測る）。影響する E2E は同じ PR で更新する。
 
 ### P4 本文タイポグラフィ・和文組版（M）
 
