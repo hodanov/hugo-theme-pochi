@@ -14,6 +14,13 @@ body {
   margin: 0;
 }
 
+/* Embeds (comments, posts, videos) stay light as before the root got a
+   color-scheme: an iframe whose scheme differs from its document's is
+   painted with an opaque backdrop. */
+iframe {
+  color-scheme: light;
+}
+
 /* Root font size steps up with the viewport; rem sizes follow it */
 html {
   font-size: 14px;
@@ -53,8 +60,8 @@ html {
   padding: 0.5rem 0.75rem;
   background: var(--pochi-accent);
   color: var(--pochi-on-accent);
-  border-radius: 6px;
-  outline: 2px solid var(--pochi-on-accent);
-  outline-offset: 2px;
-  z-index: 1001;
+  border-radius: var(--pochi-radius-lg);
+  outline: var(--pochi-focus-ring-width) solid var(--pochi-on-accent);
+  outline-offset: var(--pochi-focus-ring-offset);
+  z-index: var(--pochi-z-skip-link);
 }

@@ -1,6 +1,4 @@
 {
-  "color-no-hex[--*]": 4,
-  "color-no-hex[color]": 1,
   "declaration-block-no-duplicate-properties[display]": 1,
   "declaration-no-important[animation-duration]": 1,
   "declaration-no-important[border]": 1,
@@ -17,13 +15,9 @@
   "declaration-no-important[width]": 1,
   "declaration-property-unit-disallowed-list[line-height]": 15,
   "declaration-property-value-keyword-no-deprecated[word-break]": 1,
-  "function-disallowed-list[--*]": 2,
-  "function-disallowed-list[box-shadow]": 1,
-  "no-descending-specificity": 26,
+  "no-descending-specificity": 25,
   "no-duplicate-selectors": 5,
   "property-no-deprecated[clip]": 1,
   "property-no-deprecated[word-wrap]": 1,
-  "scale-unlimited/declaration-strict-value[border-radius]": 22,
-  "scale-unlimited/declaration-strict-value[font-size]": 41,
-  "scale-unlimited/declaration-strict-value[z-index]": 15
+  "scale-unlimited/declaration-strict-value[font-size]": 41
 }

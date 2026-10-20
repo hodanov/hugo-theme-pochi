@@ -1,11 +1,15 @@
 #!/usr/bin/env node
-// Contrast check for the color tokens in assets/css/tokens.css.
+// Contrast and theme wiring check for the color tokens in
+// assets/css/tokens.css.
 //
-// - Reads `:root` (light) and `:root.dark` (dark = light + overrides) with
-//   postcss, and fails if the `prefers-color-scheme: dark` fallback block
-//   drifts from `:root.dark`.
-// - Resolves var() (with fallbacks), light-dark() and color-mix(), then
-//   composites translucent colors over the background layers.
+// - Reads the `:root` tokens with postcss and resolves var() (with
+//   fallbacks), light-dark() per theme and color-mix(), then composites
+//   translucent colors over the background layers.
+// - Theme wiring: `color-scheme` on `:root` / `:root.light` / `:root.dark`
+//   (which set nothing else, so theme values live in light-dark()), the
+//   `@supports not (color: light-dark(...))` fallback redeclaring every
+//   light-dark() token with its light value, and the theme-color meta tags
+//   in layouts/partials/head/meta.html matching --pochi-card.
 // - Judges every pair in scripts/contrast-pairs.json with WCAG 2.1 contrast;
 //   APCA Lc is printed for reference only.
 // - A failure must be listed in the pair's `known` (an audit ID), and a known
@@ -20,6 +24,7 @@ import postcss from "postcss";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const tokensFile = path.join(root, "assets/css/tokens.css");
+const metaFile = path.join(root, "layouts/partials/head/meta.html");
 const { pairs } = JSON.parse(
   fs.readFileSync(path.join(root, "scripts/contrast-pairs.json"), "utf8"),
 );
@@ -29,55 +34,59 @@ class TokenError extends Error {}
 
 // --- Token sources ---------------------------------------------------------
 
-function declarations(rule) {
-  const decls = {};
-  rule.walkDecls(/^--/, (d) => {
-    decls[d.prop] = d.value.replace(/\s+/g, " ").trim();
-  });
-  return decls;
-}
+const FALLBACK = "@supports not ";
+const isFallback = (node) =>
+  node.type === "atrule" &&
+  node.name === "supports" &&
+  /^not\s*\(\s*color:\s*light-dark\(/.test(node.params);
 
+// What each selector's color-scheme must be. Browsers without light-dark()
+// stay light, whatever class the head script sets.
+const SCHEMES = {
+  ":root": "light dark",
+  ":root.light": "light",
+  ":root.dark": "dark",
+  [`${FALLBACK}:root`]: "light",
+  [`${FALLBACK}:root.dark`]: "light",
+};
+
+// Top-level rules and the light-dark() fallback; media queries hold layout
+// tokens only.
 function readTokens(css) {
-  const ast = postcss.parse(css);
-  let light;
-  let dark;
-  let fallback;
-  ast.walkRules((rule) => {
-    const parent = rule.parent;
-    if (parent.type === "root" && rule.selector === ":root") {
-      light = { ...light, ...declarations(rule) };
-    } else if (parent.type === "root" && rule.selector === ":root.dark") {
-      dark = { ...dark, ...declarations(rule) };
-    } else if (
-      parent.type === "atrule" &&
-      parent.name === "media" &&
-      /prefers-color-scheme:\s*dark/.test(parent.params)
-    ) {
-      fallback = { ...fallback, ...declarations(rule) };
+  const tokens = {};
+  const fallback = {};
+  const schemes = {};
+  const stray = [];
+  postcss.parse(css).walkRules((rule) => {
+    const inFallback = isFallback(rule.parent);
+    if (rule.parent.type !== "root" && !inFallback) return;
+    const where = (selector) => (inFallback ? FALLBACK : "") + selector;
+    for (const selector of rule.selectors) {
+      rule.each((d) => {
+        if (d.type !== "decl") return;
+        const value = d.value.replace(/\s+/g, " ").trim();
+        if (d.prop === "color-scheme") schemes[where(selector)] = value;
+        else if (selector === ":root") {
+          (inFallback ? fallback : tokens)[d.prop] = value;
+        } else stray.push(`${where(selector)} { ${d.prop} }`);
+      });
     }
   });
-  if (!light || !dark || !fallback) {
-    throw new TokenError(
-      ":root / :root.dark / prefers-color-scheme: dark のどれかが見つからない",
-    );
+  if (Object.keys(tokens).length === 0) {
+    throw new TokenError(":root のトークンが見つからない");
   }
-  return { light, dark, fallback };
+  return { tokens, fallback, schemes, stray };
 }
 
-// The JS-less fallback must declare exactly what `:root.dark` declares.
-function fallbackDrift(dark, fallback) {
-  const drift = [];
-  for (const prop of new Set([
-    ...Object.keys(dark),
-    ...Object.keys(fallback),
-  ])) {
-    if (dark[prop] !== fallback[prop]) {
-      drift.push(
-        `${prop}: :root.dark=${dark[prop] ?? "（無し）"} / prefers-color-scheme=${fallback[prop] ?? "（無し）"}`,
-      );
-    }
+function themeColors(html) {
+  const colors = {};
+  for (const [tag] of html.matchAll(/<meta\b[^>]*>/g)) {
+    const attr = (name) => tag.match(new RegExp(`\\b${name}="([^"]*)"`))?.[1];
+    if (attr("name") !== "theme-color") continue;
+    const theme = attr("media")?.match(/prefers-color-scheme:\s*(light|dark)/);
+    if (theme) colors[theme[1]] = attr("content");
   }
-  return drift;
+  return colors;
 }
 
 // --- Value resolution ------------------------------------------------------
@@ -183,14 +192,21 @@ function resolve(tokens, name, theme, seen = []) {
   return value;
 }
 
+// Quantized to 8-bit sRGB as the screen shows it, so an OKLCH token measures
+// the same as the hex it stands for.
 function toColor(tokens, name, theme) {
   const value = resolve(tokens, name, theme);
   if (value === undefined) throw new TokenError(`${name} が未定義`);
+  let color;
   try {
-    return new Color(value).to("srgb");
+    color = new Color(value).to("srgb");
   } catch {
     throw new TokenError(`${name} を色として解釈できない: ${value}`);
   }
+  color.coords = color.coords.map(
+    (c) => Math.round(Math.min(1, Math.max(0, c)) * 255) / 255,
+  );
+  return color;
 }
 
 // Source-over compositing in sRGB.
@@ -224,11 +240,8 @@ try {
   console.error(`[contrast] ${err.message}`);
   process.exit(2);
 }
-const drift = fallbackDrift(tokenSets.dark, tokenSets.fallback);
-const byTheme = {
-  light: tokenSets.light,
-  dark: { ...tokenSets.light, ...tokenSets.dark },
-};
+const { tokens, fallback } = tokenSets;
+const byTheme = { light: tokens, dark: tokens };
 
 const rows = [];
 const problems = [];
@@ -281,10 +294,76 @@ for (const row of [header, ...rows]) {
   console.log(row.map((cell, i) => cell.padEnd(widths[i])).join("  "));
 }
 
-for (const line of drift) {
-  problems.push(
-    `prefers-color-scheme のフォールバックが :root.dark とずれている: ${line}`,
-  );
+// --- Theme wiring ------------------------------------------------------------
+
+for (const where of new Set([
+  ...Object.keys(SCHEMES),
+  ...Object.keys(tokenSets.schemes),
+])) {
+  const want = SCHEMES[where];
+  const got = tokenSets.schemes[where];
+  if (want !== got) {
+    problems.push(
+      `color-scheme: ${where} が ${got ?? "（無し）"}（期待値: ${want ?? "宣言しない"}）`,
+    );
+  }
+}
+for (const line of tokenSets.stray) {
+  problems.push(`テーマ別の値は :root で light-dark() にする: ${line}`);
+}
+
+// A browser without light-dark() sees the fallback on top of :root and drops
+// every value that still holds light-dark().
+const withoutLightDark = { ...tokens, ...fallback };
+const sameValue = (a, b) => {
+  try {
+    return hex(new Color(a)) === hex(new Color(b));
+  } catch {
+    return a === b;
+  }
+};
+try {
+  for (const [name, value] of Object.entries(tokens)) {
+    if (value.includes("light-dark(") && !(name in fallback)) {
+      problems.push(
+        `フォールバックに ${name} が無い（light-dark() を使うトークン）`,
+      );
+    }
+  }
+  for (const [name, value] of Object.entries(fallback)) {
+    if (!tokens[name]?.includes("light-dark(")) {
+      problems.push(
+        `フォールバックの ${name} は :root で light-dark() を使っていない`,
+      );
+      continue;
+    }
+    if (value.includes("light-dark(")) {
+      problems.push(`フォールバックの ${name} が light-dark() を使っている`);
+      continue;
+    }
+    const light = resolve(tokens, name, "light");
+    const got = resolve(withoutLightDark, name, "light");
+    if (!sameValue(light, got)) {
+      problems.push(
+        `フォールバックの ${name} がライトの値と違う: ${got}（ライト: ${light}）`,
+      );
+    }
+  }
+
+  const metaColors = themeColors(fs.readFileSync(metaFile, "utf8"));
+  for (const theme of THEMES) {
+    const card = hex(toColor(tokens, "--pochi-card", theme));
+    const meta = metaColors[theme];
+    if (!meta || !sameValue(meta, card)) {
+      problems.push(
+        `theme-color（${theme}）が --pochi-card と違う: ${meta ?? "（無し）"}（--pochi-card: ${card}）`,
+      );
+    }
+  }
+} catch (err) {
+  if (!(err instanceof TokenError)) throw err;
+  console.error(`[contrast] ${err.message}`);
+  process.exit(2);
 }
 if (problems.length > 0) {
   console.error(

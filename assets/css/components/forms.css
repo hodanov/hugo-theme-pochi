@@ -12,7 +12,7 @@
   flex: 1 1 auto;
   width: 1%;
   min-width: 0;
-  border-radius: 0.25rem;
+  border-radius: var(--pochi-radius-md);
 }
 
 .form-control {
@@ -29,10 +29,10 @@
   -moz-appearance: none;
   appearance: none;
   transition:
-    border-color 0.15s ease-in-out,
-    box-shadow 0.15s ease-in-out;
+    border-color var(--pochi-duration-xs) var(--pochi-ease-in-out),
+    box-shadow var(--pochi-duration-xs) var(--pochi-ease-in-out);
   width: 100%;
-  border-radius: 0.25rem;
+  border-radius: var(--pochi-radius-md);
   margin-bottom: 1rem;
 }
 
@@ -42,8 +42,8 @@ input:focus {
 }
 textarea:focus-visible,
 input:focus-visible {
-  outline: 2px solid var(--pochi-link);
-  outline-offset: -2px;
+  outline: var(--pochi-focus-ring);
+  outline-offset: var(--pochi-focus-ring-offset-inset);
 }
 
 /* input */

@@ -60,7 +60,7 @@
   height: 30%;
   width: 30%;
   background-color: var(--pochi-card);
-  border-radius: 50%;
+  border-radius: var(--pochi-radius-full);
   overflow: hidden;
 }
 
@@ -95,8 +95,8 @@
     gap: 1.5rem;
     padding: 0.5rem 1rem;
     background: var(--pochi-bg);
-    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.08);
-    z-index: 100;
+    box-shadow: var(--pochi-shadow-bottom-bar);
+    z-index: var(--pochi-z-action-bar);
   }
 
   .main-content {
@@ -243,14 +243,11 @@
   color: var(--pochi-link);
 }
 
-/* Hatena Bookmark icon text color (light/dark) */
+/* Hatena Bookmark icon: a muted tile with the letters cut out to the page
+   background (read by assets/icons/hatena-bookmark.svg) */
 .icon-hatena-bookmark {
-  --pochi-hatena-bg: #555555;
-  --pochi-hatena-text: #f5f5f5;
-}
-.dark .icon-hatena-bookmark {
-  --pochi-hatena-bg: #a1a1a1;
-  --pochi-hatena-text: #1d1d1d;
+  --pochi-hatena-bg: var(--pochi-text-muted);
+  --pochi-hatena-text: var(--pochi-bg);
 }
 
 /* SNS share links (left sidebar) */
@@ -328,7 +325,7 @@
   min-height: 32px;
   display: flex;
   align-items: center;
-  border-radius: 0.25rem;
+  border-radius: var(--pochi-radius-md);
 }
 
 #sidebar-left ul.list-unstyled > li > a:hover,

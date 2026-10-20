@@ -2,7 +2,7 @@
 .main-content {
   background-color: var(--pochi-bg);
   position: relative;
-  z-index: 2;
+  z-index: var(--pochi-z-content);
   min-height: calc(
     100vh - var(--pochi-nav-height) - var(--pochi-breadcrumb-height) -
       var(--pochi-footer-min-height)

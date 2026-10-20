@@ -3,7 +3,7 @@
   "hidden-focusable": 180,
   "no-dup-id": 7,
   "no-implicit-button-type": 60,
-  "no-inline-style": 401,
+  "no-inline-style": 393,
   "no-raw-characters": 62,
   "no-redundant-role": 60,
   "prefer-native-element": 134,

@@ -11,14 +11,14 @@
   margin-left: -1px;
   border: none;
   height: 100%;
-  border-radius: 0rem 0.25rem 0.25rem 0rem;
+  border-radius: 0 var(--pochi-radius-md) var(--pochi-radius-md) 0;
   cursor: pointer;
 }
 
 #search-label {
   color: var(--pochi-text-muted);
   position: absolute;
-  z-index: 1;
+  z-index: var(--pochi-z-raised);
   top: 0.5rem;
   left: 1rem;
 }

@@ -7,20 +7,18 @@ article picture img {
 
 /* Overlay */
 .lightbox-overlay {
-  --_fade-duration: 0.2s;
-  --_btn-bg: rgba(255, 255, 255, 0.15);
-  --_btn-bg-hover: rgba(255, 255, 255, 0.3);
+  --_fade-duration: var(--pochi-duration-sm);
 
   position: fixed;
   inset: 0;
-  z-index: 9999;
+  z-index: var(--pochi-z-modal);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   background: var(--pochi-scrim);
   opacity: 0;
-  transition: opacity var(--_fade-duration) ease;
+  transition: opacity var(--_fade-duration) var(--pochi-ease);
   cursor: zoom-out;
 }
 
@@ -33,7 +31,7 @@ article picture img {
   max-width: 90vw;
   max-height: 80vh;
   object-fit: contain;
-  border-radius: 4px;
+  border-radius: var(--pochi-radius-md);
   cursor: default;
 }
 
@@ -55,8 +53,8 @@ article picture img {
   width: 2.5rem;
   height: 2.5rem;
   border: none;
-  border-radius: 50%;
-  background: var(--_btn-bg);
+  border-radius: var(--pochi-radius-full);
+  background: var(--pochi-scrim-control);
   color: var(--pochi-on-dark);
   font-size: 1.5rem;
   line-height: 1;
@@ -64,10 +62,10 @@ article picture img {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.15s ease;
+  transition: background var(--pochi-duration-xs) var(--pochi-ease);
 }
 
 .lightbox-close:hover,
 .lightbox-close:focus-visible {
-  background: var(--_btn-bg-hover);
+  background: var(--pochi-scrim-control-hover);
 }

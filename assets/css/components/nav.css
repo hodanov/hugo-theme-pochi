@@ -14,7 +14,7 @@ nav.site-nav {
 
 .navbar-fixed {
   position: relative;
-  z-index: 997;
+  z-index: var(--pochi-z-chrome);
   height: var(--pochi-nav-height);
 }
 
@@ -55,8 +55,8 @@ nav.site-nav #menu-bar-btn:focus {
   outline: none;
 }
 nav.site-nav #menu-bar-btn:focus-visible {
-  outline: 2px solid var(--pochi-link);
-  outline-offset: -2px;
+  outline: var(--pochi-focus-ring);
+  outline-offset: var(--pochi-focus-ring-offset-inset);
 }
 
 nav.site-nav #theme-toggle-switch-container,
@@ -82,13 +82,13 @@ nav.site-nav #lang-switcher-container {
   color: var(--pochi-text);
   background-color: var(--pochi-card);
   border: 1px solid var(--pochi-border);
-  border-radius: 6px;
+  border-radius: var(--pochi-radius-lg);
   cursor: pointer;
 }
 
 .lang-switcher select:focus {
-  outline: 2px solid var(--pochi-link);
-  outline-offset: -2px;
+  outline: var(--pochi-focus-ring);
+  outline-offset: var(--pochi-focus-ring-offset-inset);
 }
 
 .lang-switcher select:hover {
@@ -142,6 +142,13 @@ nav.site-nav #theme-toggle-switch-container {
   cursor: pointer;
 }
 
+/* Without light-dark() the theme is light only (see tokens.css) */
+@supports not (color: light-dark(#000, #fff)) {
+  nav.site-nav #theme-toggle-switch-container {
+    display: none;
+  }
+}
+
 nav.site-nav ul {
   margin: 0;
   line-height: var(--pochi-nav-height);
@@ -162,8 +169,8 @@ nav.site-nav ul li a {
   display: block;
   padding: 0 1rem;
   transition:
-    color 0.2s ease-in-out,
-    background-color 0.2s ease-in-out;
+    color var(--pochi-duration-sm) var(--pochi-ease-in-out),
+    background-color var(--pochi-duration-sm) var(--pochi-ease-in-out);
 }
 
 nav.site-nav ul > li:hover > a {
@@ -193,11 +200,11 @@ nav.site-nav .dropdown-list {
   width: auto;
   background-color: var(--pochi-card);
   box-shadow: var(--pochi-shadow-dropdown);
-  z-index: 1;
+  z-index: var(--pochi-z-raised);
   transition:
-    opacity 0.2s ease-in-out,
-    visibility 0.2s ease-in-out,
-    top 0.2s ease-in-out;
+    opacity var(--pochi-duration-sm) var(--pochi-ease-in-out),
+    visibility var(--pochi-duration-sm) var(--pochi-ease-in-out),
+    top var(--pochi-duration-sm) var(--pochi-ease-in-out);
 }
 
 nav.site-nav .dropdown-list li {
@@ -238,13 +245,13 @@ nav.site-nav .logo {
   height: calc(100% + 60px);
   padding-bottom: 60px;
   background-color: var(--pochi-bg);
-  z-index: 999;
+  z-index: var(--pochi-z-drawer);
   overflow-y: auto;
   will-change: transform;
   backface-visibility: hidden;
   transition:
-    transform 0.3s,
-    opacity 0.3s;
+    transform var(--pochi-duration-lg) var(--pochi-ease),
+    opacity var(--pochi-duration-lg) var(--pochi-ease);
 }
 
 #side-nav.is-active {
@@ -278,7 +285,7 @@ nav.site-nav .logo {
   background: transparent;
   height: 36px;
   padding: 0 10px 0 40px;
-  border-radius: 8px;
+  border-radius: var(--pochi-radius-lg);
   position: relative;
   cursor: pointer;
   display: inline-flex;
@@ -288,8 +295,8 @@ nav.site-nav .logo {
 }
 
 #side-nav-close:focus {
-  outline: 2px solid var(--pochi-link);
-  outline-offset: 2px;
+  outline: var(--pochi-focus-ring);
+  outline-offset: var(--pochi-focus-ring-offset);
 }
 
 #side-nav-close::before,
@@ -302,7 +309,7 @@ nav.site-nav .logo {
   height: 2px;
   background: var(--pochi-text);
   transform-origin: center;
-  transition: background-color 0.2s ease;
+  transition: background-color var(--pochi-duration-sm) var(--pochi-ease);
 }
 
 #side-nav-close::before {
@@ -326,8 +333,8 @@ nav.site-nav .logo {
   right: 0;
   height: 120vh;
   background-color: var(--pochi-scrim);
-  z-index: 997;
-  transition: opacity 0.3s;
+  z-index: var(--pochi-z-scrim);
+  transition: opacity var(--pochi-duration-lg) var(--pochi-ease);
 }
 
 nav.site-nav,

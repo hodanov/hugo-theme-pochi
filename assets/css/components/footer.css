@@ -1,7 +1,7 @@
 /* Footer */
 footer {
   position: relative;
-  z-index: 997;
+  z-index: var(--pochi-z-chrome);
   padding-top: 1rem;
   padding-bottom: 1rem;
   min-height: 3.6rem;

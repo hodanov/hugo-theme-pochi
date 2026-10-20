@@ -15,7 +15,7 @@
 
 .pagination-index .pagination .page-item .page-link {
   border: none;
-  border-radius: 0.25rem;
+  border-radius: var(--pochi-radius-md);
   color: var(--pochi-text-muted);
   background-color: var(--pochi-card);
   padding: 0.5rem 0.75rem;

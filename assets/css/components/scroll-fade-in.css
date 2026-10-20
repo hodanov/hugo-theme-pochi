@@ -8,9 +8,9 @@
 .article-list .post-row.scroll-fade-in,
 .related-posts .related-post-item.scroll-fade-in {
   transition:
-    box-shadow 0.2s ease,
-    opacity 0.6s ease-out,
-    transform 0.6s ease-out;
+    box-shadow var(--pochi-duration-sm) var(--pochi-ease),
+    opacity var(--pochi-duration-xl) var(--pochi-ease-out),
+    transform var(--pochi-duration-xl) var(--pochi-ease-out);
 }
 
 .scroll-fade-in.is-visible {

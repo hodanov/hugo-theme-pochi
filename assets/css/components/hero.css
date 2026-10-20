@@ -20,7 +20,7 @@
 }
 
 #parallax-object {
-  z-index: 1;
+  z-index: var(--pochi-z-raised);
   position: absolute;
 }
 
