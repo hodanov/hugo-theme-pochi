@@ -104,19 +104,11 @@
       "use": "ライトボックスのキャプション・ボタン"
     },
     {
-      "id": "teal-on-card",
-      "fg": "--pochi-teal",
-      "bg": "--pochi-card",
-      "min": 4.5,
-      "use": ".button-collapse（main.css。テンプレートからは未使用）",
-      "known": { "light": "A-04", "dark": "A-04" }
-    },
-    {
       "id": "required-on-card",
       "fg": "--pochi-required",
       "bg": "--pochi-card",
       "min": 4.5,
-      "use": ".required（main.css・forms.css。テンプレートからは未使用）",
+      "use": ".required（forms.css。サイトの問い合わせページの必須マーク）",
       "known": { "light": "A-04" }
     },
     {
@@ -133,14 +125,6 @@
       "bg": "--pochi-card",
       "min": 3,
       "use": "フォーカスリング（outline: 2px solid link）"
-    },
-    {
-      "id": "focus-primary-on-card",
-      "fg": "--pochi-primary",
-      "bg": "--pochi-card",
-      "min": 3,
-      "use": ".u-focus-ring（utilities.css。テンプレートからは未使用）",
-      "known": { "dark": "A-24" }
     }
   ]
 }

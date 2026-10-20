@@ -57,3 +57,11 @@ a {
   color: var(--pochi-link);
   text-decoration: none;
 }
+
+strong {
+  font-weight: bold;
+}
+
+mark {
+  border-radius: 0.25rem;
+}

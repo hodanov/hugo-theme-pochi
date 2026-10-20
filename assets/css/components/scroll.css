@@ -10,6 +10,11 @@
   text-align: center;
   border-radius: 0.15rem;
   overflow: hidden;
+  background-color: var(--pochi-accent);
+  border-color: var(--pochi-accent);
+  color: var(--pochi-on-accent);
+  box-shadow: var(--pochi-shadow-card);
+  transition: var(--pochi-transition-interactive);
 }
 
 #scroll-to-top a {
@@ -24,7 +29,11 @@
   bottom: 5rem;
 }
 
-@media (max-width: 767px) {
+#scroll-to-top.fade-in:hover {
+  opacity: 0.8;
+}
+
+@media (width < 768px) {
   #scroll-to-top {
     display: none;
   }

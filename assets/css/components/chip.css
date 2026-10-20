@@ -1,0 +1,17 @@
+/* Feedback chip ("Copied!") shown next to a button after a copy. Each
+   component places it; this sets the look. */
+.code-copy-chip,
+#action-bar-mobile .share-btn[aria-pressed="true"]::after,
+#sidebar-left .share-btn[aria-pressed="true"]::after {
+  position: absolute;
+  padding: 0.15rem 0.4rem;
+  border-radius: 0.25rem;
+  background: var(--pochi-accent);
+  color: var(--pochi-on-accent);
+  font-size: 0.75rem;
+  line-height: 1rem;
+  white-space: nowrap;
+  box-shadow: var(--pochi-shadow-2);
+  pointer-events: none;
+  z-index: 10;
+}

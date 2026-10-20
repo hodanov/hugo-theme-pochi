@@ -1,1 +1,28 @@
-/* Buttons (placeholder to replace empty _buttons.scss) */
+/* Buttons: the search submit (.btn-secondary); .btn-primary is used by the
+   site's contact page */
+.btn-primary,
+.btn-secondary {
+  color: var(--pochi-text-muted);
+  background-color: var(--pochi-card);
+  padding: 0.375rem 0.75rem;
+  transition: var(--pochi-transition-interactive);
+}
+
+.btn-primary:hover,
+.btn-secondary:hover {
+  background-color: var(--pochi-accent);
+  border-color: var(--pochi-accent);
+  color: var(--pochi-on-accent);
+}
+
+.btn-primary:hover {
+  opacity: 0.8;
+}
+
+.btn-primary {
+  text-transform: uppercase;
+  font-size: 1rem;
+  padding: 7px 16px 8px;
+  display: inline-block;
+  margin-top: 12px;
+}

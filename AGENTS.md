@@ -26,6 +26,7 @@ npm run vrt:update           # Re-generate changed VRT baselines in Docker
 npm run a11y                 # axe + landmark/heading outline in Docker (see below)
 npm run a11y:update          # Rewrite the axe baseline and changed outline snapshots
 npm run lighthouse           # Lighthouse on the static build (report only, see below)
+npm run style:diff           # Computed-style diff of the CSS against origin/main (see below)
 npm run build:snapshot       # Deterministic static build used by VRT (.snapshot/site)
 npm run vendor:verify        # Verify vendored files match node_modules
 npm run vendor:update        # Bump patch versions & re-vendor
@@ -69,6 +70,10 @@ Existing findings are recorded as counts, and every check must match its baselin
 
 `npm run lighthouse` builds `.snapshot/site`, serves it with gzip and runs Lighthouse 3 times per page (mobile defaults) through its Node API (`scripts/lighthouse.mjs`), keeping the median run. Pages and assertions live in `scripts/lighthouse-targets.json` (Lighthouse CI's assertion shape): `warn` is only reported, `error` exits 1. Reports and `summary.md` go to `.lighthouse/`; on CI the table is written to the job summary and the reports are uploaded as the `lighthouse-reports` artifact. Chrome is Playwright's Chromium unless `CHROME_PATH` is set. Lighthouse CI itself is not used because its pinned dependencies carry known vulnerabilities.
 
+### Computed-style diff
+
+`npm run style:diff` (`scripts/style-diff.mjs`, host Chromium) is for CSS refactors that must not change the look. It builds example_site from the working tree and from a base ref (`--base`, default `origin/main`, via `git archive`), then renders the working-tree HTML twice per page, once with each CSS bundle, and compares every computed property of every element and its `::before` / `::after` (colors normalized to 8-bit sRGB). It covers the a11y pages × light / dark × 375 / 768 / 1280px × four states: `default`, `hover` and `focus` (the CSS's `:hover` / `:focus*` are rewritten to always match, with the same specificity) and `active` (every `aria-pressed` / `aria-expanded` set to `true`, side nav open, scroll-to-top shown). Changes inherited from the parent are folded into the parent, and a difference must show up on a second read to count. The report goes to `.snapshot/style-diff/report.md`; exit 1 means something differs. Narrow a run with `--pages`, `--themes`, `--widths`, `--states`. It is not in CI: put the expected differences in the PR instead.
+
 ## Architecture
 
 ### Template layer (`layouts/`)
@@ -80,7 +85,7 @@ Existing findings are recorded as counts, and every check must match its baselin
 
 ### Asset pipeline (`assets/`)
 
-- **CSS**: Hugo Pipes bundles all CSS in `core/resources_css.html`. Design tokens live in `css/tokens.css`. Files organized as `css/{base,layout/,components/,vendor/,utilities}.css` plus `css/main.css`.
+- **CSS**: Hugo Pipes bundles all CSS in `core/resources_css.html` (order matters until `@layer` lands). Design tokens live in `css/tokens.css`; element defaults in `css/base.css` and `components/typography.css`; one file per component in `css/components/`. Shared looks used by several components sit before them in the bundle (`chip.css`, `section-heading.css`) so a component can override them at the same specificity. Breakpoints are 768px and 1200px in range syntax (`width < 768px`, `width >= 768px`); the two exceptions are commented in `hero.css` and `layout/grid.css`.
 - **JS**: Hugo Pipes bundles all JS in `core/resources_js.html`. Entry point is `js/main.js` (initializes all modules on DOMContentLoaded). Other modules: `navigation.js` (PJAX), `scrollspy.js`, `archives-toggle.js`, `like-button.js`, `share-button.js`, `lang-switcher.js`, `lightbox.js`.
 - **Vendor**: Fuse.js, Mark.js, modern-normalize are vendored under `assets/{js,css}/vendor/`. Managed via `scripts/vendor-sync.js` with integrity hashes in `VENDOR.lock.json`. Never edit vendored files directly.
 

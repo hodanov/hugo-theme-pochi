@@ -39,7 +39,9 @@
   font-size: clamp(1.5rem, 3.5vw, 3rem);
 }
 
-@media only screen and (max-width: 1280px) {
+/* An exception to the 768 / 1200px breakpoints: moving it to 1200px would
+   make the hero taller at 1200-1280px. Revisit with the layout (P5). */
+@media (width <= 1280px) {
   .parallax-container {
     height: calc(40vh - var(--pochi-nav-height));
   }
@@ -49,7 +51,7 @@
   }
 }
 
-@media only screen and (max-width: 768px) {
+@media (width < 768px) {
   .hero-caption h1 {
     text-align: left;
     margin: 0;

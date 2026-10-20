@@ -3,6 +3,17 @@
   margin: 0 0 3rem 0;
   background-color: var(--pochi-card);
   border-radius: 0.25rem;
+  box-shadow: var(--pochi-shadow-card);
+  transition: var(--pochi-transition-interactive);
+}
+
+.article-list .post-row:hover {
+  box-shadow: var(--pochi-shadow-card-hover);
+}
+
+.dark .article-list .post-row:hover {
+  border-color: var(--pochi-accent);
+  box-shadow: var(--pochi-shadow-card-hover-accent);
 }
 
 .article-list .post-row div > a {
@@ -26,6 +37,10 @@
   color: var(--pochi-text-muted);
   font-size: 0.9rem;
   line-height: 1.75;
+}
+
+.article-list h2 {
+  transition: var(--pochi-transition-interactive);
 }
 
 .article-list a h2,
@@ -55,7 +70,7 @@
   margin: 0;
 }
 
-@media (max-width: 767px) {
+@media (width < 768px) {
   .article-list .post-row {
     padding: 1rem 0;
     margin: 0 0 1rem 0;

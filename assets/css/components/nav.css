@@ -95,11 +95,6 @@ nav.site-nav #lang-switcher-container {
   background-color: var(--pochi-hover);
 }
 
-/* Hide top nav language switcher while side nav is open */
-body.side-nav-open #lang-switcher-container {
-  display: none !important;
-}
-
 /* Custom arrow for language select */
 .lang-switcher {
   position: relative;
@@ -118,7 +113,6 @@ body.side-nav-open #lang-switcher-container {
   pointer-events: none;
 }
 
-.lang-switcher select:focus + .arrow,
 .lang-switcher:focus-within::after {
   color: var(--pochi-link);
 }
@@ -136,6 +130,16 @@ nav.site-nav #lang-switcher-container {
 nav.site-nav #theme-toggle-switch-container {
   order: 3;
   height: 100%;
+}
+
+#theme-toggle-switch {
+  border: none;
+  background: none;
+  margin: 0 0.5rem;
+  color: var(--pochi-text);
+  display: block;
+  height: 100%;
+  cursor: pointer;
 }
 
 nav.site-nav ul {
@@ -172,30 +176,8 @@ nav.site-nav .dropdown-list li a:hover {
   background-color: inherit;
 }
 
-#side-nav .collapsible-header,
-#side-nav.fixed .collapsible-header {
-  padding: 0 32px;
-}
-
-#side-nav .collapsible-body li a,
-#side-nav.fixed .collapsible-body li a {
-  padding-left: 48px;
-}
-
 #side-nav-option {
   margin: 0.5rem 2rem;
-}
-
-i.right {
-  margin: 0;
-}
-
-header ul li .collapsible .collapsible-header {
-  padding: 0 32px;
-}
-
-header ul li .collapsible .collapsible-body {
-  padding: 0 2rem;
 }
 
 nav.site-nav .dropdown {
@@ -358,7 +340,7 @@ nav.site-nav .dropdown-list {
   line-height: 2rem;
 }
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
   nav.site-nav #menu-bar-btn {
     display: none;
   }
@@ -369,7 +351,7 @@ nav.site-nav .dropdown-list {
   }
 }
 
-@media (max-width: 767px) {
+@media (width < 768px) {
   nav.site-nav .menu-global-nav-container {
     display: none;
   }

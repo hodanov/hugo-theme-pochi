@@ -1,0 +1,60 @@
+/* Section heading: a centered caps title on a thin gradient line (sidebar,
+   footer and table of contents). Components set the margin, the line width
+   and the label background that hides the line behind the text. */
+.table-of-contents p,
+#sidebar h2,
+#sidebar-left h2,
+#sidebar-right h2,
+footer h2 {
+  position: relative;
+  text-align: center;
+  font-size: 1rem;
+  text-transform: uppercase;
+}
+
+.table-of-contents p:before,
+#sidebar h2:before,
+#sidebar-left h2:before,
+#sidebar-right h2:before,
+footer h2:before {
+  content: "";
+  display: block;
+  position: absolute;
+  margin: auto;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-image: linear-gradient(
+    to right,
+    var(--pochi-separator-transparent),
+    var(--pochi-separator-mid-light),
+    var(--pochi-separator-transparent)
+  );
+  z-index: 1;
+}
+
+.dark .table-of-contents p:before,
+.dark #sidebar h2:before,
+.dark #sidebar-left h2:before,
+.dark #sidebar-right h2:before,
+.dark footer h2:before {
+  background-image: linear-gradient(
+    to right,
+    var(--pochi-separator-end-dark),
+    var(--pochi-separator-mid-dark),
+    var(--pochi-separator-end-dark)
+  );
+}
+
+.table-of-contents p span,
+#sidebar h2 span,
+#sidebar-left h2 span,
+#sidebar-right h2 span,
+footer h2 span {
+  padding: 0 10px;
+  position: relative;
+  z-index: 5;
+}

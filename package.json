@@ -17,6 +17,7 @@
     "a11y": "bash scripts/pw-docker.sh --project=a11y",
     "a11y:update": "A11Y_UPDATE=1 bash scripts/pw-docker.sh --project=a11y --update-snapshots=changed",
     "lighthouse": "npm run build:snapshot && node scripts/lighthouse.mjs",
+    "style:diff": "node scripts/style-diff.mjs",
     "vendor:sync": "node scripts/vendor-sync.js",
     "vendor:verify": "node scripts/vendor-sync.js --verify",
     "vendor:update": "npm update fuse.js mark.js modern-normalize --save-dev && npm run vendor:sync",

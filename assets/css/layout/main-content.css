@@ -9,11 +9,16 @@
   );
 }
 
+/* Centers the single-column content (posts, pages, 404) */
+.centered {
+  margin: 0 auto;
+}
+
 .main-content.margin-top {
   margin-top: 3rem;
 }
 
-@media only screen and (max-width: 768px) {
+@media (width < 768px) {
   .main-content.margin-top {
     margin-top: 1rem;
   }
