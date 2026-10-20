@@ -79,14 +79,37 @@ function bundlePath(siteDir) {
 fs.rmSync(workDir, { recursive: true, force: true });
 const baseSrc = path.join(workDir, "base-src");
 fs.mkdirSync(baseSrc, { recursive: true });
-execFileSync("bash", [
-  "-c",
-  'git -C "$1" archive --format=tar "$2" | tar -x -C "$3"',
-  "_",
+// Resolve the ref first: it rejects anything that looks like an option, and
+// git archive then gets a plain commit id. No shell is involved.
+let baseCommit;
+try {
+  baseCommit = execFileSync(
+    "git",
+    [
+      "-C",
+      root,
+      "rev-parse",
+      "--verify",
+      "--quiet",
+      "--end-of-options",
+      `${baseRef}^{commit}`,
+    ],
+    { encoding: "utf8" },
+  ).trim();
+} catch {
+  console.error(`[style-diff] --base をコミットとして解決できない: ${baseRef}`);
+  process.exit(2);
+}
+const baseTar = path.join(workDir, "base.tar");
+execFileSync("git", [
+  "-C",
   root,
-  baseRef,
-  baseSrc,
+  "archive",
+  "--format=tar",
+  `--output=${baseTar}`,
+  baseCommit,
 ]);
+execFileSync("tar", ["-x", "-f", baseTar, "-C", baseSrc]);
 const headSite = path.join(workDir, "head");
 const baseSite = path.join(workDir, "base");
 build(root, headSite);
