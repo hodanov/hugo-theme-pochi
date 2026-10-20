@@ -32,7 +32,7 @@ article .kiji-tag li {
 article .kiji-tag li a {
   display: inline-block;
   color: var(--pochi-text-muted);
-  font-size: 0.75rem !important;
+  font-size: 0.75rem;
   text-transform: uppercase;
   padding: 0.5rem;
   margin-right: 0.5rem;

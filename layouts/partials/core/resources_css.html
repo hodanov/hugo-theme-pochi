@@ -1,37 +1,68 @@
-{{ $tokens := resources.Get "css/tokens.css" }}
-{{ $normalize := resources.Get "css/vendor/modern-normalize.css" }}
-{{ $utilities := resources.Get "css/utilities.css" }}
-{{ $base := resources.Get "css/base.css" }}
-{{ $layoutMain := resources.Get "css/layout/main-content.css" }}
-{{ $layoutGrid := resources.Get "css/layout/grid.css" }}
-
-{{ $cButtons := resources.Get "css/components/buttons.css" }}
-{{ $cChip := resources.Get "css/components/chip.css" }}
-{{ $cSectionHeading := resources.Get "css/components/section-heading.css" }}
-{{ $cNav := resources.Get "css/components/nav.css" }}
-{{ $cSidebar := resources.Get "css/components/sidebar.css" }}
-{{ $cTypography := resources.Get "css/components/typography.css" }}
-{{ $cContent := resources.Get "css/components/content.css" }}
-{{ $cCode := resources.Get "css/components/code.css" }}
-{{ $cForms := resources.Get "css/components/forms.css" }}
-{{ $cIcons := resources.Get "css/components/icons.css" }}
-{{ $cSearch := resources.Get "css/components/search.css" }}
-{{ $cLists := resources.Get "css/components/lists.css" }}
-{{ $cToc := resources.Get "css/components/toc.css" }}
-{{ $cPagination := resources.Get "css/components/pagination.css" }}
-{{ $cFooter := resources.Get "css/components/footer.css" }}
-{{ $cBreadcrumbs := resources.Get "css/components/breadcrumbs.css" }}
-{{ $cHero := resources.Get "css/components/hero.css" }}
-{{ $cMedia := resources.Get "css/components/media.css" }}
-{{ $cLightbox := resources.Get "css/components/lightbox.css" }}
-{{ $cArticleList := resources.Get "css/components/article-list.css" }}
-{{ $cScroll := resources.Get "css/components/scroll.css" }}
-{{ $cScrollFadeIn := resources.Get "css/components/scroll-fade-in.css" }}
-{{ $cProfile := resources.Get "css/components/profile.css" }}
-{{ $cFootnotes := resources.Get "css/components/footnotes.css" }}
-{{ $cViewTransitions := resources.Get "css/components/view-transitions.css" }}
-{{ $cArticle := resources.Get "css/components/article.css" }}
-{{ $cRelated := resources.Get "css/components/related.css" }}
-
-{{ $bundledCss := slice $tokens $normalize $utilities $base $layoutMain $layoutGrid $cButtons $cChip $cSectionHeading $cNav $cSidebar $cTypography $cContent $cCode $cForms $cIcons $cSearch $cLists $cToc $cPagination $cFooter $cBreadcrumbs $cHero $cMedia $cLightbox $cArticleList $cScroll $cScrollFadeIn $cProfile $cFootnotes $cViewTransitions $cArticle $cRelated | resources.Concat "css/bundled.css" | resources.Minify | fingerprint }}
+{{- /*
+  One CSS bundle in cascade layers, lowest priority first. A rule in a later
+  layer beats every rule in an earlier one whatever its specificity, so
+  specificity and file order only matter inside a layer. Files keep the order
+  listed here. Shared looks (chip, section-heading) come before the
+  components that override them.
+  */
+-}}
+{{- $components := slice
+  "css/components/buttons.css"
+  "css/components/chip.css"
+  "css/components/section-heading.css"
+  "css/components/nav.css"
+  "css/components/sidebar.css"
+  "css/components/content.css"
+  "css/components/code.css"
+  "css/components/forms.css"
+  "css/components/icons.css"
+  "css/components/search.css"
+  "css/components/lists.css"
+  "css/components/toc.css"
+  "css/components/pagination.css"
+  "css/components/footer.css"
+  "css/components/breadcrumbs.css"
+  "css/components/hero.css"
+  "css/components/media.css"
+  "css/components/lightbox.css"
+  "css/components/article-list.css"
+  "css/components/scroll.css"
+  "css/components/scroll-fade-in.css"
+  "css/components/profile.css"
+  "css/components/footnotes.css"
+  "css/components/view-transitions.css"
+  "css/components/article.css"
+  "css/components/related.css"
+-}}
+{{- $layers := slice
+  (dict "name" "reset" "files" (slice "css/vendor/modern-normalize.css"))
+  (dict "name" "tokens" "files" (slice "css/tokens.css"))
+  (dict "name" "base" "files" (slice "css/base.css" "css/typography.css"))
+  (dict "name" "layout" "files" (slice "css/layout/main-content.css" "css/layout/grid.css"))
+  (dict "name" "components" "files" $components)
+  (dict "name" "utilities" "files" (slice "css/utilities.css"))
+-}}
+{{- /* The files go into Concat as they are, between "@layer x {" and "}"
+  pieces, so `hugo serve` still rebuilds the bundle when one changes (a
+  string built from .Content loses that link).
+  */
+-}}
+{{- $names := slice -}}
+{{- range $layers -}}
+  {{- $names = $names | append .name -}}
+{{- end -}}
+{{- $parts := slice (resources.FromString "css/layers/order.css" (printf "@layer %s;\n" (delimit $names ", "))) -}}
+{{- $close := resources.FromString "css/layers/close.css" "}\n" -}}
+{{- range $layers -}}
+  {{- $parts = $parts | append (resources.FromString (printf "css/layers/%s.css" .name) (printf "@layer %s {\n" .name)) -}}
+  {{- range .files -}}
+    {{- with resources.Get . -}}
+      {{- $parts = $parts | append . -}}
+    {{- else -}}
+      {{- errorf "resources_css.html: %s not found" . -}}
+    {{- end -}}
+  {{- end -}}
+  {{- $parts = $parts | append $close -}}
+{{- end -}}
+{{- $bundledCss := $parts | resources.Concat "css/bundled.css" | resources.Minify | fingerprint -}}
 <link rel="stylesheet" href="{{ $bundledCss.RelPermalink }}" />

@@ -68,10 +68,12 @@
 
 ### カスケード（PR C）
 
-- `core/resources_css.html` で、各ファイルを `resources.FromString` で `@layer <名前> { ... }` に包んでから結合する。先頭で順序を宣言する：`@layer reset, tokens, base, layout, components, utilities;`
-- 割り当て：vendor の modern-normalize → reset、`tokens.css` → tokens、`base.css` と `typography.css` → base、`layout/*` → layout、`components/*` → components、`utilities.css` → utilities。
+- `core/resources_css.html` で、各ファイルを `@layer <名前> {` と `}` の断片で挟んでから結合する。断片は `resources.FromString` で作り、ファイルは `resources.Get` のまま `resources.Concat` に渡す（`hugo serve` がファイルの変更を追えるように。下の Decisions）。先頭で順序を宣言する：`@layer reset, tokens, base, layout, components, utilities;`
+- 割り当て：vendor の modern-normalize → reset、`tokens.css` → tokens、`base.css` と `typography.css` → base、`layout/*` → layout、`components/*` → components、`utilities.css` → utilities。`typography.css` は `components/` から `css/` 直下に移し、ディレクトリと層を揃える。
 - `utilities` を最後の層に置けば、詳細度に関係なく勝つので、`.u-visually-hidden` の `!important` 9 個は要らなくなる。
 - 残す `!important`：`[hidden] { display: none !important }`（部品の `display` に負けないようにする定番。重要宣言は前の層ほど強いので base に置くと最優先になる）と、reduced-motion で View Transitions のアニメーションを止める 1 個。ほかは原因を直して外す。
+- `declaration-no-important` を stylelint のエラーにする。残す 2 個には、理由を書いた `stylelint-disable-next-line` を付ける。
+- `@layer` は 2022-03 に Baseline になった（Chrome 99、Safari 15.4、Firefox 97）。非対応のブラウザは層の中のスタイルを全部読み飛ばすので、スタイルの無いページになる。PR A の range 構文（Chrome 104、Safari 16.4）が、すでに正しいレイアウトで見られる下限なので、受け入れる。
 
 ### ブレークポイント（PR A）
 
@@ -94,6 +96,7 @@
 | B   | JS 無しで OS がダークのとき、区切り線・カード hover の影・はてなアイコンもダークの色になる（今までは `.dark` が付かずライトの色だった） | テストは JS ありなので写らない                           |
 | B   | ダークのカード hover の `border-color` が accent → 文字色（カードに枠は無い）                                                           | style:diff だけ                                          |
 | B   | スタイルガイドのトークン見本が primitive と semantic に分かれる                                                                         | VRT の sg-tokens（2 枚）                                 |
+| C   | なし                                                                                                                                    | —                                                        |
 
 ## Implementation steps
 
@@ -128,7 +131,7 @@
 ### PR C `refactor/p2-layers`
 
 1. `resources_css.html` でレイヤーに包む。`main.css` が消えているので、ファイル単位で割り当てられる。
-2. `!important` を点検する（上の方針）。
+2. `!important` を点検する（上の方針）。`declaration-no-important` をエラーにする。
 3. style:diff と VRT で差分 0 を確かめる。崩れたところは、詳細度に頼っていた箇所なので、セレクタか層の割り当てで直す。
 
 ## File changes
@@ -139,10 +142,12 @@
   - 本書
 - 削除
   - `assets/css/main.css`
+- 移動
+  - `assets/css/components/typography.css` → `assets/css/typography.css`
 - 変更
   - `assets/css/` のほぼ全ファイル、`layouts/partials/core/resources_css.html`、`layouts/partials/head/meta.html`
   - `scripts/{check-contrast.mjs,contrast-pairs.json,lint-css.mjs}`、`.stylelintrc.json`
-  - `tests/baselines/{stylelint,html-validate}.json`、`tests/vrt/__snapshots__/`（意図した差分のみ）、`tests/vrt/styleguide.spec.js`
+  - `tests/baselines/{stylelint,html-validate}.json`、`tests/vrt/__snapshots__/`（意図した差分のみ）、`tests/vrt/styleguide.spec.js`、`tests/e2e/f-17-view-transitions.spec.js`
   - `example_site/layouts/shortcodes/tokens.html`
   - `package.json`、`AGENTS.md`、ロードマップ
 
@@ -181,6 +186,12 @@
 - 2026-10-20（PR B）：`iframe { color-scheme: light }` を base.css に足した。ルートがダークになると、ライトの文書を埋め込んだ iframe（x の埋め込みなど）には不透明な背景が敷かれる（iframe 要素と中の文書の配色が食い違うとき）。PR B の前と同じ描画に留める。
 - 2026-10-20（PR B）：style:diff は、完全に透明な色を RGB に関係なく同じ値に正規化する（`color-mix()` が premultiplied のため）。区切り線の透明端の書き換えは差分に出なかった。HTML は作業ツリーのものを使うので、`<meta name="color-scheme">` の効果も style:diff には出ず、VRT のダークで task list のチェックボックスが暗くなった差分（sg-text@1280-dark）で確かめた。スクロールバーはヘッドレスの Chromium では描かれない。
 - 2026-10-20（PR B）：CSS バンドルは 35,339 → 38,611 バイト（gzip 7,609 → 8,102、+6.5%）。primitive の層、フォールバック、`var()` の参照が増えた分。完了条件の「P1 終了時（8.3KB）から +5% 以内」には収まる。stylelint は 151 → 105 件（色・z-index・角丸がエラーのルールに移り 0 件）、html-validate は 1105 → 1097 件。
+
+- 2026-10-20（PR C）：レイヤーで包んだだけの段階と、`!important` を外した後の両方で、style:diff の差分は 0（312 通り）、VRT は 42 枚とも一致した。style:diff がレイヤーの割り当ての誤りを拾うことは、`typography.css` を utilities 層に入れて確かめた（全 13 ページで、ナビ・タグ・目次などのリンクの色が変わったと出る）。アーカイブの「カードだけ表示」は style:diff の状態に入らないので、Playwright で見出しと選んでいない年が `display: none` になることを別に確かめた。
+- 2026-10-20（PR C）：`!important` は 15 → 2 個。外した 13 個のうち、`.u-visually-hidden` の 9 個は utilities 層に置いたので要らなくなった。残りの 4 個（タグの文字サイズ、関連記事の `.row` の下余白、アーカイブのカードだけ表示の 2 個）は、同じプロパティを指定して競合するルールがもう無かった（Sass 時代の名残）。関連記事の `.row` の下余白は、ルールそのものが既定値の 0 を指定するだけだったので消した。stylelint は 105 → 90 件。
+- 2026-10-20（PR C）：最初は計画どおり、全ファイルの `.Content` を文字列でつないで `resources.FromString` に渡した。ところが `hugo serve` で CSS を編集しても、バンドルが作り直されなかった（Hugo が元のファイルとの依存を追えない。`resources.Concat` なら追える）。そこで `@layer x {` と `}` の断片だけを FromString で作り、ファイルは `resources.Get` のまま Concat に渡す形にした。出力は文字列版と 1 バイトも変わらない（fingerprint が同じ）。一覧に書いたファイルが無いときは、`errorf` でビルドを止める。
+- 2026-10-20（PR C）：E2E の f-17 は、reduced-motion のルールを CSS の最上位でしか探していなかったので、`@layer` の中に入ると見つからずに落ちた。入れ子をたどって探すように直し、`animation-duration: 0s` になっていることまで確かめるようにした（`0.1s` に変えると落ちる）。
+- 2026-10-20（PR C）：CSS バンドルは 38,611 → 38,493 バイト（gzip 8,102 → 8,121）。層の宣言と包みの分が増え、`!important` と no-op のルールの分が減った。Lighthouse（ローカル）の CSS 転送量は全ページ 8.2KB で、P2 の完了条件（P1 終了時の 8.3KB から +5% 以内）を満たす。
 
 ## Open questions
 

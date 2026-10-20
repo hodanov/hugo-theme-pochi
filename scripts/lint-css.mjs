@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 // Stylelint with a ratchet. Rules at "error" severity in .stylelintrc.json
-// (colors, z-index and radius outside the tokens) must have no violations.
-// The rest are warnings, counted per "rule[property]" and compared with
-// tests/baselines/stylelint.json, so existing debt is tolerated but must not
-// grow (see scripts/lib/ratchet.cjs).
+// (colors, z-index and radius outside the tokens, !important) must have no
+// violations. The rest are warnings, counted per "rule[property]" and
+// compared with tests/baselines/stylelint.json, so existing debt is tolerated
+// but must not grow (see scripts/lib/ratchet.cjs).
 //
 // Usage: node scripts/lint-css.mjs [--update]
 import fs from "node:fs";
@@ -72,7 +72,7 @@ if (broken.length > 0) {
 if (errors.length > 0) {
   console.error(
     [
-      "[stylelint] エラーのルールに違反（ラチェットの対象外。トークンを使って直して）:",
+      "[stylelint] エラーのルールに違反（ラチェットの対象外。トークンかレイヤーで直して）:",
       ...errors.map((e) => `  ${e}`),
     ].join("\n"),
   );

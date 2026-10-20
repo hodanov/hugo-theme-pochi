@@ -38,8 +38,11 @@ html {
   }
 }
 
-/* Hidden attribute */
+/* Hidden attribute. !important in the base layer outranks every normal
+   declaration and every later layer's !important, so a component's display
+   never shows a hidden element. */
 [hidden] {
+  /* stylelint-disable-next-line declaration-no-important -- see above */
   display: none !important;
 }
 

@@ -5,11 +5,14 @@
   animation-timing-function: var(--pochi-ease-in-out);
 }
 
-/* Disable animations for users who prefer reduced motion */
+/* Disable animations for users who prefer reduced motion. A (*) selector has
+   no specificity, so it needs !important to beat the (root) rule above and
+   any named transition added later. */
 @media (prefers-reduced-motion: reduce) {
   ::view-transition-group(*),
   ::view-transition-old(*),
   ::view-transition-new(*) {
+    /* stylelint-disable-next-line declaration-no-important -- see above */
     animation-duration: 0s !important;
   }
 }
