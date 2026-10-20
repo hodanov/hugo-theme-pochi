@@ -46,30 +46,40 @@ test.describe("F-17 View Transitions", () => {
     await page.emulateMedia({ reducedMotion: "reduce" });
     await page.goto("/");
 
-    // Verify the CSS rule sets animation-duration to 0s for VT pseudo-elements
-    const duration = await page.evaluate(() => {
-      const sheet = Array.from(document.styleSheets).find((s) => {
-        try {
-          return Array.from(s.cssRules).some(
-            (r) =>
-              r instanceof CSSMediaRule &&
-              r.conditionText === "(prefers-reduced-motion: reduce)",
-          );
-        } catch (_) {
-          return false;
+    // Verify the CSS rule sets animation-duration to 0s for VT pseudo-elements.
+    // The rule sits inside @layer, so walk nested rules.
+    const rule = await page.evaluate(() => {
+      const walk = function* (rules) {
+        for (const r of rules) {
+          yield r;
+          if (r.cssRules) yield* walk(r.cssRules);
         }
-      });
-      if (!sheet) return null;
-      const mediaRule = Array.from(sheet.cssRules).find(
-        (r) =>
-          r instanceof CSSMediaRule &&
-          r.conditionText === "(prefers-reduced-motion: reduce)",
-      );
-      if (!mediaRule) return null;
-      // Check that the media query matches in this context
-      return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      };
+      for (const sheet of document.styleSheets) {
+        let rules;
+        try {
+          rules = sheet.cssRules;
+        } catch (_) {
+          continue;
+        }
+        for (const r of walk(rules)) {
+          if (
+            r instanceof CSSStyleRule &&
+            r.selectorText.includes("::view-transition-group(*)") &&
+            r.parentRule instanceof CSSMediaRule &&
+            r.parentRule.conditionText === "(prefers-reduced-motion: reduce)"
+          ) {
+            return {
+              duration: r.style.getPropertyValue("animation-duration"),
+              // Check that the media query matches in this context
+              matches: window.matchMedia(r.parentRule.conditionText).matches,
+            };
+          }
+        }
+      }
+      return null;
     });
-    expect(duration).toBe(true);
+    expect(rule).toEqual({ duration: "0s", matches: true });
   });
 
   test("PJAX navigation works with prefers-reduced-motion", async ({
