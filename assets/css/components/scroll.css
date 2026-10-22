@@ -29,8 +29,10 @@
   bottom: 5rem;
 }
 
-#scroll-to-top.fade-in:hover {
-  opacity: 0.8;
+@media (hover: hover) {
+  #scroll-to-top.fade-in:hover {
+    opacity: 0.8;
+  }
 }
 
 @media (width < 768px) {

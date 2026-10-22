@@ -38,11 +38,14 @@
   position: relative;
   display: inline-block;
   color: var(--pochi-text);
+  text-decoration: none;
 }
 
-.table-of-contents ol li a:hover,
-.table-of-contents ul li a:hover {
-  color: var(--pochi-link);
+@media (hover: hover) {
+  .table-of-contents ol li a:hover,
+  .table-of-contents ul li a:hover {
+    color: var(--pochi-link);
+  }
 }
 
 .table-of-contents ol li a:after,
@@ -61,9 +64,11 @@
   transition: var(--pochi-transition-interactive);
 }
 
-.table-of-contents ol li a:hover:after,
-.table-of-contents ul li a:hover:after {
-  width: 100%;
+@media (hover: hover) {
+  .table-of-contents ol li a:hover:after,
+  .table-of-contents ul li a:hover:after {
+    width: 100%;
+  }
 }
 
 .table-of-contents nav ul {

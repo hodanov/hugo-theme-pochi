@@ -26,7 +26,6 @@ blockquote {
   background-color: var(--pochi-blockquote-bg);
   padding: 2rem;
   margin: 3rem 0;
-  font-style: italic;
 }
 
 blockquote cite {

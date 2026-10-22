@@ -1,0 +1,13 @@
+- banner
+  - navigation "Main navigation"
+- main
+  - heading "Post With TOC" [level=1]
+  - navigation
+  - heading "Section A" [level=2]
+  - heading "Subsection A-1" [level=3]
+  - heading "Section B" [level=2]
+  - heading "Subsection B-1" [level=3]
+  - heading "Section C" [level=2]
+  - heading "Leave a comment" [level=3]
+  - heading "Related posts" [level=3]
+- contentinfo

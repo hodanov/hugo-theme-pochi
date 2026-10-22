@@ -82,7 +82,15 @@
     if (opts && opts.scrollIntoView) {
       try {
         const h = document.getElementById(monthKey);
-        if (h) h.scrollIntoView({ behavior: "smooth", block: "start" });
+        if (h) {
+          const reduceMotion = window.matchMedia?.(
+            "(prefers-reduced-motion: reduce)",
+          ).matches;
+          h.scrollIntoView({
+            behavior: reduceMotion ? "auto" : "smooth",
+            block: "start",
+          });
+        }
       } catch (_) {}
     }
   }

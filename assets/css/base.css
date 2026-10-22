@@ -21,9 +21,18 @@ iframe {
   color-scheme: light;
 }
 
-/* Root font size steps up with the viewport; rem sizes follow it */
+/* Root font size steps up with the viewport; rem sizes follow it. In-page
+   jumps and Tab stop clear of the fixed nav bar, and on mobile of the action
+   bar (WCAG 2.4.11). */
 html {
   font-size: 14px;
+  scroll-padding-top: calc(var(--pochi-nav-height) + 1rem);
+}
+
+@media (width < 768px) {
+  html {
+    scroll-padding-bottom: var(--pochi-action-bar-height);
+  }
 }
 
 @media (width >= 768px) {
@@ -36,6 +45,20 @@ html {
   html {
     font-size: 16px;
   }
+}
+
+/* Focus ring for keyboard users, the same everywhere. Components only move
+   it inside where an outline would be clipped (nav bar, fields). */
+:focus-visible {
+  outline: var(--pochi-focus-ring);
+  outline-offset: var(--pochi-focus-ring-offset);
+}
+
+/* Where an in-page link or a page change moved focus to a section or a
+   heading (tabindex="-1"), the jump shows where you are; a ring around the
+   whole section would only get in the way. */
+[tabindex="-1"]:not(a, button, input, select, textarea):focus-visible {
+  outline: none;
 }
 
 /* Hidden attribute. !important in the base layer outranks every normal

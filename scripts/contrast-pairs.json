@@ -1,11 +1,12 @@
 {
-  "$comment": "Token pairs checked by scripts/check-contrast.mjs. fg/bg name tokens in assets/css/tokens.css; bg may be a list from top to bottom (translucent layers are composited). min: 4.5 for text, 3 for non-text (WCAG 1.4.11) and link vs. body text (G183). known: audit ID per theme for a failure already tracked in docs/plan/2026-10-19_design-refinement-roadmap.md; remove it once the pair passes.",
+  "$comment": "Token pairs checked by scripts/check-contrast.mjs. fg/bg name tokens in assets/css/tokens.css; bg may be a list from top to bottom (translucent layers are composited). min: 4.5 for text, 3 for non-text (WCAG 1.4.11). apcaMin: the APCA Lc body text must also reach (Lc 75). Links in running text are underlined, so they need no contrast against the text around them. known: audit ID per theme for a failure already tracked in docs/plan/2026-10-19_design-refinement-roadmap.md; remove it once the pair passes.",
   "pairs": [
     {
       "id": "text-on-bg",
       "fg": "--pochi-text",
       "bg": "--pochi-bg",
       "min": 4.5,
+      "apcaMin": 75,
       "use": "本文（main-content の背景）"
     },
     {
@@ -13,6 +14,7 @@
       "fg": "--pochi-text",
       "bg": "--pochi-card",
       "min": 4.5,
+      "apcaMin": 75,
       "use": "カード・ナビ・入力欄の文字"
     },
     {
@@ -20,6 +22,7 @@
       "fg": "--pochi-text",
       "bg": "--pochi-surface-soft",
       "min": 4.5,
+      "apcaMin": 75,
       "use": "body の文字"
     },
     {
@@ -27,6 +30,7 @@
       "fg": "--pochi-text",
       "bg": "--pochi-blockquote-bg",
       "min": 4.5,
+      "apcaMin": 75,
       "use": "引用"
     },
     {
@@ -55,32 +59,21 @@
       "fg": "--pochi-link",
       "bg": "--pochi-card",
       "min": 4.5,
-      "use": "カード内のリンク",
-      "known": { "light": "A-01" }
+      "use": "カード内のリンク"
     },
     {
       "id": "link-on-bg",
       "fg": "--pochi-link",
       "bg": "--pochi-bg",
       "min": 4.5,
-      "use": "本文のリンク",
-      "known": { "light": "A-01" }
-    },
-    {
-      "id": "link-vs-text",
-      "fg": "--pochi-link",
-      "bg": "--pochi-text",
-      "min": 3,
-      "use": "下線の無いリンクと周りの本文の差（WCAG 1.4.1 / G183）",
-      "known": { "light": "A-02", "dark": "A-02" }
+      "use": "本文のリンク"
     },
     {
       "id": "on-accent",
       "fg": "--pochi-on-accent",
       "bg": "--pochi-accent",
       "min": 4.5,
-      "use": "アクセントの塗り（現在ページ・タグのホバー・トップへ戻る）",
-      "known": { "light": "A-03", "dark": "A-03" }
+      "use": "アクセントの塗り（現在ページ・タグのホバー・トップへ戻る）"
     },
     {
       "id": "code",
@@ -108,16 +101,21 @@
       "fg": "--pochi-required",
       "bg": "--pochi-card",
       "min": 4.5,
-      "use": ".required（forms.css。サイトの問い合わせページの必須マーク）",
-      "known": { "light": "A-04" }
+      "use": ".required（forms.css。サイトの問い合わせページの必須マーク）"
     },
     {
-      "id": "border-on-card",
-      "fg": "--pochi-border",
+      "id": "border-control-on-card",
+      "fg": "--pochi-border-control",
       "bg": "--pochi-card",
       "min": 3,
-      "use": "入力欄の枠（forms.css。WCAG 1.4.11）",
-      "known": { "light": "A-23" }
+      "use": "入力欄・言語の select の枠（forms.css、nav.css。WCAG 1.4.11）"
+    },
+    {
+      "id": "border-control-on-bg",
+      "fg": "--pochi-border-control",
+      "bg": "--pochi-bg",
+      "min": 3,
+      "use": "入力欄の枠とその外側（サイドバーの背景）"
     },
     {
       "id": "focus-ring-on-card",
@@ -125,6 +123,13 @@
       "bg": "--pochi-card",
       "min": 3,
       "use": "フォーカスリング（--pochi-focus-ring）"
+    },
+    {
+      "id": "focus-ring-on-bg",
+      "fg": "--pochi-focus-ring-color",
+      "bg": "--pochi-bg",
+      "min": 3,
+      "use": "フォーカスリング（ページの背景の上）"
     },
     {
       "id": "success-on-code",

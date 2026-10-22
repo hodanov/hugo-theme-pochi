@@ -15,3 +15,12 @@
   pointer-events: none;
   z-index: var(--pochi-z-tooltip);
 }
+
+/* Forced colors drop the fill and the shadow: draw a frame instead */
+@media (forced-colors: active) {
+  .code-copy-chip,
+  #action-bar-mobile .share-btn[aria-pressed="true"]::after,
+  #sidebar-left .share-btn[aria-pressed="true"]::after {
+    border: 1px solid CanvasText;
+  }
+}

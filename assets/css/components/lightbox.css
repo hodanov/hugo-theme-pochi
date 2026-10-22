@@ -65,7 +65,12 @@ article picture img {
   transition: background var(--pochi-duration-xs) var(--pochi-ease);
 }
 
-.lightbox-close:hover,
 .lightbox-close:focus-visible {
   background: var(--pochi-scrim-control-hover);
+}
+
+@media (hover: hover) {
+  .lightbox-close:hover {
+    background: var(--pochi-scrim-control-hover);
+  }
 }

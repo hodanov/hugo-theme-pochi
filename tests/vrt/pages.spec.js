@@ -40,3 +40,24 @@ for (const { id, path, waitFor, shots } of PAGES) {
     });
   }
 }
+
+// Forced colors (Windows high contrast) replace backgrounds and shadows with
+// system colors, so anything drawn only with them must have another cue.
+const FORCED = [
+  { id: "post-toc", path: "/posts/p-03-with-toc/", width: "1280" },
+  { id: "home", path: "/", width: "375" },
+];
+
+for (const { id, path, width } of FORCED) {
+  test.describe(`${id} @${width}-forced`, () => {
+    test.use({ viewport: VIEWPORTS[width], forcedColors: "active" });
+
+    test("matches baseline", async ({ page }) => {
+      await page.goto(path);
+      await settle(page, { theme: "light" });
+      await expect(page).toHaveScreenshot(`${id}-${width}-forced.png`, {
+        fullPage: true,
+      });
+    });
+  });
+}

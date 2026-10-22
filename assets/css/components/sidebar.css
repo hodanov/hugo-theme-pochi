@@ -39,10 +39,12 @@
 #sidebar-right a {
   color: var(--pochi-text-muted);
 }
-#sidebar a:hover,
-#sidebar-left a:hover,
-#sidebar-right a:hover {
-  color: var(--pochi-link);
+@media (hover: hover) {
+  #sidebar a:hover,
+  #sidebar-left a:hover,
+  #sidebar-right a:hover {
+    color: var(--pochi-link);
+  }
 }
 
 #sidebar .profile-flex-box,
@@ -100,7 +102,7 @@
   }
 
   .main-content {
-    padding-bottom: 3.5rem;
+    padding-bottom: var(--pochi-action-bar-height);
   }
 }
 
@@ -122,6 +124,8 @@
   background: transparent;
   color: var(--pochi-text-muted);
   cursor: pointer;
+  min-inline-size: var(--pochi-target-min);
+  min-block-size: var(--pochi-target-min);
   padding: 0.25rem 0.5rem;
   position: relative;
 }
@@ -137,14 +141,16 @@
   line-height: 1rem;
 }
 
-#action-bar-mobile .like-btn:hover,
-#action-bar-mobile .like-btn[aria-pressed="true"] {
+#action-bar-mobile .like-btn[aria-pressed="true"],
+#action-bar-mobile .share-btn[aria-pressed="true"] {
   color: var(--pochi-link);
 }
 
-#action-bar-mobile .share-btn:hover,
-#action-bar-mobile .share-btn[aria-pressed="true"] {
-  color: var(--pochi-link);
+@media (hover: hover) {
+  #action-bar-mobile .like-btn:hover,
+  #action-bar-mobile .share-btn:hover {
+    color: var(--pochi-link);
+  }
 }
 
 /* Copied chip above the button (look: chip.css) */
@@ -164,8 +170,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: var(--pochi-target-min);
+  height: var(--pochi-target-min);
   border: 0;
   background: transparent;
   color: var(--pochi-text-muted);
@@ -178,8 +184,10 @@
   height: 20px;
 }
 
-#action-bar-mobile .scroll-top-btn:hover {
-  color: var(--pochi-link);
+@media (hover: hover) {
+  #action-bar-mobile .scroll-top-btn:hover {
+    color: var(--pochi-link);
+  }
 }
 
 /* Like button (left sidebar) */
@@ -193,7 +201,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 40px;
+  width: var(--pochi-target-min);
   min-height: 60px;
   border: 0;
   background: transparent;
@@ -209,9 +217,14 @@
   line-height: 1rem;
   margin-top: 0.25rem;
 }
-#sidebar-left .like-btn:hover,
 #sidebar-left .like-btn[aria-pressed="true"] {
   color: var(--pochi-link);
+}
+
+@media (hover: hover) {
+  #sidebar-left .like-btn:hover {
+    color: var(--pochi-link);
+  }
 }
 /* Share button (left sidebar) */
 #sidebar-left .share-sidebar {
@@ -226,8 +239,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  min-height: 40px;
+  width: var(--pochi-target-min);
+  min-height: var(--pochi-target-min);
   border: 0;
   background: transparent;
   color: var(--pochi-text-muted);
@@ -238,9 +251,14 @@
   width: 24px;
   height: 24px;
 }
-#sidebar-left .share-btn:hover,
 #sidebar-left .share-btn[aria-pressed="true"] {
   color: var(--pochi-link);
+}
+
+@media (hover: hover) {
+  #sidebar-left .share-btn:hover {
+    color: var(--pochi-link);
+  }
 }
 
 /* Hatena Bookmark icon: a muted tile with the letters cut out to the page
@@ -255,8 +273,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  min-height: 40px;
+  width: var(--pochi-target-min);
+  min-height: var(--pochi-target-min);
   border: 0;
   background: transparent;
   color: var(--pochi-text-muted);
@@ -266,8 +284,10 @@
   width: 24px;
   height: 24px;
 }
-#sidebar-left .sns-share-link:hover {
-  color: var(--pochi-link);
+@media (hover: hover) {
+  #sidebar-left .sns-share-link:hover {
+    color: var(--pochi-link);
+  }
 }
 
 /* Copied chip below the button (look: chip.css) */
@@ -309,8 +329,10 @@
 #sidebar-left .archives-year-toggle[aria-expanded="true"]::before {
   transform: translateY(-50%) rotate(90deg);
 }
-#sidebar-left .archives-year-toggle:hover {
-  color: var(--pochi-link);
+@media (hover: hover) {
+  #sidebar-left .archives-year-toggle:hover {
+    color: var(--pochi-link);
+  }
 }
 #sidebar-left .archives-months {
   margin-left: 1.1rem;
@@ -328,9 +350,11 @@
   border-radius: var(--pochi-radius-md);
 }
 
-#sidebar-left ul.list-unstyled > li > a:hover,
-#sidebar-left .archives-months a:hover {
-  background: var(--pochi-hover);
+@media (hover: hover) {
+  #sidebar-left ul.list-unstyled > li > a:hover,
+  #sidebar-left .archives-months a:hover {
+    background: var(--pochi-hover);
+  }
 }
 #sidebar-left .archives-months.is-collapsed {
   display: none;
@@ -365,4 +389,18 @@
 #sidebar ul,
 #sidebar-left ul {
   font-size: 0.9rem;
+}
+
+/* Forced colors: the pressed like button keeps a color of its own, and the
+   action bar its edge */
+@media (forced-colors: active) {
+  #action-bar-mobile {
+    border-top: 1px solid CanvasText;
+  }
+
+  #action-bar-mobile .like-btn[aria-pressed="true"],
+  #sidebar-left .like-btn[aria-pressed="true"] {
+    forced-color-adjust: none;
+    color: Highlight;
+  }
 }

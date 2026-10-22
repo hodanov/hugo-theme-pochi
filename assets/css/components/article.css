@@ -38,12 +38,15 @@ article .kiji-tag li a {
   margin-right: 0.5rem;
   border-radius: var(--pochi-radius-sm);
   border: 1px solid var(--pochi-border);
+  text-decoration: none;
 }
 
-article .kiji-tag li a:hover {
-  background-color: var(--pochi-accent);
-  border-color: var(--pochi-accent);
-  color: var(--pochi-on-accent);
+@media (hover: hover) {
+  article .kiji-tag li a:hover {
+    background-color: var(--pochi-accent);
+    border-color: var(--pochi-accent);
+    color: var(--pochi-on-accent);
+  }
 }
 
 /* Meta and media */
@@ -92,4 +95,13 @@ article h6 {
 /* Ad slot between the article and the related posts */
 .adsense {
   overflow: hidden;
+}
+
+/* Forced colors drop the card shadow: draw a frame instead */
+@media (forced-colors: active) {
+  article,
+  .comments,
+  .mymenu-related-list {
+    border: 1px solid CanvasText;
+  }
 }
