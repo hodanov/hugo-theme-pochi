@@ -1,7 +1,7 @@
 const path = require("path");
 const AxeBuilder = require("@axe-core/playwright").default;
 const { test, expect } = require("../e2e/fixtures");
-const { settle } = require("../vrt/helpers");
+const { VIEWPORTS, settle } = require("../vrt/helpers");
 const ratchet = require("../../scripts/lib/ratchet.cjs");
 const PAGES = require("./pages");
 
@@ -27,10 +27,13 @@ if (UPDATE) test.describe.configure({ mode: "default" });
 const pick = (counts, keep) =>
   Object.fromEntries(Object.entries(counts).filter(([key]) => keep(key)));
 
-for (const { id, path: url, waitFor } of PAGES) {
+for (const { id, path: url, waitFor, viewport } of PAGES) {
   for (const theme of THEMES) {
     test.describe(`${id} @${theme}`, () => {
-      test.use({ colorScheme: theme });
+      test.use({
+        colorScheme: theme,
+        ...(viewport && { viewport: VIEWPORTS[viewport] }),
+      });
 
       test("axe violations match the baseline", async ({ page }) => {
         await page.goto(url);

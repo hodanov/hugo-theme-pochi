@@ -29,8 +29,10 @@ footer .copyright a {
   border-bottom: 1px solid var(--pochi-border);
 }
 
-footer .copyright a:hover {
-  color: var(--pochi-link);
+@media (hover: hover) {
+  footer .copyright a:hover {
+    color: var(--pochi-link);
+  }
 }
 
 /* Section title: see section-heading.css */

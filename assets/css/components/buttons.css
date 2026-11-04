@@ -8,15 +8,17 @@
   transition: var(--pochi-transition-interactive);
 }
 
-.btn-primary:hover,
-.btn-secondary:hover {
-  background-color: var(--pochi-accent);
-  border-color: var(--pochi-accent);
-  color: var(--pochi-on-accent);
-}
+@media (hover: hover) {
+  .btn-primary:hover,
+  .btn-secondary:hover {
+    background-color: var(--pochi-accent);
+    border-color: var(--pochi-accent);
+    color: var(--pochi-on-accent);
+  }
 
-.btn-primary:hover {
-  opacity: 0.8;
+  .btn-primary:hover {
+    opacity: 0.8;
+  }
 }
 
 .btn-primary {

@@ -10,7 +10,8 @@
 //   `@supports not (color: light-dark(...))` fallback redeclaring every
 //   light-dark() token with its light value, and the theme-color meta tags
 //   in layouts/partials/head/meta.html matching --pochi-card.
-// - Judges every pair in scripts/contrast-pairs.json with WCAG 2.1 contrast;
+// - Judges every pair in scripts/contrast-pairs.json with WCAG 2.1 contrast,
+//   and with APCA where the pair sets `apcaMin` (body text). Elsewhere the
 //   APCA Lc is printed for reference only.
 // - A failure must be listed in the pair's `known` (an audit ID), and a known
 //   failure that now passes fails too, so the list stays exact.
@@ -254,19 +255,29 @@ try {
       const ratio = bg.contrast(fg, "WCAG21");
       const apca = bg.contrast(fg, "APCA");
       const known = pair.known?.[theme];
-      const pass = ratio >= pair.min;
+      // APCA Lc is negative for light text on a dark background.
+      const shortfalls = [];
+      if (ratio < pair.min) {
+        shortfalls.push(`${ratio.toFixed(2)}:1 < ${pair.min}`);
+      }
+      if (pair.apcaMin !== undefined && Math.abs(apca) < pair.apcaMin) {
+        shortfalls.push(
+          `APCA Lc ${Math.abs(apca).toFixed(1)} < ${pair.apcaMin}`,
+        );
+      }
+      const pass = shortfalls.length === 0;
       let status = "OK";
       if (!pass && known) status = `既知 ${known}`;
       if (!pass && !known) {
         status = "NG";
         problems.push(
-          `新規の不合格: ${pair.id} @${theme} ${ratio.toFixed(2)}:1 < ${pair.min}（${pair.use}）`,
+          `新規の不合格: ${pair.id} @${theme} ${shortfalls.join("、")}（${pair.use}）`,
         );
       }
       if (pass && known) {
         status = `解消 ${known}`;
         problems.push(
-          `既知の不合格が解消した: ${pair.id} @${theme} ${ratio.toFixed(2)}:1 ≥ ${pair.min}。contrast-pairs.json の known から ${known} を外して`,
+          `既知の不合格が解消した: ${pair.id} @${theme} ${ratio.toFixed(2)}:1。contrast-pairs.json の known から ${known} を外して`,
         );
       }
       rows.push([
@@ -274,7 +285,9 @@ try {
         pair.id,
         `${hex(fg)} / ${hex(bg)}`,
         ratio.toFixed(2),
-        String(pair.min),
+        pair.apcaMin === undefined
+          ? String(pair.min)
+          : `${pair.min} / Lc${pair.apcaMin}`,
         `Lc ${apca.toFixed(1)}`,
         status,
       ]);

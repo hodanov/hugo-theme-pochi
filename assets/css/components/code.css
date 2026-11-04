@@ -44,9 +44,17 @@ th > code {
   border-radius: var(--pochi-radius-md);
 }
 
-/* Code copy button */
+/* Code copy button. A block with the button leaves room above the code for
+   it, so it covers no code (on mobile the padding alone is too thin). */
 pre {
   position: relative;
+}
+
+pre[data-code-copy-injected] {
+  padding-block-start: max(
+    var(--pochi-card-padding),
+    calc(var(--pochi-target-min) + 1rem)
+  );
 }
 
 .code-copy-button {
@@ -56,8 +64,8 @@ pre {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 2rem;
-  height: 2rem;
+  width: var(--pochi-target-min);
+  height: var(--pochi-target-min);
   padding: 0;
   border: none;
   border-radius: var(--pochi-radius-md);
@@ -79,9 +87,14 @@ pre {
   }
 }
 
-.code-copy-button:hover,
 .code-copy-button:focus-visible {
   opacity: 1;
+}
+
+@media (hover: hover) {
+  .code-copy-button:hover {
+    opacity: 1;
+  }
 }
 
 .code-copy-button--copied {
@@ -92,5 +105,5 @@ pre {
 /* Copied chip left of the copy button (look: chip.css) */
 .code-copy-chip {
   top: 0.5rem;
-  right: 2.75rem;
+  right: calc(var(--pochi-target-min) + 0.75rem);
 }

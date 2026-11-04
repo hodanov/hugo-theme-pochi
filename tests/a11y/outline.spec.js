@@ -1,5 +1,5 @@
 const { test, expect } = require("../e2e/fixtures");
-const { settle } = require("../vrt/helpers");
+const { VIEWPORTS, settle } = require("../vrt/helpers");
 const PAGES = require("./pages");
 
 // Landmark and heading outline of each page as a text snapshot. It comes from
@@ -32,8 +32,9 @@ function outline(snapshot) {
   return `${lines.join("\n")}\n`;
 }
 
-for (const { id, path, waitFor } of PAGES) {
+for (const { id, path, waitFor, viewport } of PAGES) {
   test(`outline of ${id}`, async ({ page }) => {
+    if (viewport) await page.setViewportSize(VIEWPORTS[viewport]);
     await page.goto(path);
     await settle(page, { theme: "light", waitFor });
     const snapshot = await page.locator("body").ariaSnapshot();
