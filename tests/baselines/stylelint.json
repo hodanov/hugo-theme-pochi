@@ -6,5 +6,5 @@
   "no-duplicate-selectors": 5,
   "property-no-deprecated[clip]": 1,
   "property-no-deprecated[word-wrap]": 1,
-  "scale-unlimited/declaration-strict-value[font-size]": 41
+  "scale-unlimited/declaration-strict-value[font-size]": 40
 }

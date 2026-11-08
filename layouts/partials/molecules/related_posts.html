@@ -10,13 +10,16 @@
         <div class="row">
           {{ range . }}
             <div class="col-sm-4 mymenu-related related-post-item">
-              <a href="{{ .Permalink }}">
+              {{/* Card like organisms/list_of_posts.html: the title is the
+                link and covers the card
+              */}}
+              <div class="related-card">
                 {{ $page := . }}
                 {{ with .Params.featuredImage }}
                   <div class="featured-image-wrapper golden-ratio">
                     {{ partial "atoms/picture.html" (dict
                       "image" .
-                      "alt" ($page.Params.featuredImageAlt | default $page.Title)
+                      "alt" ""
                       "page" $page
                       "sizes" "(min-width: 800px) 320px, 100vw"
                       "widths" (slice 320 640)
@@ -25,19 +28,24 @@
                   </div>
                 {{ end }}
                 <div class="text">
-                  {{ .Title }}
+                  <a class="post-card-link" href="{{ .Permalink }}"
+                    >{{ .Title }}</a
+                  >
                   <div class="post-info">
                     <div class="kiji-date">
                       <time
                         datetime="{{ .PublishDate.Local.Format "2006-01-02 15:04:05" }}"
                       >
-                        {{ partial "atoms/icon.html" (dict "id" "icon-pencil") }}
+                        <span class="u-visually-hidden"
+                          >{{ T "published" }}</span
+                        >
+                        {{- partial "atoms/icon.html" (dict "id" "icon-pencil") }}
                         {{ .PublishDate.Local.Format "2006-01-02" }}
                       </time>
                     </div>
                   </div>
                 </div>
-              </a>
+              </div>
             </div>
           {{ end }}
         </div>

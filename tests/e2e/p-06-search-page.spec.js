@@ -22,6 +22,17 @@ test.describe("P-06 Search page", () => {
     const rows = results.locator(".post-row");
     const count = await rows.count();
     expect(count).toBeGreaterThan(0);
+
+    // The count is announced through the status region
+    await expect(page.locator("#search-status")).toHaveAttribute(
+      "role",
+      "status",
+    );
+    await expect(page.locator("#search-status")).toHaveText(`${count} results`);
+    await expect(page.locator("#search-query")).toHaveAttribute(
+      "type",
+      "search",
+    );
   });
 
   test("search form shows empty state on no results", async ({ page }) => {
@@ -41,6 +52,9 @@ test.describe("P-06 Search page", () => {
     const empty = page.locator(".search-results-empty");
     await expect(empty).toHaveCount(1);
     await expect(empty).toContainText(
+      /一致する結果はありません|No matches found/,
+    );
+    await expect(page.locator("#search-status")).toHaveText(
       /一致する結果はありません|No matches found/,
     );
   });

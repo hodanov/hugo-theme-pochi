@@ -526,7 +526,7 @@
     });
   }
 
-  // Expose navigate for other modules (lang-switcher, search form, etc.)
+  // Expose navigate for other modules (search form, etc.)
   // Validates same-origin to prevent misuse by third-party scripts.
   window.__pochiNavigate = function (url) {
     try {

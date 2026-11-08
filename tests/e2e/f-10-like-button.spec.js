@@ -34,9 +34,13 @@ test.describe("F-10 Like button", () => {
     const countEl = page.locator("[data-like-count]").first();
 
     await expect(likeBtn).toBeVisible();
+    // The name stays "Like"; the count is the description once known
+    await expect(likeBtn).toHaveAccessibleName("Like");
 
     // Wait for initial count to load from mock API
     await expect(countEl).toHaveText("5");
+    await expect(likeBtn).toHaveAccessibleName("Like");
+    await expect(likeBtn).toHaveAccessibleDescription("5");
     await expect(likeBtn).toHaveAttribute("aria-pressed", "false");
 
     // Click like
@@ -45,6 +49,7 @@ test.describe("F-10 Like button", () => {
     // Count increments and button shows liked state
     await expect(countEl).toHaveText("6");
     await expect(likeBtn).toHaveAttribute("aria-pressed", "true");
+    await expect(likeBtn).toHaveAccessibleDescription("6");
 
     // Second click is ignored (already liked via localStorage)
     await likeBtn.click();

@@ -1,8 +1,26 @@
 /* Article content elements: tables, blockquotes, embeds */
 
+/* Markdown tables sit in a focusable region that scrolls sideways
+   (_default/_markup/render-table.html); the region carries the spacing */
+.table-scroll {
+  max-inline-size: 100%;
+  overflow-x: auto;
+  margin-bottom: 2rem;
+}
+
 table {
   border-collapse: collapse;
   margin-bottom: 2rem;
+}
+
+.table-scroll table {
+  margin-bottom: 0;
+}
+
+/* Without a floor, a wide table squeezes into the column and Japanese
+   breaks after every character; with it, a narrow screen scrolls */
+.table-scroll :is(th, td) {
+  min-inline-size: 6em;
 }
 
 thead,

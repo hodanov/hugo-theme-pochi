@@ -14,8 +14,8 @@
 //   `:not(.__sd-never)`, which matches every element with the same
 //   specificity, so those rules apply from the first paint (no transitions).
 // - The "active" state turns on what scripts toggle: every aria-pressed /
-//   aria-expanded becomes "true", the side nav opens and the scroll-to-top
-//   button shows. Running transitions are finished before reading.
+//   aria-expanded becomes "true", share buttons get data-copied, the side
+//   nav opens and the scroll-to-top button shows. Running transitions are finished before reading.
 //
 // Usage: node scripts/style-diff.mjs [--base origin/main] [--pages id,...]
 //          [--themes light,dark] [--widths 375,768,1280]
@@ -146,6 +146,9 @@ function activate() {
   }
   for (const el of document.querySelectorAll("[aria-expanded]")) {
     el.setAttribute("aria-expanded", "true");
+  }
+  for (const el of document.querySelectorAll("[data-share-button]")) {
+    el.setAttribute("data-copied", "");
   }
   document.querySelector("#side-nav")?.classList.add("is-active");
   document.querySelector("#scroll-to-top")?.classList.add("fade-in");

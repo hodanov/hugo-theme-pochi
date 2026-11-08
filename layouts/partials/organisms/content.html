@@ -8,7 +8,7 @@
         {{ partial "molecules/post_meta_featured_image.html" . }}
         {{ partial "molecules/toc.html" (dict "Page" . "inSidebar" false) }}
         <div>
-          {{ .Content }}
+          {{ partial "atoms/content.html" . }}
         </div>
       </article>
     </div>

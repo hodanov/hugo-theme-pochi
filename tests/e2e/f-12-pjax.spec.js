@@ -20,7 +20,8 @@ test.describe("F-12 PJAX navigation", () => {
     await expect(firstPost).toBeVisible();
 
     const targetHref = await firstPost.getAttribute("href");
-    const targetTitle = await firstPost.locator(".post-title h2").innerText();
+    // The card's only link is its title
+    const targetTitle = await firstPost.innerText();
     const targetPath = new URL(targetHref, page.url()).pathname;
 
     // Click an internal link to trigger PJAX navigation.

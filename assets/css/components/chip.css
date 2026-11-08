@@ -1,8 +1,8 @@
 /* Feedback chip ("Copied!") shown next to a button after a copy. Each
    component places it; this sets the look. */
 .code-copy-chip,
-#action-bar-mobile .share-btn[aria-pressed="true"]::after,
-#sidebar-left .share-btn[aria-pressed="true"]::after {
+#action-bar-mobile .share-btn[data-copied]::after,
+#sidebar-left .share-btn[data-copied]::after {
   position: absolute;
   padding: 0.15rem 0.4rem;
   border-radius: var(--pochi-radius-md);
@@ -19,8 +19,8 @@
 /* Forced colors drop the fill and the shadow: draw a frame instead */
 @media (forced-colors: active) {
   .code-copy-chip,
-  #action-bar-mobile .share-btn[aria-pressed="true"]::after,
-  #sidebar-left .share-btn[aria-pressed="true"]::after {
+  #action-bar-mobile .share-btn[data-copied]::after,
+  #sidebar-left .share-btn[data-copied]::after {
     border: 1px solid CanvasText;
   }
 }

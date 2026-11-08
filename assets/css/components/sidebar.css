@@ -142,7 +142,7 @@
 }
 
 #action-bar-mobile .like-btn[aria-pressed="true"],
-#action-bar-mobile .share-btn[aria-pressed="true"] {
+#action-bar-mobile .share-btn[data-copied] {
   color: var(--pochi-link);
 }
 
@@ -154,7 +154,7 @@
 }
 
 /* Copied chip above the button (look: chip.css) */
-#action-bar-mobile .share-btn[aria-pressed="true"]::after {
+#action-bar-mobile .share-btn[data-copied]::after {
   content: attr(data-feedback-copied);
   bottom: 100%;
   left: 50%;
@@ -251,7 +251,7 @@
   width: 24px;
   height: 24px;
 }
-#sidebar-left .share-btn[aria-pressed="true"] {
+#sidebar-left .share-btn[data-copied] {
   color: var(--pochi-link);
 }
 
@@ -291,7 +291,7 @@
 }
 
 /* Copied chip below the button (look: chip.css) */
-#sidebar-left .share-btn[aria-pressed="true"]::after {
+#sidebar-left .share-btn[data-copied]::after {
   content: attr(data-feedback-copied);
   top: 100%;
   left: 50%;

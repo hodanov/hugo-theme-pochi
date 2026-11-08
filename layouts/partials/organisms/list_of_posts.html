@@ -2,9 +2,13 @@
 {{ $isPrio := .priority | default false }}
 {{ $priority := "" }}
 {{ if $isPrio }}{{ $priority = "high" }}{{ end }}
+{{/* Card: the title is the only link, and its ::after covers the card so
+  the whole card stays clickable (article-list.css). The thumbnail is
+  decorative; the title names the link.
+*/}}
 <div class="row post-row">
   <div class="col-md-12">
-    <a href="{{ $p.Permalink }}">
+    <div class="post-card">
       {{ if and ($p.Params.featuredImage) (ne $p.Params.featuredImage "") }}
         <div class="post-image-col">
           {{ $page := $p }}
@@ -12,7 +16,7 @@
             <div class="featured-image-wrapper">
               {{ partial "atoms/picture.html" (dict
                 "image" .
-                "alt" ($page.Params.featuredImageAlt | default $page.Title)
+                "alt" ""
                 "page" $page
                 "sizes" "(min-width: 800px) 480px, 100vw"
                 "widths" (slice 480 800)
@@ -24,7 +28,9 @@
         </div>
       {{ end }}
       <div class="post-title">
-        <h2>{{ $p.Title }}</h2>
+        <h2>
+          <a class="post-card-link" href="{{ $p.Permalink }}">{{ $p.Title }}</a>
+        </h2>
       </div>
       <div class="post-text">
         {{ partial "molecules/post_meta_date.html" $p }}
@@ -32,6 +38,6 @@
           {{ $p.Summary }}
         </div>
       </div>
-    </a>
+    </div>
   </div>
 </div>

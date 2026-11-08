@@ -1,8 +1,4 @@
 {
   "styleguide/dark/color-contrast": 9,
-  "styleguide/dark/image-alt": 1,
-  "styleguide/dark/label": 2,
-  "styleguide/light/color-contrast": 9,
-  "styleguide/light/image-alt": 1,
-  "styleguide/light/label": 2
+  "styleguide/light/color-contrast": 9
 }
