@@ -1,4 +1,10 @@
-/* Search form */
+/* Search form. The fields have no frame of their own; the group gets one
+   that stands out from the page (WCAG 1.4.11). */
+#searchform .input-group {
+  border: 1px solid var(--pochi-border-control);
+  border-radius: var(--pochi-radius-md);
+}
+
 #search-query {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
@@ -11,6 +17,7 @@
   margin-left: -1px;
   border: none;
   height: 100%;
+  min-inline-size: var(--pochi-target-min);
   border-radius: 0 var(--pochi-radius-md) var(--pochi-radius-md) 0;
   cursor: pointer;
 }

@@ -102,14 +102,22 @@ test.describe("F-16 Footnotes", () => {
 
   // ── Scroll offset ─────────────────────────────────────
 
-  test("footnote targets have scroll-margin-top set", async ({ page }) => {
+  test("back link target stops below the nav bar", async ({ page }) => {
+    // Reduced motion makes the jump instant, so the position can be read
+    // right away.
+    await page.emulateMedia({ reducedMotion: "reduce" });
     await page.goto(POST_URL);
 
-    const margin = await page.locator("#fn\\:1").evaluate((el) => {
-      return getComputedStyle(el).getPropertyValue("scroll-margin-top");
-    });
-
-    // Should be non-zero (nav height + 1rem)
-    expect(parseFloat(margin)).toBeGreaterThan(0);
+    // The reference sits in the text above, so the page can scroll it to the
+    // top of the viewport.
+    await page.locator(".footnote-backref").first().click();
+    const target = page.locator("#fnref\\:1");
+    await expect(target).toBeFocused();
+    const { top, navBottom } = await target.evaluate((el) => ({
+      top: el.getBoundingClientRect().top,
+      navBottom: document.querySelector("nav.site-nav").getBoundingClientRect()
+        .bottom,
+    }));
+    expect(top).toBeGreaterThanOrEqual(navBottom);
   });
 });

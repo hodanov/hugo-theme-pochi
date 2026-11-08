@@ -3,12 +3,25 @@ function smoothScroll() {
     document.querySelector("[data-pochi-scroll-top]") ||
     document.getElementById("scroll-to-top");
 
+  // Scroll to the target and move focus there, as a native in-page link
+  // would (the skip link relies on it). html's scroll-padding keeps the target
+  // clear of the fixed nav bar. The URL hash is left alone: changing it fires
+  // popstate, which navigation.js answers by reloading the page.
   function scrollToTarget(targetEl) {
     if (!targetEl) return; // guard missing target
-    window.scrollTo({
-      top: targetEl.offsetTop - 15,
-      behavior: "smooth",
+    const reduceMotion = window.matchMedia?.(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    targetEl.scrollIntoView({
+      behavior: reduceMotion ? "auto" : "smooth",
+      block: "start",
     });
+    if (
+      !targetEl.matches("a[href], button, input, select, textarea, [tabindex]")
+    ) {
+      targetEl.setAttribute("tabindex", "-1");
+    }
+    targetEl.focus({ preventScroll: true });
   }
 
   function handleLinkClick(event) {

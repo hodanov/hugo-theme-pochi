@@ -24,7 +24,7 @@
   color: var(--pochi-text);
   background-color: var(--pochi-card);
   background-clip: padding-box;
-  border: 1px solid var(--pochi-border);
+  border: 1px solid var(--pochi-border-control);
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -36,13 +36,9 @@
   margin-bottom: 1rem;
 }
 
-textarea:focus,
-input:focus {
-  outline: none;
-}
+/* The ring sits inside the field (base.css) */
 textarea:focus-visible,
 input:focus-visible {
-  outline: var(--pochi-focus-ring);
   outline-offset: var(--pochi-focus-ring-offset-inset);
 }
 
