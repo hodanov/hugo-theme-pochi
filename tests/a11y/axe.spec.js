@@ -27,7 +27,7 @@ if (UPDATE) test.describe.configure({ mode: "default" });
 const pick = (counts, keep) =>
   Object.fromEntries(Object.entries(counts).filter(([key]) => keep(key)));
 
-for (const { id, path: url, waitFor, viewport } of PAGES) {
+for (const { id, path: url, waitFor, viewport, click } of PAGES) {
   for (const theme of THEMES) {
     test.describe(`${id} @${theme}`, () => {
       test.use({
@@ -37,6 +37,7 @@ for (const { id, path: url, waitFor, viewport } of PAGES) {
 
       test("axe violations match the baseline", async ({ page }) => {
         await page.goto(url);
+        if (click) await page.locator(click).click();
         await settle(page, { theme, waitFor });
         const { violations } = await new AxeBuilder({ page })
           .withTags(TAGS)

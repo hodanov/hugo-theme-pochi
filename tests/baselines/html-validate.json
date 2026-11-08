@@ -1,6 +1,5 @@
 {
-  "hidden-focusable": 360,
-  "no-inline-style": 399,
+  "no-inline-style": 339,
   "no-raw-characters": 2,
   "unique-landmark": 14,
   "valid-id": 23

@@ -11,12 +11,20 @@
         {{ partial "molecules/lang_switcher.html" . }}
       </div>
       <div id="theme-toggle-switch-container">
+        {{/* Cycles system -> light -> dark (main.js). The name tells the
+          current setting; the icon shows it (icons.css, keyed on the
+          data-theme-pref the head script puts on <html>).
+        */}}
         <button
           type="button"
           id="theme-toggle-switch"
           data-pochi-theme-toggle
-          aria-label="{{ T "theme_toggle_aria" }}"
+          aria-label="{{ T "theme_toggle_aria" (dict "Name" (T "theme_system")) }}"
+          data-label-system="{{ T "theme_toggle_aria" (dict "Name" (T "theme_system")) }}"
+          data-label-light="{{ T "theme_toggle_aria" (dict "Name" (T "theme_light")) }}"
+          data-label-dark="{{ T "theme_toggle_aria" (dict "Name" (T "theme_dark")) }}"
         >
+          {{ partial "atoms/icon.html" (dict "id" "icon-system") }}
           {{ partial "atoms/icon.html" (dict "id" "icon-light") }}
           {{ partial "atoms/icon.html" (dict "id" "icon-dark") }}
         </button>

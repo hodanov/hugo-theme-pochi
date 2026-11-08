@@ -115,14 +115,15 @@
     removeAll('link[rel="alternate"][hreflang]');
     adoptAll('link[rel="alternate"][hreflang]');
 
-    // Replace standard meta description/keywords/robots/theme-color/author
+    // Replace standard meta description/keywords/robots/author. theme-color
+    // is left alone: it is the same on every page, and main.js has set it to
+    // the chosen theme.
     removeAll(
       [
         'meta[name="description"]',
         'meta[name="keywords"]',
         'meta[name="robots"]',
         'meta[name="author"]',
-        'meta[name="theme-color"]',
       ].join(", "),
     );
     adoptAll(
@@ -131,7 +132,6 @@
         'meta[name="keywords"]',
         'meta[name="robots"]',
         'meta[name="author"]',
-        'meta[name="theme-color"]',
       ].join(", "),
     );
 
@@ -451,6 +451,27 @@
     } catch (_) {}
   }
 
+  // A full page load tells screen readers about the new page; a swap does
+  // not. Read the title out from a live region outside .main-content, and on
+  // a link or search (not back/forward, where the reader keeps its place)
+  // move focus to the new h1 so reading starts there.
+  function announcePage(title, { moveFocus }) {
+    const announcer = document.getElementById("pjax-announcer");
+    if (announcer) {
+      // Clear first so the same title is read again
+      announcer.textContent = "";
+      requestAnimationFrame(() => {
+        announcer.textContent = title;
+      });
+    }
+    if (!moveFocus) return;
+    const main = getNextMain(document);
+    const target = (main && main.querySelector("h1")) || main;
+    if (!target) return;
+    if (!target.hasAttribute("tabindex")) target.setAttribute("tabindex", "-1");
+    target.focus({ preventScroll: true });
+  }
+
   async function navigateTo(url, opts) {
     try {
       const html = await fetchHTML(url);
@@ -463,6 +484,10 @@
       syncBodyI18n(doc);
       // Sync header UI elements (language switcher, menus) that are language/page dependent
       syncHeaderUI(doc);
+      // A link in the side nav closes it; also close it here so nothing
+      // stays open over the new page
+      const sideNav = document.getElementById("side-nav");
+      if (sideNav && sideNav.open) sideNav.close();
       const ok = await swapContent(doc, opts);
       if (!ok) throw new Error("Swap failed");
       // Update title
@@ -470,9 +495,11 @@
       if (newTitle) document.title = newTitle;
       // Update history
       const href = typeof url === "string" ? url : url.href;
-      if (!opts || opts.updateHistory !== false) {
+      const isPush = !opts || opts.updateHistory !== false;
+      if (isPush) {
         history.pushState({}, "", href);
       }
+      announcePage(document.title, { moveFocus: isPush });
       afterSwapInit();
       try {
         const href = doc.location

@@ -20,7 +20,16 @@ other = "Close menu"
 other = "Menu"
 
 [theme_toggle_aria]
-other = "Toggle theme"
+other = "Theme: {{ .Name }}"
+
+[theme_system]
+other = "System"
+
+[theme_light]
+other = "Light"
+
+[theme_dark]
+other = "Dark"
 
 [powered_by]
 other = "Powered by"

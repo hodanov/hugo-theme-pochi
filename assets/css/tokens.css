@@ -138,8 +138,6 @@
   --pochi-z-tooltip: 10; /* "Copied" chip */
   --pochi-z-action-bar: 100; /* mobile action bar */
   --pochi-z-chrome: 997; /* nav bar, footer, scroll-to-top */
-  --pochi-z-scrim: 997; /* drawer scrim: ties with chrome, later in the DOM */
-  --pochi-z-drawer: 999;
   --pochi-z-skip-link: 1001;
   --pochi-z-modal: 9999; /* lightbox */
 
