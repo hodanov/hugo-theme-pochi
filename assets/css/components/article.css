@@ -11,8 +11,8 @@ article,
   box-shadow: var(--pochi-shadow-card);
 }
 
-.mymenu-related-list h3,
-.comments h3 {
+.mymenu-related-list h2,
+.comments h2 {
   font-size: 1.5rem;
   text-align: center;
   margin-top: 0;

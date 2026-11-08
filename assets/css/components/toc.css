@@ -84,9 +84,6 @@
   content: counters(toc-item, "-") ". ";
   color: var(--pochi-text);
   margin-right: 0.25rem;
-}
-
-nav#TableOfContents li:before {
   vertical-align: top;
 }
 

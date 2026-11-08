@@ -1,7 +1,7 @@
 - banner
   - navigation "メインナビゲーション"
 - main
-  - complementary
+  - complementary "いいね・シェア"
   - heading "スタイルガイド" [level=1]
   - heading "本文と見出し" [level=2]
   - heading "見出しレベル 3" [level=3]
@@ -14,7 +14,7 @@
   - heading "引用と補足情報" [level=2]
   - heading "デザイントークン" [level=2]
   - heading "画像と脚注" [level=2]
-  - complementary
+  - complementary "目次"
     - heading "目次" [level=2]
-    - navigation
+    - navigation "目次"
 - contentinfo

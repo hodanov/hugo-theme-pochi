@@ -64,4 +64,4 @@ Set `ALLOWED_ORIGIN` in `wrangler.toml` to match your blog domain for CORS prote
 ## Template Contract
 
 - Each page template must render exactly one `.main-content` wrapper. PJAX navigation relies on swapping this node.
-- Place page-specific hero and external breadcrumbs outside `.main-content` to keep ordering stable during swaps.
+- Put everything that changes per page inside `.main-content`, including the hero of a fixed page (`molecules/hero.html`, rendered as the first child of `<main>`), so one swap replaces it.

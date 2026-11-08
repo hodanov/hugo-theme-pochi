@@ -1,0 +1,11 @@
+/* 404: the illustration above the way back (search, home, latest posts) */
+.not-found-image {
+  display: block;
+  inline-size: min(100%, 20rem);
+  block-size: auto;
+  margin-inline: auto;
+}
+
+.not-found #searchform {
+  margin-block: 2rem;
+}
