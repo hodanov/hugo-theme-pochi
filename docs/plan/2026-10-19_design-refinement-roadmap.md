@@ -100,6 +100,7 @@ pochi テーマのデザインを、デザイナー／FE エンジニアが実�
 | L-07 | Chroma がインラインスタイルを出力するため、コードブロックがダークモードに追従しない                                                                                                                                                                                                 | サイト `config.yaml` の `markup.highlight`                 | 一貫性                      | 2      | P7     |
 | L-08 | 使われていないトークンとユーティリティが残っている（`--pochi-shadow-1`、`--pochi-surface`、`.u-focus-ring`）。`!important` が 18。P2 PR A で未使用を削除し、PR C で `!important` を 2 個（`[hidden]` と reduced-motion）に減らして、新しく足すと stylelint のエラーになるようにした | `tokens.css`、`utilities.css`                              | —                           | 1      | P2     |
 | L-09 | いいね・シェアのレールが、目次のある記事にしか出ない                                                                                                                                                                                                                                | `posts/single.html:9-17`                                   | 一貫性                      | 1      | P5     |
+| L-10 | 768px 未満で `#contents`（`col-md-8 centered`）に幅の指定が無く、本文の短いページでは列が中身の幅まで縮んで中央に寄る（カードが画面より狭くなる）。P4A で見つけた                                                                                                                   | `layout/grid.css`、`.centered`                             | 一貫性                      | 1      | P5     |
 
 #### N: 情報設計・回遊
 
@@ -192,6 +193,7 @@ pochi テーマのデザインを、デザイナー／FE エンジニアが実�
 
 ### P4 本文タイポグラフィ・和文組版（M）
 
+- 詳細は `2026-11-08_p4-typography.md`。PR は 3 本（4A ルートの文字サイズ → 4B 文字サイズ・行送り・ウェイト → 4C 和文組版と行長）。
 - T-01〜T-05、T-07〜T-09 を対応する。ルートを `font-size: 100%` にする変更は単独の PR にし、before / after を添付する。本文は 16→17px、weight 400、line-height 1.8（単位なし）。
 - フォントスタックを `:lang(ja)` / `:lang(en)` で出し分ける。ja は `-apple-system, BlinkMacSystemFont, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "BIZ UDPGothic", Meiryo, "Noto Sans JP", sans-serif`、mono は `ui-monospace` から始める。
 - `line-break: strict`、`overflow-wrap: anywhere`、`text-autospace`、`text-wrap: pretty / balance`、見出しにだけ `palt`。本文の行長は `max-inline-size: 40em`。見出しのスケールは Utopia で作る。
@@ -199,7 +201,7 @@ pochi テーマのデザインを、デザイナー／FE エンジニアが実�
 
 ### P5 レイアウトとコンポーネント（M〜L）
 
-- `layout/grid.css` を CSS Grid の `layout/shell.css` に置き換え、`col-*` を除去する（L-05）。`scrollspy.js` のセレクタは `data-pochi-toc` に移す。いいね・シェアのレールを常に表示する（L-09）。カードはコンテナクエリで組み、`aspect-ratio`・タグ表示・`line-clamp` を入れる。関連記事は auto-fill グリッドにする。
+- `layout/grid.css` を CSS Grid の `layout/shell.css` に置き換え、`col-*` を除去する（L-05）。768px 未満で列が縮む問題（L-10）もここで消える。`scrollspy.js` のセレクタは `data-pochi-toc` に移す。いいね・シェアのレールを常に表示する（L-09）。カードはコンテナクエリで組み、`aspect-ratio`・タグ表示・`line-clamp` を入れる。関連記事は auto-fill グリッドにする。
 - **完了条件**：`grid.css`・`col-*`・`order` での並べ替えがゼロ。320〜1440px で横スクロールが出ない。カードの CLS が 0。
 
 ### P6 情報設計・回遊（M）
