@@ -84,3 +84,42 @@ other = "コードをコピー"
 
 [code_copied]
 other = "コピーしました"
+
+[submenu]
+other = "{{ .Name }}のサブメニュー"
+
+[home]
+other = "ホーム"
+
+[post_actions]
+other = "いいね・シェア"
+
+[pagination]
+other = "ページ送り"
+
+[page_first]
+other = "最初のページ"
+
+[page_prev]
+other = "前のページ"
+
+[page_next]
+other = "次のページ"
+
+[page_last]
+other = "最後のページ"
+
+[page_n]
+other = "{{ .N }} ページ目"
+
+[not_found_title]
+other = "ページが見つかりません"
+
+[not_found_text]
+other = "お探しのページは移動したか、削除された可能性があります。検索するか、ホームからたどってください。"
+
+[back_to_home]
+other = "ホームに戻る"
+
+[latest_posts]
+other = "最新の記事"

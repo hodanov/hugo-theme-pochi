@@ -42,7 +42,13 @@ const option = (name, fallback) => {
 };
 const list = (name, fallback) => option(name, fallback).split(",");
 const baseRef = option("--base", "origin/main");
-const pageIds = list("--pages", PAGES.map((p) => p.id).join(","));
+// Entries pinned to one viewport repeat another page; every width runs here.
+const pageIds = list(
+  "--pages",
+  PAGES.filter((p) => !p.viewport)
+    .map((p) => p.id)
+    .join(","),
+);
 const themes = list("--themes", "light,dark");
 const widths = list("--widths", "375,768,1280").map(Number);
 const states = list("--states", "default,hover,focus,active");

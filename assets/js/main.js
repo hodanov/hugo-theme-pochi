@@ -3,12 +3,25 @@ function smoothScroll() {
     document.querySelector("[data-pochi-scroll-top]") ||
     document.getElementById("scroll-to-top");
 
+  // Scroll to the target and move focus there, as a native in-page link
+  // would (the skip link relies on it). html's scroll-padding keeps the target
+  // clear of the fixed nav bar. The URL hash is left alone: changing it fires
+  // popstate, which navigation.js answers by reloading the page.
   function scrollToTarget(targetEl) {
     if (!targetEl) return; // guard missing target
-    window.scrollTo({
-      top: targetEl.offsetTop - 15,
-      behavior: "smooth",
+    const reduceMotion = window.matchMedia?.(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    targetEl.scrollIntoView({
+      behavior: reduceMotion ? "auto" : "smooth",
+      block: "start",
     });
+    if (
+      !targetEl.matches("a[href], button, input, select, textarea, [tabindex]")
+    ) {
+      targetEl.setAttribute("tabindex", "-1");
+    }
+    targetEl.focus({ preventScroll: true });
   }
 
   function handleLinkClick(event) {
@@ -446,75 +459,42 @@ const onReady = (callback) => {
     });
 };
 
-function initDropdownKeyboard() {
-  const dropdowns = document.querySelectorAll("nav.site-nav .dropdown");
-  if (!dropdowns.length) return;
+// Dropdowns in the top nav follow the disclosure pattern (WAI-ARIA APG):
+// the button next to a parent link shows or hides its list. PJAX replaces
+// the menu's contents, so the listeners sit on the list itself.
+function initDropdowns() {
+  const menu = document.getElementById("menu-global-nav");
+  if (!menu) return;
 
-  dropdowns.forEach((dropdown) => {
-    const trigger = dropdown.querySelector("a[aria-haspopup]");
-    const menu = dropdown.querySelector(".dropdown-list");
-    if (!trigger || !menu) return;
+  const toggles = () => menu.querySelectorAll("[data-pochi-dropdown-toggle]");
+  const setOpen = (toggle, open) =>
+    toggle.setAttribute("aria-expanded", open ? "true" : "false");
 
-    const getItems = () =>
-      Array.from(menu.querySelectorAll('a[role="menuitem"]'));
+  menu.addEventListener("click", (e) => {
+    const toggle = e.target.closest("[data-pochi-dropdown-toggle]");
+    if (!toggle) return;
+    const open = toggle.getAttribute("aria-expanded") !== "true";
+    toggles().forEach((t) => setOpen(t, false));
+    setOpen(toggle, open);
+  });
 
-    const open = () => {
-      trigger.setAttribute("aria-expanded", "true");
-    };
+  // Escape closes the list and puts focus back on its button
+  menu.addEventListener("keydown", (e) => {
+    if (e.key !== "Escape") return;
+    const dropdown = e.target.closest(".dropdown");
+    const toggle = dropdown?.querySelector("[data-pochi-dropdown-toggle]");
+    if (!toggle || toggle.getAttribute("aria-expanded") !== "true") return;
+    e.preventDefault();
+    setOpen(toggle, false);
+    toggle.focus();
+  });
 
-    const close = (returnFocus) => {
-      trigger.setAttribute("aria-expanded", "false");
-      if (returnFocus) trigger.focus();
-    };
-
-    trigger.addEventListener("keydown", (e) => {
-      if (e.key === "ArrowDown") {
-        e.preventDefault();
-        open();
-        const items = getItems();
-        if (items.length) items[0].focus();
-      }
-    });
-
-    menu.addEventListener("keydown", (e) => {
-      const items = getItems();
-      const idx = items.indexOf(document.activeElement);
-
-      switch (e.key) {
-        case "ArrowDown":
-          e.preventDefault();
-          if (idx < items.length - 1) items[idx + 1].focus();
-          break;
-        case "ArrowUp":
-          e.preventDefault();
-          if (idx > 0) items[idx - 1].focus();
-          else close(true);
-          break;
-        case "Escape":
-          e.preventDefault();
-          close(true);
-          break;
-      }
-    });
-
-    // Sync aria-expanded on hover
-    dropdown.addEventListener("mouseenter", () => {
-      trigger.setAttribute("aria-expanded", "true");
-    });
-    dropdown.addEventListener("mouseleave", () => {
-      if (!dropdown.contains(document.activeElement)) {
-        trigger.setAttribute("aria-expanded", "false");
-      }
-    });
-
-    // Close when focus leaves the dropdown entirely
-    dropdown.addEventListener("focusout", (e) => {
-      requestAnimationFrame(() => {
-        if (!dropdown.contains(document.activeElement)) {
-          trigger.setAttribute("aria-expanded", "false");
-        }
-      });
-    });
+  // Close when focus leaves the dropdown
+  menu.addEventListener("focusout", (e) => {
+    const dropdown = e.target.closest(".dropdown");
+    if (!dropdown || dropdown.contains(e.relatedTarget)) return;
+    const toggle = dropdown.querySelector("[data-pochi-dropdown-toggle]");
+    if (toggle) setOpen(toggle, false);
   });
 }
 
@@ -543,7 +523,7 @@ onReady(() => {
   toggleTheme();
   handleThemeChange();
   initSearch();
-  initDropdownKeyboard();
+  initDropdowns();
   setupSearchFormPjax();
   // Ensure Giscus theme matches current mode on initial load
   try {

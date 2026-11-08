@@ -1,4 +1,6 @@
-<h2 class="widgettitle"><span>{{ T "about_me" }}</span></h2>
+<h2 class="widgettitle" id="sidebar-profile-heading">
+  <span>{{ T "about_me" }}</span>
+</h2>
 <div class="textwidget custom-html-widget">
   <div class="profile-flex-box">
     {{ if and (.ProfileImage) (ne .ProfileImage "") }}
@@ -6,7 +8,7 @@
         {{ partial "atoms/picture.html" (dict "image" .ProfileImage "alt" .Name) }}
       </div>
     {{ end }}
-    <div class="profile-header" style="display: inline-block; margin: auto;">
+    <div class="profile-header">
       <h3>{{ .Name }}</h3>
     </div>
   </div>

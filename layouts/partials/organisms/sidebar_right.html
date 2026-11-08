@@ -1,8 +1,8 @@
-<aside>
+<aside aria-label="{{ T "search_label" }}">
   {{ partial "molecules/search_form.html" }}
 </aside>
 {{ with .Site.Params.Profile }}
-  <aside>
+  <aside aria-labelledby="sidebar-profile-heading">
     {{ partial "molecules/profile.html" . }}
   </aside>
 {{ end }}

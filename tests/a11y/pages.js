@@ -1,10 +1,15 @@
 // Pages audited by the a11y suite (axe and the landmark/heading outline).
 // Ids are part of the baseline keys and snapshot names; renaming one means
-// re-running `npm run a11y:update`.
+// re-running `npm run a11y:update`. `viewport` is a width in
+// tests/vrt/helpers.js VIEWPORTS (the project default is 1280); the 375px
+// entries cover what only mobile shows (action bar, inline table of
+// contents).
 module.exports = [
   { id: "home", path: "/" },
+  { id: "home@375", path: "/", viewport: 375 },
   { id: "home-page-2", path: "/page/2/" },
   { id: "post-toc", path: "/posts/p-03-with-toc/" },
+  { id: "post-toc@375", path: "/posts/p-03-with-toc/", viewport: 375 },
   { id: "post-no-toc", path: "/posts/p-04-no-toc/" },
   { id: "about", path: "/page/about/" },
   {

@@ -50,9 +50,3 @@
   text-decoration: none;
   font-size: 0.8rem;
 }
-
-/* Scroll offset so the target isn't hidden behind the nav bar */
-.footnotes li[id],
-sup[id] {
-  scroll-margin-top: calc(var(--pochi-nav-height) + 1rem);
-}

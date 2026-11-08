@@ -5,15 +5,18 @@
 {{ if and $page.IsPage $has }}
   {{/* inSidebar must be provided by caller via dict */}}
   {{ $inSidebar := .inSidebar }}
+  {{/* Both copies are in the page (CSS shows one per width), so the inline
+    one gets its own id, and each nav is named by its heading.
+  */}}
   {{ if $inSidebar }}
-    <h2><span>{{ T "table_of_contents" }}</span></h2>
+    <h2 id="toc-heading"><span>{{ T "table_of_contents" }}</span></h2>
     <div class="table-of-contents">
-      {{ $toc | safeHTML }}
+      {{ replace $toc `<nav id="TableOfContents">` `<nav id="TableOfContents" aria-labelledby="toc-heading">` | safeHTML }}
     </div>
   {{ else }}
     <div class="table-of-contents">
-      <p><span>{{ T "table_of_contents" }}</span></p>
-      {{ $toc | safeHTML }}
+      <p id="toc-heading-inline"><span>{{ T "table_of_contents" }}</span></p>
+      {{ replace $toc `<nav id="TableOfContents">` `<nav id="TableOfContents-inline" aria-labelledby="toc-heading-inline">` | safeHTML }}
     </div>
   {{ end }}
 {{ end }}

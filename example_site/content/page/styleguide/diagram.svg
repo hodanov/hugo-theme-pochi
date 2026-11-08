@@ -5,7 +5,7 @@
     <rect x="180" y="50" width="120" height="60" rx="6"/>
     <rect x="340" y="50" width="120" height="60" rx="6"/>
   </g>
-  <g stroke="#2a8c7e" stroke-width="3" fill="none">
+  <g stroke="#1f7a6d" stroke-width="3" fill="none">
     <path d="M140 80 H172"/>
     <path d="M300 80 H332"/>
   </g>

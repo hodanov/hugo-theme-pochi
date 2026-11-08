@@ -10,7 +10,15 @@
   line-height: 2rem;
 }
 
-#sidebar-right .profile-link:hover,
-#sidebar .profile-link:hover {
-  background: var(--pochi-hover);
+@media (hover: hover) {
+  #sidebar-right .profile-link:hover,
+  #sidebar .profile-link:hover {
+    background: var(--pochi-hover);
+  }
+}
+
+/* Name next to the profile image */
+.profile-header {
+  display: inline-block;
+  margin: auto;
 }

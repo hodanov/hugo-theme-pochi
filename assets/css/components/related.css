@@ -29,6 +29,8 @@
   transition: transform var(--pochi-duration-sm) var(--pochi-ease);
 }
 
-.mymenu-related a:hover .featured-image-wrapper img {
-  transform: scale(1.1);
+@media (hover: hover) {
+  .mymenu-related a:hover .featured-image-wrapper img {
+    transform: scale(1.1);
+  }
 }

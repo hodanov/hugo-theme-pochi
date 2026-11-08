@@ -10,10 +10,10 @@
   - heading "▸ 2024-02" [level=3]
   - heading "▸ 2024-01" [level=3]
   - heading "2023" [level=2]
-  - complementary
+  - complementary "Categories"
     - heading "Categories" [level=2]
-  - complementary
+  - complementary "Archives"
     - heading "Archives" [level=2]
-  - complementary
+  - complementary "Search"
     - search
 - contentinfo

@@ -1,5 +1,5 @@
-<aside>
-  <h2 class="widgettitle">
+<aside aria-labelledby="sidebar-categories-heading">
+  <h2 class="widgettitle" id="sidebar-categories-heading">
     <span>{{ i18n "categories" | default "Categories" }}</span>
   </h2>
   {{ $cats := .Site.Taxonomies.categories }}
@@ -23,8 +23,8 @@
   {{ end }}
 </aside>
 
-<aside>
-  <h2 class="widgettitle">
+<aside aria-labelledby="sidebar-archives-heading">
+  <h2 class="widgettitle" id="sidebar-archives-heading">
     <span>{{ i18n "archives" | default "Archives" }}</span>
   </h2>
   {{ $mainSections := or .Site.Params.mainSections (slice "post" "posts") }}

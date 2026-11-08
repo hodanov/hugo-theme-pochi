@@ -1,0 +1,80 @@
+{{/* Page links for paginated lists. Replaces Hugo's internal template,
+  which marks every link role="button" and has no nav label. Keeps its
+  layout: first / previous, a window of 5 numbers, next / last. The first
+  and previous links are left out on page 1 (and next / last on the last
+  page) instead of being rendered disabled.
+*/}}
+{{ with .Paginator }}
+  {{ if gt .TotalPages 1 }}
+    {{ $current := .PageNumber }}
+    {{ $slots := 5 }}
+    {{ $start := math.Max 1 (sub $current (math.Floor (div $slots 2))) }}
+    {{ $end := math.Min .TotalPages (sub (add $start $slots) 1) }}
+    {{ if lt (add (sub $end $start) 1) $slots }}
+      {{ $start = math.Max 1 (add (sub $end $slots) 1) }}
+    {{ end }}
+    <nav aria-label="{{ T "pagination" }}">
+      <ul class="pagination pagination-default">
+        {{ if .HasPrev }}
+          <li class="page-item">
+            <a
+              href="{{ .First.URL }}"
+              class="page-link"
+              aria-label="{{ T "page_first" }}"
+              ><span aria-hidden="true">&laquo;&laquo;</span></a
+            >
+          </li>
+          <li class="page-item">
+            <a
+              href="{{ .Prev.URL }}"
+              class="page-link"
+              aria-label="{{ T "page_prev" }}"
+              ><span aria-hidden="true">&laquo;</span></a
+            >
+          </li>
+        {{ end }}
+        {{ range $pager := .Pagers }}
+          {{ if and (ge .PageNumber $start) (le .PageNumber $end) }}
+            {{ if eq .PageNumber $current }}
+              <li class="page-item active">
+                {{/* Not a link: no role to carry a label, the number and
+                  aria-current say it
+                */}}
+                <span class="page-link" aria-current="page"
+                  >{{ .PageNumber }}</span
+                >
+              </li>
+            {{ else }}
+              <li class="page-item">
+                <a
+                  href="{{ .URL }}"
+                  class="page-link"
+                  aria-label="{{ T "page_n" (dict "N" .PageNumber) }}"
+                  >{{ .PageNumber }}</a
+                >
+              </li>
+            {{ end }}
+          {{ end }}
+        {{ end }}
+        {{ if .HasNext }}
+          <li class="page-item">
+            <a
+              href="{{ .Next.URL }}"
+              class="page-link"
+              aria-label="{{ T "page_next" }}"
+              ><span aria-hidden="true">&raquo;</span></a
+            >
+          </li>
+          <li class="page-item">
+            <a
+              href="{{ .Last.URL }}"
+              class="page-link"
+              aria-label="{{ T "page_last" }}"
+              ><span aria-hidden="true">&raquo;&raquo;</span></a
+            >
+          </li>
+        {{ end }}
+      </ul>
+    </nav>
+  {{ end }}
+{{ end }}

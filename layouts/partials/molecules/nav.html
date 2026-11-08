@@ -12,6 +12,7 @@
       </div>
       <div id="theme-toggle-switch-container">
         <button
+          type="button"
           id="theme-toggle-switch"
           data-pochi-theme-toggle
           aria-label="{{ T "theme_toggle_aria" }}"
@@ -33,22 +34,28 @@
       </button>
       <div class="menu-global-nav-container">
         <ul id="menu-global-nav">
-          {{ range .Site.Menus.main }}
+          {{ range $i, $item := .Site.Menus.main }}
             {{ if .HasChildren }}
+              {{/* Disclosure navigation (WAI-ARIA APG): the link goes to the
+                parent page, the button next to it shows the children. Hover
+                still opens the list for the mouse (nav.css).
+              */}}
+              {{ $listId := printf "nav-submenu-%d" $i }}
               <li class="dropdown">
-                <a
-                  href="{{ .URL | relLangURL }}"
-                  aria-haspopup="true"
+                <a href="{{ .URL | relLangURL }}">{{ .Name }}</a>
+                <button
+                  type="button"
+                  class="dropdown-toggle"
+                  data-pochi-dropdown-toggle
                   aria-expanded="false"
-                  >{{ .Name }}</a
+                  aria-controls="{{ $listId }}"
+                  aria-label="{{ T "submenu" (dict "Name" .Name) }}"
                 >
-                <ul class="dropdown-list" role="menu">
+                  {{ partial "atoms/icon.html" (dict "id" "icon-chevron-up") }}
+                </button>
+                <ul class="dropdown-list" id="{{ $listId }}">
                   {{ range .Children }}
-                    <li role="none">
-                      <a role="menuitem" href="{{ .URL | relLangURL }}"
-                        >{{ .Name }}</a
-                      >
-                    </li>
+                    <li><a href="{{ .URL | relLangURL }}">{{ .Name }}</a></li>
                   {{ end }}
                 </ul>
               </li>

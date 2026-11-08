@@ -1,18 +1,36 @@
 {{ define "main" }}
-  <main id="main-content" class="main-content" role="main">
+  <main id="main-content" class="main-content">
     {{ partial "molecules/breadcrumbs.html" . }}
-    <div class="container-fluid">
+    <div class="container-fluid single-page">
       <div class="row">
-        <div class="centered" id="contents">
-          {{ $image := resources.Get "images/404_not_found.png" }}
-          <img
-            src="{{ $image.RelPermalink }}"
-            alt="404 Not Found"
-            loading="lazy"
-            decoding="async"
-            width="{{ $image.Width }}"
-            height="{{ $image.Height }}"
-          />
+        <div class="centered col-md-8" id="contents">
+          {{/* A way back: search, the home page and the latest posts */}}
+          <article class="not-found">
+            {{ $image := resources.Get "images/404_not_found.png" }}
+            <img
+              class="not-found-image"
+              src="{{ $image.RelPermalink }}"
+              alt=""
+              decoding="async"
+              width="{{ $image.Width }}"
+              height="{{ $image.Height }}"
+            />
+            <h1>{{ T "not_found_title" }}</h1>
+            <p>{{ T "not_found_text" }}</p>
+            {{ partial "molecules/search_form.html" }}
+            <p>
+              <a href="{{ .Site.Home.RelPermalink }}">{{ T "back_to_home" }}</a>
+            </p>
+            {{ $mainSections := or .Site.Params.mainSections (slice "post" "posts") }}
+            {{ with first 5 (where .Site.RegularPages "Section" "in" $mainSections) }}
+              <h2>{{ T "latest_posts" }}</h2>
+              <ul>
+                {{ range . }}
+                  <li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
+                {{ end }}
+              </ul>
+            {{ end }}
+          </article>
         </div>
       </div>
     </div>

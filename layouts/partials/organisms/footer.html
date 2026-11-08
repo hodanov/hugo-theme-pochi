@@ -17,7 +17,7 @@
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank"
           >Hugo</a
         >
-        &
+        &amp;
         <a
           href="https://github.com/hodanov/simple-and-clean-blog"
           rel="noopener"
@@ -26,10 +26,13 @@
         >.
       </p>
     </div>
+    {{/* Fixed to the viewport; inside the footer so it belongs to a
+      landmark
+    */}}
+    <div id="scroll-to-top" data-pochi-scroll-top>
+      <a href="#top" aria-label="{{ T "scroll_to_top" }}">
+        ▲<br />{{ T "top" }}
+      </a>
+    </div>
   </footer>
-  <div id="scroll-to-top" data-pochi-scroll-top>
-    <a href="#top" aria-label="{{ T "scroll_to_top" }}">
-      ▲<br />{{ T "top" }}
-    </a>
-  </div>
 {{ end }}

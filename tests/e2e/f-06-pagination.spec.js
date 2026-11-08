@@ -8,7 +8,7 @@ test.describe("F-06 Pagination", () => {
 
     const firstTitle = await page.locator(".post-title h2").first().innerText();
     const nextLink = page
-      .locator('.pagination-index a[aria-label="Next"]')
+      .locator('.pagination-index a[aria-label="Next page"]')
       .first();
 
     await expect(nextLink).toBeVisible();

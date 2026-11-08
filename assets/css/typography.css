@@ -58,6 +58,22 @@ a {
   text-decoration: none;
 }
 
+/* Links in running text are underlined: their color alone does not set them
+   apart from the text around it (WCAG 1.4.1). Component links inside an
+   article (table of contents, tags, footnote marks) drop it in their own
+   files. */
+article :is(p, li, dd, td, th, figcaption) a {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+@media (hover: hover) {
+  article :is(p, li, dd, td, th, figcaption) a:hover {
+    text-decoration-thickness: 2px;
+  }
+}
+
 strong {
   font-weight: bold;
 }

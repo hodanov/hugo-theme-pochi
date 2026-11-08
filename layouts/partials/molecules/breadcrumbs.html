@@ -2,17 +2,25 @@
   <div class="container-fluid">
     <nav aria-label="{{ T "breadcrumb" }}">
       <ol id="breadcrumbs">
+        {{/* The separator sits inside each item and is hidden from screen
+          readers, so the list holds only the pages.
+        */}}
         {{ range .Ancestors.Reverse }}
-          {{ if .IsHome }}
-            <li><a href="{{ .RelPermalink }}">Home</a></li>
-          {{ else }}
-            <li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
-          {{ end }}
-          <li class="separator">
-            &nbsp;{{ .Site.Params.breadcrumbs.separator }}&nbsp;
+          <li>
+            <a href="{{ .RelPermalink }}"
+              >{{ if .IsHome }}
+                {{ T "home" }}
+              {{ else }}
+                {{ .Title }}
+              {{ end }}</a
+            ><span class="separator" aria-hidden="true"
+              >&nbsp;{{ .Site.Params.breadcrumbs.separator }}&nbsp;</span
+            >
           </li>
         {{ end }}
-        <li class="breadcrumb-active">{{ .Title | strings.FirstUpper }}</li>
+        <li class="breadcrumb-active" aria-current="page">
+          {{ .Title | strings.FirstUpper }}
+        </li>
       </ol>
     </nav>
   </div>
