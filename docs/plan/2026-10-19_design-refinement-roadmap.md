@@ -187,7 +187,7 @@ pochi テーマのデザインを、デザイナー／FE エンジニアが実�
 
 - **3A CSS**：A-01〜A-04、A-15〜A-17、A-23、A-26、T-06。リンク色を `#1f7a6d` 相当（5.17:1）にし、本文リンクに下線を付ける。アクセント上の文字は濃い色（8.48:1）にする。フォーカスは `:focus-visible` で統一し、`scroll-padding-top` を設定する。主要な操作対象は 44px 以上にする。`@media (hover: hover)` と reduced-motion をまとめて適用し、`forced-colors` にも対応する。3A で解消した（コントラストの `known` が 0、本文の APCA は Lc75 以上）。
 - **3B テンプレート**：A-05、A-06、A-09〜A-14、A-19〜A-21、A-25、A-27、A-28、L-06、N-03。全ページに h1 を置く。404 に回復導線を付ける。言語切替をリンクにする。ナビを disclosure パターンにする。カードは「`<h2><a>` + `::after` でクリック範囲を広げる」形にする。表の render hook を追加する。3B-1 で A-05、A-06、A-10、A-20、A-21、A-25、A-27、N-03 を、3B-2 で A-09、A-11〜A-14、A-19、A-28、L-06 を解消した（axe の残りは styleguide のコードハイライトの color-contrast だけ）。
-- **3C JS**：A-07、A-08、A-22。サイドナビを `<dialog>` にする。テーマ切替を 3 状態にする。PJAX の遷移後に h1 へフォーカスを移し、live region でページ名を読み上げる。
+- **3C JS**：A-07、A-08、A-22。サイドナビを `<dialog>` にする。テーマ切替を 3 状態にする。PJAX の遷移後に h1 へフォーカスを移し、live region でページ名を読み上げる。3C で 3 つとも解消した（html-validate の hidden-focusable は 0）。
 - **完了条件**：axe のベースラインが空（styleguide のコードハイライト内の color-contrast は L-07 として P7 に残す）。html-validate の a11y に関わるルールが 0（no-inline-style と Goldmark の脚注の valid-id は残る）。トークンのペアが WCAG2 で 4.5 / 3 以上、かつ APCA で本文 Lc75 以上。操作できる要素が 375 / 1280px で 24px 以上、主要な操作対象は 44px 以上（自動で測る）。影響する E2E は同じ PR で更新する。
 
 ### P4 本文タイポグラフィ・和文組版（M）
