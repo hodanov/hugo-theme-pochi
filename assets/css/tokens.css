@@ -41,7 +41,8 @@
   /* Colors */
   --pochi-text: light-dark(var(--pochi-gray-38), var(--pochi-slate-88));
   --pochi-bg: light-dark(var(--pochi-gray-97), var(--pochi-gray-23));
-  --pochi-accent: var(--pochi-teal-77);
+  /* Light shares the link color so one teal runs through the page */
+  --pochi-accent: light-dark(var(--pochi-teal-52), var(--pochi-teal-77));
   --pochi-border: light-dark(var(--pochi-gray-88), var(--pochi-gray-71));
   /* Frame of form fields: 3:1 against the field and the page (WCAG 1.4.11) */
   --pochi-border-control: light-dark(
@@ -53,8 +54,9 @@
   --pochi-blockquote-bg: light-dark(var(--pochi-gray-97), var(--pochi-gray-25));
   --pochi-surface-soft: light-dark(var(--pochi-gray-97), var(--pochi-gray-23));
   --pochi-link: light-dark(var(--pochi-teal-52), var(--pochi-teal-76));
-  /* Text on an accent fill: white would be 1.99:1 */
-  --pochi-on-accent: var(--pochi-gray-23);
+  /* Text on an accent fill: white on the dark teal (5.17:1), near black on
+     the light teal (white would be 1.99:1) */
+  --pochi-on-accent: light-dark(var(--pochi-gray-100), var(--pochi-gray-23));
   --pochi-on-dark: var(--pochi-gray-100);
   --pochi-required: light-dark(var(--pochi-pink-54), var(--pochi-pink-76));
   --pochi-success: var(--pochi-green-67);
@@ -213,6 +215,7 @@
   :root {
     --pochi-text: var(--pochi-gray-38);
     --pochi-bg: var(--pochi-gray-97);
+    --pochi-accent: var(--pochi-teal-52);
     --pochi-border: var(--pochi-gray-88);
     --pochi-border-control: var(--pochi-gray-62);
     --pochi-card: var(--pochi-gray-100);
@@ -220,6 +223,7 @@
     --pochi-blockquote-bg: var(--pochi-gray-97);
     --pochi-surface-soft: var(--pochi-gray-97);
     --pochi-link: var(--pochi-teal-52);
+    --pochi-on-accent: var(--pochi-gray-100);
     --pochi-required: var(--pochi-pink-54);
     --pochi-hover: rgba(0, 0, 0, 0.04);
     --pochi-separator: rgba(0, 0, 0, 0.5);

@@ -87,7 +87,7 @@ html {
   background: var(--pochi-accent);
   color: var(--pochi-on-accent);
   border-radius: var(--pochi-radius-lg);
-  outline: var(--pochi-focus-ring-width) solid var(--pochi-on-accent);
+  outline: var(--pochi-focus-ring);
   outline-offset: var(--pochi-focus-ring-offset);
   z-index: var(--pochi-z-skip-link);
 }
