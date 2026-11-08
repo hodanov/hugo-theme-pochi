@@ -123,3 +123,21 @@ other = "ホームに戻る"
 
 [latest_posts]
 other = "最新の記事"
+
+[published]
+other = "公開日"
+
+[updated]
+other = "更新日"
+
+[search_results]
+other = "%d 件見つかりました"
+
+[table_n]
+other = "表 {{ .N }}"
+
+[task_done]
+other = "完了"
+
+[task_open]
+other = "未完了"

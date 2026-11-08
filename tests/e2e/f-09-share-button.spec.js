@@ -13,16 +13,23 @@ test.describe("F-09 Share button", () => {
     await page.goto("/posts/p-03-with-toc/");
 
     const shareBtn = page.locator("[data-share-button]").first();
-    const feedback = shareBtn.locator("[data-share-feedback]");
+    // The message sits next to the button, so it is not part of its name
+    const feedback = page
+      .locator("[data-share-root]")
+      .first()
+      .locator("[data-share-feedback]");
 
     await expect(shareBtn).toBeVisible();
-    await expect(shareBtn).toHaveAttribute("aria-pressed", "false");
+    await expect(shareBtn).toHaveAccessibleName("Copy URL");
+    // A one-off action, not a toggle
+    await expect(shareBtn).not.toHaveAttribute("aria-pressed");
 
     await shareBtn.click();
 
-    await expect(shareBtn).toHaveAttribute("aria-pressed", "true");
+    await expect(shareBtn).toHaveAttribute("data-copied", "");
     const expectedText = await shareBtn.getAttribute("data-feedback-copied");
     await expect(feedback).toHaveText(expectedText);
+    await expect(shareBtn).toHaveAccessibleName("Copy URL");
   });
 
   test("mobile: share button is visible in action bar", async ({ browser }) => {

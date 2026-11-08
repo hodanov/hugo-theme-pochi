@@ -53,8 +53,7 @@ nav.site-nav #menu-bar-btn {
 
 /* Inside the nav bar the ring is drawn inward (base.css) */
 nav.site-nav #menu-bar-btn:focus-visible,
-nav.site-nav #theme-toggle-switch:focus-visible,
-.lang-switcher select:focus-visible {
+nav.site-nav #theme-toggle-switch:focus-visible {
   outline-offset: var(--pochi-focus-ring-offset-inset);
 }
 
@@ -70,47 +69,31 @@ nav.site-nav #lang-switcher-container {
   line-height: var(--pochi-nav-height);
   padding: 0 0.25rem;
 }
-/* Dropdown style for language switcher */
-.lang-switcher select {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
+/* Language links: the other languages, framed like a small button */
+.lang-switcher {
+  display: inline-flex;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
   line-height: 2rem;
-  padding: 0 1.75rem 0 0.5rem;
+}
+
+.lang-switcher-link {
+  display: inline-block;
+  padding: 0 0.75rem;
   font-size: 0.85rem;
   color: var(--pochi-text);
   background-color: var(--pochi-card);
   border: 1px solid var(--pochi-border-control);
   border-radius: var(--pochi-radius-lg);
-  cursor: pointer;
+  text-decoration: none;
 }
 
 @media (hover: hover) {
-  .lang-switcher select:hover {
+  .lang-switcher-link:hover {
     background-color: var(--pochi-hover);
   }
-}
-
-/* Custom arrow for language select */
-.lang-switcher {
-  position: relative;
-  display: inline-block;
-}
-
-.lang-switcher::after {
-  content: "▼";
-  position: absolute;
-  right: 0.6rem;
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--pochi-text-muted);
-  font-size: 0.7rem;
-  line-height: 1;
-  pointer-events: none;
-}
-
-.lang-switcher:focus-within::after {
-  color: var(--pochi-link);
 }
 
 nav.site-nav .menu-global-nav-container {
@@ -148,7 +131,8 @@ nav.site-nav #theme-toggle-switch-container {
   }
 }
 
-nav.site-nav ul {
+/* Menu lists in the bar; the language links have their own look */
+nav.site-nav ul:where(:not(.lang-switcher)) {
   margin: 0;
   line-height: var(--pochi-nav-height);
   display: flex;
@@ -160,11 +144,11 @@ nav.site-nav .dropdown-list {
   align-items: stretch;
 }
 
-nav.site-nav ul li {
+nav.site-nav ul:where(:not(.lang-switcher)) li {
   padding: 0;
 }
 
-nav.site-nav ul li a {
+nav.site-nav ul:where(:not(.lang-switcher)) li a {
   display: block;
   padding: 0 1rem;
   transition:
@@ -173,7 +157,7 @@ nav.site-nav ul li a {
 }
 
 @media (hover: hover) {
-  nav.site-nav ul > li:hover > a,
+  nav.site-nav ul:where(:not(.lang-switcher)) > li:hover > a,
   nav.site-nav .dropdown:hover > .dropdown-toggle {
     color: var(--pochi-on-accent);
     background-color: var(--pochi-accent);

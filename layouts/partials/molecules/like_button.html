@@ -5,12 +5,16 @@
     class="like-btn"
     type="button"
     aria-pressed="false"
+    aria-label="{{ T "like" }}"
     title="{{ T "like" }}"
     data-like-button
     data-like-slug="{{ $slug }}"
     data-like-api="{{ $apiBase }}"
   >
     {{ partial "atoms/icon.html" (dict "id" "icon-heart") }}
-    <span class="like-count" aria-live="polite" data-like-count>–</span>
+    {{/* The count describes the button once it is known (like-button.js);
+      the placeholder dash is not read out
+    */}}
+    <span class="like-count" data-like-count>–</span>
   </button>
 </div>

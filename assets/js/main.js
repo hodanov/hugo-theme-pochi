@@ -349,6 +349,7 @@ function executeSearch(searchQuery) {
       .then(function (pages) {
         var fuse = new Fuse(pages, fuseOptions);
         var result = fuse.search(searchQuery);
+        announceResults(result.length);
         if (result.length > 0) {
           populateResults(result);
         } else {
@@ -372,6 +373,21 @@ function executeSearch(searchQuery) {
   });
 }
 
+// Read the number of results out through the role="status" element
+function announceResults(count) {
+  var status = document.getElementById("search-status");
+  if (!status) return;
+  if (count === 0) {
+    var resultsEl = document.getElementById("search-results");
+    status.textContent =
+      (resultsEl && resultsEl.getAttribute("data-i18n-no-results")) ||
+      "No matches found";
+    return;
+  }
+  var template = status.getAttribute("data-i18n-results") || "%d results";
+  status.textContent = template.replace("%d", String(count));
+}
+
 function populateResults(results) {
   var searchQuery = document.getElementById("search-query").value;
   var searchResults = document.getElementById("search-results");
@@ -391,7 +407,6 @@ function populateResults(results) {
       link: value.item.permalink,
       publishDate: value.item.publishDate.split("T")[0],
       lastmod: value.item.lastmod.split("T")[0],
-      featuredImage: "",
       snippet: snippet,
     });
   });

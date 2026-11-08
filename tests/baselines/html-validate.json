@@ -1,10 +1,7 @@
 {
-  "element-required-attributes": 5,
   "hidden-focusable": 360,
   "no-inline-style": 399,
   "no-raw-characters": 2,
-  "text-content": 24,
   "unique-landmark": 14,
-  "valid-id": 23,
-  "wcag/h37": 7
+  "valid-id": 23
 }

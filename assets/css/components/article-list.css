@@ -13,10 +13,39 @@
   }
 }
 
-.article-list .post-row div > a {
-  display: block;
+.article-list .post-card {
   margin: 0 -1rem;
   padding: 1rem;
+}
+
+/* Cards (post list, search results, related posts): the title link is the
+   only link, and its ::after covers the card, so the whole card is
+   clickable and the link's name is just the title. The focus ring goes
+   around the card. */
+.post-card,
+.related-card {
+  position: relative;
+}
+
+.post-card-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.post-card-link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.post-card-link:focus-visible {
+  outline: none;
+}
+
+.post-card-link:focus-visible::after {
+  outline: var(--pochi-focus-ring);
+  outline-offset: var(--pochi-focus-ring-offset);
+  border-radius: var(--pochi-radius-md);
 }
 
 .article-list .post-image-col {
@@ -40,8 +69,8 @@
   transition: var(--pochi-transition-interactive);
 }
 
-.article-list a h2,
-.mymenu-related a .text {
+.article-list .post-card h2,
+.mymenu-related .text {
   font-size: 1.4rem;
   margin: 0;
   color: var(--pochi-text);
@@ -49,8 +78,8 @@
 }
 
 @media (hover: hover) {
-  .article-list a:hover h2,
-  .mymenu-related a:hover .text {
+  .article-list .post-card:hover h2,
+  .mymenu-related .related-card:hover .post-card-link {
     color: var(--pochi-link);
   }
 }
@@ -75,7 +104,7 @@
     margin: 0 0 1rem 0;
   }
 
-  .article-list a h2 {
+  .article-list .post-card h2 {
     font-size: 1.2rem;
   }
 }

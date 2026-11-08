@@ -1,0 +1,7 @@
+{{/* A page's rendered Markdown. Goldmark's task-list checkboxes have no
+  name, so each gets one that says whether the task is done (WCAG 4.1.2).
+*/}}
+{{ $content := string .Content }}
+{{ $content = replace $content `<input checked="" disabled="" type="checkbox">` (printf `<input checked="" disabled="" type="checkbox" aria-label="%s">` (T "task_done")) }}
+{{ $content = replace $content `<input disabled="" type="checkbox">` (printf `<input disabled="" type="checkbox" aria-label="%s">` (T "task_open")) }}
+{{ $content | safeHTML }}

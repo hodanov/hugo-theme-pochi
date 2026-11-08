@@ -8,7 +8,7 @@
         >{{ .Site.Title }}</a
       >
       <div id="lang-switcher-container">
-        {{ partial "molecules/lang_switcher.html" (dict "ctx" . "id" "language-select-top" "name" "language_top") }}
+        {{ partial "molecules/lang_switcher.html" . }}
       </div>
       <div id="theme-toggle-switch-container">
         <button

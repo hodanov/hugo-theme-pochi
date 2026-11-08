@@ -6,33 +6,40 @@
         <div class="col-md-9" id="contents">
           <h1>{{ .Title }}</h1>
           <div class="article-list">
+            {{/* The count is read out when results arrive */}}
+            <p
+              id="search-status"
+              class="u-visually-hidden"
+              role="status"
+              data-i18n-results="{{ T "search_results" }}"
+            ></p>
             <div
               id="search-results"
               data-i18n-no-results="{{ T "no_matches" }}"
             ></div>
             <div class="search-loading">{{ T "loading" }}</div>
+            {{/* Same card as organisms/list_of_posts.html */}}
             <script id="search-result-template" type="text/x-js-template">
-              <div class="row post-row"id="summary-${key}">
+              <div class="row post-row" id="summary-${key}">
                 <div class="col-md-12">
-                  <a href="${link}">
-                    ${featuredImage}
+                  <div class="post-card">
                     <div class="post-title">
-                      <h2>${title}</h2>
+                      <h2><a class="post-card-link" href="${link}">${title}</a></h2>
                     </div>
                     <div class="post-text">
                       <div class="post-info">
                         <div class="kiji-date">
-                          <time
-                            datetime="${publishDate}"
-                          >
-                            {{ partial "atoms/icon.html" (dict "id" "icon-pencil") }}
-                            :
+                          <time datetime="${publishDate}">
+                            <span class="u-visually-hidden">{{ T "published" }}</span>
+                            {{- partial "atoms/icon.html" (dict "id" "icon-pencil") }}
+                            <span aria-hidden="true">:</span>
                             ${publishDate}
                           </time>
-                          |
+                          <span aria-hidden="true">|</span>
                           <time datetime="${lastmod}">
-                            {{ partial "atoms/icon.html" (dict "id" "icon-spinner") }}
-                            :
+                            <span class="u-visually-hidden">{{ T "updated" }}</span>
+                            {{- partial "atoms/icon.html" (dict "id" "icon-spinner") }}
+                            <span aria-hidden="true">:</span>
                             ${lastmod}
                           </time>
                         </div>
@@ -41,7 +48,7 @@
                         ${snippet}
                       </div>
                     </div>
-                  </a>
+                  </div>
                 </div>
               </div>
             </script>

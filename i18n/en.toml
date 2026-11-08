@@ -123,3 +123,21 @@ other = "Back to the home page"
 
 [latest_posts]
 other = "Latest posts"
+
+[published]
+other = "Published"
+
+[updated]
+other = "Updated"
+
+[search_results]
+other = "%d results"
+
+[table_n]
+other = "Table {{ .N }}"
+
+[task_done]
+other = "Done"
+
+[task_open]
+other = "Not done"
