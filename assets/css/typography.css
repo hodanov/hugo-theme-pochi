@@ -8,6 +8,11 @@ h5,
 h6 {
   line-height: var(--pochi-leading-heading);
   font-weight: 400;
+  /* Even line lengths, and proportional kana and punctuation (palt) so a
+     heading does not look loosely set; body text stays on the full-width
+     grid */
+  text-wrap: balance;
+  font-feature-settings: "palt";
 }
 
 h1,
@@ -23,6 +28,29 @@ p,
 article p {
   line-height: var(--pochi-leading-body);
   margin-bottom: 1.8em;
+}
+
+/* Running text (JLREQ): a measure of at most 40 characters, no orphan word
+   on the last line, a little space between Japanese and Latin letters or
+   digits (text-autospace; skipped where the text already has a space), and
+   strict line-break rules in Japanese (no small kana or prolonged sound mark
+   at the start of a line). Long URLs and identifiers break anywhere instead
+   of overflowing. */
+article {
+  overflow-wrap: anywhere;
+  text-autospace: normal;
+}
+
+article:lang(ja) {
+  line-break: strict;
+}
+
+article :is(p, ul, ol, dl, blockquote) {
+  max-inline-size: 40em;
+}
+
+article :is(p, li, dd, blockquote) {
+  text-wrap: pretty;
 }
 
 article blockquote p {

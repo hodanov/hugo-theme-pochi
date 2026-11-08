@@ -7,7 +7,6 @@ article,
   border-radius: var(--pochi-radius-md);
   padding: var(--pochi-card-padding);
   margin-bottom: 3rem;
-  word-break: break-word;
   box-shadow: var(--pochi-shadow-card);
 }
 

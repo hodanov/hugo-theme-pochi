@@ -260,7 +260,7 @@ nav.site-nav .logo {
   width: auto;
   font-size: var(--pochi-step-2);
   color: var(--pochi-text);
-  font-family: var(--pochi-font-heading);
+  font-family: var(--pochi-font-base);
 }
 
 /* The drawer is a modal <dialog> in the top layer, so it needs no z-index.

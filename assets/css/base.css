@@ -5,9 +5,31 @@
   box-sizing: border-box;
 }
 
+/* Font by language: the page's lang on <html>, and any element that sets
+   its own (e.g. the "日本語" link on an English page) */
+:root,
+[lang] {
+  --pochi-font-base: var(--pochi-font-en);
+}
+
+:lang(ja) {
+  --pochi-font-base: var(--pochi-font-ja);
+}
+
+body,
+[lang] {
+  font-family: var(--pochi-font-base);
+}
+
+code,
+kbd,
+samp,
+pre {
+  font-family: var(--pochi-font-mono);
+}
+
 /* Document defaults */
 body {
-  font-family: var(--pochi-font-base);
   font-size: var(--pochi-step-0);
   font-weight: 400;
   line-height: var(--pochi-leading-ui);
