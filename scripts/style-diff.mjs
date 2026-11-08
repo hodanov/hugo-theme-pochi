@@ -150,7 +150,7 @@ function activate() {
   for (const el of document.querySelectorAll("[data-share-button]")) {
     el.setAttribute("data-copied", "");
   }
-  document.querySelector("#side-nav")?.classList.add("is-active");
+  document.querySelector("#side-nav")?.showModal?.();
   document.querySelector("#scroll-to-top")?.classList.add("fade-in");
   getComputedStyle(document.body).color; // start the transitions now
   for (const animation of document.getAnimations()) {

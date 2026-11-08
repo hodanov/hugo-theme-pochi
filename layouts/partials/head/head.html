@@ -52,10 +52,14 @@
 <script>
   (function () {
     try {
+      // No stored choice means "follow the system" (main.js toggleTheme)
       var pref = localStorage.getItem("pref-theme");
-      var isDark = pref
-        ? pref === "dark"
-        : window.matchMedia("(prefers-color-scheme: dark)").matches;
+      if (pref !== "light" && pref !== "dark") pref = "system";
+      document.documentElement.setAttribute("data-theme-pref", pref);
+      var isDark =
+        pref === "system"
+          ? window.matchMedia("(prefers-color-scheme: dark)").matches
+          : pref === "dark";
       if (isDark) {
         document.documentElement.classList.add("dark");
         document.documentElement.classList.remove("light");

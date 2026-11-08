@@ -67,6 +67,9 @@ function smoothScroll() {
   });
 }
 
+// The side nav is a modal <dialog>. showModal() traps focus, makes the page
+// behind it inert and handles Escape; on close the browser puts focus back on
+// the menu button.
 function toggleSideNav() {
   const sideNav =
     document.querySelector("[data-pochi-side-nav]") ||
@@ -74,152 +77,97 @@ function toggleSideNav() {
   const toggleBtn =
     document.querySelector("[data-pochi-menu-button]") ||
     document.getElementById("menu-bar-btn");
-  const isActiveClass = "is-active";
 
-  let sideNavOverlay;
-  let isSideNavOpen = false;
+  if (!sideNav || typeof sideNav.showModal !== "function") return;
 
-  if (!sideNav) return;
-
-  // Manage focusability of elements inside the side nav when aria-hidden is true
-  const focusableSelector = [
-    "a[href]",
-    "area[href]",
-    'input:not([type="hidden"]):not([disabled])',
-    "select:not([disabled])",
-    "textarea:not([disabled])",
-    "button:not([disabled])",
-    "iframe",
-    "object",
-    "embed",
-    '[contenteditable="true"]',
-    "[tabindex]",
-  ].join(",");
-
-  const getFocusable = () =>
-    Array.from(sideNav.querySelectorAll(focusableSelector));
-
-  const disableFocusWithin = () => {
-    getFocusable().forEach((el) => {
-      // Store previous tabindex only once
-      if (!el.hasAttribute("data-prev-tabindex")) {
-        const prev = el.getAttribute("tabindex");
-        el.setAttribute("data-prev-tabindex", prev !== null ? prev : "");
-      }
-      el.setAttribute("tabindex", "-1");
-    });
-  };
-
-  const enableFocusWithin = () => {
-    getFocusable().forEach((el) => {
-      const prev = el.getAttribute("data-prev-tabindex");
-      if (prev !== null) {
-        if (prev === "") el.removeAttribute("tabindex");
-        else el.setAttribute("tabindex", prev);
-        el.removeAttribute("data-prev-tabindex");
-      } else {
-        // If we didn't store anything, remove the forced -1 we might have set
-        if (el.getAttribute("tabindex") === "-1")
-          el.removeAttribute("tabindex");
-      }
-    });
-  };
-
-  // Initialize ARIA hidden state
-  sideNav.setAttribute("aria-hidden", "true");
-  // Ensure focusable elements are removed from tab order when hidden
-  disableFocusWithin();
-
-  // Ensure ARIA defaults
-  if (toggleBtn) {
-    if (!toggleBtn.hasAttribute("aria-controls")) {
-      toggleBtn.setAttribute("aria-controls", "side-nav");
-    }
-    toggleBtn.setAttribute("aria-expanded", "false");
-  }
-
-  const openSideNav = () => {
-    if (isSideNavOpen) return;
-    isSideNavOpen = true;
-    sideNav.style.cssText = `
-      opacity: 1;
-    `;
-    sideNav.classList.add(isActiveClass);
-    sideNav.setAttribute("aria-hidden", "false");
-    // Restore focusability when shown
-    enableFocusWithin();
-    if (toggleBtn) toggleBtn.setAttribute("aria-expanded", "true");
-    document.body.insertAdjacentHTML(
-      "beforeend",
-      '<div id="side-nav-overlay" data-pochi-side-nav-overlay></div>',
-    );
-    sideNavOverlay =
-      document.querySelector("[data-pochi-side-nav-overlay]") ||
-      document.querySelector("#side-nav-overlay");
-  };
-
-  const closeSideNav = (opts) => {
-    if (!isSideNavOpen) return;
-    isSideNavOpen = false;
-    sideNav.style.cssText = `
-      opacity: 0;
-    `;
-    sideNav.classList.remove(isActiveClass);
-    sideNav.setAttribute("aria-hidden", "true");
-    // Remove focusability when hidden
-    disableFocusWithin();
-    if (toggleBtn) toggleBtn.setAttribute("aria-expanded", "false");
-    if (sideNavOverlay) {
-      sideNavOverlay.style.opacity = "0";
-      setTimeout(() => sideNavOverlay && sideNavOverlay.remove(), 300);
-    }
-    if (opts && opts.returnFocus && toggleBtn) toggleBtn.focus();
-  };
-
-  // Open via explicit toggle button
   if (toggleBtn) {
     toggleBtn.addEventListener("click", () => {
-      if (isSideNavOpen) closeSideNav();
-      else openSideNav();
+      if (sideNav.open) return;
+      sideNav.showModal();
+      toggleBtn.setAttribute("aria-expanded", "true");
     });
   }
 
-  document.addEventListener("click", (event) => {
-    // Open when the dedicated button (or its children) is clicked
-    if (
-      !isSideNavOpen &&
-      event.target.closest &&
-      (event.target.closest("[data-pochi-menu-button]") ||
-        event.target.closest("#menu-bar-btn"))
-    ) {
-      // Handled by the button's listener; no-op here
-    }
-
-    // Close the side nav when a link inside it is clicked
-    const linkInsideSideNav = event.target.closest
-      ? event.target.closest("[data-pochi-side-nav] a, #side-nav a")
-      : null;
-    // Close when the explicit close button is clicked
-    const closeBtn = event.target.closest
-      ? event.target.closest("[data-pochi-side-nav-close], #side-nav-close")
-      : null;
-    if (isSideNavOpen && (linkInsideSideNav || closeBtn)) {
-      closeSideNav({ returnFocus: true });
-      // Do not prevent default; navigation.js or browser will handle navigation
-      return;
-    }
-
-    // Close by clicking on overlay
-    if (isSideNavOpen && event.target === sideNavOverlay) {
-      closeSideNav({ returnFocus: true });
-    }
+  // Covers every way it closes: the close button, a link, Escape, the backdrop
+  sideNav.addEventListener("close", () => {
+    if (toggleBtn) toggleBtn.setAttribute("aria-expanded", "false");
   });
 
-  // Close on Escape
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && isSideNavOpen) {
-      closeSideNav({ returnFocus: true });
+  sideNav.addEventListener("click", (event) => {
+    const target = event.target;
+    // A click on the backdrop lands on the dialog itself, outside its box
+    if (target === sideNav) {
+      const r = sideNav.getBoundingClientRect();
+      const inside =
+        event.clientX >= r.left &&
+        event.clientX <= r.right &&
+        event.clientY >= r.top &&
+        event.clientY <= r.bottom;
+      if (!inside) sideNav.close();
+      return;
     }
+    // Close on the close button and on links (navigation.js or the browser
+    // follows the link)
+    if (target.closest("[data-pochi-side-nav-close], #side-nav-close, a")) {
+      sideNav.close();
+    }
+  });
+}
+
+// Theme: "system" (no stored choice, follows the OS), "light" or "dark".
+// The head script applies the stored choice before the CSS loads; these keep
+// <html>, the toggle and the browser UI (theme-color) in step afterwards.
+const THEME_PREFS = ["system", "light", "dark"];
+const prefersDark = window.matchMedia?.("(prefers-color-scheme: dark)");
+
+function getThemePref() {
+  const pref = document.documentElement.getAttribute("data-theme-pref");
+  return THEME_PREFS.includes(pref) ? pref : "system";
+}
+
+function applyTheme(pref) {
+  const root = document.documentElement; // keep in sync with head FOUC script
+  const isDark = pref === "system" ? !!prefersDark?.matches : pref === "dark";
+  root.setAttribute("data-theme-pref", pref);
+  root.classList.toggle("dark", isDark);
+  root.classList.toggle("light", !isDark);
+
+  const themeSwitch =
+    document.querySelector("[data-pochi-theme-toggle]") ||
+    document.getElementById("theme-toggle-switch");
+  const label = themeSwitch?.getAttribute(`data-label-${pref}`);
+  if (label) themeSwitch.setAttribute("aria-label", label);
+
+  syncThemeColor(pref);
+
+  // Sync Giscus theme to match site theme
+  try {
+    if (typeof updateGiscusThemeWithRetry === "function") {
+      updateGiscusThemeWithRetry();
+    }
+  } catch (_) {}
+}
+
+// The theme-color metas carry one color per OS scheme (media queries). A
+// chosen theme overrides the OS, so both get that theme's color; "system"
+// puts the originals back.
+function syncThemeColor(pref) {
+  const metas = document.querySelectorAll('meta[name="theme-color"]');
+  metas.forEach((meta) => {
+    if (!meta.hasAttribute("data-pochi-color")) {
+      meta.setAttribute("data-pochi-color", meta.content);
+    }
+  });
+  const colorFor = (scheme) =>
+    Array.from(metas)
+      .find((m) => m.media.includes(scheme))
+      ?.getAttribute("data-pochi-color");
+  metas.forEach((meta) => {
+    const color =
+      pref === "system"
+        ? meta.getAttribute("data-pochi-color")
+        : colorFor(pref);
+    if (color) meta.content = color;
   });
 }
 
@@ -229,39 +177,18 @@ function toggleTheme() {
     document.getElementById("theme-toggle-switch");
   if (!themeSwitch) return;
 
-  // Initialize aria-pressed to reflect current mode
-  try {
-    const isDarkInit = document.documentElement.classList.contains("dark");
-    themeSwitch.setAttribute("aria-pressed", isDarkInit ? "true" : "false");
-  } catch (_) {}
+  applyTheme(getThemePref());
+
   themeSwitch.addEventListener("click", () => {
-    const doToggle = () => {
-      const root = document.documentElement; // keep in sync with head FOUC script
-      const isDarkMode = root.classList.contains("dark");
-      const next = isDarkMode ? "light" : "dark";
-      root.classList.toggle("dark");
-      if (next === "light") {
-        root.classList.add("light");
-      } else {
-        root.classList.remove("light");
-      }
-      localStorage.setItem("pref-theme", next);
-      // Update aria-pressed to reflect toggled state
-      try {
-        themeSwitch.setAttribute(
-          "aria-pressed",
-          next === "dark" ? "true" : "false",
-        );
-      } catch (_) {}
+    const current = getThemePref();
+    const next =
+      THEME_PREFS[(THEME_PREFS.indexOf(current) + 1) % THEME_PREFS.length];
+    try {
+      if (next === "system") localStorage.removeItem("pref-theme");
+      else localStorage.setItem("pref-theme", next);
+    } catch (_) {}
 
-      // Sync Giscus theme to match site theme
-      try {
-        if (typeof updateGiscusThemeWithRetry === "function") {
-          updateGiscusThemeWithRetry();
-        }
-      } catch (_) {}
-    };
-
+    const doToggle = () => applyTheme(next);
     const vtEnabled =
       document.body?.getAttribute("data-view-transitions") === "true";
     if (vtEnabled && typeof document.startViewTransition === "function") {
@@ -272,31 +199,11 @@ function toggleTheme() {
   });
 }
 
+// OS changes matter only while following the system; nothing is stored
 function handleThemeChange() {
-  const prefersDarkMode = window.matchMedia("(prefers-color-scheme: dark)");
-  if (!prefersDarkMode || !prefersDarkMode.addEventListener) return;
-  prefersDarkMode.addEventListener("change", (e) => {
-    const root = document.documentElement;
-    const isDark = e.matches;
-    root.classList.toggle("dark", isDark);
-    root.classList.toggle("light", !isDark);
-    localStorage.setItem("pref-theme", isDark ? "dark" : "light");
-    // Keep toggle button state in sync when system preference changes
-    try {
-      const themeSwitch =
-        document.querySelector("[data-pochi-theme-toggle]") ||
-        document.getElementById("theme-toggle-switch");
-      if (themeSwitch) {
-        themeSwitch.setAttribute("aria-pressed", isDark ? "true" : "false");
-      }
-    } catch (_) {}
-
-    // Also update Giscus theme when system preference changes
-    try {
-      if (typeof updateGiscusThemeWithRetry === "function") {
-        updateGiscusThemeWithRetry();
-      }
-    } catch (_) {}
+  if (!prefersDark || !prefersDark.addEventListener) return;
+  prefersDark.addEventListener("change", () => {
+    if (getThemePref() === "system") applyTheme("system");
   });
 }
 

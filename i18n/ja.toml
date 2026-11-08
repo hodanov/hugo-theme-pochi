@@ -20,7 +20,16 @@ other = "メニューを閉じる"
 other = "メニュー"
 
 [theme_toggle_aria]
-other = "テーマを切り替える"
+other = "テーマ: {{ .Name }}"
+
+[theme_system]
+other = "システム設定"
+
+[theme_light]
+other = "ライト"
+
+[theme_dark]
+other = "ダーク"
 
 [powered_by]
 other = "Powered by"

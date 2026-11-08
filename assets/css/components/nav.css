@@ -261,28 +261,58 @@ nav.site-nav .logo {
   font-family: var(--pochi-font-heading);
 }
 
+/* The drawer is a modal <dialog> in the top layer, so it needs no z-index.
+   It slides in from the left; @starting-style gives the opening state and
+   allow-discrete keeps it on screen while it slides out (browsers without
+   them open and close it at once). */
 #side-nav {
   position: fixed;
-  width: 280px;
-  left: 0;
-  top: 0;
+  inset: 0 auto 0 0;
+  inline-size: 280px;
+  max-inline-size: 100%;
+  block-size: auto;
+  max-block-size: none;
   margin: 0;
-  transform: translateX(-105%);
-  height: 100%;
-  height: calc(100% + 60px);
-  padding-bottom: 60px;
+  padding: 0;
+  border: 0;
   background-color: var(--pochi-bg);
-  z-index: var(--pochi-z-drawer);
+  color: var(--pochi-text);
   overflow-y: auto;
-  will-change: transform;
-  backface-visibility: hidden;
+  overscroll-behavior: contain;
+  transform: translateX(-105%);
   transition:
     transform var(--pochi-duration-lg) var(--pochi-ease),
-    opacity var(--pochi-duration-lg) var(--pochi-ease);
+    overlay var(--pochi-duration-lg) var(--pochi-ease) allow-discrete,
+    display var(--pochi-duration-lg) var(--pochi-ease) allow-discrete;
 }
 
-#side-nav.is-active {
+#side-nav[open] {
   transform: translateX(0);
+}
+
+@starting-style {
+  #side-nav[open] {
+    transform: translateX(-105%);
+  }
+}
+
+#side-nav::backdrop {
+  background-color: var(--pochi-scrim);
+  opacity: 0;
+  transition:
+    opacity var(--pochi-duration-lg) var(--pochi-ease),
+    overlay var(--pochi-duration-lg) var(--pochi-ease) allow-discrete,
+    display var(--pochi-duration-lg) var(--pochi-ease) allow-discrete;
+}
+
+#side-nav[open]::backdrop {
+  opacity: 1;
+}
+
+@starting-style {
+  #side-nav[open]::backdrop {
+    opacity: 0;
+  }
 }
 
 #side-nav li > a {
@@ -346,19 +376,6 @@ nav.site-nav .logo {
   #side-nav-close:hover {
     background: var(--pochi-hover);
   }
-}
-
-#side-nav-overlay {
-  position: fixed;
-  display: block;
-  opacity: 1;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 120vh;
-  background-color: var(--pochi-scrim);
-  z-index: var(--pochi-z-scrim);
-  transition: opacity var(--pochi-duration-lg) var(--pochi-ease);
 }
 
 nav.site-nav,

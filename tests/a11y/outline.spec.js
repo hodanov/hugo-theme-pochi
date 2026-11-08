@@ -4,12 +4,13 @@ const PAGES = require("./pages");
 
 // Landmark and heading outline of each page as a text snapshot. It comes from
 // the accessibility tree (ariaSnapshot) and keeps only landmarks and
-// headings, indented by landmark nesting, so a lost <main>, a skipped heading
+// headings (and an open dialog), indented by landmark nesting, so a lost <main>, a skipped heading
 // level or a heading that moved to another region shows up as a diff.
 const LANDMARKS = new Set([
   "banner",
   "complementary",
   "contentinfo",
+  "dialog",
   "form",
   "main",
   "navigation",
@@ -32,10 +33,11 @@ function outline(snapshot) {
   return `${lines.join("\n")}\n`;
 }
 
-for (const { id, path, waitFor, viewport } of PAGES) {
+for (const { id, path, waitFor, viewport, click } of PAGES) {
   test(`outline of ${id}`, async ({ page }) => {
     if (viewport) await page.setViewportSize(VIEWPORTS[viewport]);
     await page.goto(path);
+    if (click) await page.locator(click).click();
     await settle(page, { theme: "light", waitFor });
     const snapshot = await page.locator("body").ariaSnapshot();
     expect(outline(snapshot)).toMatchSnapshot(`outline-${id}.txt`);

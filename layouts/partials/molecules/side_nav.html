@@ -1,9 +1,12 @@
-<div
+{{/* A modal dialog (main.js opens it with showModal()): the browser traps
+  focus, makes the page behind it inert, closes it on Escape and returns
+  focus to the menu button.
+*/}}
+<dialog
   id="side-nav"
   data-pochi-side-nav
   class="menu-global-nav-for-phone-container"
-  style="opacity: 0;"
-  aria-hidden="true"
+  aria-label="{{ T "menu" }}"
 >
   <div class="side-nav-header">
     <button
@@ -35,4 +38,4 @@
   <div id="side-nav-option">
     {{ partial "molecules/lang_switcher.html" . }}
   </div>
-</div>
+</dialog>
