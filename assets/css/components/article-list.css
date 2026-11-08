@@ -61,8 +61,8 @@
 
 .article-list .post-excerpt {
   color: var(--pochi-text-muted);
-  font-size: 0.9rem;
-  line-height: 1.75;
+  font-size: var(--pochi-step--1);
+  line-height: var(--pochi-leading-body);
 }
 
 .article-list h2 {
@@ -71,7 +71,7 @@
 
 .article-list .post-card h2,
 .mymenu-related .text {
-  font-size: 1.4rem;
+  font-size: var(--pochi-step-2);
   margin: 0;
   color: var(--pochi-text);
   font-weight: bold;
@@ -90,7 +90,7 @@
   margin: 1rem 0;
   display: block;
   color: var(--pochi-text-muted);
-  font-size: 0.75rem;
+  font-size: var(--pochi-step--2);
   overflow: hidden;
 }
 
@@ -102,10 +102,6 @@
   .article-list .post-row {
     padding: 1rem 0;
     margin: 0 0 1rem 0;
-  }
-
-  .article-list .post-card h2 {
-    font-size: 1.2rem;
   }
 }
 

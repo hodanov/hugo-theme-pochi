@@ -8,7 +8,9 @@
 /* Document defaults */
 body {
   font-family: var(--pochi-font-base);
-  font-weight: 300;
+  font-size: var(--pochi-step-0);
+  font-weight: 400;
+  line-height: var(--pochi-leading-ui);
   color: var(--pochi-text);
   background-color: var(--pochi-surface-soft);
   margin: 0;
@@ -21,11 +23,11 @@ iframe {
   color-scheme: light;
 }
 
-/* The root keeps the browser's font size (16px unless the reader changed it,
-   WCAG 1.4.4); rem sizes follow it. In-page jumps and Tab stop clear of the
-   fixed nav bar, and on mobile of the action bar (WCAG 2.4.11). */
+/* The root sets no font size, so it keeps the browser's (16px unless the
+   reader changed it, WCAG 1.4.4); rem sizes follow it. In-page jumps and Tab
+   stop clear of the fixed nav bar, and on mobile of the action bar
+   (WCAG 2.4.11). */
 html {
-  font-size: 100%;
   scroll-padding-top: calc(var(--pochi-nav-height) + 1rem);
 }
 

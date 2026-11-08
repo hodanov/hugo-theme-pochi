@@ -95,6 +95,28 @@
     "Hiragino Kaku Gothic ProN", Arial, Meiryo, sans-serif;
   --pochi-font-heading: var(--pochi-font-base);
 
+  /* Type scale (Utopia): 16px at a 1.125 ratio at 320px, 17px at 1.2 at
+     1240px, fluid in between. Bounds are in rem so browser zoom and the
+     reader's font size setting apply. -2 tags and meta, -1 small UI and
+     code, 0 body, 1 h4-h6, 2 h3 and card titles, 3 h2, 4 article h1,
+     5 page h1 and hero. */
+  --pochi-step--2: clamp(0.7378rem, 0.8083rem - 0.0909vw, 0.7901rem);
+  --pochi-step--1: 0.8875rem;
+  --pochi-step-0: clamp(1rem, 0.9783rem + 0.1087vw, 1.0625rem);
+  --pochi-step-1: clamp(1.125rem, 1.0728rem + 0.2609vw, 1.275rem);
+  --pochi-step-2: clamp(1.2656rem, 1.1737rem + 0.4598vw, 1.53rem);
+  --pochi-step-3: clamp(1.4238rem, 1.2805rem + 0.7168vw, 1.836rem);
+  --pochi-step-4: clamp(1.6018rem, 1.3926rem + 1.0459vw, 2.2032rem);
+  --pochi-step-5: clamp(1.802rem, 1.5092rem + 1.464vw, 2.6438rem);
+
+  /* Line height, unitless so it follows each element's font size. Body
+     text at 1.8 (JLREQ: 175-190%). */
+  --pochi-leading-tight: 1.25;
+  --pochi-leading-heading: 1.4;
+  --pochi-leading-ui: 1.5;
+  --pochi-leading-code: 1.6;
+  --pochi-leading-body: 1.8;
+
   /* Shadows */
   --pochi-shadow-2: 0 2px 8px rgba(0, 0, 0, 0.12);
   --pochi-shadow-elev-3:

@@ -17,8 +17,8 @@
 /* Footnotes section at the end of the article */
 .footnotes {
   margin-top: 3rem;
-  font-size: 0.85rem;
-  line-height: 1.7;
+  font-size: var(--pochi-step--1);
+  line-height: var(--pochi-leading-body);
   color: var(--pochi-text-muted);
 }
 
@@ -31,7 +31,7 @@
 .footnotes ol {
   padding-left: 1.5rem;
   margin: 0;
-  font-size: 0.85rem;
+  font-size: var(--pochi-step--1);
 }
 
 .footnotes li {
@@ -39,8 +39,8 @@
 }
 
 .footnotes li p {
-  font-size: 0.85rem;
-  line-height: 1.7;
+  font-size: var(--pochi-step--1);
+  line-height: var(--pochi-leading-body);
   margin-bottom: 0.5rem;
 }
 
@@ -48,5 +48,5 @@
 .footnote-backref {
   margin-left: 0.25rem;
   text-decoration: none;
-  font-size: 0.8rem;
+  font-size: var(--pochi-step--2);
 }

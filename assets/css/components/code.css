@@ -4,7 +4,7 @@ pre {
   border: 0;
   margin: var(--pochi-card-padding) calc(var(--pochi-card-padding) * -1);
   padding: var(--pochi-card-padding);
-  line-height: 1.2;
+  line-height: var(--pochi-leading-code);
   background-color: var(--pochi-code-bg);
   color: var(--pochi-code-fg);
   overflow-x: auto;
@@ -17,26 +17,14 @@ pre {
     monospace;
 }
 
-p > code {
-  font-size: 1rem;
-}
 pre > code {
-  font-size: 0.875rem;
+  font-size: var(--pochi-step--1);
 }
 
-p > code,
-ul li > code,
-ol li > code,
-td > code,
-th > code {
-  color: var(--pochi-inline-code-color);
-  padding: 0.2rem 0.4rem;
-  background-color: var(--pochi-inline-code-bg);
-  border: 1px solid var(--pochi-inline-code-border);
-  border-radius: var(--pochi-radius-md);
-}
-
-.article-list .post-excerpt code {
+/* Inline code looks the same wherever it sits (text, headings, links, the
+   excerpts in lists) */
+:not(pre) > code {
+  font-size: inherit;
   color: var(--pochi-inline-code-color);
   padding: 0.2rem 0.4rem;
   background-color: var(--pochi-inline-code-bg);

@@ -47,7 +47,7 @@ blockquote {
 }
 
 blockquote cite {
-  font-size: 0.85rem;
+  font-size: var(--pochi-step--1);
 }
 
 /* Hugo's built-in x / tweet shortcode */

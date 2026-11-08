@@ -6,24 +6,23 @@ h3,
 h4,
 h5,
 h6 {
-  line-height: inherit;
+  line-height: var(--pochi-leading-heading);
   font-weight: 400;
 }
 
 h1,
 h2 {
-  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-size: var(--pochi-step-5);
 }
 
 p,
 #breadcrumbs li {
-  line-height: 1.5rem;
+  line-height: var(--pochi-leading-ui);
 }
 
 article p {
-  font-size: 1rem;
-  line-height: 2rem;
-  margin-bottom: 2rem;
+  line-height: var(--pochi-leading-body);
+  margin-bottom: 1.8em;
 }
 
 article blockquote p {
@@ -33,22 +32,22 @@ article blockquote p {
 
 /* Heading scale + measure tuned for article content */
 article h1 {
-  font-size: clamp(1.9rem, 2.2vw, 2.4rem);
-  line-height: 1.35;
+  font-size: var(--pochi-step-4);
+  line-height: var(--pochi-leading-heading);
   font-weight: 600;
   margin: 1.2em 0 0.6em;
 }
 
 article h2 {
-  font-size: clamp(1.6rem, 2vw, 2rem);
-  line-height: 1.4;
+  font-size: var(--pochi-step-3);
+  line-height: var(--pochi-leading-heading);
   font-weight: 600;
   margin: 1.2em 0 0.6em;
 }
 
 article h3 {
-  font-size: clamp(1.3rem, 1.6vw, 1.6rem);
-  line-height: 1.45;
+  font-size: var(--pochi-step-2);
+  line-height: var(--pochi-leading-heading);
   font-weight: 600;
   margin: 1.1em 0 0.5em;
 }

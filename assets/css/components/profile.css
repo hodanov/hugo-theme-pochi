@@ -7,7 +7,7 @@
   padding: 0 0.5rem;
   margin: 0.25rem 0;
   border-radius: var(--pochi-radius-md);
-  line-height: 2rem;
+  line-height: var(--pochi-leading-ui);
 }
 
 @media (hover: hover) {
