@@ -154,6 +154,12 @@
 - 2026-11-08（4B）：インラインコードは `:not(pre) > code` 1 つにまとめ、大きさを周りの文字と同じ（`inherit`）にした。一覧の要約にだけ当てていたルールは消した。`pre` の行送りは 1.6。
 - 2026-11-08（4B）：段 5 を足し、一覧のページの h1 とヒーローの文字に使った（1280px でヒーローは 48px → 42px、一覧の h1 は 51px → 42px）。VRT は全ページを更新した。主な差は、本文が 1280px で 16 → 17px、ウェイト 400、見出しのスケール、モバイルのロゴ（25.6px → 20.4px）。1280px の 1 行は 672px ÷ 17px = 39.5 字。archives@1280 は並列で撮ったときに 1 ピクセルずれた画像が残ったので、単独で撮り直し、全体で 2 回続けて通ることを確かめた。
 
+- 2026-11-08（4C）：フォントのトークンを `--pochi-font-ja`・`--pochi-font-en`・`--pochi-font-mono` にした。`base.css` で `:root` と `[lang]` に en、`:lang(ja)` に ja を `--pochi-font-base` として置き、body と `[lang]` の要素がそれを使う（英語のページの「日本語」リンクも和文のスタックになる）。`--pochi-font-heading` は base と同じだったので消した。等幅は `code, kbd, samp, pre` にまとめ、`pre` だけにあった `Consolas` 先頭のスタックを消した。
+- 2026-11-08（4C）：記事（`article`）に `overflow-wrap: anywhere`（非推奨の `word-break: break-word` の代わり）と `text-autospace: normal`、和文の記事に `line-break: strict`、段落・リスト・引用に `max-inline-size: 40em` と `text-wrap: pretty`、見出しに `text-wrap: balance` と `palt` を付けた。stylelint の非推奨の 2 件（`word-break`、`word-wrap`）は 0 になった。
+- 2026-11-08（4C）：styleguide の文章はどこも和文と英数字の間に半角スペースが入っていて、`text-autospace` を VRT で確かめられなかったので、スペースを入れずに書いた段落を 1 つ足した。その段落の幅は、`text-autospace` を切ると 1931px → 1916px（1/8em ≒ 2.1px × 7 か所）で、アキが入っていることを確かめた。VRT の差は、足した段落と、その分ずれた styleguide のセクション、`text-wrap` で最終行の 1〜2 字が前の行に移った所、トークン見本。VRT（Docker）は和文のフォントがヒラギノではないので、フォントの差は出ない。
+- 2026-11-08（4C）：VRT の archives@1280 が、全体を並列で回したときにまれに 1 ピクセル違って落ちる（4B でも 1 回あった）。単独で 5 回続けて回すと全部通り、この PR の変更とは関係ない。原因（アーカイブの開閉か、読み込み途中の描画）は別に調べる。
+- 2026-11-08（P4 完了の見込み）：font-size のトークンは 8 個、line-height は単位なしだけ、1 行は 1280px で 39.5 字・375px で 20.4 字、320px で横スクロールなし（measure.spec）。
+
 ## Open questions
 
 - ~~段 5（ページの h1・ヒーロー）を足すか~~（4B で足した）
