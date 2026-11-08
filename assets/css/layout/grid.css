@@ -1,7 +1,7 @@
 /* Grid and container system (from layout/_grid.scss) */
 .container-fluid {
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding-left: var(--pochi-gutter);
+  padding-right: var(--pochi-gutter);
   margin-right: auto;
   margin-left: auto;
   max-width: 1200px;
@@ -10,8 +10,8 @@
 .row {
   display: flex;
   flex-wrap: wrap;
-  margin-right: -1rem;
-  margin-left: -1rem;
+  margin-right: calc(var(--pochi-gutter) * -1);
+  margin-left: calc(var(--pochi-gutter) * -1);
 }
 .row > * {
   max-width: 100%;
@@ -21,8 +21,8 @@
 #sidebar,
 .col-md-12,
 .col-sm-4 {
-  padding-right: 1rem;
-  padding-left: 1rem;
+  padding-right: var(--pochi-gutter);
+  padding-left: var(--pochi-gutter);
 }
 
 .col-sm-4,
@@ -93,6 +93,6 @@
 #sidebar,
 .col-md-12,
 .col-sm-4 {
-  padding-right: 1rem;
-  padding-left: 1rem;
+  padding-right: var(--pochi-gutter);
+  padding-left: var(--pochi-gutter);
 }

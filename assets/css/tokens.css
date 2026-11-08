@@ -174,6 +174,8 @@
       var(--pochi-footer-min-height)
   );
   --pochi-card-padding: 3rem;
+  /* Space between the page edge and the columns, and between columns */
+  --pochi-gutter: 1rem;
 }
 
 :root.light {
@@ -187,9 +189,13 @@
 /* Breakpoints: 768px and 1200px (mobile / tablet / desktop), written as
    `width < 768px` / `width >= 768px`. Custom properties cannot be used in
    media queries, so the numbers are repeated in each file. */
+/* On mobile the text keeps 20 full-width characters a line at 16px
+   (tests/a11y/measure.spec.js): 0.75rem of gutter and of card padding a
+   side. */
 @media (width < 768px) {
   :root {
-    --pochi-card-padding: 1rem;
+    --pochi-card-padding: 0.75rem;
+    --pochi-gutter: 0.75rem;
   }
 }
 
