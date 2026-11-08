@@ -16,3 +16,9 @@
     background: var(--pochi-hover);
   }
 }
+
+/* Name next to the profile image */
+.profile-header {
+  display: inline-block;
+  margin: auto;
+}

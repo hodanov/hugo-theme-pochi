@@ -1,4 +1,7 @@
 - banner
   - navigation "Main navigation"
 - main
+  - heading "Page not found" [level=1]
+  - search
+  - heading "Latest posts" [level=2]
 - contentinfo

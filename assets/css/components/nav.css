@@ -173,7 +173,8 @@ nav.site-nav ul li a {
 }
 
 @media (hover: hover) {
-  nav.site-nav ul > li:hover > a {
+  nav.site-nav ul > li:hover > a,
+  nav.site-nav .dropdown:hover > .dropdown-toggle {
     color: var(--pochi-on-accent);
     background-color: var(--pochi-accent);
   }
@@ -190,7 +191,40 @@ nav.site-nav ul li a {
 
 nav.site-nav .dropdown {
   position: relative;
-  display: inline-block;
+  display: flex;
+  align-items: stretch;
+}
+
+/* The parent link and its button read as one item */
+nav.site-nav .dropdown > a {
+  padding-right: 0.25rem;
+}
+
+nav.site-nav .dropdown-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-inline-size: 1.75rem;
+  padding: 0 0.75rem 0 0.25rem;
+  border: none;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+  transition:
+    color var(--pochi-duration-sm) var(--pochi-ease-in-out),
+    background-color var(--pochi-duration-sm) var(--pochi-ease-in-out);
+}
+
+nav.site-nav .dropdown-toggle .icon {
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0;
+  transform: rotate(180deg);
+  transition: transform var(--pochi-duration-sm) var(--pochi-ease-in-out);
+}
+
+nav.site-nav .dropdown-toggle[aria-expanded="true"] .icon {
+  transform: none;
 }
 
 nav.site-nav .dropdown-list {
@@ -217,9 +251,16 @@ nav.site-nav .dropdown-list li a {
   padding: 0 10px;
 }
 
-/* Opening on hover is behavior, so it stays outside (hover: hover) */
+/* The nav bar clips an outer ring: draw it inside */
+nav.site-nav ul li a:focus-visible,
+nav.site-nav .dropdown-toggle:focus-visible {
+  outline-offset: var(--pochi-focus-ring-offset-inset);
+}
+
+/* Opening on hover is behavior, so it stays outside (hover: hover). The
+   keyboard and touch open it with the button. */
 nav.site-nav .dropdown:hover .dropdown-list,
-nav.site-nav .dropdown:focus-within .dropdown-list {
+nav.site-nav .dropdown-toggle[aria-expanded="true"] + .dropdown-list {
   visibility: visible;
   opacity: 1;
   top: 100%;

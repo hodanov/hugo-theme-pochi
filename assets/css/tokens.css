@@ -170,6 +170,11 @@
   --pochi-breadcrumb-height: 4rem;
   --pochi-footer-min-height: 4rem;
   --pochi-action-bar-height: calc(var(--pochi-target-min) + 1rem);
+  /* Keeps the footer at the bottom of short pages */
+  --pochi-main-min-height: calc(
+    100vh - var(--pochi-nav-height) - var(--pochi-breadcrumb-height) -
+      var(--pochi-footer-min-height)
+  );
   --pochi-card-padding: 3rem;
 }
 

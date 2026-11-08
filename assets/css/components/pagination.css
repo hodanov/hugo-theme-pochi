@@ -34,10 +34,6 @@
   pointer-events: none;
 }
 
-.pagination-index .pagination .page-item.disabled {
-  display: none;
-}
-
 /* Forced colors: the current page is marked by more than its background */
 @media (forced-colors: active) {
   .pagination-index .pagination .page-item.active .page-link {

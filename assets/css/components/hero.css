@@ -1,7 +1,24 @@
-/* Parallax & Hero */
+/* Parallax & Hero. The hero is fixed and sits first in <main>; the content
+   after it is raised above it, so it slides over the image on scroll. Main
+   adds the hero's height to its min-height, as it did when the hero sat
+   before it. */
+.main-content {
+  --pochi-hero-height: calc(61.8vh - var(--pochi-nav-height));
+}
+
+.main-content:has(> .parallax-container) {
+  min-height: calc(var(--pochi-main-min-height) + var(--pochi-hero-height));
+}
+
 .parallax-container {
   position: relative;
-  height: calc(61.8vh - var(--pochi-nav-height));
+  height: var(--pochi-hero-height);
+}
+
+.parallax-container ~ * {
+  position: relative;
+  z-index: var(--pochi-z-raised);
+  background-color: var(--pochi-bg);
 }
 
 .hero {
@@ -14,7 +31,7 @@
 }
 
 .hero.featured-image-wrapper picture {
-  height: calc(61.8vh - var(--pochi-nav-height));
+  height: var(--pochi-hero-height);
   padding-bottom: 0;
   filter: brightness(0.8);
 }
@@ -42,12 +59,8 @@
 /* An exception to the 768 / 1200px breakpoints: moving it to 1200px would
    make the hero taller at 1200-1280px. Revisit with the layout (P5). */
 @media (width <= 1280px) {
-  .parallax-container {
-    height: calc(40vh - var(--pochi-nav-height));
-  }
-
-  .hero.featured-image-wrapper picture {
-    height: calc(40vh - var(--pochi-nav-height));
+  .main-content {
+    --pochi-hero-height: calc(40vh - var(--pochi-nav-height));
   }
 }
 

@@ -3,10 +3,7 @@
   background-color: var(--pochi-bg);
   position: relative;
   z-index: var(--pochi-z-content);
-  min-height: calc(
-    100vh - var(--pochi-nav-height) - var(--pochi-breadcrumb-height) -
-      var(--pochi-footer-min-height)
-  );
+  min-height: var(--pochi-main-min-height);
 }
 
 /* Centers the single-column content (posts, pages, 404) */

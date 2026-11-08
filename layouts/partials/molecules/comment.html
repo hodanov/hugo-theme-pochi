@@ -7,7 +7,7 @@
   <div class="row">
     <div class="col-md-12 comment-wrapper">
       <div class="mymenu-thumb mymenu-related-list comments">
-        <h3>{{ T "leave_a_comment" }}</h3>
+        <h2>{{ T "leave_a_comment" }}</h2>
         {{ $provider := .Site.Params.comment.provider | default "disqus" }}
         {{ if eq (lower $provider) "giscus" }}
           {{ $g := .Site.Params.comment.giscus }}

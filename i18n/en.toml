@@ -84,3 +84,42 @@ other = "Copy code"
 
 [code_copied]
 other = "Copied!"
+
+[submenu]
+other = "{{ .Name }} submenu"
+
+[home]
+other = "Home"
+
+[post_actions]
+other = "Like and share"
+
+[pagination]
+other = "Pagination"
+
+[page_first]
+other = "First page"
+
+[page_prev]
+other = "Previous page"
+
+[page_next]
+other = "Next page"
+
+[page_last]
+other = "Last page"
+
+[page_n]
+other = "Page {{ .N }}"
+
+[not_found_title]
+other = "Page not found"
+
+[not_found_text]
+other = "The page you were looking for may have moved or been removed. Try a search, or start from the home page."
+
+[back_to_home]
+other = "Back to the home page"
+
+[latest_posts]
+other = "Latest posts"

@@ -291,34 +291,14 @@
     return mains[0];
   }
 
-  function getNextHero(doc) {
-    // Single pages may render hero before main-content
-    return doc.querySelector(".parallax-container");
-  }
-
   function swapContent(nextDoc, options) {
     const nextMain = getNextMain(nextDoc);
     const currentMains = document.querySelectorAll(".main-content");
     const currentMain = currentMains.length === 1 ? currentMains[0] : null;
     if (!nextMain || !currentMain) return false;
 
-    const nextHero = getNextHero(nextDoc);
-    const currentHero = document.querySelector(".parallax-container");
-
     const doSwap = () => {
-      // Swap/insert/remove hero first to keep order stable
-      if (nextHero) {
-        const nextHeroNode = nextHero.cloneNode(true);
-        if (currentHero) {
-          currentHero.replaceWith(nextHeroNode);
-        } else {
-          currentMain.parentElement.insertBefore(nextHeroNode, currentMain);
-        }
-      } else if (currentHero) {
-        currentHero.remove();
-      }
-
-      // Then swap the main content
+      // The hero is inside main, so this swaps it too
       const nextNode = nextMain.cloneNode(true);
       currentMain.replaceWith(nextNode);
 

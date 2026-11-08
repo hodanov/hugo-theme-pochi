@@ -1,9 +1,11 @@
 - banner
   - navigation "Main navigation"
 - main
+  - heading "Pochi Example" [level=1]
   - heading "Pagination Post 5" [level=2]
   - heading "Pagination Post 4" [level=2]
   - heading "Pagination Post 3" [level=2]
-  - complementary
+  - navigation "Pagination"
+  - complementary "Search"
     - search
 - contentinfo
