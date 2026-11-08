@@ -1,7 +1,8 @@
-/* Parallax & Hero. The hero is fixed and sits first in <main>; the content
-   after it is raised above it, so it slides over the image on scroll. Main
-   adds the hero's height to its min-height, as it did when the hero sat
-   before it. */
+/* Parallax & Hero. The hero is fixed and sits first in <main>. Its box
+   clips it (clip-path also clips fixed descendants), so the image shows
+   only where the box is and the page covers it as the box scrolls away.
+   Main adds the hero's height to its min-height, as it did when the hero
+   sat before it. */
 .main-content {
   --pochi-hero-height: calc(61.8vh - var(--pochi-nav-height));
 }
@@ -13,8 +14,11 @@
 .parallax-container {
   position: relative;
   height: var(--pochi-hero-height);
+  clip-path: inset(0);
 }
 
+/* Above the hero, as when main covered it: the card's shadow falls on the
+   image, and the opaque background keeps text rendering the same */
 .parallax-container ~ * {
   position: relative;
   z-index: var(--pochi-z-raised);
