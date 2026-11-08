@@ -57,7 +57,7 @@
 
 .hero-caption h1 {
   font-family: var(--pochi-font-heading);
-  font-size: clamp(1.5rem, 3.5vw, 3rem);
+  font-size: var(--pochi-step-5);
 }
 
 /* An exception to the 768 / 1200px breakpoints: moving it to 1200px would

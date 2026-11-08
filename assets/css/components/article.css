@@ -13,7 +13,7 @@ article,
 
 .mymenu-related-list h2,
 .comments h2 {
-  font-size: 1.5rem;
+  font-size: var(--pochi-step-2);
   text-align: center;
   margin-top: 0;
 }
@@ -22,7 +22,7 @@ article,
 article .kiji-tag ul {
   margin: 0;
   padding: 0;
-  line-height: 1rem;
+  line-height: var(--pochi-leading-tight);
 }
 
 article .kiji-tag li {
@@ -32,7 +32,7 @@ article .kiji-tag li {
 article .kiji-tag li a {
   display: inline-block;
   color: var(--pochi-text-muted);
-  font-size: 0.75rem;
+  font-size: var(--pochi-step--2);
   text-transform: uppercase;
   padding: 0.5rem;
   margin-right: 0.5rem;
@@ -51,7 +51,7 @@ article .kiji-tag li a {
 
 /* Meta and media */
 article .post-info {
-  font-size: 0.9rem;
+  font-size: var(--pochi-step--1);
   margin: 1rem 0 3rem;
 }
 
@@ -86,7 +86,7 @@ article h3 {
 article h4,
 article h5,
 article h6 {
-  font-size: 1.2rem;
+  font-size: var(--pochi-step-1);
   margin: 3rem 0 2rem 0;
   padding-left: 0.5rem;
   border-left: 4px solid var(--pochi-accent);

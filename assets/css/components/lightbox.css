@@ -40,9 +40,9 @@ article picture img {
   max-width: 90vw;
   margin-top: 0.75rem;
   color: var(--pochi-on-dark);
-  font-size: 0.875rem;
+  font-size: var(--pochi-step--1);
   text-align: center;
-  line-height: 1.5;
+  line-height: var(--pochi-leading-ui);
 }
 
 /* Close button */
@@ -56,7 +56,7 @@ article picture img {
   border-radius: var(--pochi-radius-full);
   background: var(--pochi-scrim-control);
   color: var(--pochi-on-dark);
-  font-size: 1.5rem;
+  font-size: var(--pochi-step-2);
   line-height: 1;
   cursor: pointer;
   display: flex;

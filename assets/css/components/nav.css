@@ -28,7 +28,7 @@ nav.site-nav .nav-wrapper {
 nav.site-nav ul a,
 nav.site-nav {
   color: var(--pochi-text);
-  font-size: 0.9rem;
+  font-size: var(--pochi-step--1);
 }
 
 nav.site-nav {
@@ -76,13 +76,15 @@ nav.site-nav #lang-switcher-container {
   margin: 0;
   padding: 0;
   list-style: none;
-  line-height: 2rem;
 }
 
 .lang-switcher-link {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 2rem;
   padding: 0 0.75rem;
-  font-size: 0.85rem;
+  font-size: var(--pochi-step--1);
+  line-height: var(--pochi-leading-tight);
   color: var(--pochi-text);
   background-color: var(--pochi-card);
   border: 1px solid var(--pochi-border-control);
@@ -256,7 +258,7 @@ nav.site-nav .logo {
   display: inline-block;
   padding: 0;
   width: auto;
-  font-size: 1.6rem;
+  font-size: var(--pochi-step-2);
   color: var(--pochi-text);
   font-family: var(--pochi-font-heading);
 }
@@ -317,11 +319,11 @@ nav.site-nav .logo {
 
 #side-nav li > a {
   color: var(--pochi-text);
-  display: block;
-  font-size: 14px;
+  display: flex;
+  align-items: center;
+  font-size: var(--pochi-step--1);
   font-weight: 500;
-  height: 3rem;
-  line-height: 3rem;
+  min-block-size: 3rem;
   padding: 0 2rem;
 }
 
@@ -384,8 +386,9 @@ nav.site-nav .nav-wrapper i {
   line-height: var(--pochi-nav-height);
 }
 
+/* About 2rem a row at the small UI size */
 nav.site-nav .dropdown-list {
-  line-height: 2rem;
+  line-height: 2.25;
 }
 
 @media (width >= 768px) {

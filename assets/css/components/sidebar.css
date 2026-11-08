@@ -137,8 +137,8 @@
 }
 
 #action-bar-mobile .like-btn .like-count {
-  font-size: 0.75rem;
-  line-height: 1rem;
+  font-size: var(--pochi-step--2);
+  line-height: var(--pochi-leading-tight);
 }
 
 #action-bar-mobile .like-btn[aria-pressed="true"],
@@ -213,8 +213,8 @@
   height: 24px;
 }
 #sidebar-left .like-btn .like-count {
-  font-size: 0.75rem;
-  line-height: 1rem;
+  font-size: var(--pochi-step--2);
+  line-height: var(--pochi-leading-tight);
   margin-top: 0.25rem;
 }
 #sidebar-left .like-btn[aria-pressed="true"] {
@@ -382,13 +382,13 @@
 
 #sidebar p,
 #sidebar-left p {
-  font-size: 0.9rem;
-  line-height: 1.5rem;
+  font-size: var(--pochi-step--1);
+  line-height: var(--pochi-leading-ui);
 }
 
 #sidebar ul,
 #sidebar-left ul {
-  font-size: 0.9rem;
+  font-size: var(--pochi-step--1);
 }
 
 /* Forced colors: the pressed like button keeps a color of its own, and the

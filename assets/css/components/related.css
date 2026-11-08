@@ -5,12 +5,12 @@
 
 .mymenu-related .text {
   padding-top: 0.5rem;
-  font-size: 0.9rem;
+  font-size: var(--pochi-step--1);
   transition: var(--pochi-transition-interactive);
 }
 
 .mymenu-related .text .post-info {
-  font-size: 0.75rem;
+  font-size: var(--pochi-step--2);
   font-weight: normal;
 }
 

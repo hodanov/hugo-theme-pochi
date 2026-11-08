@@ -45,10 +45,10 @@ footer h2 span {
 }
 
 footer p {
-  font-size: 0.9rem;
-  line-height: 1.5rem;
+  font-size: var(--pochi-step--1);
+  line-height: var(--pochi-leading-ui);
 }
 
 footer ul {
-  font-size: 0.9rem;
+  font-size: var(--pochi-step--1);
 }

@@ -8,7 +8,7 @@
 footer h2 {
   position: relative;
   text-align: center;
-  font-size: 1rem;
+  font-size: var(--pochi-step-0);
   text-transform: uppercase;
 }
 

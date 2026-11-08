@@ -8,8 +8,8 @@
   border-radius: var(--pochi-radius-md);
   background: var(--pochi-accent);
   color: var(--pochi-on-accent);
-  font-size: 0.75rem;
-  line-height: 1rem;
+  font-size: var(--pochi-step--2);
+  line-height: var(--pochi-leading-tight);
   white-space: nowrap;
   box-shadow: var(--pochi-shadow-2);
   pointer-events: none;
