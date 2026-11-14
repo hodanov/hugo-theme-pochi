@@ -8,13 +8,7 @@ pre {
   background-color: var(--pochi-code-bg);
   color: var(--pochi-code-fg);
   overflow-x: auto;
-  word-wrap: normal;
-  font-family:
-    Consolas,
-    Liberation Mono,
-    Menlo,
-    Courier,
-    monospace;
+  overflow-wrap: normal;
 }
 
 pre > code {
