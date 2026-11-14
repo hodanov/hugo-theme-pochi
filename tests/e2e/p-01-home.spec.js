@@ -81,3 +81,31 @@ test.describe("P-01 Home", () => {
     expect(cut).toBe(true);
   });
 });
+
+// Categories and archives stay reachable on a phone: below 768px the list
+// pages show them after the posts.
+test.describe("P-01 Home sidebar on mobile", () => {
+  test.use({ viewport: { width: 375, height: 800 } });
+
+  test("categories and archives follow the posts", async ({ page }) => {
+    await page.goto("/");
+    const categories = page.getByRole("complementary", { name: "Categories" });
+    const archives = page.getByRole("complementary", { name: "Archives" });
+    await expect(categories).toBeVisible();
+    await expect(archives).toBeVisible();
+
+    const below = await page.evaluate(() => {
+      const posts = document.querySelector(".article-list");
+      const cats = document.getElementById("sidebar-categories-heading");
+      return (
+        cats.getBoundingClientRect().top > posts.getBoundingClientRect().bottom
+      );
+    });
+    expect(below).toBe(true);
+  });
+
+  test("a post still hides its like / share rail", async ({ page }) => {
+    await page.goto("/posts/p-03-with-toc/");
+    await expect(page.locator("#sidebar-left")).toBeHidden();
+  });
+});
