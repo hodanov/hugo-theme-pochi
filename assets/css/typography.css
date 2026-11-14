@@ -8,10 +8,12 @@ h5,
 h6 {
   line-height: var(--pochi-leading-heading);
   font-weight: 400;
-  /* Short headings (card titles, page titles) split into even lines, and
-     proportional kana and punctuation (palt) so a heading does not look
-     loosely set; body text stays on the full-width grid */
-  text-wrap: balance;
+  /* Lines run to the full width but leave no one or two characters alone
+     on the last. Not balance: it breaks a two-line Japanese title early and
+     leaves the right side empty. Proportional kana and punctuation (palt)
+     so a heading does not look loosely set; body text stays on the
+     full-width grid. */
+  text-wrap: pretty;
   font-feature-settings: "palt";
 }
 
@@ -55,10 +57,7 @@ article :is(p, ul, ol, dl, blockquote) {
   max-inline-size: 40em;
 }
 
-/* Headings in an article, the title too, run to the full width: a long
-   title balanced over two lines breaks early and leaves the right side
-   empty */
-article :is(p, li, dd, blockquote, h1, h2, h3, h4, h5, h6) {
+article :is(p, li, dd, blockquote) {
   text-wrap: pretty;
 }
 
