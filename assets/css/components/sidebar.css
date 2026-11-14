@@ -5,7 +5,7 @@
 #sidebar-right aside:last-child {
   position: -webkit-sticky;
   position: sticky;
-  top: 5.5rem;
+  top: var(--pochi-sticky-top);
   margin-bottom: 3rem;
 }
 

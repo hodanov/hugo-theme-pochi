@@ -14,8 +14,7 @@
 }
 
 .article-list .post-card {
-  margin: 0 -1rem;
-  padding: 1rem;
+  padding: 1rem var(--pochi-gutter);
 }
 
 /* Cards (post list, search results, related posts): the title link is the

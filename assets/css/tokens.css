@@ -202,6 +202,8 @@
     100vh - var(--pochi-nav-height) - var(--pochi-breadcrumb-height) -
       var(--pochi-footer-min-height)
   );
+  /* Where sticky sidebars stop: below the fixed nav bar */
+  --pochi-sticky-top: calc(var(--pochi-nav-height) + 1.5rem);
   --pochi-card-padding: 3rem;
   /* Space between the page edge and the columns, and between columns */
   --pochi-gutter: 1rem;

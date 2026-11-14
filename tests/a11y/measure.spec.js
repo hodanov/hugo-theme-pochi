@@ -38,8 +38,15 @@ for (const { width, min, max } of MEASURE) {
 
 // Nothing scrolls the page sideways, down to the 320px of WCAG 1.4.10.
 // Wide content (code, tables, long URLs) scrolls inside its own box.
-const PAGES = ["/", "/posts/p-03-with-toc/", "/ja/page/styleguide/"];
-const WIDTHS = [320, 375, 768, 1280];
+const PAGES = [
+  "/",
+  "/posts/p-03-with-toc/",
+  "/posts/p-04-no-toc/",
+  "/archives/",
+  "/search/?q=TOC",
+  "/ja/page/styleguide/",
+];
+const WIDTHS = [320, 375, 768, 1024, 1280, 1440];
 
 for (const path of PAGES) {
   for (const width of WIDTHS) {
@@ -53,4 +60,34 @@ for (const path of PAGES) {
       expect(overflow, `page is ${overflow}px wider than the window`).toBe(0);
     });
   }
+}
+
+// On mobile the content column fills the page, however short the page is
+// (L-10: it used to shrink to its content and sit in the middle).
+for (const path of [
+  "/posts/p-03-with-toc/",
+  "/posts/p-04-no-toc/",
+  "/page/about/",
+  "/404.html",
+]) {
+  test(`content column fills the page on mobile: ${path} @375`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 375, height: 900 });
+    await page.goto(path);
+    await settle(page);
+    const { contents, container } = await page.evaluate(() => {
+      const contents = document.querySelector("#contents");
+      const parent = contents.parentElement;
+      const cs = getComputedStyle(parent);
+      return {
+        contents: contents.getBoundingClientRect().width,
+        container:
+          parent.clientWidth -
+          parseFloat(cs.paddingLeft) -
+          parseFloat(cs.paddingRight),
+      };
+    });
+    expect(contents).toBeCloseTo(container, 0);
+  });
 }

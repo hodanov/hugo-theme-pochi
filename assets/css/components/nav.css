@@ -101,15 +101,9 @@ nav.site-nav #lang-switcher-container {
 nav.site-nav .menu-global-nav-container {
   display: inline;
   margin-left: auto;
-  order: 1;
-}
-
-nav.site-nav #lang-switcher-container {
-  order: 2;
 }
 
 nav.site-nav #theme-toggle-switch-container {
-  order: 3;
   height: 100%;
 }
 
@@ -410,10 +404,6 @@ nav.site-nav .dropdown-list {
   /* Hide top nav language switcher on small screens (use side nav one) */
   nav.site-nav #lang-switcher-container {
     display: none;
-  }
-
-  nav.site-nav #menu-bar-btn {
-    order: -1;
   }
 
   nav.site-nav #theme-toggle-switch-container {

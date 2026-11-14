@@ -10,7 +10,7 @@
   */}}
   {{ if $inSidebar }}
     <h2 id="toc-heading"><span>{{ T "table_of_contents" }}</span></h2>
-    <div class="table-of-contents">
+    <div class="table-of-contents" data-pochi-toc>
       {{ replace $toc `<nav id="TableOfContents">` `<nav id="TableOfContents" aria-labelledby="toc-heading">` | safeHTML }}
     </div>
   {{ else }}

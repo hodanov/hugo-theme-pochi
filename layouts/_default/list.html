@@ -3,9 +3,9 @@
     {{ if ne (.Ancestors | len) 0 }}
       {{ partial "molecules/breadcrumbs.html" . }}
     {{ end }}
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-md-7" id="contents">
+    <div class="l-container">
+      <div class="l-shell l-shell--list">
+        <div id="contents">
           {{ if .IsHome }}
             <h1 class="u-visually-hidden">{{ .Site.Title }}</h1>
           {{ else }}
@@ -40,10 +40,10 @@
             </div>
           </div>
         </div>
-        <div class="col-md-2" id="sidebar-left">
+        <div id="sidebar-left">
           {{ partial "organisms/sidebar_left.html" . }}
         </div>
-        <div class="col-md-3" id="sidebar">
+        <div id="sidebar">
           {{ partial "organisms/sidebar_right.html" . }}
         </div>
       </div>

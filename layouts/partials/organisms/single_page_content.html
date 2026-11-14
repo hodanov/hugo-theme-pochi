@@ -1,8 +1,8 @@
 <main id="main-content" class="main-content">
   {{ partial "molecules/hero" . }}
-  <div class="container-fluid single-page">
-    <div class="row">
-      <div class="centered col-md-8" id="contents">
+  <div class="l-container single-page">
+    <div class="l-shell l-shell--single">
+      <div id="contents">
         {{ partial "molecules/breadcrumbs.html" . }}
         <article>
           {{ if not .Params.featuredImage }}

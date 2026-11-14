@@ -1,0 +1,58 @@
+/* Page container: the width limit and the space at the page edge (nav,
+   breadcrumbs, footer, hero caption and the page shell) */
+.l-container {
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: var(--pochi-gutter);
+}
+
+/* Page shell: the content column and the sidebars. Below 768px it is one
+   column (the sidebars that stay visible follow the content). From 768px it
+   is a 12-column grid; the gap of two gutters gives the columns the same
+   widths as the old flex grid. The content comes first in the DOM on every
+   page, and the areas place the sidebars around it. */
+@media (width >= 768px) {
+  .l-shell {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: calc(var(--pochi-gutter) * 2);
+  }
+
+  .l-shell > * {
+    min-inline-size: 0;
+  }
+
+  #sidebar-left {
+    grid-area: left;
+  }
+
+  #contents {
+    grid-area: contents;
+  }
+
+  #sidebar,
+  #sidebar-right {
+    grid-area: right;
+  }
+
+  /* Lists (home, sections, terms, archives): categories, posts, sidebar */
+  .l-shell--list {
+    grid-template-areas: "left left contents contents contents contents contents contents contents right right right";
+  }
+
+  /* Post with a table of contents: like / share rail, post, contents */
+  .l-shell--post {
+    grid-template-areas: "left contents contents contents contents contents contents contents contents right right right";
+  }
+
+  /* Pages, 404 and posts without a table of contents: the content in the
+     middle eight columns */
+  .l-shell--single {
+    grid-template-areas: ". . contents contents contents contents contents contents contents contents . .";
+  }
+
+  /* Search: results and sidebar */
+  .l-shell--search {
+    grid-template-areas: "contents contents contents contents contents contents contents contents contents right right right";
+  }
+}
