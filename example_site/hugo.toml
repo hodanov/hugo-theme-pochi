@@ -3,6 +3,8 @@ title = "Pochi Example"
 # Default language is English at root (/)
 defaultContentLanguage = "en"
 defaultContentLanguageInSubdir = false
+# Count Japanese by characters, for the reading time
+hasCJKLanguage = true
 
 [params]
 description = "Pochi example site for theme E2E tests."

@@ -150,3 +150,18 @@ other = "完了"
 
 [task_open]
 other = "未完了"
+
+[reading_time]
+other = "約 {{ .Count }} 分で読めます"
+
+[post_nav]
+other = "前後の記事"
+
+[post_prev]
+other = "前の記事"
+
+[post_next]
+other = "次の記事"
+
+[heading_anchor]
+other = "この見出しへのリンク：{{ .Name }}"

@@ -1,16 +1,19 @@
 {{/* The icons, the colons and the bar are for the eye; screen readers
-  hear "Published" / "Updated" before each date instead.
+  hear "Published" / "Updated" before each date instead. Takes a page, or
+  (dict "Page" . "readingTime" true) to add the reading time (posts only).
 */}}
-{{ if .PublishDate }}
+{{ $p := .Page }}
+{{ $readingTime := and (reflect.IsMap .) .readingTime }}
+{{ if $p.PublishDate }}
   <div class="post-info">
     <div class="kiji-date">
-      <time datetime="{{ .PublishDate.Local.Format "2006-01-02 15:04:05" }}">
+      <time datetime="{{ $p.PublishDate.Local.Format "2006-01-02 15:04:05" }}">
         <span class="u-visually-hidden">{{ T "published" }}</span>
         {{- partial "atoms/icon.html" (dict "id" "icon-pencil") }}
         <span aria-hidden="true">:</span>
-        {{ .PublishDate.Local.Format "2006-01-02" }}
+        {{ $p.PublishDate.Local.Format "2006-01-02" }}
       </time>
-      {{ with .Lastmod }}
+      {{ with $p.Lastmod }}
         <span aria-hidden="true">|</span>
         <time datetime="{{ .Format "2006-01-02 15:04:05" }}">
           <span class="u-visually-hidden">{{ T "updated" }}</span>
@@ -18,6 +21,12 @@
           <span aria-hidden="true">:</span>
           {{ .Format "2006-01-02" }}
         </time>
+      {{ end }}
+      {{ if $readingTime }}
+        <span aria-hidden="true">|</span>
+        <span class="reading-time"
+          >{{ T "reading_time" (dict "Count" $p.ReadingTime) }}</span
+        >
       {{ end }}
     </div>
   </div>

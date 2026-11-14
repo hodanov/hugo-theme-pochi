@@ -18,7 +18,7 @@ for (const { width, min, max } of MEASURE) {
     await page.goto("/ja/page/styleguide/");
     await settle(page);
     const { inline, fontSize } = await page
-      .locator("#sg-text ~ p")
+      .locator(".heading-anchor-wrapper:has(#sg-text) ~ p")
       .first()
       .evaluate((p) => {
         const cs = getComputedStyle(p);
