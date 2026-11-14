@@ -1,0 +1,79 @@
+/* Previous and next posts (post_nav.html): two cards side by side, the
+   older post on the left, the newer on the right. They stack when the
+   column is narrow. */
+.post-nav {
+  container-type: inline-size;
+  margin-bottom: 3rem;
+}
+
+.post-nav ul {
+  display: grid;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@container (width >= 30rem) {
+  .post-nav ul {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  /* Alone, the newer post still sits on the right */
+  .post-nav-next {
+    grid-column: 2;
+  }
+}
+
+.post-nav a {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  height: 100%;
+  padding: 1rem var(--pochi-gutter);
+  background-color: var(--pochi-card);
+  border-radius: var(--pochi-radius-md);
+  box-shadow: var(--pochi-shadow-card);
+  color: var(--pochi-text);
+  text-decoration: none;
+  transition: var(--pochi-transition-interactive);
+}
+
+.post-nav-next a {
+  text-align: end;
+}
+
+.post-nav-label {
+  color: var(--pochi-text-muted);
+  font-size: var(--pochi-step--1);
+}
+
+.post-nav-prev .post-nav-label::before {
+  content: "← " / "";
+}
+
+.post-nav-next .post-nav-label::after {
+  content: " →" / "";
+}
+
+.post-nav-title {
+  font-weight: bold;
+  line-height: var(--pochi-leading-heading);
+}
+
+@media (hover: hover) {
+  .post-nav a:hover {
+    box-shadow: var(--pochi-shadow-card-hover);
+  }
+
+  .post-nav a:hover .post-nav-title {
+    color: var(--pochi-link);
+  }
+}
+
+/* Forced colors drop the card shadow: draw a frame instead */
+@media (forced-colors: active) {
+  .post-nav a {
+    border: 1px solid CanvasText;
+  }
+}

@@ -104,3 +104,55 @@ article h6 {
     border: 1px solid CanvasText;
   }
 }
+
+/* Heading links (render-heading.html): a "#" in the space to the left of
+   the heading, shown on hover and focus. It takes the heading's size and
+   line height, so it sits on the first line. */
+.heading-anchor-wrapper {
+  position: relative;
+}
+
+.heading-anchor {
+  position: absolute;
+  top: 0;
+  right: 100%;
+  padding-inline: 0.25em;
+  font-size: var(--pochi-heading-anchor-size, var(--pochi-step-2));
+  font-weight: 600;
+  line-height: var(--pochi-leading-heading);
+  color: var(--pochi-text-muted);
+  text-decoration: none;
+  opacity: 0;
+  transition: var(--pochi-transition-interactive);
+}
+
+.heading-anchor-wrapper--h2 {
+  --pochi-heading-anchor-size: var(--pochi-step-3);
+}
+
+.heading-anchor-wrapper--h3 {
+  --pochi-heading-anchor-size: var(--pochi-step-2);
+}
+
+.heading-anchor-wrapper:is(
+  .heading-anchor-wrapper--h4,
+  .heading-anchor-wrapper--h5,
+  .heading-anchor-wrapper--h6
+) {
+  --pochi-heading-anchor-size: var(--pochi-step-1);
+}
+
+.heading-anchor:focus-visible {
+  opacity: 1;
+  color: var(--pochi-link);
+}
+
+@media (hover: hover) {
+  .heading-anchor:hover {
+    color: var(--pochi-link);
+  }
+
+  .heading-anchor-wrapper:hover .heading-anchor {
+    opacity: 1;
+  }
+}

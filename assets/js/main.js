@@ -44,6 +44,11 @@ function smoothScroll() {
         targetEl = document.getElementById(href.slice(1));
       } catch (_) {}
       scrollToTarget(targetEl);
+      // A heading's own link is there to give the section's URL, so it
+      // goes in the address bar. replaceState does not fire popstate.
+      if (targetEl && anchor.classList.contains("heading-anchor")) {
+        history.replaceState(history.state, "", href);
+      }
     }
   }
 

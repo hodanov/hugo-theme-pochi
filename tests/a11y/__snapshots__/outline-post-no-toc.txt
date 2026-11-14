@@ -3,6 +3,7 @@
 - main
   - complementary "Like and share"
   - heading "Post Without TOC" [level=1]
+  - navigation "Previous and next posts"
   - heading "Leave a comment" [level=2]
   - heading "Related posts" [level=2]
 - contentinfo

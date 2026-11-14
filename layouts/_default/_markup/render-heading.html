@@ -1,0 +1,24 @@
+{{/* A heading with a link to itself. The link follows the heading, not
+  inside it, so the heading keeps its own name; the link is named after
+  the heading, and the "#" is only for the eye (article.css shows it on
+  hover and focus). The wrapper is a plain block, so the heading's margins
+  collapse as before. The tag is written with printf because its name
+  depends on the level.
+*/}}
+{{ $attrs := "" }}
+{{ range $k, $v := .Attributes }}
+  {{ if ne $k "id" }}
+    {{ $attrs = printf "%s %s=%q" $attrs $k (string $v) }}
+  {{ end }}
+{{ end }}
+<div class="heading-anchor-wrapper heading-anchor-wrapper--h{{ .Level }}">
+  {{- printf "<h%d id=%q%s>" .Level .Anchor $attrs | safeHTML -}}
+  {{- .Text -}}
+  {{- printf "</h%d>" .Level | safeHTML }}
+  <a
+    class="heading-anchor"
+    href="#{{ .Anchor }}"
+    aria-label="{{ T "heading_anchor" (dict "Name" (.PlainText | htmlUnescape)) }}"
+    ><span aria-hidden="true">#</span></a
+  >
+</div>
