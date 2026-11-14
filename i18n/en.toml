@@ -162,3 +162,7 @@ other = "Next post"
 
 [heading_anchor]
 other = "Link to this section: {{ .Name }}"
+
+[term_count]
+one = "{{ .Count }} post"
+other = "{{ .Count }} posts"
