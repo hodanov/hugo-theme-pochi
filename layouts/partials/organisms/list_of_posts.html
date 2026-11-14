@@ -9,7 +9,7 @@
 */}}
 {{ $hasThumb := and ($p.Params.featuredImage) (ne $p.Params.featuredImage "") }}
 <div class="post-row">
-  <div class="post-card {{ if $hasThumb }}has-thumb{{ end }}">
+  <div class="post-card">
     {{ if $hasThumb }}
       <div class="post-image-col">
         {{ $page := $p }}

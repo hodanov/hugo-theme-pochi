@@ -14,25 +14,18 @@
   }
 }
 
-/* Title, date, excerpt and tags in one column; with a thumbnail, it sits
-   to the left of the title and the date. Its width follows the card's own
-   width, not the page's. */
+/* The thumbnail floats at the left: the title and the date run beside it
+   and, when the title is long, on below it, so no empty space is left
+   under the image. Its width follows the card's own width, not the
+   page's. */
 .article-list .post-card {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  grid-template-areas: "title" "meta" "excerpt" "tags";
-  column-gap: 1rem;
+  --pochi-card-thumb: 6rem;
+  display: flow-root;
   padding: 1rem var(--pochi-gutter);
 }
 
-.article-list .post-card.has-thumb {
-  --pochi-card-thumb: 6rem;
-  grid-template-columns: var(--pochi-card-thumb) minmax(0, 1fr);
-  grid-template-areas: "thumb title" "thumb meta" "excerpt excerpt" "tags tags";
-}
-
 @container (width >= 30rem) {
-  .article-list .post-card.has-thumb {
+  .article-list .post-card {
     --pochi-card-thumb: clamp(8rem, 25%, 12rem);
   }
 }
@@ -68,21 +61,16 @@
 }
 
 .article-list .post-image-col {
-  grid-area: thumb;
-  align-self: start;
+  float: left;
+  width: var(--pochi-card-thumb);
+  margin: 0 1rem 0 0;
 }
 
-.article-list .post-title {
-  grid-area: title;
-}
-
-.article-list .post-meta {
-  grid-area: meta;
-}
-
-/* Cut after three lines, so one long summary does not stretch its card */
+/* Cut after three lines, so one long summary does not stretch its card.
+   The clamp makes the excerpt a box of its own, which cannot run round the
+   thumbnail, so it starts below it at the full width. */
 .article-list .post-excerpt {
-  grid-area: excerpt;
+  clear: both;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
@@ -95,7 +83,6 @@
 
 /* Tags are links of their own, above the title link's cover */
 .article-list .post-card-tags {
-  grid-area: tags;
   position: relative;
   z-index: var(--pochi-z-raised);
   margin-top: 1rem;
@@ -127,7 +114,6 @@
   display: block;
   color: var(--pochi-text-muted);
   font-size: var(--pochi-step--2);
-  overflow: hidden;
 }
 
 .article-list p {
