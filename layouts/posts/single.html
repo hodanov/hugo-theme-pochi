@@ -9,18 +9,18 @@
         class="l-shell {{ if $hasToc }}
           l-shell--post has-toc-sidebar
         {{ else }}
-          l-shell--single
+          l-shell--post-no-toc
         {{ end }}"
       >
-        {{ if $hasToc }}
-          {{/* Left sidebar for Like button (HEART) */}}
-          <div id="sidebar-left">
-            <aside aria-label="{{ T "post_actions" }}">
-              {{ partial "molecules/like_button.html" . }}
-              {{ partial "molecules/share_button.html" . }}
-            </aside>
-          </div>
-        {{ end }}
+        {{/* Like / share rail, on every post (hidden on mobile, where the
+          action bar below has the same buttons)
+        */}}
+        <div id="sidebar-left">
+          <aside aria-label="{{ T "post_actions" }}">
+            {{ partial "molecules/like_button.html" . }}
+            {{ partial "molecules/share_button.html" . }}
+          </aside>
+        </div>
         <div id="contents">
           {{ block "content" . }}
           {{ end }}

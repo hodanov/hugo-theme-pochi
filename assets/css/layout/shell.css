@@ -45,8 +45,13 @@
     grid-template-areas: "left contents contents contents contents contents contents contents contents right right right";
   }
 
-  /* Pages, 404 and posts without a table of contents: the content in the
-     middle eight columns */
+  /* Post without a table of contents: the post stays in the middle eight
+     columns, with the rail next to it */
+  .l-shell--post-no-toc {
+    grid-template-areas: ". left contents contents contents contents contents contents contents contents . .";
+  }
+
+  /* Pages and 404: the content in the middle eight columns */
   .l-shell--single {
     grid-template-areas: ". . contents contents contents contents contents contents contents contents . .";
   }
