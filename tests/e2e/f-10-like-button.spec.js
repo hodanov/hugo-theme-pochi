@@ -82,6 +82,19 @@ test.describe("F-10 Like button", () => {
     await context.close();
   });
 
+  test("desktop: rail shown on posts without TOC", async ({ page }) => {
+    await mockLikeApi(page);
+    await page.goto("/posts/p-04-no-toc/");
+
+    // The post stays in the middle columns, with the rail to its left
+    const rail = page.locator("#sidebar-left");
+    await expect(rail.locator("[data-like-button]")).toBeVisible();
+    await expect(rail.locator("[data-share-button]")).toBeVisible();
+    const railBox = await rail.boundingBox();
+    const contentsBox = await page.locator("#contents").boundingBox();
+    expect(railBox.x + railBox.width).toBeLessThanOrEqual(contentsBox.x);
+  });
+
   test("mobile: action bar shown on posts without TOC", async ({ browser }) => {
     const context = await browser.newContext({
       ...devices["iPhone 13"],
