@@ -202,6 +202,7 @@ pochi テーマのデザインを、デザイナー／FE エンジニアが実�
 ### P5 レイアウトとコンポーネント（M〜L）
 
 - `layout/grid.css` を CSS Grid の `layout/shell.css` に置き換え、`col-*` を除去する（L-05）。768px 未満で列が縮む問題（L-10）もここで消える。`scrollspy.js` のセレクタは `data-pochi-toc` に移す。いいね・シェアのレールを常に表示する（L-09）。カードはコンテナクエリで組み、`aspect-ratio`・タグ表示・`line-clamp` を入れる。関連記事は auto-fill グリッドにする。
+- 詳細は `2026-11-14_p5-layout.md`。PR は 3 本（5A Grid の骨組み → 5B いいね・シェアのレール → 5C カードと関連記事）。
 - **完了条件**：`grid.css`・`col-*`・`order` での並べ替えがゼロ。320〜1440px で横スクロールが出ない。カードの CLS が 0。
 
 ### P6 情報設計・回遊（M）

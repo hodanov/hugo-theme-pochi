@@ -1,34 +1,9 @@
 <div class="navbar-fixed">
   <nav class="site-nav" aria-label="{{ T "main_navigation" }}">
-    <div class="nav-wrapper container-fluid">
-      <a
-        id="logo-container"
-        class="brand-logo logo"
-        href="{{ .Site.Home.RelPermalink }}"
-        >{{ .Site.Title }}</a
-      >
-      <div id="lang-switcher-container">
-        {{ partial "molecules/lang_switcher.html" . }}
-      </div>
-      <div id="theme-toggle-switch-container">
-        {{/* Cycles system -> light -> dark (main.js). The name tells the
-          current setting; the icon shows it (icons.css, keyed on the
-          data-theme-pref the head script puts on <html>).
-        */}}
-        <button
-          type="button"
-          id="theme-toggle-switch"
-          data-pochi-theme-toggle
-          aria-label="{{ T "theme_toggle_aria" (dict "Name" (T "theme_system")) }}"
-          data-label-system="{{ T "theme_toggle_aria" (dict "Name" (T "theme_system")) }}"
-          data-label-light="{{ T "theme_toggle_aria" (dict "Name" (T "theme_light")) }}"
-          data-label-dark="{{ T "theme_toggle_aria" (dict "Name" (T "theme_dark")) }}"
-        >
-          {{ partial "atoms/icon.html" (dict "id" "icon-system") }}
-          {{ partial "atoms/icon.html" (dict "id" "icon-light") }}
-          {{ partial "atoms/icon.html" (dict "id" "icon-dark") }}
-        </button>
-      </div>
+    <div class="nav-wrapper l-container">
+      {{/* In the order they appear: the menu button (mobile only), the
+        logo (centred on mobile), the menu, the languages and the theme
+      */}}
       <button
         id="menu-bar-btn"
         data-pochi-menu-button
@@ -40,6 +15,12 @@
       >
         {{ partial "atoms/icon.html" (dict "id" "icon-menu") }}
       </button>
+      <a
+        id="logo-container"
+        class="brand-logo logo"
+        href="{{ .Site.Home.RelPermalink }}"
+        >{{ .Site.Title }}</a
+      >
       <div class="menu-global-nav-container">
         <ul id="menu-global-nav">
           {{ range $i, $item := .Site.Menus.main }}
@@ -72,6 +53,28 @@
             {{ end }}
           {{ end }}
         </ul>
+      </div>
+      <div id="lang-switcher-container">
+        {{ partial "molecules/lang_switcher.html" . }}
+      </div>
+      <div id="theme-toggle-switch-container">
+        {{/* Cycles system -> light -> dark (main.js). The name tells the
+          current setting; the icon shows it (icons.css, keyed on the
+          data-theme-pref the head script puts on <html>).
+        */}}
+        <button
+          type="button"
+          id="theme-toggle-switch"
+          data-pochi-theme-toggle
+          aria-label="{{ T "theme_toggle_aria" (dict "Name" (T "theme_system")) }}"
+          data-label-system="{{ T "theme_toggle_aria" (dict "Name" (T "theme_system")) }}"
+          data-label-light="{{ T "theme_toggle_aria" (dict "Name" (T "theme_light")) }}"
+          data-label-dark="{{ T "theme_toggle_aria" (dict "Name" (T "theme_dark")) }}"
+        >
+          {{ partial "atoms/icon.html" (dict "id" "icon-system") }}
+          {{ partial "atoms/icon.html" (dict "id" "icon-light") }}
+          {{ partial "atoms/icon.html" (dict "id" "icon-dark") }}
+        </button>
       </div>
     </div>
   </nav>

@@ -1,4 +1,12 @@
 /* Related posts (cards inside .mymenu-related-list, see article.css) */
+
+/* As many columns of at least 12rem as fit (three in the 1280px post) */
+.related-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 12rem), 1fr));
+  column-gap: calc(var(--pochi-gutter) * 2);
+}
+
 .mymenu-related {
   margin-bottom: 1.5rem;
 }

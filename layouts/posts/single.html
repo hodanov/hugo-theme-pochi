@@ -4,23 +4,29 @@
   {{ $hasToc := gt (len (plainify $toc)) 0 }}
   <main id="main-content" class="main-content">
     {{ partial "molecules/breadcrumbs.html" . }}
-    <div class="container-fluid single-page">
-      <div class="row {{ if $hasToc }}has-toc-sidebar{{ end }}">
+    <div class="l-container single-page">
+      <div
+        class="l-shell {{ if $hasToc }}
+          l-shell--post has-toc-sidebar
+        {{ else }}
+          l-shell--single
+        {{ end }}"
+      >
         {{ if $hasToc }}
           {{/* Left sidebar for Like button (HEART) */}}
-          <div class="col-md-1" id="sidebar-left">
+          <div id="sidebar-left">
             <aside aria-label="{{ T "post_actions" }}">
               {{ partial "molecules/like_button.html" . }}
               {{ partial "molecules/share_button.html" . }}
             </aside>
           </div>
         {{ end }}
-        <div class="centered col-md-8" id="contents">
+        <div id="contents">
           {{ block "content" . }}
           {{ end }}
         </div>
         {{ if $hasToc }}
-          <div class="col-md-3" id="sidebar-right">
+          <div id="sidebar-right">
             <aside aria-labelledby="toc-heading">
               {{ partial "molecules/toc.html" (dict "Page" . "inSidebar" true) }}
             </aside>

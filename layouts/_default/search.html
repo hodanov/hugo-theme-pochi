@@ -1,9 +1,9 @@
 {{ define "main" }}
   <main id="main-content" class="main-content">
     {{ partial "molecules/breadcrumbs.html" . }}
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-md-9" id="contents">
+    <div class="l-container">
+      <div class="l-shell l-shell--search">
+        <div id="contents">
           <h1>{{ .Title }}</h1>
           <div class="article-list">
             {{/* The count is read out when results arrive */}}
@@ -20,33 +20,31 @@
             <div class="search-loading">{{ T "loading" }}</div>
             {{/* Same card as organisms/list_of_posts.html */}}
             <script id="search-result-template" type="text/x-js-template">
-              <div class="row post-row" id="summary-${key}">
-                <div class="col-md-12">
-                  <div class="post-card">
-                    <div class="post-title">
-                      <h2><a class="post-card-link" href="${link}">${title}</a></h2>
+              <div class="post-row" id="summary-${key}">
+                <div class="post-card">
+                  <div class="post-title">
+                    <h2><a class="post-card-link" href="${link}">${title}</a></h2>
+                  </div>
+                  <div class="post-text">
+                    <div class="post-info">
+                      <div class="kiji-date">
+                        <time datetime="${publishDate}">
+                          <span class="u-visually-hidden">{{ T "published" }}</span>
+                          {{- partial "atoms/icon.html" (dict "id" "icon-pencil") }}
+                          <span aria-hidden="true">:</span>
+                          ${publishDate}
+                        </time>
+                        <span aria-hidden="true">|</span>
+                        <time datetime="${lastmod}">
+                          <span class="u-visually-hidden">{{ T "updated" }}</span>
+                          {{- partial "atoms/icon.html" (dict "id" "icon-spinner") }}
+                          <span aria-hidden="true">:</span>
+                          ${lastmod}
+                        </time>
+                      </div>
                     </div>
-                    <div class="post-text">
-                      <div class="post-info">
-                        <div class="kiji-date">
-                          <time datetime="${publishDate}">
-                            <span class="u-visually-hidden">{{ T "published" }}</span>
-                            {{- partial "atoms/icon.html" (dict "id" "icon-pencil") }}
-                            <span aria-hidden="true">:</span>
-                            ${publishDate}
-                          </time>
-                          <span aria-hidden="true">|</span>
-                          <time datetime="${lastmod}">
-                            <span class="u-visually-hidden">{{ T "updated" }}</span>
-                            {{- partial "atoms/icon.html" (dict "id" "icon-spinner") }}
-                            <span aria-hidden="true">:</span>
-                            ${lastmod}
-                          </time>
-                        </div>
-                      </div>
-                      <div class="post-excerpt">
-                        ${snippet}
-                      </div>
+                    <div class="post-excerpt">
+                      ${snippet}
                     </div>
                   </div>
                 </div>
