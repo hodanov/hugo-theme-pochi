@@ -2,13 +2,15 @@
 {{ $isPrio := .priority | default false }}
 {{ $priority := "" }}
 {{ if $isPrio }}{{ $priority = "high" }}{{ end }}
-{{/* Card: the title is the only link, and its ::after covers the card so
+{{/* Card: the title is the card's link, and its ::after covers the card so
   the whole card stays clickable (article-list.css). The thumbnail is
-  decorative; the title names the link.
+  decorative; the title names the link. Up to three tags sit above the
+  cover as links of their own.
 */}}
+{{ $hasThumb := and ($p.Params.featuredImage) (ne $p.Params.featuredImage "") }}
 <div class="post-row">
-  <div class="post-card">
-    {{ if and ($p.Params.featuredImage) (ne $p.Params.featuredImage "") }}
+  <div class="post-card {{ if $hasThumb }}has-thumb{{ end }}">
+    {{ if $hasThumb }}
       <div class="post-image-col">
         {{ $page := $p }}
         {{ with $p.Params.featuredImage }}
@@ -17,8 +19,8 @@
               "image" .
               "alt" ""
               "page" $page
-              "sizes" "(min-width: 800px) 480px, 100vw"
-              "widths" (slice 480 800)
+              "sizes" "(min-width: 768px) 192px, 96px"
+              "widths" (slice 192 384)
               "priority" $priority
               )
             }}
@@ -31,11 +33,22 @@
         <a class="post-card-link" href="{{ $p.Permalink }}">{{ $p.Title }}</a>
       </h2>
     </div>
-    <div class="post-text">
+    <div class="post-meta">
       {{ partial "molecules/post_meta_date.html" $p }}
-      <div class="post-excerpt">
-        {{ $p.Summary }}
-      </div>
     </div>
+    <div class="post-excerpt">
+      {{ $p.Summary }}
+    </div>
+    {{ with first 3 ($p.GetTerms "tags") }}
+      <div class="kiji-tag post-card-tags">
+        <ul>
+          {{ range . }}
+            <li>
+              <a href="{{ .RelPermalink }}" rel="tag">{{ .LinkTitle }}</a>
+            </li>
+          {{ end }}
+        </ul>
+      </div>
+    {{ end }}
   </div>
 </div>

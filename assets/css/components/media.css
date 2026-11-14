@@ -1,29 +1,19 @@
 /* Media & Images */
-.image-wrapper {
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-}
-
-.image-wrapper:before {
-  content: "";
-  display: block;
-  padding-top: 75%;
-}
-
+/* Featured images keep a fixed shape whatever the photo, and the box is
+   there before the image loads */
 .featured-image-wrapper picture {
-  position: relative;
   width: 100%;
-  padding-bottom: 71.4286%;
+  aspect-ratio: 7 / 5;
   overflow: hidden;
 }
 
 .featured-image-wrapper.golden-ratio picture {
-  padding-bottom: 61.8%;
+  /* The golden ratio, as the 61.8% it was */
+  aspect-ratio: 1000 / 618;
 }
 
 .featured-image-wrapper picture img {
-  position: absolute;
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;

@@ -1,5 +1,6 @@
 /* Article list cards */
 .article-list .post-row {
+  container-type: inline-size;
   margin: 0 0 3rem 0;
   background-color: var(--pochi-card);
   border-radius: var(--pochi-radius-md);
@@ -13,8 +14,27 @@
   }
 }
 
+/* Title, date, excerpt and tags in one column; with a thumbnail, it sits
+   to the left of the title and the date. Its width follows the card's own
+   width, not the page's. */
 .article-list .post-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas: "title" "meta" "excerpt" "tags";
+  column-gap: 1rem;
   padding: 1rem var(--pochi-gutter);
+}
+
+.article-list .post-card.has-thumb {
+  --pochi-card-thumb: 6rem;
+  grid-template-columns: var(--pochi-card-thumb) minmax(0, 1fr);
+  grid-template-areas: "thumb title" "thumb meta" "excerpt excerpt" "tags tags";
+}
+
+@container (width >= 30rem) {
+  .article-list .post-card.has-thumb {
+    --pochi-card-thumb: clamp(8rem, 25%, 12rem);
+  }
 }
 
 /* Cards (post list, search results, related posts): the title link is the
@@ -48,20 +68,37 @@
 }
 
 .article-list .post-image-col {
-  width: 25%;
-  margin-right: 1rem;
-  float: left;
+  grid-area: thumb;
+  align-self: start;
 }
 
-.article-list .post-title,
-.article-list .post-text {
-  width: 100%;
+.article-list .post-title {
+  grid-area: title;
 }
 
+.article-list .post-meta {
+  grid-area: meta;
+}
+
+/* Cut after three lines, so one long summary does not stretch its card */
 .article-list .post-excerpt {
+  grid-area: excerpt;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
   color: var(--pochi-text-muted);
   font-size: var(--pochi-step--1);
   line-height: var(--pochi-leading-body);
+}
+
+/* Tags are links of their own, above the title link's cover */
+.article-list .post-card-tags {
+  grid-area: tags;
+  position: relative;
+  z-index: var(--pochi-z-raised);
+  margin-top: 1rem;
 }
 
 .article-list h2 {

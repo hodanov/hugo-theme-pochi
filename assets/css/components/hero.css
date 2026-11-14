@@ -36,7 +36,7 @@
 
 .hero.featured-image-wrapper picture {
   height: var(--pochi-hero-height);
-  padding-bottom: 0;
+  aspect-ratio: auto;
   filter: brightness(0.8);
 }
 
