@@ -151,9 +151,6 @@ other = "完了"
 [task_open]
 other = "未完了"
 
-[reading_time]
-other = "約 {{ .Count }} 分で読めます"
-
 [post_nav]
 other = "前後の記事"
 

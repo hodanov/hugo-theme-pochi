@@ -58,11 +58,6 @@ article .kiji-date {
   color: var(--pochi-text-muted);
 }
 
-/* Breaks before the reading time, not inside it */
-.reading-time {
-  white-space: nowrap;
-}
-
 article svg {
   width: 100%;
   height: auto;

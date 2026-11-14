@@ -1,25 +1,8 @@
 const { test, expect } = require("./fixtures");
 
-// N-02: what a reader needs to go on from a post — how long it takes,
-// the posts before and after it, and a link to each heading.
+// N-02: what a reader needs to go on from a post: the posts before and
+// after it, and a link to each heading.
 test.describe("F-21 Post navigation", () => {
-  test("the reading time sits on the date line of a post", async ({ page }) => {
-    await page.goto("/posts/p-03-with-toc/");
-    const readingTime = page.locator("article .kiji-date .reading-time");
-    await expect(readingTime).toHaveText(/\d+ min read/);
-  });
-
-  test("the reading time is translated", async ({ page }) => {
-    await page.goto("/ja/posts/p-01-sample-1/");
-    await expect(page.locator("article .reading-time")).toHaveText(/約 \d+ 分/);
-  });
-
-  test("cards in a list show no reading time", async ({ page }) => {
-    await page.goto("/");
-    await expect(page.locator(".post-row").first()).toBeVisible();
-    await expect(page.locator(".post-row .reading-time")).toHaveCount(0);
-  });
-
   test("links to the older and newer posts follow the article", async ({
     page,
   }) => {
