@@ -23,7 +23,8 @@ test.describe("P-01 Home", () => {
     await page.goto("/");
 
     const card = page.locator(".post-row").first();
-    const links = card.locator("a");
+    // The tag chips are links of their own; the card's link is the title
+    const links = card.locator(".post-card-link");
     await expect(links).toHaveCount(1);
     const title = await card.locator("h2").innerText();
     await expect(links.first()).toHaveAccessibleName(title);
@@ -39,5 +40,44 @@ test.describe("P-01 Home", () => {
       page.waitForURL((url) => url.pathname === path),
       page.mouse.click(box.x + box.width / 2, box.y + box.height / 2),
     ]);
+  });
+
+  // Up to three tags, each a link to its tag page above the card's link
+  test("card shows up to three tags that link to their pages", async ({
+    page,
+  }) => {
+    await page.goto("/");
+
+    const card = page.locator(".post-row", {
+      has: page.locator("h2", { hasText: "Pagination Post 5" }),
+    });
+    const tags = card.locator(".post-card-tags a");
+    await expect(tags).toHaveCount(3);
+    await expect(tags.first()).toHaveText(/pager/i);
+
+    // A plain click lands on the tag, not on the card's link under it
+    await Promise.all([
+      page.waitForURL((url) => url.pathname === "/tags/pager/"),
+      tags.first().click(),
+    ]);
+  });
+
+  test("card's excerpt is cut after three lines", async ({ page }) => {
+    await page.goto("/");
+
+    const excerpt = page
+      .locator(".post-row", {
+        has: page.locator("h2", { hasText: "Pagination Post 5" }),
+      })
+      .locator(".post-excerpt");
+    const { lines, cut } = await excerpt.evaluate((el) => {
+      const lineHeight = parseFloat(getComputedStyle(el).lineHeight);
+      return {
+        lines: Math.round(el.clientHeight / lineHeight),
+        cut: el.scrollHeight > el.clientHeight,
+      };
+    });
+    expect(lines).toBe(3);
+    expect(cut).toBe(true);
   });
 });

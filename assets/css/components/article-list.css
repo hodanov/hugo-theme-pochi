@@ -1,5 +1,6 @@
 /* Article list cards */
 .article-list .post-row {
+  container-type: inline-size;
   margin: 0 0 3rem 0;
   background-color: var(--pochi-card);
   border-radius: var(--pochi-radius-md);
@@ -13,8 +14,20 @@
   }
 }
 
+/* The thumbnail floats at the left: the title and the date run beside it
+   and, when the title is long, on below it, so no empty space is left
+   under the image. Its width follows the card's own width, not the
+   page's. */
 .article-list .post-card {
+  --pochi-card-thumb: 6rem;
+  display: flow-root;
   padding: 1rem var(--pochi-gutter);
+}
+
+@container (width >= 30rem) {
+  .article-list .post-card {
+    --pochi-card-thumb: clamp(8rem, 25%, 12rem);
+  }
 }
 
 /* Cards (post list, search results, related posts): the title link is the
@@ -48,20 +61,31 @@
 }
 
 .article-list .post-image-col {
-  width: 25%;
-  margin-right: 1rem;
   float: left;
+  width: var(--pochi-card-thumb);
+  margin: 0 1rem 0 0;
 }
 
-.article-list .post-title,
-.article-list .post-text {
-  width: 100%;
-}
-
+/* Cut after three lines, so one long summary does not stretch its card.
+   The clamp makes the excerpt a box of its own, which cannot run round the
+   thumbnail, so it starts below it at the full width. */
 .article-list .post-excerpt {
+  clear: both;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
   color: var(--pochi-text-muted);
   font-size: var(--pochi-step--1);
   line-height: var(--pochi-leading-body);
+}
+
+/* Tags are links of their own, above the title link's cover */
+.article-list .post-card-tags {
+  position: relative;
+  z-index: var(--pochi-z-raised);
+  margin-top: 1rem;
 }
 
 .article-list h2 {
@@ -90,7 +114,6 @@
   display: block;
   color: var(--pochi-text-muted);
   font-size: var(--pochi-step--2);
-  overflow: hidden;
 }
 
 .article-list p {

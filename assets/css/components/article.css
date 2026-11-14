@@ -17,18 +17,18 @@ article,
   margin-top: 0;
 }
 
-/* Tags */
-article .kiji-tag ul {
+/* Tags (the post's, and up to three on each card in a list) */
+.kiji-tag ul {
   margin: 0;
   padding: 0;
   line-height: var(--pochi-leading-tight);
 }
 
-article .kiji-tag li {
+.kiji-tag li {
   display: inline-block;
 }
 
-article .kiji-tag li a {
+.kiji-tag li a {
   display: inline-block;
   color: var(--pochi-text-muted);
   font-size: var(--pochi-step--2);
@@ -41,7 +41,7 @@ article .kiji-tag li a {
 }
 
 @media (hover: hover) {
-  article .kiji-tag li a:hover {
+  .kiji-tag li a:hover {
     background-color: var(--pochi-accent);
     border-color: var(--pochi-accent);
     color: var(--pochi-on-accent);

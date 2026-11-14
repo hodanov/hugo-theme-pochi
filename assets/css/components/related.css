@@ -22,10 +22,6 @@
   font-weight: normal;
 }
 
-.mymenu-related .image-wrapper:before {
-  padding-top: 61.8%;
-}
-
 .mymenu-related .featured-image-wrapper img {
   transition: transform var(--pochi-duration-sm) var(--pochi-ease);
 }
