@@ -1,8 +1,7 @@
-{{ $opts := dict
-  "document" .
-  "indices" (slice "tags")
-}}
-{{ with .Site.RegularPages.Related $opts | first 3 }}
+{{/* Ranked by the site's `related` config (indices and their weights,
+  includeNewer); README has a recommended one
+*/}}
+{{ with .Site.RegularPages.Related . | first 3 }}
   <div class="related-posts">
     <div class="mymenu-thumb mymenu-related-list">
       <h2>{{ T "related_posts" }}</h2>

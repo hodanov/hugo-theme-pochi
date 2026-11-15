@@ -226,14 +226,41 @@ function initSearch() {
   }
 }
 
+// Split a query into words: spaces, including the full-width one that
+// Japanese input gives. Quotes are dropped, since each word is quoted below.
+function searchTerms(query) {
+  return query
+    .split(/[\s\u3000]+/)
+    .map(function (term) {
+      return term.replace(/"/g, "");
+    })
+    .filter(Boolean);
+}
+
 function executeSearch(searchQuery) {
+  var terms = searchTerms(searchQuery);
+  // - ignoreLocation: a word counts wherever it is in a post, not only near
+  //   the start (Fuse's default location / distance).
+  // - threshold 0.3: one typo in a longer English word, but a two-character
+  //   Japanese word does not match by one of its characters.
+  // - Extended search with each word quoted: every word must appear
+  //   somewhere, in any order, and characters such as ^ ! = $ ' in a word
+  //   are not read as operators.
   var fuseOptions = {
     shouldSort: true,
     includeMatches: true,
     includeScore: true,
-    location: 0,
-    distance: 100,
-    minMatchCharLength: 2,
+    ignoreLocation: true,
+    threshold: 0.3,
+    useExtendedSearch: true,
+    minMatchCharLength: Math.min.apply(
+      null,
+      [2].concat(
+        terms.map(function (term) {
+          return term.length;
+        }),
+      ),
+    ),
     keys: [
       { name: "title", weight: 0.5 },
       { name: "contents", weight: 0.35 },
@@ -241,6 +268,11 @@ function executeSearch(searchQuery) {
       { name: "categories", weight: 0.05 },
     ],
   };
+  var fuseQuery = terms
+    .map(function (term) {
+      return '"' + term + '"';
+    })
+    .join(" ");
 
   show(document.querySelector(".search-loading"));
 
@@ -260,7 +292,7 @@ function executeSearch(searchQuery) {
       .json()
       .then(function (pages) {
         var fuse = new Fuse(pages, fuseOptions);
-        var result = fuse.search(searchQuery);
+        var result = fuse.search(fuseQuery);
         announceResults(result.length);
         if (result.length > 0) {
           populateResults(result);
@@ -276,6 +308,9 @@ function executeSearch(searchQuery) {
             resultsEl.innerHTML = "";
             resultsEl.appendChild(emptyParagraph);
           }
+          // What to try next (search.html)
+          var help = document.querySelector(".search-results-help");
+          if (help) help.hidden = false;
         }
         hide(document.querySelector(".search-loading"));
       })
@@ -326,7 +361,7 @@ function populateResults(results) {
 
   results.forEach(function (value, key) {
     var instance = new Mark(document.getElementById("summary-" + key));
-    instance.mark(searchQuery);
+    instance.mark(searchTerms(searchQuery));
   });
 }
 

@@ -120,6 +120,17 @@
   margin: 0;
 }
 
+/* Search with no results: the message, then what to try next
+   (search.html) */
+.article-list .search-results-empty {
+  margin-bottom: 1rem;
+  font-weight: bold;
+}
+
+.article-list .search-results-help p {
+  margin-bottom: 0.5rem;
+}
+
 @media (width < 768px) {
   .article-list .post-row {
     padding: 1rem 0;

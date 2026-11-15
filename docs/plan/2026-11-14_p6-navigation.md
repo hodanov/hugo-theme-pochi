@@ -46,6 +46,12 @@
 - 見た目：リンクの色と、アクセントの線（上部は項目の `li` の下に 3px で、ドロップダウンのボタンの下まで伸ばす。横のメニューは左に 4px）。強制カラーでは下線にする。色の指定は `:where()` で重さを上げず、ホバーの配色が勝つようにする。
 - モバイル（768px 未満）：一覧のページでは `#sidebar-left`（カテゴリ・アーカイブ）を隠さず、記事の一覧の後ろに出す。記事のページのレール（いいね・シェア）は今までどおり隠す（下のアクションバーに同じボタンがある）。
 
+### 検索と関連記事（6C）
+
+- Fuse（`main.js`）：`ignoreLocation: true`（本文のどこにある語も当てる）、`threshold: 0.3`（英語の長い語は 1 字の誤りを許し、和文の 2 字の語は 1 字だけでは当てない）、拡張検索で語ごとに `"..."` で囲む（空白・全角空白で区切った語がすべて含まれる記事だけ。`^ ! = $ '` を演算子として読まない）。`minMatchCharLength` は 2 か、それより短い語の長さ。ハイライト（Mark.js）にも語の配列を渡す。
+- 0 件のとき：「一致する結果はありません」の後ろに、言い換えの案内と、タグ一覧・アーカイブへのリンク（`site.GetPage` で在るものだけ）を出す。案内は `search.html` に `hidden` で置き、`main.js` が 0 件のときに見せる。
+- 関連記事：テーマの設定ファイルからは `related` を渡せない（試した）。テーマは `indices: tags` の決め打ちをやめてサイトの `related` に従い、推奨の設定（`includeNewer: true`、tags 100・categories 50・date 10、threshold 80）を README と example_site に書く。hodalog は取り込み PR で足す。
+
 ## File changes
 
 - 6A の新規：本書、`layouts/_default/_markup/render-heading.html`、`layouts/partials/molecules/post_nav.html`、`assets/css/components/post-nav.css`、`tests/e2e/f-21-post-navigation.spec.js`
@@ -53,6 +59,8 @@
 
 - 6B の新規：`layouts/partials/helpers/menu_current.html`、`example_site/content/tags/alpha/_index.md`
 - 6B の変更：`_default/list.html`、`molecules/{nav,side_nav}.html`、`nav.css`、`sidebar.css`、`article-list.css`、`i18n/{en,ja}.toml`、e2e（f-01・p-01・p-09）、VRT・outline のベースライン、ロードマップ
+- 6C の新規：`tests/e2e/f-22-search-matching.spec.js`
+- 6C の変更：`main.js`、`_default/search.html`、`molecules/related_posts.html`、`article-list.css`、`i18n/{en,ja}.toml`、`example_site/hugo.toml`、`example_site/content/posts/p-01-sample-1/index.ja.md`、`README.md`、ロードマップ
 
 ## Risks and mitigations
 
@@ -76,3 +84,7 @@
 - 2026-11-14（6B）：計画の相談では、モバイルの並びを「検索 → カテゴリ → アーカイブ → プロフィール」と書いたが、DOM の順（本文 → `#sidebar-left` → `#sidebar`）のまま「カテゴリ → アーカイブ → 検索 → プロフィール」にした。検索を前に出すには `#sidebar` を二つに割るか、`order` / grid の並べ替え（見た目と Tab の順がずれる。P5 で禁止にした）が要るため。
 - 2026-11-14（6B）：ダークで「現在地」の項目にホバーすると、`a[aria-current]` の色がホバーの文字色に勝ち、アクセントの背景の上で読めなくなった。色の指定を `a:where([aria-current])` にして重さをふつうのリンクと同じにした。
 - 2026-11-15（6B）：上部の線を、最初はリンク（`a`）に引いていたので、ドロップダウンのある「ブログ」では線がアイコンの手前で切れた（ユーザーの指摘）。`li:has(> a[aria-current])` に引き、アイコンの無い項目と同じく項目の幅いっぱいにした。
+- 2026-11-15（6C）：今の検索を example_site の索引で直接試した。本文の 100 字目より後ろの「形態素解析」が当たらない（`location: 0, distance: 100` で位置の減点が大きい）。「TOC」で 9 件、「footnote」で 7 件、語を含まない記事まで出る（`threshold` の既定 0.6 が緩い）。複数の語は 1 つの語として扱われ、題が少し似ているだけで当たる。f-22 を先に足し、古い `main.js` で 3 本が落ちることを確かめてから直した。
+- 2026-11-15（6C）：hodalog（251 本、ja / en）で関連記事を比べた。今のテーマと Hugo の既定では、関連記事が 0 件の記事が 47 本。推奨の設定で 31 本。threshold を 40 にするとカテゴリだけ同じ記事も入り 1 本になるが、Laravel の記事に Go やラズパイの記事が並ぶなど関連が弱いので、推奨は 80 のままにした。推奨の設定で 2 回ビルドし、251 本すべてで関連記事が同じことを確かめた（完了条件）。
+- 2026-11-15（6C）：0 件の案内のマージンが `.article-list p { margin: 0 }` に負けたので、ルールを `article-list.css` に置き `.article-list` で絞った。
+- 2026-11-15（6C）：Lighthouse の search（`?q=TOC`）は Perf 94 → 98、CLS 0.146 → 0.093。結果が 9 件から 2 件に減り、サイドバーのずれる量が減っただけで、P-07（結果の描画でサイドバーが下にずれる）は残る。P7 で直す。
