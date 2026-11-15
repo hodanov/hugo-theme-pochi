@@ -447,13 +447,15 @@ nav.site-nav .dropdown-list {
 }
 
 /* Where the reader is (aria-current from helpers/menu_current.html): a bar
-   in the accent at the left of a side-nav entry, under a top-level entry.
-   The link color is set with the links themselves. */
+   in the accent at the left of a side-nav entry, and under a top-level
+   entry. The top bar goes on the item, so it runs under a dropdown's
+   button as well as its link. The link color is set with the links
+   themselves. */
 #side-nav li > a[aria-current] {
   box-shadow: inset 4px 0 0 var(--pochi-accent);
 }
 
-nav.site-nav #menu-global-nav > li > a[aria-current] {
+nav.site-nav #menu-global-nav > li:has(> a[aria-current]) {
   box-shadow: inset 0 -3px 0 var(--pochi-accent);
 }
 
