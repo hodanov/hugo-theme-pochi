@@ -24,6 +24,8 @@ pochi は Hugo 向けのブログテーマです。本文の読みやすさを�
 
 Pochi aims to keep long-form technical writing comfortable to read. This English paragraph checks how Latin text wraps next to Japanese, how word spacing behaves, and whether a long identifier such as `ThisIsAnExtremelyLongIdentifierNameThatShouldWrapInsideTheContainer` breaks the layout.
 
+和欧間のアキ（スペースを入れずに書いた場合）：Hugoのテーマで、CSSの`text-autospace`が和文と英数字の間に1/8emのアキを入れるかを確認します。対応していないブラウザでは、今までどおりアキが無いまま表示されます。
+
 長い URL の折り返し：<https://example.com/a/very/long/path/that/keeps/going/to/check/how/the/theme/handles/overflow-wrap/in/narrow/viewports?query=parameter&another=value>
 
 ### 見出しレベル 3

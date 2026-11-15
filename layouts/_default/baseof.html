@@ -15,6 +15,13 @@
     {{- end -}}"
   >
     <a class="skip-link" href="#main-content">{{ T "skip_to_content" }}</a>
+    {{/* Reads out the page title after a PJAX swap (navigation.js) */}}
+    <p
+      id="pjax-announcer"
+      class="u-visually-hidden"
+      aria-live="polite"
+      aria-atomic="true"
+    ></p>
     {{ block "header" . }}
     {{ end }}
     {{ block "main" . }}

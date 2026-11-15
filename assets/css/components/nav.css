@@ -28,7 +28,7 @@ nav.site-nav .nav-wrapper {
 nav.site-nav ul a,
 nav.site-nav {
   color: var(--pochi-text);
-  font-size: 0.9rem;
+  font-size: var(--pochi-step--1);
 }
 
 nav.site-nav {
@@ -53,8 +53,7 @@ nav.site-nav #menu-bar-btn {
 
 /* Inside the nav bar the ring is drawn inward (base.css) */
 nav.site-nav #menu-bar-btn:focus-visible,
-nav.site-nav #theme-toggle-switch:focus-visible,
-.lang-switcher select:focus-visible {
+nav.site-nav #theme-toggle-switch:focus-visible {
   outline-offset: var(--pochi-focus-ring-offset-inset);
 }
 
@@ -70,61 +69,41 @@ nav.site-nav #lang-switcher-container {
   line-height: var(--pochi-nav-height);
   padding: 0 0.25rem;
 }
-/* Dropdown style for language switcher */
-.lang-switcher select {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  line-height: 2rem;
-  padding: 0 1.75rem 0 0.5rem;
-  font-size: 0.85rem;
+/* Language links: the other languages, framed like a small button */
+.lang-switcher {
+  display: inline-flex;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lang-switcher-link {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 2rem;
+  padding: 0 0.75rem;
+  font-size: var(--pochi-step--1);
+  line-height: var(--pochi-leading-tight);
   color: var(--pochi-text);
   background-color: var(--pochi-card);
   border: 1px solid var(--pochi-border-control);
   border-radius: var(--pochi-radius-lg);
-  cursor: pointer;
+  text-decoration: none;
 }
 
 @media (hover: hover) {
-  .lang-switcher select:hover {
+  .lang-switcher-link:hover {
     background-color: var(--pochi-hover);
   }
-}
-
-/* Custom arrow for language select */
-.lang-switcher {
-  position: relative;
-  display: inline-block;
-}
-
-.lang-switcher::after {
-  content: "▼";
-  position: absolute;
-  right: 0.6rem;
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--pochi-text-muted);
-  font-size: 0.7rem;
-  line-height: 1;
-  pointer-events: none;
-}
-
-.lang-switcher:focus-within::after {
-  color: var(--pochi-link);
 }
 
 nav.site-nav .menu-global-nav-container {
   display: inline;
   margin-left: auto;
-  order: 1;
-}
-
-nav.site-nav #lang-switcher-container {
-  order: 2;
 }
 
 nav.site-nav #theme-toggle-switch-container {
-  order: 3;
   height: 100%;
 }
 
@@ -148,7 +127,8 @@ nav.site-nav #theme-toggle-switch-container {
   }
 }
 
-nav.site-nav ul {
+/* Menu lists in the bar; the language links have their own look */
+nav.site-nav ul:where(:not(.lang-switcher)) {
   margin: 0;
   line-height: var(--pochi-nav-height);
   display: flex;
@@ -160,11 +140,11 @@ nav.site-nav .dropdown-list {
   align-items: stretch;
 }
 
-nav.site-nav ul li {
+nav.site-nav ul:where(:not(.lang-switcher)) li {
   padding: 0;
 }
 
-nav.site-nav ul li a {
+nav.site-nav ul:where(:not(.lang-switcher)) li a {
   display: block;
   padding: 0 1rem;
   transition:
@@ -172,8 +152,15 @@ nav.site-nav ul li a {
     background-color var(--pochi-duration-sm) var(--pochi-ease-in-out);
 }
 
+/* The current entry (aria-current) takes the link color, a child in the
+   dropdown included. It has no more weight than the plain link, so hover
+   still turns the entry to the accent. */
+nav.site-nav ul:where(:not(.lang-switcher)) li a:where([aria-current]) {
+  color: var(--pochi-link);
+}
+
 @media (hover: hover) {
-  nav.site-nav ul > li:hover > a,
+  nav.site-nav ul:where(:not(.lang-switcher)) > li:hover > a,
   nav.site-nav .dropdown:hover > .dropdown-toggle {
     color: var(--pochi-on-accent);
     background-color: var(--pochi-accent);
@@ -272,43 +259,77 @@ nav.site-nav .logo {
   display: inline-block;
   padding: 0;
   width: auto;
-  font-size: 1.6rem;
+  font-size: var(--pochi-step-2);
   color: var(--pochi-text);
-  font-family: var(--pochi-font-heading);
+  font-family: var(--pochi-font-base);
 }
 
+/* The drawer is a modal <dialog> in the top layer, so it needs no z-index.
+   It slides in from the left; @starting-style gives the opening state and
+   allow-discrete keeps it on screen while it slides out (browsers without
+   them open and close it at once). */
 #side-nav {
   position: fixed;
-  width: 280px;
-  left: 0;
-  top: 0;
+  inset: 0 auto 0 0;
+  inline-size: 280px;
+  max-inline-size: 100%;
+  block-size: auto;
+  max-block-size: none;
   margin: 0;
-  transform: translateX(-105%);
-  height: 100%;
-  height: calc(100% + 60px);
-  padding-bottom: 60px;
+  padding: 0;
+  border: 0;
   background-color: var(--pochi-bg);
-  z-index: var(--pochi-z-drawer);
+  color: var(--pochi-text);
   overflow-y: auto;
-  will-change: transform;
-  backface-visibility: hidden;
+  overscroll-behavior: contain;
+  transform: translateX(-105%);
   transition:
     transform var(--pochi-duration-lg) var(--pochi-ease),
-    opacity var(--pochi-duration-lg) var(--pochi-ease);
+    overlay var(--pochi-duration-lg) var(--pochi-ease) allow-discrete,
+    display var(--pochi-duration-lg) var(--pochi-ease) allow-discrete;
 }
 
-#side-nav.is-active {
+#side-nav[open] {
   transform: translateX(0);
+}
+
+@starting-style {
+  #side-nav[open] {
+    transform: translateX(-105%);
+  }
+}
+
+#side-nav::backdrop {
+  background-color: var(--pochi-scrim);
+  opacity: 0;
+  transition:
+    opacity var(--pochi-duration-lg) var(--pochi-ease),
+    overlay var(--pochi-duration-lg) var(--pochi-ease) allow-discrete,
+    display var(--pochi-duration-lg) var(--pochi-ease) allow-discrete;
+}
+
+#side-nav[open]::backdrop {
+  opacity: 1;
+}
+
+@starting-style {
+  #side-nav[open]::backdrop {
+    opacity: 0;
+  }
 }
 
 #side-nav li > a {
   color: var(--pochi-text);
-  display: block;
-  font-size: 14px;
+  display: flex;
+  align-items: center;
+  font-size: var(--pochi-step--1);
   font-weight: 500;
-  height: 3rem;
-  line-height: 3rem;
+  min-block-size: 3rem;
   padding: 0 2rem;
+}
+
+#side-nav li > a:where([aria-current]) {
+  color: var(--pochi-link);
 }
 
 /* Side nav header (contains close button) */
@@ -364,27 +385,15 @@ nav.site-nav .logo {
   }
 }
 
-#side-nav-overlay {
-  position: fixed;
-  display: block;
-  opacity: 1;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 120vh;
-  background-color: var(--pochi-scrim);
-  z-index: var(--pochi-z-scrim);
-  transition: opacity var(--pochi-duration-lg) var(--pochi-ease);
-}
-
 nav.site-nav,
 nav.site-nav .nav-wrapper i {
   height: var(--pochi-nav-height);
   line-height: var(--pochi-nav-height);
 }
 
+/* About 2rem a row at the small UI size */
 nav.site-nav .dropdown-list {
-  line-height: 2rem;
+  line-height: 2.25;
 }
 
 @media (width >= 768px) {
@@ -406,10 +415,6 @@ nav.site-nav .dropdown-list {
   /* Hide top nav language switcher on small screens (use side nav one) */
   nav.site-nav #lang-switcher-container {
     display: none;
-  }
-
-  nav.site-nav #menu-bar-btn {
-    order: -1;
   }
 
   nav.site-nav #theme-toggle-switch-container {
@@ -438,5 +443,26 @@ nav.site-nav .dropdown-list {
   #side-nav-close::after {
     forced-color-adjust: none;
     background: CanvasText;
+  }
+}
+
+/* Where the reader is (aria-current from helpers/menu_current.html): a bar
+   in the accent at the left of a side-nav entry, and under a top-level
+   entry. The top bar goes on the item, so it runs under a dropdown's
+   button as well as its link. The link color is set with the links
+   themselves. */
+#side-nav li > a[aria-current] {
+  box-shadow: inset 4px 0 0 var(--pochi-accent);
+}
+
+nav.site-nav #menu-global-nav > li:has(> a[aria-current]) {
+  box-shadow: inset 0 -3px 0 var(--pochi-accent);
+}
+
+/* Forced colors drop the bar: underline the entry instead */
+@media (forced-colors: active) {
+  nav.site-nav ul:where(:not(.lang-switcher)) li a[aria-current],
+  #side-nav li > a[aria-current] {
+    text-decoration: underline;
   }
 }

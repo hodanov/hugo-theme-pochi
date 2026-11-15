@@ -89,11 +89,40 @@
   --pochi-focus-ring-offset: 2px;
   --pochi-focus-ring-offset-inset: -2px;
 
-  /* Typography */
-  --pochi-font-base:
-    -apple-system, BlinkMacSystemFont, "Helvetica Neue", "ヒラギノ角ゴ ProN W3",
-    "Hiragino Kaku Gothic ProN", Arial, Meiryo, sans-serif;
-  --pochi-font-heading: var(--pochi-font-base);
+  /* Typography. Text uses --pochi-font-ja or --pochi-font-en by the
+     language of the element (base.css). The monospace stack has no Japanese
+     font: the browser falls back to the system's. */
+  --pochi-font-ja:
+    -apple-system, BlinkMacSystemFont, "Hiragino Sans",
+    "Hiragino Kaku Gothic ProN", "BIZ UDPGothic", Meiryo, "Noto Sans JP",
+    sans-serif;
+  --pochi-font-en:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, sans-serif;
+  --pochi-font-mono:
+    ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+
+  /* Type scale (Utopia): 16px at a 1.125 ratio at 320px, 17px at 1.2 at
+     1240px, fluid in between. Bounds are in rem so browser zoom and the
+     reader's font size setting apply. -2 tags and meta, -1 small UI and
+     code, 0 body, 1 h4-h6, 2 h3 and card titles, 3 h2, 4 article h1,
+     5 page h1 and hero. */
+  --pochi-step--2: clamp(0.7378rem, 0.8083rem - 0.0909vw, 0.7901rem);
+  --pochi-step--1: 0.8875rem;
+  --pochi-step-0: clamp(1rem, 0.9783rem + 0.1087vw, 1.0625rem);
+  --pochi-step-1: clamp(1.125rem, 1.0728rem + 0.2609vw, 1.275rem);
+  --pochi-step-2: clamp(1.2656rem, 1.1737rem + 0.4598vw, 1.53rem);
+  --pochi-step-3: clamp(1.4238rem, 1.2805rem + 0.7168vw, 1.836rem);
+  --pochi-step-4: clamp(1.6018rem, 1.3926rem + 1.0459vw, 2.2032rem);
+  --pochi-step-5: clamp(1.802rem, 1.5092rem + 1.464vw, 2.6438rem);
+
+  /* Line height, unitless so it follows each element's font size. Body
+     text at 1.8 (JLREQ: 175-190%). */
+  --pochi-leading-tight: 1.25;
+  --pochi-leading-heading: 1.4;
+  --pochi-leading-ui: 1.5;
+  --pochi-leading-code: 1.6;
+  --pochi-leading-body: 1.8;
 
   /* Shadows */
   --pochi-shadow-2: 0 2px 8px rgba(0, 0, 0, 0.12);
@@ -138,8 +167,6 @@
   --pochi-z-tooltip: 10; /* "Copied" chip */
   --pochi-z-action-bar: 100; /* mobile action bar */
   --pochi-z-chrome: 997; /* nav bar, footer, scroll-to-top */
-  --pochi-z-scrim: 997; /* drawer scrim: ties with chrome, later in the DOM */
-  --pochi-z-drawer: 999;
   --pochi-z-skip-link: 1001;
   --pochi-z-modal: 9999; /* lightbox */
 
@@ -175,7 +202,11 @@
     100vh - var(--pochi-nav-height) - var(--pochi-breadcrumb-height) -
       var(--pochi-footer-min-height)
   );
+  /* Where sticky sidebars stop: below the fixed nav bar */
+  --pochi-sticky-top: calc(var(--pochi-nav-height) + 1.5rem);
   --pochi-card-padding: 3rem;
+  /* Space between the page edge and the columns, and between columns */
+  --pochi-gutter: 1rem;
 }
 
 :root.light {
@@ -189,9 +220,13 @@
 /* Breakpoints: 768px and 1200px (mobile / tablet / desktop), written as
    `width < 768px` / `width >= 768px`. Custom properties cannot be used in
    media queries, so the numbers are repeated in each file. */
+/* On mobile the text keeps 20 full-width characters a line at 16px
+   (tests/a11y/measure.spec.js): 0.75rem of gutter and of card padding a
+   side. */
 @media (width < 768px) {
   :root {
-    --pochi-card-padding: 1rem;
+    --pochi-card-padding: 0.75rem;
+    --pochi-gutter: 0.75rem;
   }
 }
 

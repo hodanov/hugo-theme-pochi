@@ -1,3 +1,6 @@
-<svg class="icon {{ .id }}">
-  <use xlink:href="#{{ .id }}"></use>
+{{/* Decorative: whatever the icon stands for is said in text or in the
+  control's name
+*/}}
+<svg class="icon {{ .id }}" aria-hidden="true" focusable="false">
+  <use href="#{{ .id }}"></use>
 </svg>

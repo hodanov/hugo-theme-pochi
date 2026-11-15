@@ -1,36 +1,33 @@
 /* Related posts (cards inside .mymenu-related-list, see article.css) */
+
+/* As many columns of at least 12rem as fit (three in the 1280px post) */
+.related-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 12rem), 1fr));
+  column-gap: calc(var(--pochi-gutter) * 2);
+}
+
 .mymenu-related {
   margin-bottom: 1.5rem;
 }
 
 .mymenu-related .text {
   padding-top: 0.5rem;
-}
-
-.mymenu-related a {
-  display: block;
-}
-
-.mymenu-related a .text {
-  font-size: 0.9rem;
+  font-size: var(--pochi-step--1);
   transition: var(--pochi-transition-interactive);
 }
 
-.mymenu-related a .text .post-info {
-  font-size: 0.75rem;
+.mymenu-related .text .post-info {
+  font-size: var(--pochi-step--2);
   font-weight: normal;
 }
 
-.mymenu-related a .image-wrapper:before {
-  padding-top: 61.8%;
-}
-
-.mymenu-related a .featured-image-wrapper img {
+.mymenu-related .featured-image-wrapper img {
   transition: transform var(--pochi-duration-sm) var(--pochi-ease);
 }
 
 @media (hover: hover) {
-  .mymenu-related a:hover .featured-image-wrapper img {
+  .mymenu-related .related-card:hover .featured-image-wrapper img {
     transform: scale(1.1);
   }
 }

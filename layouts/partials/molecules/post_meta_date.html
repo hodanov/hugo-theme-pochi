@@ -1,16 +1,21 @@
+{{/* The icons, the colons and the bar are for the eye; screen readers
+  hear "Published" / "Updated" before each date instead.
+*/}}
 {{ if .PublishDate }}
   <div class="post-info">
     <div class="kiji-date">
       <time datetime="{{ .PublishDate.Local.Format "2006-01-02 15:04:05" }}">
-        {{ partial "atoms/icon.html" (dict "id" "icon-pencil") }}
-        :
+        <span class="u-visually-hidden">{{ T "published" }}</span>
+        {{- partial "atoms/icon.html" (dict "id" "icon-pencil") }}
+        <span aria-hidden="true">:</span>
         {{ .PublishDate.Local.Format "2006-01-02" }}
       </time>
       {{ with .Lastmod }}
-        |
+        <span aria-hidden="true">|</span>
         <time datetime="{{ .Format "2006-01-02 15:04:05" }}">
-          {{ partial "atoms/icon.html" (dict "id" "icon-spinner") }}
-          :
+          <span class="u-visually-hidden">{{ T "updated" }}</span>
+          {{- partial "atoms/icon.html" (dict "id" "icon-spinner") }}
+          <span aria-hidden="true">:</span>
           {{ .Format "2006-01-02" }}
         </time>
       {{ end }}

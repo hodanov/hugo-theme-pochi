@@ -65,3 +65,25 @@ Set `ALLOWED_ORIGIN` in `wrangler.toml` to match your blog domain for CORS prote
 
 - Each page template must render exactly one `.main-content` wrapper. PJAX navigation relies on swapping this node.
 - Put everything that changes per page inside `.main-content`, including the hero of a fixed page (`molecules/hero.html`, rendered as the first child of `<main>`), so one swap replaces it.
+
+## Site Configuration
+
+### Related posts
+
+The related posts under each post come from Hugo's `.Related`, ranked by the site's `related` config. Hugo's default leaves out posts newer than the one being read, so the newest posts never appear. Recommended:
+
+```yaml
+related:
+  includeNewer: true # newer posts count too
+  threshold: 80 # a shared tag is needed; the category and the date only order them
+  toLower: true
+  indices:
+    - name: tags
+      weight: 100
+    - name: categories
+      weight: 50
+    - name: date
+      weight: 10
+```
+
+Lower `threshold` (for example to 40) to fill in posts that share only a category.

@@ -1,50 +1,37 @@
-{{/* Dropdown select-based language switcher */}}
-{{ $current := . }}
-{{ $ctx := $current }}
-{{ if isset . "ctx" }}
-  {{ $ctx = .ctx }}
-{{ end }}
-{{ $id := "language-select" }}
-{{ if isset . "id" }}
-  {{ $id = .id }}
-{{ end }}
-{{ $name := "languages" }}
-{{ if isset . "name" }}
-  {{ $name = .name }}
-{{ end }}
-<div class="lang-switcher">
-  <select
-    id="{{ $id }}"
-    name="{{ $name }}"
-    aria-label="Language"
-    data-pochi-lang-switcher
-  >
-    {{ range partialCached "core/get_languages.html" . }}
-      {{ $lang := .Language }}
-      {{ $isActive := eq $lang.Lang $ctx.Site.Language.Lang }}
-      {{ $href := "" }}
-      {{ $targets := where $ctx.AllTranslations "Lang" $lang.Lang }}
-      {{ if gt (len $targets) 0 }}
-        {{ $href = (index $targets 0).RelPermalink }}
+{{/* Links to this page in the other languages (the current one is left
+  out). A page without a translation links to that language's home. Plain
+  links, so nothing happens until one is followed (WCAG 3.2.2).
+*/}}
+{{ $ctx := . }}
+{{ $links := slice }}
+{{ range partialCached "core/get_languages.html" . }}
+  {{ $lang := .Language }}
+  {{ if ne $lang.Lang $ctx.Site.Language.Lang }}
+    {{ $href := "" }}
+    {{ with where $ctx.AllTranslations "Lang" $lang.Lang }}
+      {{ $href = (index . 0).RelPermalink }}
+    {{ else }}
+      {{ with where $ctx.Site.Home.AllTranslations "Lang" $lang.Lang }}
+        {{ $href = (index . 0).RelPermalink }}
       {{ else }}
-        {{ $homeAlts := where $ctx.Site.Home.AllTranslations "Lang" $lang.Lang }}
-        {{ if gt (len $homeAlts) 0 }}
-          {{ $href = (index $homeAlts 0).RelPermalink }}
-        {{ else }}
-          {{ if eq $lang.Lang $ctx.Site.Language.Lang }}
-            {{ $href = $ctx.Site.Home.RelPermalink }}
-          {{ else }}
-            {{ $href = printf "/%s/" $lang.Lang }}
-          {{ end }}
-        {{ end }}
+        {{ $href = printf "/%s/" $lang.Lang }}
       {{ end }}
-      <option
-        value="{{ $href }}"
-        hreflang="{{ $lang.Lang }}"
-        {{ if $isActive }}selected{{ end }}
-      >
-        {{ $lang.Label }}
-      </option>
     {{ end }}
-  </select>
-</div>
+    {{ $links = $links | append (dict "href" $href "lang" $lang.Lang "label" $lang.Label) }}
+  {{ end }}
+{{ end }}
+{{ with $links }}
+  <ul class="lang-switcher">
+    {{ range . }}
+      <li>
+        <a
+          class="lang-switcher-link"
+          href="{{ .href }}"
+          hreflang="{{ .lang }}"
+          lang="{{ .lang }}"
+          >{{ .label }}</a
+        >
+      </li>
+    {{ end }}
+  </ul>
+{{ end }}

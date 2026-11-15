@@ -1,0 +1,28 @@
+{{/* The posts before and after this one in its section: the older one
+  ("previous") on the left, the newer one ("next") on the right. Hugo's
+  NextInSection is the newer page.
+*/}}
+{{ $older := .PrevInSection }}
+{{ $newer := .NextInSection }}
+{{ if or $older $newer }}
+  <nav class="post-nav" aria-label="{{ T "post_nav" }}">
+    <ul>
+      {{ with $older }}
+        <li class="post-nav-prev">
+          <a href="{{ .RelPermalink }}" rel="prev">
+            <span class="post-nav-label">{{ T "post_prev" }}</span>
+            <span class="post-nav-title">{{ .Title }}</span>
+          </a>
+        </li>
+      {{ end }}
+      {{ with $newer }}
+        <li class="post-nav-next">
+          <a href="{{ .RelPermalink }}" rel="next">
+            <span class="post-nav-label">{{ T "post_next" }}</span>
+            <span class="post-nav-title">{{ .Title }}</span>
+          </a>
+        </li>
+      {{ end }}
+    </ul>
+  </nav>
+{{ end }}

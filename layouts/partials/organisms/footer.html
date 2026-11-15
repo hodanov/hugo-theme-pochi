@@ -1,6 +1,6 @@
 {{ define "footer" }}
   <footer class="footer-section valign-wrapper">
-    <div class="container-fluid">
+    <div class="l-container">
       {{- if .Site.Params.Copyright }}
         <p class="copyright">
           {{ replace .Site.Params.Copyright "{lastChangedYear}" now.Year }}

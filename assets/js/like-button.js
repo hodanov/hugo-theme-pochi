@@ -17,6 +17,17 @@
     return { groups, slug, apiBase };
   }
 
+  // The button's name stays "Like"; a known count is added as its
+  // description. The ids only need to be unique within the page.
+  let countIdSeq = 0;
+  function describeWithCount(g) {
+    if (!g.countEl.id) {
+      countIdSeq += 1;
+      g.countEl.id = "like-count-" + countIdSeq;
+    }
+    g.btn.setAttribute("aria-describedby", g.countEl.id);
+  }
+
   function isLiked(slug) {
     try {
       return localStorage.getItem("liked:" + slug) === "1";
@@ -35,6 +46,7 @@
     groups.forEach(function (g) {
       if (g.countEl && typeof count === "number") {
         g.countEl.textContent = String(count);
+        describeWithCount(g);
       }
       if (g.btn) {
         g.btn.setAttribute("aria-pressed", String(liked));

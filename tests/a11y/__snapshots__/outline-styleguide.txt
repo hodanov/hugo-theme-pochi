@@ -10,6 +10,7 @@
   - heading "見出しレベル 6" [level=6]
   - heading "リスト" [level=3]
   - heading "表" [level=2]
+  - region "表 1"
   - heading "コード" [level=2]
   - heading "引用と補足情報" [level=2]
   - heading "デザイントークン" [level=2]

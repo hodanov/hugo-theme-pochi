@@ -24,13 +24,13 @@
   list-style-type: none;
   padding: 0 1rem;
   margin: 0;
-  font-size: 0.9rem;
+  font-size: var(--pochi-step--1);
 }
 
 .table-of-contents ol li,
 .table-of-contents ul li {
   text-align: left;
-  line-height: 2rem;
+  line-height: 2.25;
 }
 
 .table-of-contents ol li a,
@@ -104,7 +104,7 @@
 #sidebar .table-of-contents nav li,
 #sidebar-left .table-of-contents nav li,
 #sidebar-right .table-of-contents nav li {
-  line-height: 1.6rem;
+  line-height: var(--pochi-leading-body);
 }
 
 @media (width >= 768px) {

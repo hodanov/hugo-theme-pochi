@@ -1,0 +1,50 @@
+{{/* Markdown tables scroll sideways in their own region instead of
+  stretching the page (WCAG 1.4.10). The region takes keyboard focus so it
+  can be scrolled without a mouse, and is named "Table n" so each one on a
+  page has its own name (a named section is a region). Cells keep
+  Goldmark's alignment styles.
+*/}}
+<section
+  class="table-scroll"
+  tabindex="0"
+  aria-label="{{ T "table_n" (dict "N" (add .Ordinal 1)) }}"
+>
+  <table
+    {{- range $k, $v := .Attributes }}
+      {{- if $v }}
+        {{- printf " %s=%q" $k (string $v) | safeHTMLAttr }}
+      {{- end }}
+    {{- end }}
+  >
+    <thead>
+      {{- range .THead }}
+        <tr>
+          {{- range . }}
+            <th
+              {{- with .Alignment }}
+                {{- printf " style=%q" (printf "text-align: %s" .) | safeHTMLAttr }}
+              {{- end -}}
+            >
+              {{- .Text -}}
+            </th>
+          {{- end }}
+        </tr>
+      {{- end }}
+    </thead>
+    <tbody>
+      {{- range .TBody }}
+        <tr>
+          {{- range . }}
+            <td
+              {{- with .Alignment }}
+                {{- printf " style=%q" (printf "text-align: %s" .) | safeHTMLAttr }}
+              {{- end -}}
+            >
+              {{- .Text -}}
+            </td>
+          {{- end }}
+        </tr>
+      {{- end }}
+    </tbody>
+  </table>
+</section>

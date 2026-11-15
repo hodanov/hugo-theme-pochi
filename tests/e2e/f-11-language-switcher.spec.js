@@ -4,10 +4,15 @@ test.describe("F-11 Language switcher", () => {
   test("switches to Japanese content", async ({ page }) => {
     await page.goto("/posts/p-01-sample-1/");
 
-    const select = page.locator("#language-select-top");
-    await expect(select).toBeVisible();
+    // Only the other language is offered, as a link in that language
+    const links = page.locator("#lang-switcher-container a");
+    await expect(links).toHaveCount(1);
+    const link = links.first();
+    await expect(link).toHaveText("日本語");
+    await expect(link).toHaveAttribute("hreflang", "ja");
+    await expect(link).toHaveAttribute("lang", "ja");
 
-    await select.selectOption({ label: "日本語" });
+    await link.click();
 
     await expect(page).toHaveURL(/\/ja\/posts\/p-01-sample-1\//);
     await expect(page.locator("h1")).toHaveText("サンプル記事1");
@@ -22,11 +27,20 @@ test.describe("F-11 Language switcher", () => {
     const logo = page.locator("#logo-container");
     await expect(logo).toHaveAttribute("href", "/");
 
-    const select = page.locator("#language-select-top");
-    await select.selectOption({ label: "日本語" });
+    await page.locator("#lang-switcher-container a").click();
 
     await expect(page).toHaveURL(/\/ja\/posts\/p-01-sample-1\//);
     await expect(logo).toHaveAttribute("href", "/ja/");
+  });
+
+  test("the link points back to English after switching", async ({ page }) => {
+    await page.goto("/posts/p-01-sample-1/");
+    await page.locator("#lang-switcher-container a").click();
+    await expect(page).toHaveURL(/\/ja\/posts\/p-01-sample-1\//);
+
+    const link = page.locator("#lang-switcher-container a");
+    await expect(link).toHaveText("English");
+    await expect(link).toHaveAttribute("href", "/posts/p-01-sample-1/");
   });
 
   test("body i18n labels update after PJAX language switch", async ({
@@ -39,8 +53,7 @@ test.describe("F-11 Language switcher", () => {
     );
     expect(enLabel).toBe("Copied!");
 
-    const select = page.locator("#language-select-top");
-    await select.selectOption({ label: "日本語" });
+    await page.locator("#lang-switcher-container a").click();
 
     await expect(page).toHaveURL(/\/ja\/posts\/p-01-sample-1\//);
 

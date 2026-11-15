@@ -100,6 +100,7 @@ pochi テーマのデザインを、デザイナー／FE エンジニアが実�
 | L-07 | Chroma がインラインスタイルを出力するため、コードブロックがダークモードに追従しない                                                                                                                                                                                                 | サイト `config.yaml` の `markup.highlight`                 | 一貫性                      | 2      | P7     |
 | L-08 | 使われていないトークンとユーティリティが残っている（`--pochi-shadow-1`、`--pochi-surface`、`.u-focus-ring`）。`!important` が 18。P2 PR A で未使用を削除し、PR C で `!important` を 2 個（`[hidden]` と reduced-motion）に減らして、新しく足すと stylelint のエラーになるようにした | `tokens.css`、`utilities.css`                              | —                           | 1      | P2     |
 | L-09 | いいね・シェアのレールが、目次のある記事にしか出ない                                                                                                                                                                                                                                | `posts/single.html:9-17`                                   | 一貫性                      | 1      | P5     |
+| L-10 | 768px 未満で `#contents`（`col-md-8 centered`）に幅の指定が無く、本文の短いページでは列が中身の幅まで縮んで中央に寄る（カードが画面より狭くなる）。P4A で見つけた                                                                                                                   | `layout/grid.css`、`.centered`                             | 一貫性                      | 1      | P5     |
 
 #### N: 情報設計・回遊
 
@@ -186,12 +187,13 @@ pochi テーマのデザインを、デザイナー／FE エンジニアが実�
 詳細は `2026-10-20_p3-wcag22-aa.md`。3B が大きいので、骨組み（3B-1：見出し・ランドマーク・ナビ・パンくず・ページネーション・404）と部品（3B-2：言語切替・アイコン・画像・カード・いいね・検索・表）に分けた。ホームの h1 は見えない h1、言語切替は今の言語以外へのリンク、テーマ切替は 1 つのボタンで 3 状態を回す。
 
 - **3A CSS**：A-01〜A-04、A-15〜A-17、A-23、A-26、T-06。リンク色を `#1f7a6d` 相当（5.17:1）にし、本文リンクに下線を付ける。アクセント上の文字は濃い色（8.48:1）にする。フォーカスは `:focus-visible` で統一し、`scroll-padding-top` を設定する。主要な操作対象は 44px 以上にする。`@media (hover: hover)` と reduced-motion をまとめて適用し、`forced-colors` にも対応する。3A で解消した（コントラストの `known` が 0、本文の APCA は Lc75 以上）。
-- **3B テンプレート**：A-05、A-06、A-09〜A-14、A-19〜A-21、A-25、A-27、A-28、L-06、N-03。全ページに h1 を置く。404 に回復導線を付ける。言語切替をリンクにする。ナビを disclosure パターンにする。カードは「`<h2><a>` + `::after` でクリック範囲を広げる」形にする。表の render hook を追加する。3B-1 で A-05、A-06、A-10、A-20、A-21、A-25、A-27、N-03 を解消した（axe の残りは styleguide の 3 種だけ）。
-- **3C JS**：A-07、A-08、A-22。サイドナビを `<dialog>` にする。テーマ切替を 3 状態にする。PJAX の遷移後に h1 へフォーカスを移し、live region でページ名を読み上げる。
+- **3B テンプレート**：A-05、A-06、A-09〜A-14、A-19〜A-21、A-25、A-27、A-28、L-06、N-03。全ページに h1 を置く。404 に回復導線を付ける。言語切替をリンクにする。ナビを disclosure パターンにする。カードは「`<h2><a>` + `::after` でクリック範囲を広げる」形にする。表の render hook を追加する。3B-1 で A-05、A-06、A-10、A-20、A-21、A-25、A-27、N-03 を、3B-2 で A-09、A-11〜A-14、A-19、A-28、L-06 を解消した（axe の残りは styleguide のコードハイライトの color-contrast だけ）。
+- **3C JS**：A-07、A-08、A-22。サイドナビを `<dialog>` にする。テーマ切替を 3 状態にする。PJAX の遷移後に h1 へフォーカスを移し、live region でページ名を読み上げる。3C で 3 つとも解消した（html-validate の hidden-focusable は 0）。
 - **完了条件**：axe のベースラインが空（styleguide のコードハイライト内の color-contrast は L-07 として P7 に残す）。html-validate の a11y に関わるルールが 0（no-inline-style と Goldmark の脚注の valid-id は残る）。トークンのペアが WCAG2 で 4.5 / 3 以上、かつ APCA で本文 Lc75 以上。操作できる要素が 375 / 1280px で 24px 以上、主要な操作対象は 44px 以上（自動で測る）。影響する E2E は同じ PR で更新する。
 
 ### P4 本文タイポグラフィ・和文組版（M）
 
+- 詳細は `2026-11-08_p4-typography.md`。PR は 3 本（4A ルートの文字サイズ → 4B 文字サイズ・行送り・ウェイト → 4C 和文組版と行長）。
 - T-01〜T-05、T-07〜T-09 を対応する。ルートを `font-size: 100%` にする変更は単独の PR にし、before / after を添付する。本文は 16→17px、weight 400、line-height 1.8（単位なし）。
 - フォントスタックを `:lang(ja)` / `:lang(en)` で出し分ける。ja は `-apple-system, BlinkMacSystemFont, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "BIZ UDPGothic", Meiryo, "Noto Sans JP", sans-serif`、mono は `ui-monospace` から始める。
 - `line-break: strict`、`overflow-wrap: anywhere`、`text-autospace`、`text-wrap: pretty / balance`、見出しにだけ `palt`。本文の行長は `max-inline-size: 40em`。見出しのスケールは Utopia で作る。
@@ -199,12 +201,18 @@ pochi テーマのデザインを、デザイナー／FE エンジニアが実�
 
 ### P5 レイアウトとコンポーネント（M〜L）
 
-- `layout/grid.css` を CSS Grid の `layout/shell.css` に置き換え、`col-*` を除去する（L-05）。`scrollspy.js` のセレクタは `data-pochi-toc` に移す。いいね・シェアのレールを常に表示する（L-09）。カードはコンテナクエリで組み、`aspect-ratio`・タグ表示・`line-clamp` を入れる。関連記事は auto-fill グリッドにする。
+- `layout/grid.css` を CSS Grid の `layout/shell.css` に置き換え、`col-*` を除去する（L-05）。768px 未満で列が縮む問題（L-10）もここで消える。`scrollspy.js` のセレクタは `data-pochi-toc` に移す。いいね・シェアのレールを常に表示する（L-09）。カードはコンテナクエリで組み、`aspect-ratio`・タグ表示・`line-clamp` を入れる。関連記事は auto-fill グリッドにする。
+- 詳細は `2026-11-14_p5-layout.md`。PR は 3 本（5A Grid の骨組み → 5B いいね・シェアのレール → 5C カードと関連記事）。
+- 5A で L-05・L-10、5B で L-09 を解消した。5C でサムネの幅をコンテナクエリで決め（サムネは float のまま。grid で組むと和文の長い題でサムネの下が空いた）、要約を 3 行で切り、タグを 3 つまで出した。
 - **完了条件**：`grid.css`・`col-*`・`order` での並べ替えがゼロ。320〜1440px で横スクロールが出ない。カードの CLS が 0。
 
 ### P6 情報設計・回遊（M）
 
 - N-02〜N-06 を対応する。`hasCJKLanguage: true` で読了時間を出す。前後の記事、見出しアンカー（render-heading フック）、`related` の重み付け、ナビの `aria-current`、タグページの h1・件数・説明、サイドバーの並び順、検索 0 件時の案内、Fuse の調整。
+- 詳細は `2026-11-14_p6-navigation.md`。PR は 3 本（6A 記事の回遊 → 6B 一覧とナビ → 6C 検索と関連記事）。
+- 6A で N-02 のうち前後の記事と見出しアンカーを入れた。読了時間は、固定の速さで割るだけで目安にしかならず、日付の行の情報を増やすだけなので出さないことにした。
+- 6B で N-04（タグページの件数・説明）、N-06（ナビの `aria-current`）を解消し、モバイルでもカテゴリとアーカイブを出した。
+- 6C で N-05（検索 0 件の案内、Fuse の調整）を解消した。関連記事はサイトの `related` に従うようにし、推奨の設定を README に書いた（2 回のビルドで同じになる）。
 - **完了条件**：2 回ビルドしても関連記事が同じになる。GA4 で 28 日間のページ / セッションを比較し、+10% を目安にする。
 
 ### P7 パフォーマンス・SEO メタ（M・P1 以降なら並行して進められる）

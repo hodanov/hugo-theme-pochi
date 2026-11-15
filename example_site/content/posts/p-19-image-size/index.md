@@ -5,7 +5,7 @@ date: "2024-05-19T09:00:00+09:00"
 publishDate: "2024-05-19T09:00:00+09:00"
 lastmod: "2024-05-19T09:00:00+09:00"
 draft: false
-summary: "E2E: Markdown image size hints via the title attribute and raw <img> HTML."
+summary: "E2E: Markdown image size hints via the title attribute and raw `<img>` HTML."
 tags: ["image"]
 categories: ["news"]
 ---

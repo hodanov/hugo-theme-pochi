@@ -1,0 +1,7 @@
+<svg class="icon icon-system" style="display: none;">
+  <symbol id="icon-system" viewBox="0 0 32 32">
+    <path
+      d="M4 4h24c1.105 0 2 0.895 2 2v16c0 1.105-0.895 2-2 2h-10v3h5c0.552 0 1 0.448 1 1s-0.448 1-1 1h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h5v-3h-10c-1.105 0-2-0.895-2-2v-16c0-1.105 0.895-2 2-2zM5 7v14h22v-14h-22z"
+    ></path>
+  </symbol>
+</svg>

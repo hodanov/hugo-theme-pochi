@@ -1,9 +1,7 @@
 // Minimal TOC scrollspy for right sidebar
 (function () {
   function init() {
-    const tocNav = document.querySelector(
-      "#sidebar-right .table-of-contents nav, #sidebar .table-of-contents nav",
-    );
+    const tocNav = document.querySelector("[data-pochi-toc] nav");
     if (!tocNav) return;
 
     const links = Array.from(tocNav.querySelectorAll('a[href^="#"]'));

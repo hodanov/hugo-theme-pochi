@@ -1,5 +1,6 @@
 /* Article list cards */
 .article-list .post-row {
+  container-type: inline-size;
   margin: 0 0 3rem 0;
   background-color: var(--pochi-card);
   border-radius: var(--pochi-radius-md);
@@ -13,44 +14,95 @@
   }
 }
 
-.article-list .post-row div > a {
-  display: block;
-  margin: 0 -1rem;
-  padding: 1rem;
+/* The thumbnail floats at the left: the title and the date run beside it
+   and, when the title is long, on below it, so no empty space is left
+   under the image. Its width follows the card's own width, not the
+   page's. */
+.article-list .post-card {
+  --pochi-card-thumb: 6rem;
+  display: flow-root;
+  padding: 1rem var(--pochi-gutter);
+}
+
+@container (width >= 30rem) {
+  .article-list .post-card {
+    --pochi-card-thumb: clamp(8rem, 25%, 12rem);
+  }
+}
+
+/* Cards (post list, search results, related posts): the title link is the
+   only link, and its ::after covers the card, so the whole card is
+   clickable and the link's name is just the title. The focus ring goes
+   around the card. */
+.post-card,
+.related-card {
+  position: relative;
+}
+
+.post-card-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.post-card-link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.post-card-link:focus-visible {
+  outline: none;
+}
+
+.post-card-link:focus-visible::after {
+  outline: var(--pochi-focus-ring);
+  outline-offset: var(--pochi-focus-ring-offset);
+  border-radius: var(--pochi-radius-md);
 }
 
 .article-list .post-image-col {
-  width: 25%;
-  margin-right: 1rem;
   float: left;
+  width: var(--pochi-card-thumb);
+  margin: 0 1rem 0 0;
 }
 
-.article-list .post-title,
-.article-list .post-text {
-  width: 100%;
-}
-
+/* Cut after three lines, so one long summary does not stretch its card.
+   The clamp makes the excerpt a box of its own, which cannot run round the
+   thumbnail, so it starts below it at the full width. */
 .article-list .post-excerpt {
+  clear: both;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
   color: var(--pochi-text-muted);
-  font-size: 0.9rem;
-  line-height: 1.75;
+  font-size: var(--pochi-step--1);
+  line-height: var(--pochi-leading-body);
+}
+
+/* Tags are links of their own, above the title link's cover */
+.article-list .post-card-tags {
+  position: relative;
+  z-index: var(--pochi-z-raised);
+  margin-top: 1rem;
 }
 
 .article-list h2 {
   transition: var(--pochi-transition-interactive);
 }
 
-.article-list a h2,
-.mymenu-related a .text {
-  font-size: 1.4rem;
+.article-list .post-card h2,
+.mymenu-related .text {
+  font-size: var(--pochi-step-2);
   margin: 0;
   color: var(--pochi-text);
   font-weight: bold;
 }
 
 @media (hover: hover) {
-  .article-list a:hover h2,
-  .mymenu-related a:hover .text {
+  .article-list .post-card:hover h2,
+  .mymenu-related .related-card:hover .post-card-link {
     color: var(--pochi-link);
   }
 }
@@ -61,22 +113,28 @@
   margin: 1rem 0;
   display: block;
   color: var(--pochi-text-muted);
-  font-size: 0.75rem;
-  overflow: hidden;
+  font-size: var(--pochi-step--2);
 }
 
 .article-list p {
   margin: 0;
 }
 
+/* Search with no results: the message, then what to try next
+   (search.html) */
+.article-list .search-results-empty {
+  margin-bottom: 1rem;
+  font-weight: bold;
+}
+
+.article-list .search-results-help p {
+  margin-bottom: 0.5rem;
+}
+
 @media (width < 768px) {
   .article-list .post-row {
     padding: 1rem 0;
     margin: 0 0 1rem 0;
-  }
-
-  .article-list a h2 {
-    font-size: 1.2rem;
   }
 }
 
@@ -85,4 +143,16 @@
   .article-list .post-row {
     border: 1px solid CanvasText;
   }
+}
+
+/* Term pages (tags, categories): the post count and the description under
+   the heading, before the cards */
+.term-count,
+.term-description {
+  margin: 0 0 1rem;
+}
+
+.term-count {
+  color: var(--pochi-text-muted);
+  font-size: var(--pochi-step--1);
 }

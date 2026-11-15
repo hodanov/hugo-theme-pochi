@@ -3,10 +3,18 @@
 // re-running `npm run a11y:update`. `viewport` is a width in
 // tests/vrt/helpers.js VIEWPORTS (the project default is 1280); the 375px
 // entries cover what only mobile shows (action bar, inline table of
-// contents).
+// contents). `click` is a selector clicked after the page loads, to audit a
+// state such as the open side nav.
 module.exports = [
   { id: "home", path: "/" },
   { id: "home@375", path: "/", viewport: 375 },
+  {
+    id: "side-nav@375",
+    path: "/",
+    viewport: 375,
+    click: "#menu-bar-btn",
+    waitFor: "#side-nav",
+  },
   { id: "home-page-2", path: "/page/2/" },
   { id: "post-toc", path: "/posts/p-03-with-toc/" },
   { id: "post-toc@375", path: "/posts/p-03-with-toc/", viewport: 375 },

@@ -37,6 +37,15 @@ const CASES = [
     ],
   },
   {
+    path: "/posts/p-04-no-toc/",
+    width: 1280,
+    selectors: [
+      "#sidebar-left .like-btn",
+      "#sidebar-left .share-btn",
+      "#sidebar-left .sns-share-link",
+    ],
+  },
+  {
     path: "/posts/p-15-code-copy/",
     width: 375,
     selectors: ["pre .code-copy-button"],

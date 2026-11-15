@@ -18,9 +18,9 @@
 .form-control {
   display: block;
   padding: 0.375rem 0.75rem;
-  font-size: 1rem;
+  font-size: var(--pochi-step-0);
   font-weight: 400;
-  line-height: 1.5;
+  line-height: var(--pochi-leading-ui);
   color: var(--pochi-text);
   background-color: var(--pochi-card);
   background-clip: padding-box;
@@ -45,7 +45,7 @@ input:focus-visible {
 /* input */
 input.form-control {
   color: var(--pochi-text);
-  font-weight: 300;
+  font-weight: 400;
 }
 
 /* Contact form */

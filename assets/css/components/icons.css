@@ -21,15 +21,16 @@
   margin-left: 0.25rem;
 }
 
-.icon-light {
+/* The theme toggle shows the current setting: the head script puts it on
+   <html> as data-theme-pref; anything else (no script yet) is "system" */
+#theme-toggle-switch .icon {
   display: none;
 }
 
-/* The theme toggle shows the sun in dark mode and the moon in light mode */
-.dark .icon-light {
+:root:not([data-theme-pref="light"], [data-theme-pref="dark"])
+  #theme-toggle-switch
+  .icon-system,
+:root[data-theme-pref="light"] #theme-toggle-switch .icon-light,
+:root[data-theme-pref="dark"] #theme-toggle-switch .icon-dark {
   display: inline-block;
-}
-
-.dark .icon-dark {
-  display: none;
 }

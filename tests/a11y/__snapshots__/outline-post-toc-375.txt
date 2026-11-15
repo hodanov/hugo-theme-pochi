@@ -8,6 +8,7 @@
   - heading "Section B" [level=2]
   - heading "Subsection B-1" [level=3]
   - heading "Section C" [level=2]
+  - navigation "Previous and next posts"
   - heading "Leave a comment" [level=2]
   - heading "Related posts" [level=2]
 - contentinfo

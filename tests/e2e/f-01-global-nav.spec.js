@@ -95,3 +95,82 @@ test.describe("F-01 Global navigation dropdown (disclosure)", () => {
     await expect(toggle).toHaveAttribute("aria-expanded", "true");
   });
 });
+
+// N-06: the menu marks where the reader is. The page itself is
+// aria-current="page"; the entry it sits under is aria-current="true".
+test.describe("F-01 Global navigation current location", () => {
+  test.use({ viewport: { width: 1280, height: 800 } });
+
+  const current = (page) =>
+    page
+      .locator("#menu-global-nav a[aria-current]")
+      .evaluateAll((links) =>
+        links.map((a) => [
+          a.getAttribute("href"),
+          a.getAttribute("aria-current"),
+        ]),
+      );
+
+  test("the home page marks nothing", async ({ page }) => {
+    await page.goto("/");
+    expect(await current(page)).toEqual([]);
+  });
+
+  test("a page in the menu is the current page", async ({ page }) => {
+    await page.goto("/page/about/");
+    expect(await current(page)).toEqual([["/page/about/", "page"]]);
+  });
+
+  test("a child page marks its parent too", async ({ page }) => {
+    await page.goto("/archives/");
+    expect(await current(page)).toEqual([
+      ["/posts/", "true"],
+      ["/archives/", "page"],
+    ]);
+  });
+
+  test("a post marks its section", async ({ page }) => {
+    await page.goto("/posts/p-03-with-toc/");
+    expect(await current(page)).toEqual([["/posts/", "true"]]);
+  });
+
+  test("the current entry looks different from the others", async ({
+    page,
+  }) => {
+    await page.goto("/page/about/");
+    const about = page.locator('#menu-global-nav a[href="/page/about/"]');
+    const posts = page.locator('#menu-global-nav a[href="/posts/"]');
+    const style = (l) =>
+      l.evaluate((a) => {
+        const cs = getComputedStyle(a);
+        return `${cs.color} ${cs.boxShadow} ${cs.textDecorationLine}`;
+      });
+    expect(await style(about)).not.toEqual(await style(posts));
+  });
+
+  test("the side nav marks the same entries", async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 800 });
+    await page.goto("/archives/");
+    const marked = await page
+      .locator("#menu-global-nav-for-phone a[aria-current]")
+      .evaluateAll((links) =>
+        links.map((a) => [
+          a.getAttribute("href"),
+          a.getAttribute("aria-current"),
+        ]),
+      );
+    expect(marked).toEqual([
+      ["/posts/", "true"],
+      ["/archives/", "page"],
+    ]);
+  });
+
+  test("the marks follow a PJAX navigation", async ({ page }) => {
+    await page.goto("/");
+    await page.locator('#menu-global-nav a[href="/page/about/"]').click();
+    await page.waitForURL("**/page/about/");
+    await expect(
+      page.locator('#menu-global-nav a[href="/page/about/"]'),
+    ).toHaveAttribute("aria-current", "page");
+  });
+});

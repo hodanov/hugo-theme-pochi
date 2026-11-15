@@ -1,9 +1,12 @@
-<div
+{{/* A modal dialog (main.js opens it with showModal()): the browser traps
+  focus, makes the page behind it inert, closes it on Escape and returns
+  focus to the menu button.
+*/}}
+<dialog
   id="side-nav"
   data-pochi-side-nav
   class="menu-global-nav-for-phone-container"
-  style="opacity: 0;"
-  aria-hidden="true"
+  aria-label="{{ T "menu" }}"
 >
   <div class="side-nav-header">
     <button
@@ -20,19 +23,41 @@
     {{ range .Site.Menus.main }}
       {{ if .HasChildren }}
         <li>
-          <a href="{{ .URL | relLangURL }}">{{ .Name }}</a>
+          <a
+            href="{{ .URL | relLangURL }}"
+            {{ with partial "helpers/menu_current.html" (dict "entry" . "page" $) }}
+              aria-current="{{ . }}"
+            {{ end }}
+            >{{ .Name }}</a
+          >
           <ul>
             {{ range .Children }}
-              <li><a href="{{ .URL | relLangURL }}">{{ .Name }}</a></li>
+              <li>
+                <a
+                  href="{{ .URL | relLangURL }}"
+                  {{ with partial "helpers/menu_current.html" (dict "entry" . "page" $) }}
+                    aria-current="{{ . }}"
+                  {{ end }}
+                  >{{ .Name }}</a
+                >
+              </li>
             {{ end }}
           </ul>
         </li>
       {{ else }}
-        <li><a href="{{ .URL | relLangURL }}">{{ .Name }}</a></li>
+        <li>
+          <a
+            href="{{ .URL | relLangURL }}"
+            {{ with partial "helpers/menu_current.html" (dict "entry" . "page" $) }}
+              aria-current="{{ . }}"
+            {{ end }}
+            >{{ .Name }}</a
+          >
+        </li>
       {{ end }}
     {{ end }}
   </ul>
   <div id="side-nav-option">
-    {{ partial "molecules/lang_switcher.html" (dict "ctx" . "id" "language-select-side" "name" "language_side") }}
+    {{ partial "molecules/lang_switcher.html" . }}
   </div>
-</div>
+</dialog>

@@ -1,6 +1,7 @@
 {{ $page := .page }}
 {{ $imgParam := .image }}
-{{ $alt := .alt }}
+{{/* alt is always written: an empty one marks a decorative image */}}
+{{ $alt := .alt | default "" }}
 {{ $displayWidth := int (or .displayWidth 0) }}
 {{ $displayHeight := int (or .displayHeight 0) }}
 {{ $sizesAttr := or .sizes (cond (gt $displayWidth 0) (printf "%dpx" $displayWidth) "(min-width: 1200px) 1200px, 100vw") }}
@@ -106,7 +107,7 @@
       src="{{ $fallbackSrc }}"
       srcset="{{ delimit $srcsetFallback ", " }}"
       sizes="{{ $sizesAttr }}"
-      {{ with $alt }}alt="{{ . }}"{{ end }}
+      alt="{{ $alt }}"
       {{ partial "atoms/img_attrs.html" (dict "priority" $priority) | safeHTMLAttr }}
       {{ partial "atoms/img_size_attrs.html" (dict
         "displayWidth" $displayWidth
@@ -156,7 +157,7 @@
         src="{{ $fallbackSrc }}"
         srcset="{{ delimit $srcsetFallback ", " }}"
         sizes="{{ $sizesAttr }}"
-        {{ with $alt }}alt="{{ . }}"{{ end }}
+        alt="{{ $alt }}"
         {{ partial "atoms/img_attrs.html" (dict "priority" $priority) | safeHTMLAttr }}
         {{ partial "atoms/img_size_attrs.html" (dict
           "displayWidth" $displayWidth
@@ -175,7 +176,7 @@
       <source type="image/{{ $type }}" srcset="{{ $res.RelPermalink }}" />
       <img
         src="{{ $res.RelPermalink }}"
-        {{ with $alt }}alt="{{ . }}"{{ end }}
+        alt="{{ $alt }}"
         {{ partial "atoms/img_attrs.html" (dict "priority" $priority) | safeHTMLAttr }}
         {{ partial "atoms/img_size_attrs.html" (dict
           "displayWidth" $displayWidth
@@ -193,7 +194,7 @@
     {{/* e.g., SVG Page Resource: do not attempt resize; just output as-is */}}
     <img
       src="{{ $res.RelPermalink }}"
-      {{ with $alt }}alt="{{ . }}"{{ end }}
+      alt="{{ $alt }}"
       {{ partial "atoms/img_attrs.html" (dict "priority" $priority) | safeHTMLAttr }}
       {{ partial "atoms/img_size_attrs.html" (dict
         "displayWidth" $displayWidth
@@ -240,7 +241,7 @@
         <source srcset="{{ $primarySrc }}" type="image/{{ $type }}" />
         <img
           src="{{ $fallbackSrc }}"
-          {{ with $alt }}alt="{{ . }}"{{ end }}
+          alt="{{ $alt }}"
           {{ partial "atoms/img_attrs.html" (dict "priority" $priority) | safeHTMLAttr }}
           {{ partial "atoms/img_size_attrs.html" (dict
             "displayWidth" $displayWidth
@@ -262,7 +263,7 @@
       {{ end }}
       <img
         src="{{ $fallbackSrc }}"
-        {{ with $alt }}alt="{{ . }}"{{ end }}
+        alt="{{ $alt }}"
         {{ partial "atoms/img_attrs.html" (dict "priority" $priority) | safeHTMLAttr }}
         {{ partial "atoms/img_size_attrs.html" (dict
           "displayWidth" $displayWidth

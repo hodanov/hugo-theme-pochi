@@ -34,7 +34,8 @@
     e.preventDefault();
     const url = btn.getAttribute("data-share-url") || location.href;
     const title = btn.getAttribute("data-share-title") || document.title;
-    const live = btn.querySelector("[data-share-feedback]");
+    const root = btn.closest("[data-share-root]");
+    const live = root ? root.querySelector("[data-share-feedback]") : null;
     (async () => {
       try {
         if (isMobileDevice() && navigator.share) {
@@ -43,9 +44,11 @@
           await window.__pochiClipboard.copy(url);
           if (live)
             live.textContent = btn.dataset.feedbackCopied || "URL copied";
-          btn.setAttribute("aria-pressed", "true");
+          // A one-off action, not a toggle: data-copied only drives the
+          // "Copied" chip (chip.css)
+          btn.setAttribute("data-copied", "");
           setTimeout(() => {
-            btn.setAttribute("aria-pressed", "false");
+            btn.removeAttribute("data-copied");
             if (live) live.textContent = "";
           }, 2000);
         }

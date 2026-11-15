@@ -20,7 +20,16 @@ other = "Close menu"
 other = "Menu"
 
 [theme_toggle_aria]
-other = "Toggle theme"
+other = "Theme: {{ .Name }}"
+
+[theme_system]
+other = "System"
+
+[theme_light]
+other = "Light"
+
+[theme_dark]
+other = "Dark"
 
 [powered_by]
 other = "Powered by"
@@ -123,3 +132,46 @@ other = "Back to the home page"
 
 [latest_posts]
 other = "Latest posts"
+
+[published]
+other = "Published"
+
+[updated]
+other = "Updated"
+
+[search_results]
+other = "%d results"
+
+[table_n]
+other = "Table {{ .N }}"
+
+[task_done]
+other = "Done"
+
+[task_open]
+other = "Not done"
+
+[post_nav]
+other = "Previous and next posts"
+
+[post_prev]
+other = "Previous post"
+
+[post_next]
+other = "Next post"
+
+[heading_anchor]
+other = "Link to this section: {{ .Name }}"
+
+[term_count]
+one = "{{ .Count }} post"
+other = "{{ .Count }} posts"
+
+[search_help]
+other = "Try fewer or shorter words, or a different word. You can also browse the posts:"
+
+[search_help_tags]
+other = "Tags"
+
+[search_help_archives]
+other = "Archives"
