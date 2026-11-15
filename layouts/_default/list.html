@@ -10,6 +10,14 @@
             <h1 class="u-visually-hidden">{{ .Site.Title }}</h1>
           {{ else }}
             <h1>{{ .Title }}</h1>
+            {{/* A tag or category says how many posts it holds and, from
+              its _index.md, what it is about */}}
+            {{ if eq .Kind "term" }}
+              <p class="term-count">{{ T "term_count" (len .Pages) }}</p>
+              {{ with .Description }}
+                <p class="term-description">{{ . }}</p>
+              {{ end }}
+            {{ end }}
           {{ end }}
           <div class="article-list">
             {{ $paginator := slice }}

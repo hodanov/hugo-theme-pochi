@@ -31,7 +31,13 @@
               */}}
               {{ $listId := printf "nav-submenu-%d" $i }}
               <li class="dropdown">
-                <a href="{{ .URL | relLangURL }}">{{ .Name }}</a>
+                <a
+                  href="{{ .URL | relLangURL }}"
+                  {{ with partial "helpers/menu_current.html" (dict "entry" . "page" $) }}
+                    aria-current="{{ . }}"
+                  {{ end }}
+                  >{{ .Name }}</a
+                >
                 <button
                   type="button"
                   class="dropdown-toggle"
@@ -44,12 +50,28 @@
                 </button>
                 <ul class="dropdown-list" id="{{ $listId }}">
                   {{ range .Children }}
-                    <li><a href="{{ .URL | relLangURL }}">{{ .Name }}</a></li>
+                    <li>
+                      <a
+                        href="{{ .URL | relLangURL }}"
+                        {{ with partial "helpers/menu_current.html" (dict "entry" . "page" $) }}
+                          aria-current="{{ . }}"
+                        {{ end }}
+                        >{{ .Name }}</a
+                      >
+                    </li>
                   {{ end }}
                 </ul>
               </li>
             {{ else }}
-              <li><a href="{{ .URL | relLangURL }}">{{ .Name }}</a></li>
+              <li>
+                <a
+                  href="{{ .URL | relLangURL }}"
+                  {{ with partial "helpers/menu_current.html" (dict "entry" . "page" $) }}
+                    aria-current="{{ . }}"
+                  {{ end }}
+                  >{{ .Name }}</a
+                >
+              </li>
             {{ end }}
           {{ end }}
         </ul>

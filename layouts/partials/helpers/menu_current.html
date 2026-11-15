@@ -1,0 +1,28 @@
+{{/* Where a menu entry stands to the page, for aria-current: "page" when
+  it links to the page itself, "true" when the page sits under it (its URL
+  is a prefix of the page's, it is the page's section, or one of its
+  children is current), and "" otherwise. The home link ("/") only matches
+  the home page. Matching is by URL, so it works for entries set with
+  `url` as well as `pageRef`.
+
+  Usage: partial "helpers/menu_current.html" (dict "entry" . "page" $page)
+*/}}
+{{ $url := .entry.URL | relLangURL }}
+{{ $page := .page }}
+{{ $here := $page.RelPermalink }}
+{{ $current := "" }}
+{{ if eq $url $here }}
+  {{ $current = "page" }}
+{{ else if ne $url ("/" | relLangURL) }}
+  {{ if or (hasPrefix $here $url) (eq $page.FirstSection.RelPermalink $url) }}
+    {{ $current = "true" }}
+  {{ end }}
+{{ end }}
+{{ if and (not $current) .entry.HasChildren }}
+  {{ range .entry.Children }}
+    {{ if partial "helpers/menu_current.html" (dict "entry" . "page" $page) }}
+      {{ $current = "true" }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+{{ return $current }}

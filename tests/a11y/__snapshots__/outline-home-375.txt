@@ -6,6 +6,10 @@
   - heading "Pagination Post 4" [level=2]
   - heading "Pagination Post 3" [level=2]
   - navigation "Pagination"
+  - complementary "Categories"
+    - heading "Categories" [level=2]
+  - complementary "Archives"
+    - heading "Archives" [level=2]
   - complementary "Search"
     - search
 - contentinfo

@@ -162,3 +162,6 @@ other = "次の記事"
 
 [heading_anchor]
 other = "この見出しへのリンク：{{ .Name }}"
+
+[term_count]
+other = "{{ .Count }} 件の記事"

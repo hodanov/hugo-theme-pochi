@@ -133,3 +133,15 @@
     border: 1px solid CanvasText;
   }
 }
+
+/* Term pages (tags, categories): the post count and the description under
+   the heading, before the cards */
+.term-count,
+.term-description {
+  margin: 0 0 1rem;
+}
+
+.term-count {
+  color: var(--pochi-text-muted);
+  font-size: var(--pochi-step--1);
+}

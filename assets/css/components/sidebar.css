@@ -75,7 +75,10 @@
   #sidebar-right {
     display: none;
   }
-  #sidebar-left {
+  /* On a post the like / share rail gives way to the action bar. Lists keep
+     their categories and archives, after the posts. */
+  .l-shell--post #sidebar-left,
+  .l-shell--post-no-toc #sidebar-left {
     display: none;
   }
 }
