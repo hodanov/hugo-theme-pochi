@@ -165,3 +165,12 @@ other = "この見出しへのリンク：{{ .Name }}"
 
 [term_count]
 other = "{{ .Count }} 件の記事"
+
+[search_help]
+other = "語を減らすか短くするか、別の言い方で試してください。記事の一覧からも探せます。"
+
+[search_help_tags]
+other = "タグ"
+
+[search_help_archives]
+other = "アーカイブ"

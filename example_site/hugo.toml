@@ -75,3 +75,23 @@ lineNumbersInTable = false
 
 [pagination]
 pagerSize = 3
+
+# Related posts (molecules/related_posts.html): the recommended setup from
+# the README. Newer posts count too; a shared tag decides, the category and
+# the date only order them.
+[related]
+includeNewer = true
+threshold = 80
+toLower = true
+
+[[related.indices]]
+name = "tags"
+weight = 100
+
+[[related.indices]]
+name = "categories"
+weight = 50
+
+[[related.indices]]
+name = "date"
+weight = 10

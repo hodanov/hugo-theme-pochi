@@ -166,3 +166,12 @@ other = "Link to this section: {{ .Name }}"
 [term_count]
 one = "{{ .Count }} post"
 other = "{{ .Count }} posts"
+
+[search_help]
+other = "Try fewer or shorter words, or a different word. You can also browse the posts:"
+
+[search_help_tags]
+other = "Tags"
+
+[search_help_archives]
+other = "Archives"

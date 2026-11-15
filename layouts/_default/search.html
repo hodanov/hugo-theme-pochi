@@ -17,6 +17,24 @@
               id="search-results"
               data-i18n-no-results="{{ T "no_matches" }}"
             ></div>
+            {{/* Shown by main.js when nothing is found */}}
+            <div class="search-results-help" hidden>
+              <p>{{ T "search_help" }}</p>
+              <ul>
+                {{ with site.GetPage "/tags" }}
+                  <li>
+                    <a href="{{ .RelPermalink }}">{{ T "search_help_tags" }}</a>
+                  </li>
+                {{ end }}
+                {{ with site.GetPage "/archives" }}
+                  <li>
+                    <a href="{{ .RelPermalink }}"
+                      >{{ T "search_help_archives" }}</a
+                    >
+                  </li>
+                {{ end }}
+              </ul>
+            </div>
             <div class="search-loading">{{ T "loading" }}</div>
             {{/* Same card as organisms/list_of_posts.html */}}
             <script id="search-result-template" type="text/x-js-template">
