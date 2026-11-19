@@ -30,7 +30,7 @@
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.14.0",
-    "@playwright/test": "^1.64.0",
+    "@playwright/test": "^1.64.1",
     "chrome-launcher": "^1.2.2",
     "colorjs.io": "^0.7.1",
     "fuse.js": "^7.1.0",
