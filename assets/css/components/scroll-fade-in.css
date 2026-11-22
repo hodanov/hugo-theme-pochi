@@ -15,7 +15,9 @@
 
 .scroll-fade-in.is-visible {
   opacity: 1;
-  transform: translateY(0);
+  /* none, the value of a card that was never hidden, so revealing a card
+     already on screen starts no transition */
+  transform: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
