@@ -82,8 +82,12 @@
   line-height: var(--pochi-leading-body);
 }
 
-/* Tags are links of their own, above the title link's cover */
+/* Tags are links of their own, above the title link's cover. The box
+   shrinks to the tags, so the empty space beside them still opens the
+   post. vertical-align keeps the line box from adding a gap below. */
 .article-list .post-card-tags {
+  display: inline-block;
+  vertical-align: top;
   position: relative;
   z-index: var(--pochi-z-raised);
   margin-top: 1rem;
