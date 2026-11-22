@@ -119,8 +119,8 @@ function toggleSideNav() {
   });
 }
 
-// View Transitions for a page change ("page", navigation.js) or a theme
-// change ("theme"). <html data-vt> names the kind for the CSS
+// View Transition for a theme change ("theme"; page changes swap at once,
+// navigation.js). <html data-vt> names the kind for the CSS
 // (components/view-transitions.css) while it runs; a data attribute rather
 // than transition types, which older browsers lack. Without the API or with
 // the site param off, update() runs at once and null is returned.
