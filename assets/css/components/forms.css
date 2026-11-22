@@ -29,8 +29,8 @@
   -moz-appearance: none;
   appearance: none;
   transition:
-    border-color var(--pochi-duration-xs) var(--pochi-ease-in-out),
-    box-shadow var(--pochi-duration-xs) var(--pochi-ease-in-out);
+    border-color var(--pochi-duration-hover-in) var(--pochi-ease-standard),
+    box-shadow var(--pochi-duration-hover-in) var(--pochi-ease-standard);
   width: 100%;
   border-radius: var(--pochi-radius-md);
   margin-bottom: 1rem;

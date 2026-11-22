@@ -32,6 +32,7 @@
 @media (hover: hover) {
   #scroll-to-top.fade-in:hover {
     opacity: 0.8;
+    transition-duration: var(--pochi-duration-hover-in);
   }
 }
 

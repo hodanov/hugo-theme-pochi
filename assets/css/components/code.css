@@ -55,18 +55,11 @@ pre[data-code-copy-injected] {
   color: var(--pochi-code-fg);
   cursor: pointer;
   opacity: 0.6;
-  transition: opacity var(--pochi-duration-sm) var(--pochi-ease);
 }
 
 .code-copy-button svg {
   width: 16px;
   height: 16px;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .code-copy-button {
-    transition: none;
-  }
 }
 
 .code-copy-button:focus-visible {

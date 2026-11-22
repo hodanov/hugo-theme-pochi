@@ -147,9 +147,6 @@ nav.site-nav ul:where(:not(.lang-switcher)) li {
 nav.site-nav ul:where(:not(.lang-switcher)) li a {
   display: block;
   padding: 0 1rem;
-  transition:
-    color var(--pochi-duration-sm) var(--pochi-ease-in-out),
-    background-color var(--pochi-duration-sm) var(--pochi-ease-in-out);
 }
 
 /* The current entry (aria-current) takes the link color, a child in the
@@ -164,6 +161,7 @@ nav.site-nav ul:where(:not(.lang-switcher)) li a:where([aria-current]) {
   nav.site-nav .dropdown:hover > .dropdown-toggle {
     color: var(--pochi-on-accent);
     background-color: var(--pochi-accent);
+    transition-duration: var(--pochi-duration-hover-in);
   }
 
   nav.site-nav .dropdown-list li a:hover {
@@ -197,9 +195,6 @@ nav.site-nav .dropdown-toggle {
   background: none;
   color: inherit;
   cursor: pointer;
-  transition:
-    color var(--pochi-duration-sm) var(--pochi-ease-in-out),
-    background-color var(--pochi-duration-sm) var(--pochi-ease-in-out);
 }
 
 nav.site-nav .dropdown-toggle .icon {
@@ -368,7 +363,6 @@ nav.site-nav .logo {
   height: 2px;
   background: var(--pochi-text);
   transform-origin: center;
-  transition: background-color var(--pochi-duration-sm) var(--pochi-ease);
 }
 
 #side-nav-close::before {

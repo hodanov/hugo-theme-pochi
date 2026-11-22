@@ -66,6 +66,21 @@ html {
   outline-offset: var(--pochi-focus-ring-offset);
 }
 
+/* Hover feedback, the same on every link and button: it comes in at
+   hover-in and goes back at hover-out (tokens.css). :where() keeps it at no
+   specificity; a component that animates something else sets its own
+   transition, and one that changes a child on hover adds the hover-in
+   duration to that rule. */
+:where(a, button, summary) {
+  transition: var(--pochi-transition-interactive);
+}
+
+@media (hover: hover) {
+  :where(a, button, summary):hover {
+    transition-duration: var(--pochi-duration-hover-in);
+  }
+}
+
 /* Where an in-page link or a page change moved focus to a section or a
    heading (tabindex="-1"), the jump shows where you are; a ring around the
    whole section would only get in the way. */

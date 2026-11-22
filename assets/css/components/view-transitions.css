@@ -12,7 +12,7 @@
   ::view-transition-group(*),
   ::view-transition-old(*),
   ::view-transition-new(*) {
-    /* stylelint-disable-next-line declaration-no-important -- see above */
+    /* stylelint-disable-next-line declaration-no-important, declaration-property-value-disallowed-list -- see above */
     animation-duration: 0s !important;
   }
 }

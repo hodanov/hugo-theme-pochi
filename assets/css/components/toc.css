@@ -58,16 +58,14 @@
   width: 0;
   height: 1px;
   background-color: var(--pochi-accent);
-}
-
-.table-of-contents ol li a:after {
-  transition: var(--pochi-transition-interactive);
+  transition: width var(--pochi-duration-hover-out) var(--pochi-ease-standard);
 }
 
 @media (hover: hover) {
   .table-of-contents ol li a:hover:after,
   .table-of-contents ul li a:hover:after {
     width: 100%;
+    transition-duration: var(--pochi-duration-hover-in);
   }
 }
 
