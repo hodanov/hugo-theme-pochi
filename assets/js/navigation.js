@@ -312,10 +312,10 @@
       }
     };
 
-    // View Transitions when the site param and the browser allow it
-    // (main.js startPochiTransition)
-    const transition = startPochiTransition("page", doSwap);
-    return transition ? transition.updateCallbackDone.then(() => true) : true;
+    // A page change swaps at once: no View Transition, so nothing on the
+    // page moves while it changes
+    doSwap();
+    return true;
   }
 
   function afterSwapInit() {
