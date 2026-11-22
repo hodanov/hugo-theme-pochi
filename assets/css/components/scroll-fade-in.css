@@ -9,8 +9,8 @@
 .related-posts .related-post-item.scroll-fade-in {
   transition:
     box-shadow var(--pochi-duration-hover-out) var(--pochi-ease-standard),
-    opacity var(--pochi-duration-xl) var(--pochi-ease-out),
-    transform var(--pochi-duration-xl) var(--pochi-ease-out);
+    opacity var(--pochi-duration-xl) var(--pochi-ease-enter),
+    transform var(--pochi-duration-xl) var(--pochi-ease-enter);
 }
 
 .scroll-fade-in.is-visible {

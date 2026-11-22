@@ -119,6 +119,28 @@ function toggleSideNav() {
   });
 }
 
+// View Transitions for a page change ("page", navigation.js) or a theme
+// change ("theme"). <html data-vt> names the kind for the CSS
+// (components/view-transitions.css) while it runs; a data attribute rather
+// than transition types, which older browsers lack. Without the API or with
+// the site param off, update() runs at once and null is returned.
+function startPochiTransition(kind, update) {
+  const enabled =
+    document.body?.getAttribute("data-view-transitions") === "true";
+  if (!enabled || typeof document.startViewTransition !== "function") {
+    update();
+    return null;
+  }
+  const root = document.documentElement;
+  root.setAttribute("data-vt", kind);
+  const transition = document.startViewTransition(update);
+  const clear = () => {
+    if (root.getAttribute("data-vt") === kind) root.removeAttribute("data-vt");
+  };
+  transition.finished.then(clear, clear);
+  return transition;
+}
+
 // Theme: "system" (no stored choice, follows the OS), "light" or "dark".
 // The head script applies the stored choice before the CSS loads; these keep
 // <html>, the toggle and the browser UI (theme-color) in step afterwards.
@@ -199,14 +221,7 @@ function toggleTheme() {
       else localStorage.setItem("pref-theme", next);
     } catch (_) {}
 
-    const doToggle = () => applyTheme(next);
-    const vtEnabled =
-      document.body?.getAttribute("data-view-transitions") === "true";
-    if (vtEnabled && typeof document.startViewTransition === "function") {
-      document.startViewTransition(doToggle);
-    } else {
-      doToggle();
-    }
+    startPochiTransition("theme", () => applyTheme(next));
   });
 }
 
@@ -214,7 +229,9 @@ function toggleTheme() {
 function handleThemeChange() {
   if (!prefersDark || !prefersDark.addEventListener) return;
   prefersDark.addEventListener("change", () => {
-    if (getThemePref() === "system") applyTheme("system");
+    if (getThemePref() === "system") {
+      startPochiTransition("theme", () => applyTheme("system"));
+    }
   });
 }
 

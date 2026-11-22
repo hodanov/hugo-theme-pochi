@@ -7,12 +7,6 @@
 (function () {
   const CACHE = new Map(); // url -> Promise<string> (HTML)
   const CACHE_MAX = 50;
-  // Feature toggle: controlled by site param viewTransitions.enable
-  const ENABLE_VIEW_TRANSITIONS =
-    document.body?.getAttribute("data-view-transitions") === "true";
-  const SUPPORTS_VT =
-    ENABLE_VIEW_TRANSITIONS &&
-    typeof document.startViewTransition === "function";
 
   function isInternalLink(a) {
     if (!a || !a.href) return false;
@@ -318,13 +312,10 @@
       }
     };
 
-    if (SUPPORTS_VT) {
-      const transition = document.startViewTransition(doSwap);
-      return transition.updateCallbackDone.then(() => true);
-    }
-
-    doSwap();
-    return true;
+    // View Transitions when the site param and the browser allow it
+    // (main.js startPochiTransition)
+    const transition = startPochiTransition("page", doSwap);
+    return transition ? transition.updateCallbackDone.then(() => true) : true;
   }
 
   function afterSwapInit() {

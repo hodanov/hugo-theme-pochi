@@ -176,14 +176,19 @@
      easing keywords outside this file fail stylelint. */
   --pochi-duration-hover-in: 0.12s; /* pointer enters, field gets focus */
   --pochi-duration-sm: 0.2s; /* hover-out, dropdown, lightbox */
-  --pochi-duration-md: 0.25s; /* page cross-fade (View Transitions) */
+  --pochi-duration-md: 0.25s; /* theme cross-fade (View Transitions) */
   --pochi-duration-lg: 0.3s; /* drawer */
   --pochi-duration-xl: 0.6s; /* scroll fade-in */
-  --pochi-ease: ease;
-  --pochi-ease-in-out: ease-in-out;
-  --pochi-ease-out: ease-out;
-  /* Decelerating curve for state changes (Material 3 "standard") */
+  /* Page change (view-transitions.css): a "fade through". The old content
+     goes first, then the new one comes in, so the two never blend. */
+  --pochi-duration-page-out: 0.09s;
+  --pochi-duration-page-in: 0.21s;
+  /* Easing by role (Material 3 curves): standard for a change in place,
+     enter (decelerate) for something arriving, exit (accelerate) for
+     something leaving. */
   --pochi-ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --pochi-ease-enter: cubic-bezier(0, 0, 0, 1);
+  --pochi-ease-exit: cubic-bezier(0.3, 0, 1, 1);
   --pochi-duration-hover-out: var(--pochi-duration-sm);
   /* Hover feedback on links, buttons and cards (base.css applies it to
      every link and button) */
@@ -252,6 +257,8 @@
     --pochi-duration-md: 0s;
     --pochi-duration-lg: 0s;
     --pochi-duration-xl: 0s;
+    --pochi-duration-page-out: 0s;
+    --pochi-duration-page-in: 0s;
   }
 }
 

@@ -152,4 +152,114 @@ test.describe("F-17 View Transitions", () => {
     const svg = buttons.first().locator("svg");
     await expect(svg).toBeVisible();
   });
+  test.describe("transition kinds", () => {
+    // Records every value <html data-vt> takes, so a test can tell which
+    // kind of transition ran and that the attribute was cleared after it.
+    const recordVtKinds = (page) =>
+      page.evaluate(() => {
+        window.__pochiVtKinds = [];
+        new MutationObserver(() => {
+          window.__pochiVtKinds.push(
+            document.documentElement.getAttribute("data-vt"),
+          );
+        }).observe(document.documentElement, {
+          attributes: true,
+          attributeFilter: ["data-vt"],
+        });
+      });
+
+    test("a PJAX navigation runs as a page transition", async ({ page }) => {
+      await page.goto("/");
+      await recordVtKinds(page);
+
+      const firstPost = page.locator(".post-row a").first();
+      const targetPath = new URL(
+        await firstPost.getAttribute("href"),
+        page.url(),
+      ).pathname;
+      await firstPost.click();
+      await page.waitForFunction(
+        (path) => location.pathname === path,
+        targetPath,
+      );
+      await page.waitForFunction(
+        () => !document.documentElement.hasAttribute("data-vt"),
+      );
+
+      const kinds = await page.evaluate(() => window.__pochiVtKinds);
+      expect(kinds).toEqual(["page", null]);
+    });
+
+    test("the theme toggle runs as a theme transition", async ({ page }) => {
+      await page.goto("/");
+      await recordVtKinds(page);
+
+      await page.locator("#theme-toggle-switch").click();
+      await page.waitForFunction(
+        () => !document.documentElement.hasAttribute("data-vt"),
+      );
+
+      const kinds = await page.evaluate(() => window.__pochiVtKinds);
+      expect(kinds).toEqual(["theme", null]);
+    });
+
+    test("an OS color scheme change runs as a theme transition", async ({
+      page,
+    }) => {
+      await page.emulateMedia({ colorScheme: "light" });
+      await page.goto("/");
+      await recordVtKinds(page);
+
+      await page.emulateMedia({ colorScheme: "dark" });
+      await page.waitForFunction(() =>
+        document.documentElement.classList.contains("dark"),
+      );
+      await page.waitForFunction(
+        () => !document.documentElement.hasAttribute("data-vt"),
+      );
+
+      const kinds = await page.evaluate(() => window.__pochiVtKinds);
+      expect(kinds).toEqual(["theme", null]);
+    });
+
+    test("the main content is named only during a page change", async ({
+      page,
+    }) => {
+      await page.goto("/");
+      const nameWith = (kind) =>
+        page.evaluate((kind) => {
+          const root = document.documentElement;
+          if (kind) root.setAttribute("data-vt", kind);
+          else root.removeAttribute("data-vt");
+          return getComputedStyle(document.querySelector(".main-content"))
+            .viewTransitionName;
+        }, kind);
+
+      // At rest the name would make main a stacking context
+      expect(await nameWith(null)).toBe("none");
+      expect(await nameWith("page")).toBe("pochi-main");
+      expect(await nameWith("theme")).toBe("none");
+    });
+
+    test("full page loads opt in to cross-document transitions", async ({
+      page,
+    }) => {
+      await page.goto("/");
+      const found = await page.evaluate(() => {
+        const walk = function* (rules) {
+          for (const r of rules) {
+            yield r;
+            if (r.cssRules) yield* walk(r.cssRules);
+          }
+        };
+        for (const sheet of document.styleSheets) {
+          for (const r of walk(sheet.cssRules)) {
+            if (/^@view-transition\b/.test(r.cssText)) return r.cssText;
+          }
+        }
+        return null;
+      });
+      expect(found).toMatch(/navigation:\s*auto/);
+    });
+  });
 });

@@ -1,13 +1,55 @@
-/* View Transitions API: root crossfade animation */
-::view-transition-old(root),
-::view-transition-new(root) {
+/* View Transitions. <html data-vt> names the kind while one runs: "page" or
+   "theme" from main.js startPochiTransition, "page" for a full page load
+   from head/head.html. */
+
+/* Page change: the main content does a "fade through". The old content
+   fades out, then the new one fades in rising a little, and the nav bar and
+   the footer (root) stay still. The name is only set while it runs: a
+   view-transition-name makes the element a stacking context. */
+:root[data-vt="page"] .main-content {
+  view-transition-name: pochi-main;
+}
+
+:root[data-vt="page"]::view-transition-old(root),
+:root[data-vt="page"]::view-transition-new(root),
+/* No morph between the old and the new box sizes */
+::view-transition-group(pochi-main) {
+  animation: none;
+}
+
+::view-transition-old(pochi-main) {
+  animation: pochi-vt-fade-out var(--pochi-duration-page-out)
+    var(--pochi-ease-exit) both;
+}
+
+::view-transition-new(pochi-main) {
+  animation: pochi-vt-fade-in-up var(--pochi-duration-page-in)
+    var(--pochi-ease-enter) var(--pochi-duration-page-out) both;
+}
+
+@keyframes pochi-vt-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes pochi-vt-fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+/* Theme change: it recolors the whole page, so all of it cross-fades */
+:root[data-vt="theme"]::view-transition-old(root),
+:root[data-vt="theme"]::view-transition-new(root) {
   animation-duration: var(--pochi-duration-md);
-  animation-timing-function: var(--pochi-ease-in-out);
+  animation-timing-function: var(--pochi-ease-standard);
 }
 
 /* Disable animations for users who prefer reduced motion. A (*) selector has
-   no specificity, so it needs !important to beat the (root) rule above and
-   any named transition added later. */
+   no specificity, so it needs !important to beat the rules above and any
+   named transition added later. */
 @media (prefers-reduced-motion: reduce) {
   ::view-transition-group(*),
   ::view-transition-old(*),
