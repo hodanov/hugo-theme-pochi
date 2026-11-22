@@ -88,4 +88,32 @@ test.describe("F-18 Scroll fade-in", () => {
     await relatedItems.first().scrollIntoViewIfNeeded();
     await expect(relatedItems.first()).toHaveClass(/is-visible/);
   });
+
+  test("cards already on screen after a PJAX swap do not rise", async ({
+    page,
+  }) => {
+    // Going back to a list through PJAX: the cards in view are shown as they
+    // are. Only cards scrolled into view later fade in.
+    await page.goto("/");
+    await page.locator(".post-row a").first().click();
+    await page.waitForFunction(() => location.pathname !== "/");
+
+    const moving = await page.evaluate(async () => {
+      const swapped = new Promise((resolve) =>
+        document.addEventListener("pochi:afterSwap", resolve, { once: true }),
+      );
+      history.back();
+      await swapped;
+      const inView = Array.from(document.querySelectorAll(".post-row")).filter(
+        (el) => el.getBoundingClientRect().top < window.innerHeight,
+      );
+      return inView.flatMap((el) =>
+        el
+          .getAnimations()
+          .map((a) => a.transitionProperty)
+          .filter((p) => p === "opacity" || p === "transform"),
+      );
+    });
+    expect(moving).toEqual([]);
+  });
 });

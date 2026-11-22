@@ -68,6 +68,23 @@
         document.documentElement.classList.add("light");
       }
     } catch (e) {}
+
+    // A full page load with a cross-document View Transition
+    // (core/resources_css.html) is a page change for
+    // components/view-transitions.css, on the page that leaves (pageswap)
+    // and on the one that arrives (pagereveal, which needs a listener
+    // before the first render, so it lives here).
+    function markPageChange(e) {
+      if (!e.viewTransition) return;
+      var root = document.documentElement;
+      var clear = function () {
+        root.removeAttribute("data-vt");
+      };
+      root.setAttribute("data-vt", "page");
+      e.viewTransition.finished.then(clear, clear);
+    }
+    window.addEventListener("pageswap", markPageChange);
+    window.addEventListener("pagereveal", markPageChange);
   })();
   // This runs before CSS loads to minimize FOUC
 </script>

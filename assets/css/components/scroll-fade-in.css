@@ -9,13 +9,15 @@
 .related-posts .related-post-item.scroll-fade-in {
   transition:
     box-shadow var(--pochi-duration-hover-out) var(--pochi-ease-standard),
-    opacity var(--pochi-duration-xl) var(--pochi-ease-out),
-    transform var(--pochi-duration-xl) var(--pochi-ease-out);
+    opacity var(--pochi-duration-xl) var(--pochi-ease-enter),
+    transform var(--pochi-duration-xl) var(--pochi-ease-enter);
 }
 
 .scroll-fade-in.is-visible {
   opacity: 1;
-  transform: translateY(0);
+  /* none, the value of a card that was never hidden, so revealing a card
+     already on screen starts no transition */
+  transform: none;
 }
 
 @media (prefers-reduced-motion: reduce) {

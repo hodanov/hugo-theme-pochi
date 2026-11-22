@@ -18,12 +18,13 @@ article picture img {
   justify-content: center;
   background: var(--pochi-scrim);
   opacity: 0;
-  transition: opacity var(--_fade-duration) var(--pochi-ease);
+  transition: opacity var(--_fade-duration) var(--pochi-ease-exit);
   cursor: zoom-out;
 }
 
 .lightbox-overlay.is-visible {
   opacity: 1;
+  transition-timing-function: var(--pochi-ease-enter);
 }
 
 /* Expanded image */

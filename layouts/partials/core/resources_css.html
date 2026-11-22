@@ -66,5 +66,15 @@
   {{- end -}}
   {{- $parts = $parts | append $close -}}
 {{- end -}}
+{{- /* Full page loads (links PJAX leaves alone, such as the language
+  switcher) get the same page change as a PJAX swap
+  (components/view-transitions.css). Browsers without cross-document View
+  Transitions just load the page. */
+-}}
+{{- with site.Params.viewTransitions -}}
+  {{- if .enable -}}
+    {{- $parts = $parts | append (resources.FromString "css/layers/view-transition-navigation.css" "@media (prefers-reduced-motion: no-preference) {\n  @view-transition {\n    navigation: auto;\n  }\n}\n") -}}
+  {{- end -}}
+{{- end -}}
 {{- $bundledCss := $parts | resources.Concat "css/bundled.css" | resources.Minify | fingerprint -}}
 <link rel="stylesheet" href="{{ $bundledCss.RelPermalink }}" />

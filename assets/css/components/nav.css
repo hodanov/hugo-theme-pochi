@@ -202,7 +202,7 @@ nav.site-nav .dropdown-toggle .icon {
   height: 1rem;
   margin-right: 0;
   transform: rotate(180deg);
-  transition: transform var(--pochi-duration-sm) var(--pochi-ease-in-out);
+  transition: transform var(--pochi-duration-sm) var(--pochi-ease-standard);
 }
 
 nav.site-nav .dropdown-toggle[aria-expanded="true"] .icon {
@@ -219,9 +219,9 @@ nav.site-nav .dropdown-list {
   box-shadow: var(--pochi-shadow-dropdown);
   z-index: var(--pochi-z-raised);
   transition:
-    opacity var(--pochi-duration-sm) var(--pochi-ease-in-out),
-    visibility var(--pochi-duration-sm) var(--pochi-ease-in-out),
-    top var(--pochi-duration-sm) var(--pochi-ease-in-out);
+    opacity var(--pochi-duration-sm) var(--pochi-ease-standard),
+    visibility var(--pochi-duration-sm) var(--pochi-ease-standard),
+    top var(--pochi-duration-sm) var(--pochi-ease-standard);
 }
 
 nav.site-nav .dropdown-list li {
@@ -279,13 +279,16 @@ nav.site-nav .logo {
   overscroll-behavior: contain;
   transform: translateX(-105%);
   transition:
-    transform var(--pochi-duration-lg) var(--pochi-ease),
-    overlay var(--pochi-duration-lg) var(--pochi-ease) allow-discrete,
-    display var(--pochi-duration-lg) var(--pochi-ease) allow-discrete;
+    transform var(--pochi-duration-lg) var(--pochi-ease-exit),
+    overlay var(--pochi-duration-lg) var(--pochi-ease-exit) allow-discrete,
+    display var(--pochi-duration-lg) var(--pochi-ease-exit) allow-discrete;
 }
 
+/* Slides in decelerating and out accelerating: the timing of the state it
+   goes to applies */
 #side-nav[open] {
   transform: translateX(0);
+  transition-timing-function: var(--pochi-ease-enter);
 }
 
 @starting-style {
@@ -298,13 +301,14 @@ nav.site-nav .logo {
   background-color: var(--pochi-scrim);
   opacity: 0;
   transition:
-    opacity var(--pochi-duration-lg) var(--pochi-ease),
-    overlay var(--pochi-duration-lg) var(--pochi-ease) allow-discrete,
-    display var(--pochi-duration-lg) var(--pochi-ease) allow-discrete;
+    opacity var(--pochi-duration-lg) var(--pochi-ease-exit),
+    overlay var(--pochi-duration-lg) var(--pochi-ease-exit) allow-discrete,
+    display var(--pochi-duration-lg) var(--pochi-ease-exit) allow-discrete;
 }
 
 #side-nav[open]::backdrop {
   opacity: 1;
+  transition-timing-function: var(--pochi-ease-enter);
 }
 
 @starting-style {

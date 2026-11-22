@@ -83,12 +83,18 @@
       },
     );
 
-    targets.forEach((el) => {
-      el.classList.add("scroll-fade-in");
-      if (isInInitialViewport(el)) {
+    // Measure every card before marking any. Marking hides a card, and a
+    // measurement after that commits the hidden style, so revealing the
+    // card then would run the fade-in. After a PJAX swap that made the
+    // cards already on screen rise. With no measurement between, a card on
+    // screen goes straight to its revealed state.
+    const onScreen = targets.map((el) => isInInitialViewport(el));
+    targets.forEach((el, i) => {
+      if (onScreen[i]) {
         revealImmediately(el);
         return;
       }
+      el.classList.add("scroll-fade-in");
       observer.observe(el);
     });
   }
