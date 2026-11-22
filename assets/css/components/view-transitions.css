@@ -10,11 +10,34 @@
   view-transition-name: pochi-main;
 }
 
-:root[data-vt="page"]::view-transition-old(root),
-:root[data-vt="page"]::view-transition-new(root),
-/* No morph between the old and the new box sizes */
-::view-transition-group(pochi-main) {
+/* The fixed nav bar gets its own group so it stays over the old content
+   that was scrolled under it (named groups paint above root). It shows the
+   new page's bar at once, as root does. */
+:root[data-vt="page"] nav.site-nav {
+  view-transition-name: pochi-nav;
+}
+
+::view-transition-old(pochi-nav) {
+  display: none;
+}
+
+::view-transition-group(pochi-nav),
+::view-transition-new(pochi-nav) {
   animation: none;
+}
+
+:root[data-vt="page"]::view-transition-old(root),
+:root[data-vt="page"]::view-transition-new(root) {
+  animation: none;
+}
+
+/* No morph between the old and the new box: it keeps the old place and
+   size while the old content fades out, then moves to the new one at once
+   as the new content comes in. Without the hold the old content would jump
+   to where the new page's main starts. */
+::view-transition-group(pochi-main) {
+  animation-duration: var(--pochi-duration-page-out);
+  animation-timing-function: var(--pochi-ease-hold);
 }
 
 ::view-transition-old(pochi-main) {

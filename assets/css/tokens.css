@@ -189,6 +189,8 @@
   --pochi-ease-standard: cubic-bezier(0.2, 0, 0, 1);
   --pochi-ease-enter: cubic-bezier(0, 0, 0, 1);
   --pochi-ease-exit: cubic-bezier(0.3, 0, 1, 1);
+  /* Stays put, then jumps to the end at once */
+  --pochi-ease-hold: steps(1, end);
   --pochi-duration-hover-out: var(--pochi-duration-sm);
   /* Hover feedback on links, buttons and cards (base.css applies it to
      every link and button) */
