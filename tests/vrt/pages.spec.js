@@ -55,9 +55,16 @@ for (const { id, path, width } of FORCED) {
     test("matches baseline", async ({ page }) => {
       await page.goto(path);
       await settle(page, { theme: "light" });
-      await expect(page).toHaveScreenshot(`${id}-${width}-forced.png`, {
-        fullPage: true,
-      });
+      // Playwright 1.65 (Chromium 158) drops forced-colors emulation on
+      // full-page captures (microsoft/playwright#44041). Grow the viewport to
+      // the page height and take a viewport shot instead; go back to
+      // fullPage once that is fixed upstream.
+      const height = await page.evaluate(
+        () => document.documentElement.scrollHeight,
+      );
+      await page.setViewportSize({ width: VIEWPORTS[width].width, height });
+      await page.emulateMedia({ forcedColors: "active" });
+      await expect(page).toHaveScreenshot(`${id}-${width}-forced.png`);
     });
   });
 }
