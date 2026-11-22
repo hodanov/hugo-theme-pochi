@@ -23,11 +23,13 @@
 }
 
 .mymenu-related .featured-image-wrapper img {
-  transition: transform var(--pochi-duration-sm) var(--pochi-ease);
+  transition: transform var(--pochi-duration-hover-out)
+    var(--pochi-ease-standard);
 }
 
 @media (hover: hover) {
   .mymenu-related .related-card:hover .featured-image-wrapper img {
     transform: scale(1.1);
+    transition-duration: var(--pochi-duration-hover-in);
   }
 }

@@ -62,7 +62,6 @@ article picture img {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background var(--pochi-duration-xs) var(--pochi-ease);
 }
 
 .lightbox-close:focus-visible {

@@ -36,7 +36,6 @@
   box-shadow: var(--pochi-shadow-card);
   color: var(--pochi-text);
   text-decoration: none;
-  transition: var(--pochi-transition-interactive);
 }
 
 .post-nav-next a {
@@ -68,6 +67,7 @@
 
   .post-nav a:hover .post-nav-title {
     color: var(--pochi-link);
+    transition-duration: var(--pochi-duration-hover-in);
   }
 }
 

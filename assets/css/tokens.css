@@ -170,23 +170,35 @@
   --pochi-z-skip-link: 1001;
   --pochi-z-modal: 9999; /* lightbox */
 
-  /* Motion */
-  --pochi-duration-xs: 0.15s; /* form fields, lightbox buttons */
-  --pochi-duration-sm: 0.2s; /* hover feedback, dropdown, lightbox */
+  /* Motion. Hover and focus feedback answers fast and lets go a little
+     slower: the transition on the resting state (hover-out) runs when the
+     pointer leaves, and :hover sets the shorter hover-in. Raw times and
+     easing keywords outside this file fail stylelint. */
+  --pochi-duration-hover-in: 0.12s; /* pointer enters, field gets focus */
+  --pochi-duration-sm: 0.2s; /* hover-out, dropdown, lightbox */
   --pochi-duration-md: 0.25s; /* page cross-fade (View Transitions) */
   --pochi-duration-lg: 0.3s; /* drawer */
   --pochi-duration-xl: 0.6s; /* scroll fade-in */
   --pochi-ease: ease;
   --pochi-ease-in-out: ease-in-out;
   --pochi-ease-out: ease-out;
-  /* Hover feedback on cards, buttons and links */
+  /* Decelerating curve for state changes (Material 3 "standard") */
+  --pochi-ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --pochi-duration-hover-out: var(--pochi-duration-sm);
+  /* Hover feedback on links, buttons and cards (base.css applies it to
+     every link and button) */
   --pochi-transition-interactive:
-    color var(--pochi-duration-sm) var(--pochi-ease),
-    background-color var(--pochi-duration-sm) var(--pochi-ease),
-    box-shadow var(--pochi-duration-sm) var(--pochi-ease),
-    opacity var(--pochi-duration-sm) var(--pochi-ease),
-    transform var(--pochi-duration-sm) var(--pochi-ease),
-    bottom var(--pochi-duration-sm) var(--pochi-ease);
+    color var(--pochi-duration-hover-out) var(--pochi-ease-standard),
+    background-color var(--pochi-duration-hover-out) var(--pochi-ease-standard),
+    border-color var(--pochi-duration-hover-out) var(--pochi-ease-standard),
+    text-decoration-color var(--pochi-duration-hover-out)
+      var(--pochi-ease-standard),
+    text-decoration-thickness var(--pochi-duration-hover-out)
+      var(--pochi-ease-standard),
+    box-shadow var(--pochi-duration-hover-out) var(--pochi-ease-standard),
+    opacity var(--pochi-duration-hover-out) var(--pochi-ease-standard),
+    transform var(--pochi-duration-hover-out) var(--pochi-ease-standard),
+    bottom var(--pochi-duration-hover-out) var(--pochi-ease-standard);
 
   /* Hit area of the main controls (WCAG 2.5.5). Smaller targets still need
      24px or the spacing for it (2.5.8), which axe checks. */
@@ -235,7 +247,7 @@
    movement). */
 @media (prefers-reduced-motion: reduce) {
   :root {
-    --pochi-duration-xs: 0s;
+    --pochi-duration-hover-in: 0s;
     --pochi-duration-sm: 0s;
     --pochi-duration-md: 0s;
     --pochi-duration-lg: 0s;

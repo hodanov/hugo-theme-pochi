@@ -123,7 +123,6 @@ article h6 {
   color: var(--pochi-text-muted);
   text-decoration: none;
   opacity: 0;
-  transition: var(--pochi-transition-interactive);
 }
 
 .heading-anchor-wrapper--h2 {
@@ -154,5 +153,6 @@ article h6 {
 
   .heading-anchor-wrapper:hover .heading-anchor {
     opacity: 1;
+    transition-duration: var(--pochi-duration-hover-in);
   }
 }

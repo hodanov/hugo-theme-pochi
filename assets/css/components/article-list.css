@@ -11,6 +11,7 @@
 @media (hover: hover) {
   .article-list .post-row:hover {
     box-shadow: var(--pochi-shadow-card-hover);
+    transition-duration: var(--pochi-duration-hover-in);
   }
 }
 
@@ -104,6 +105,7 @@
   .article-list .post-card:hover h2,
   .mymenu-related .related-card:hover .post-card-link {
     color: var(--pochi-link);
+    transition-duration: var(--pochi-duration-hover-in);
   }
 }
 

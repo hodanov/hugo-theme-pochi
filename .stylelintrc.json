@@ -48,8 +48,20 @@
         "oklab",
         "oklch",
         "color",
-        "light-dark"
+        "light-dark",
+        "cubic-bezier",
+        "steps",
+        "linear"
       ],
+      { "severity": "error" }
+    ],
+    "declaration-property-value-disallowed-list": [
+      {
+        "/^(transition|animation)/": [
+          "/(?<![-\\w])(all|ease|ease-in|ease-out|ease-in-out|linear|step-start|step-end)(?![-\\w])/",
+          "/(?<![-\\w.])\\d*\\.?\\d+m?s(?![-\\w])/"
+        ]
+      },
       { "severity": "error" }
     ]
   },
@@ -59,7 +71,8 @@
       "rules": {
         "color-no-hex": null,
         "color-named": null,
-        "function-disallowed-list": null
+        "function-disallowed-list": null,
+        "declaration-property-value-disallowed-list": null
       }
     }
   ]

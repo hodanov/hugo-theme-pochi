@@ -8,7 +8,7 @@
 .article-list .post-row.scroll-fade-in,
 .related-posts .related-post-item.scroll-fade-in {
   transition:
-    box-shadow var(--pochi-duration-sm) var(--pochi-ease),
+    box-shadow var(--pochi-duration-hover-out) var(--pochi-ease-standard),
     opacity var(--pochi-duration-xl) var(--pochi-ease-out),
     transform var(--pochi-duration-xl) var(--pochi-ease-out);
 }

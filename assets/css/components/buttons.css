@@ -5,7 +5,6 @@
   color: var(--pochi-text-muted);
   background-color: var(--pochi-card);
   padding: 0.375rem 0.75rem;
-  transition: var(--pochi-transition-interactive);
 }
 
 @media (hover: hover) {

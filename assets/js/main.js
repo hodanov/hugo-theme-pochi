@@ -133,9 +133,15 @@ function getThemePref() {
 function applyTheme(pref) {
   const root = document.documentElement; // keep in sync with head FOUC script
   const isDark = pref === "system" ? !!prefersDark?.matches : pref === "dark";
+  // Hover transitions would fade link and button colors after the rest of
+  // the page; switch with them off (utilities.css), then turn them back on
+  // once the new colors are computed.
+  root.classList.add("is-theme-switching");
   root.setAttribute("data-theme-pref", pref);
   root.classList.toggle("dark", isDark);
   root.classList.toggle("light", !isDark);
+  getComputedStyle(root).color;
+  requestAnimationFrame(() => root.classList.remove("is-theme-switching"));
 
   const themeSwitch =
     document.querySelector("[data-pochi-theme-toggle]") ||
