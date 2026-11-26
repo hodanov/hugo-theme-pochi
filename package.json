@@ -34,7 +34,7 @@
     "chrome-launcher": "^1.2.3",
     "colorjs.io": "^0.7.1",
     "fuse.js": "^7.1.0",
-    "html-validate": "^11.19.0",
+    "html-validate": "^11.21.0",
     "lighthouse": "^13.6.0",
     "mark.js": "^8.11.1",
     "modern-normalize": "^3.0.1",
